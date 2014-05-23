@@ -1,0 +1,30 @@
+﻿getInfo
+
+
+It returns the information about the user's current balance, API key privileges,the number of transactions, the number of open orders and the server time.
+
+Parameters:
+
+None.
+
+The example of an answer:
+{
+	"success":1,
+		"return":{
+		"funds":{
+			"usd":325,
+			"btc":23.998,
+			"sc":121.998,
+			"ltc":0,
+			"ruc":0,
+			"nmc":0
+		},
+		"rights":{
+			"info":1,
+			"trade":1
+		},
+		"transaction_count":80,
+		"open_orders":1,
+		"server_time":1342123547
+	}
+}

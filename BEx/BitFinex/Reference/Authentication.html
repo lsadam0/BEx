@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h3>Authentication</h3>
+    <hr />
+    <p>
+        Authentication is done using an API key and a secret. To generate this pair, go to
+        <a href="https://www.bitfinex.com/account/api">the API page</a>
+    </p>
+    Say the client wants to make a request to
+    <div class="panel radius">POST https://api.bitfinex.com/v1/order/new</div>
+    With a payload of<br />
+    <div class="panel radius">
+        {<br />
+        "request": "/v1/order/new",<br />
+        "nonce": "1234",<br />
+        "option1": ...<br />
+        }
+    </div>
+    The nonce provided must be strictly increasing.<br />
+    <br />
+    To authenticate a request, use the following:<br />
+    <br />
+    <div class="panel radius">
+        payload = parameters-dictionary -> JSON encode -> base64<br />
+        signature = HMAC-SHA384(payload, api-secret) as hexadecimal<br />
+        send (api-key, payload, signature)
+    </div>
+    These are encoded as HTTP headers named:<br />
+    <div class="panel radius">
+        X-BFX-APIKEY<br />
+        X-BFX-PAYLOAD<br />
+        X-BFX-SIGNATURE
+    </div>
+</body>
+</html>

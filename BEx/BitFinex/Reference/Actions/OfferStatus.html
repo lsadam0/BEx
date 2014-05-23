@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h4>Offer status</h4>
+    <div class="panel radius">POST /offer/status</div>
+    Get the status of an offer. Is it active? Was it cancelled? To what extent has it been executed? etc.<br />
+    <h5>Request</h5>
+    offer_id (int): The offer ID given by `/offer/new`.<br />
+    <h5>Response</h5>
+    currency (string): The currency name of the offer.<br />
+    rate (decimal): The rate the offer was issued at (in % per 365 days).<br />
+    period (integer): The number of days of the offer.<br />
+    direction (string): Either "lend" or "loan".<br />
+    type (string): Either "market" / "limit" / "stop" / "trailing-stop".<br />
+    timestamp (time): The timestamp the offer was submitted.<br />
+    is_live (bool): Could the offer still be filled?<br />
+    is_cancelled (bool): Has the offer been cancelled?<br />
+    executed_amount (decimal): How much of the offer has been executed so far in its history?<br />
+    remaining_amount (decimal): How much is still remaining to be submitted?<br />
+    original_amount (decimal): What was the offer originally submitted for?<br />
+    <hr />
+</body>
+</html>

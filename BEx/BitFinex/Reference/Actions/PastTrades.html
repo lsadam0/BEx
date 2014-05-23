@@ -1,0 +1,28 @@
+﻿st<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h4>Past trades</h4>
+    <div class="panel radius">POST /mytrades</div>
+    View your past trades<br />
+    <h5>Request</h5>
+    symbol (string): The pair traded (BTCUSD, LTCUSD, LTCBTC).<br />
+    timestamp (time): Trades made before this timestamp won't be returned.<br />
+    limit_trades (int): Optional. Limit the number of trades returned. Default is 50.<br />
+    <h5>Response</h5>
+    An array of dictionaries:<br />
+    price (price)<br />
+    amount (decimal)<br />
+    timestamp (time)<br />
+    exchange (string)<br />
+    type (string) Sell or Buy<br />
+    fee_currency (string) Currency you paid this trade's fee in<br />
+    fee_amount (decimal) Amount of fees you paid for this trade<br />
+    tid (integer) unique identification number of the trade<br />
+    <hr />
+</body>
+</html>

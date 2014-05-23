@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h4>Orderbook</h4>
+    <div class="panel radius">GET /book/:symbol</div>
+    Get the full order book.<br />
+    <h5>Request:</h5>
+    limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default
+    is 50.
+    <br />
+    limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default
+    is 50.
+    <br />
+    group (0/1): Optional. If 1, orders are grouped by price in the orderbook. If 0, orders are not grouped and sorted individually. Default is 1<br />
+    <h5>Response</h5>
+    bids (array)<br />
+    price (price)<br />
+    amount (decimal)<br />
+    timestamp (time)<br />
+    asks (array)<br />
+    price (price)<br />
+    amount (decimal)<br />
+    timestamp (time)<br />
+    <hr />
+</body>
+</html>

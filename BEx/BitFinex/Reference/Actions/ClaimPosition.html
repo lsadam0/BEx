@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h4>Claim position</h4>
+    <div class="panel radius">POST /position/claim</div>
+    Claim a position. A position can be claimed if:
+    <ul>
+        <li>It is a long position: The amount in the last unit of the position pair that you have in your trading wallet AND/OR the realized profit of the position is greater or equal to the purchase amount of the position (base price * position amount) and the pending swap. For example, for a long BTCUSD position, you can claim the position if the amount of USD you have in the trading wallet is greater than the base price * the position amount and the unrealized swap.</li>
+        <li>It is a short position: The amount in the first unit of the position pair that you have in your trading wallet is greater or equal to the amount of the position and the pending swap.</li>
+    </ul><br />
+    <h5>Request</h5>
+    position_id (int): The position ID given by `/positions`.<br />
+    <h5>Response</h5>
+    Status of the position for the claimed position, if the position could be claimed.<br />
+    <hr />
+</body>
+</html>

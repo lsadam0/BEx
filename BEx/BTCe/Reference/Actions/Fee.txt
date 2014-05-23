@@ -1,0 +1,10 @@
+﻿BTC/USD
+
+https://btc-e.com/api/2/btc_usd/fee
+{"trade":0.2}
+
+USD/RUR
+
+https://btc-e.com/api/2/usd_rur/fee
+
+{"trade":0.5}

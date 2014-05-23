@@ -43,29 +43,66 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BitStamp\Reference\AccountBalance.txt" />
+    <Content Include="BitFinex\Reference\Actions\AccountInfo.html" />
+    <Content Include="BitFinex\Reference\Actions\ActiveCredits.html" />
+    <Content Include="BitFinex\Reference\Actions\ActiveOffers.html" />
+    <Content Include="BitFinex\Reference\Actions\ActiveOrders.html" />
+    <Content Include="BitFinex\Reference\Actions\ActivePositions.html" />
+    <Content Include="BitFinex\Reference\Actions\CancelAllActiveOrders.html" />
+    <Content Include="BitFinex\Reference\Actions\CancelMultipleOrder.html" />
+    <Content Include="BitFinex\Reference\Actions\CancelOffer.html" />
+    <Content Include="BitFinex\Reference\Actions\CancelOrder.html" />
+    <Content Include="BitFinex\Reference\Actions\ClaimPosition.html" />
+    <Content Include="BitFinex\Reference\Actions\MarginInfo.html" />
+    <Content Include="BitFinex\Reference\Actions\NewOffer.html" />
+    <Content Include="BitFinex\Reference\Actions\OfferStatus.html" />
+    <Content Include="BitFinex\Reference\Actions\PastTrades.html" />
+    <Content Include="BitFinex\Reference\Actions\LendBook.html" />
+    <Content Include="BitFinex\Reference\Actions\Lends.html" />
+    <Content Include="BitFinex\Reference\Actions\MultipleNewOrders.html" />
+    <Content Include="BitFinex\Reference\Actions\NewOrder.html" />
+    <Content Include="BitFinex\Reference\Actions\OrderBook.html" />
+    <Content Include="BitFinex\Reference\Actions\OrderStatus.html" />
+    <Content Include="BitFinex\Reference\Actions\ReplaceOrder.html" />
+    <Content Include="BitFinex\Reference\Actions\Stats.html" />
+    <Content Include="BitFinex\Reference\Actions\Symbols.html" />
+    <Content Include="BitFinex\Reference\Actions\Ticker.html" />
+    <Content Include="BitFinex\Reference\Actions\Trades.html" />
+    <Content Include="BitFinex\Reference\Actions\WalletBalances.html" />
+    <Content Include="BitFinex\Reference\API.htm" />
+    <Content Include="BitFinex\Reference\Authentication.html" />
+    <Content Include="BitStamp\Reference\Actions\AccountBalance.txt" />
     <Content Include="BitStamp\Reference\Authentication.txt" />
-    <Content Include="BitStamp\Reference\BitcoinDepositAddress.txt" />
-    <Content Include="BitStamp\Reference\BitcoinWithdrawal.txt" />
-    <Content Include="BitStamp\Reference\BuyLimitOrder.txt" />
-    <Content Include="BitStamp\Reference\CancelOrder.txt" />
-    <Content Include="BitStamp\Reference\EURUSDConversion.txt" />
+    <Content Include="BitStamp\Reference\Actions\BitcoinDepositAddress.txt" />
+    <Content Include="BitStamp\Reference\Actions\BitcoinWithdrawal.txt" />
+    <Content Include="BitStamp\Reference\Actions\BuyLimitOrder.txt" />
+    <Content Include="BitStamp\Reference\Actions\CancelOrder.txt" />
+    <Content Include="BitStamp\Reference\Actions\EURUSDConversion.txt" />
     <Content Include="BitStamp\Reference\HTTP_API_Reference.htm" />
-    <Content Include="BitStamp\Reference\OpenOrders.txt" />
-    <Content Include="BitStamp\Reference\OrderBook.txt" />
-    <Content Include="BitStamp\Reference\SellLimitOrder.txt" />
-    <Content Include="BitStamp\Reference\Ticker.txt" />
-    <Content Include="BitStamp\Reference\Transactions.txt" />
-    <Content Include="BitStamp\Reference\UnconfirmedBitcoinDeposits.txt" />
-    <Content Include="BitStamp\Reference\UserTransactions.txt" />
+    <Content Include="BitStamp\Reference\Actions\OpenOrders.txt" />
+    <Content Include="BitStamp\Reference\Actions\OrderBook.txt" />
+    <Content Include="BitStamp\Reference\Actions\SellLimitOrder.txt" />
+    <Content Include="BitStamp\Reference\Actions\Ticker.txt" />
+    <Content Include="BitStamp\Reference\Actions\Transactions.txt" />
+    <Content Include="BitStamp\Reference\Actions\UnconfirmedBitcoinDeposits.txt" />
+    <Content Include="BitStamp\Reference\Actions\UserTransactions.txt" />
     <Content Include="BitStamp\Reference\WebSocket.txt" />
-    <Content Include="BitStamp\Reference\WithdrawalRequests.txt" />
+    <Content Include="BitStamp\Reference\Actions\WithdrawalRequests.txt" />
+    <Content Include="BTCe\Reference\Actions\ActiveOrders.html" />
+    <Content Include="BTCe\Reference\Actions\CancelOrder.html" />
+    <Content Include="BTCe\Reference\Actions\Depth.txt" />
+    <Content Include="BTCe\Reference\Actions\Fee.txt" />
+    <Content Include="BTCe\Reference\Actions\GetInfo.txt" />
+    <Content Include="BTCe\Reference\Actions\Ticker.txt" />
+    <Content Include="BTCe\Reference\Actions\Trade.html" />
+    <Content Include="BTCe\Reference\Actions\TradeHistory.html" />
+    <Content Include="BTCe\Reference\Actions\Trades.txt" />
+    <Content Include="BTCe\Reference\Actions\TransactionHistory.html" />
     <Content Include="BTCe\Reference\API.htm" />
     <Content Include="BTCe\Reference\API.txt" />
+    <Content Include="BTCe\Reference\Authentication.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BitFinex\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

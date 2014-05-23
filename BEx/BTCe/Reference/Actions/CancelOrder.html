@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h3>CancelOrder</h3>
+    <div class="api-method">
+        <p>Cancellation of the order</p>
+        <p style="margin-top: 10px;"><b>Parameters:</b></p>
+        <table class="tabla2">
+            <tr class="table_h">
+                <td style="width: 100px">parameter</td>
+                <td>oblig?</td>
+                <td style="width: 400px">description</td>
+                <td>it takes up the values</td>
+                <td>standard value</td>
+            </tr>
+            <tr>
+                <td>order_id</td>
+                <td>Yes</td>
+                <td>Order id</td>
+                <td>numerical</td>
+                <td>-</td>
+        </table>
+        <p style="margin-top: 10px;"><b>The example of an answer:</b></p>
+<pre class="api-answer">
+{
+	"success":1,
+	"return":{
+		"order_id":343154,
+		"funds":{
+			"usd":325,
+			"btc":24.998,
+			"sc":121.998,
+			"ltc":0,
+			"ruc":0,
+			"nmc":0
+		}
+	}
+}
+	</pre>
+    </div>
+</body>
+</html>

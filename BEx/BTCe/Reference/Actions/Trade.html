@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h3>Trade</h3>
+    <div class="api-method">
+        <p>Trading is done according to this method.</p>
+        <p style="margin-top: 10px;"><b>Parameters:</b></p>
+        <table class="tabla2">
+            <tr class="table_h">
+                <td style="width: 100px">parameter</td>
+                <td>oblig?</td>
+                <td style="width: 400px">description</td>
+                <td>it takes up the values</td>
+                <td>standard value</td>
+            </tr>
+            <tr>
+                <td>pair</td>
+                <td>Yes</td>
+                <td>pair</td>
+                <td>btc_usd (example)</td>
+                <td>-</td>
+            </tr>
+            <tr class="table_r">
+                <td>type</td>
+                <td>Yes</td>
+                <td>The transaction type</td>
+                <td>buy or sell</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>rate</td>
+                <td>Yes</td>
+                <td>The rate to buy/sell</td>
+                <td>numerical</td>
+                <td>-</td>
+            </tr>
+            <tr class="table_r">
+                <td>amount</td>
+                <td>Yes</td>
+                <td>The amount which is necessary to buy/sell</td>
+                <td>numerical</td>
+                <td>-</td>
+            </tr>
+        </table>
+        <p style="margin-top: 10px;"><b>The example of an asnwer:</b></p>
+<pre class="api-answer">
+{
+	"success":1,
+	"return":{
+		"received":0.1,
+		"remains":0,
+		"order_id":0,
+		"funds":{
+			"usd":325,
+			"btc":2.498,
+			"sc":121.998,
+			"ltc":0,
+			"ruc":0,
+			"nmc":0
+		}
+	}
+}
+	</pre>
+    </div>
+</body>
+</html>
