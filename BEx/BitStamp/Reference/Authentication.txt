@@ -1,0 +1,7 @@
+﻿All private API calls require authentication. You need to provide 3 parameters to authenticate a request:
+API key
+Nonce
+Signature
+API KEYTo get an API key, go to "Account", "Security" and then "API Access". Set permissions and click "Generate key".NONCENonce is a regular integer number. It must be increasing with every request you make. Read more about it here. Example: if you set nonce to 1 in your first request, you must set it to at least 2 in your second request. You are not required to start with 1. A common practice is to use unix time for that parameter.SIGNATURESignature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).Example (Python):
+message = nonce + client_id + api_key
+signature = hmac.new(API_SECRET, msg=message, digestmod=hashlib.sha256).hexdigest().upper()

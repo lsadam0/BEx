@@ -1,0 +1,8 @@
+﻿POST https://www.bitstamp.net/api/bitcoin_withdrawal/Params:
+key - API key
+signature - signature
+nonce - nonce
+amount - bitcoin amount
+address - bitcoin address
+Returns JSON dictionary if successful:
+id - withdrawal id

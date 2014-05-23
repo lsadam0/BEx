@@ -1,0 +1,6 @@
+﻿POST https://www.bitstamp.net/api/cancel_order/Params:
+key - API key
+signature - signature
+nonce - nonce
+id - order ID
+Returns 'true' if order has been found and canceled.

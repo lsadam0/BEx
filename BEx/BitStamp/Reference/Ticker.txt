@@ -1,0 +1,11 @@
+﻿GET https://www.bitstamp.net/api/ticker/
+Returns JSON dictionary:
+last - last BTC price
+high - last 24 hours price high
+low - last 24 hours price low
+vwap - last 24 hours volume weighted average price: vwap
+volume - last 24 hours volume
+bid - highest buy order
+ask - lowest sell order
+
+{"high": "528.87", "last": "527.69", "timestamp": "1400797976", "bid": "527.50", "vwap": "513.28", "volume": "16657.03801946", "low": "492.65", "ask": "527.68"}

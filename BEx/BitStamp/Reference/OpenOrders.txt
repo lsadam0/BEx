@@ -1,0 +1,10 @@
+﻿POST https://www.bitstamp.net/api/open_orders/Params:
+key - API key
+signature - signature
+nonce - nonce
+Returns JSON list of open orders. Each order is represented as dictionary:
+id - order id
+datetime - date and time
+type - buy or sell (0 - buy; 1 - sell)
+price - price
+amount - amount
