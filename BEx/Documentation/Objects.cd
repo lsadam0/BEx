@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BEx.Tick">
+    <Position X="1" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>QCAAAgQAAAAAAAAAGgAAAAAAAAgAQAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Tick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.AccountInformation">
+    <Position X="7.75" Y="5.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAAAQAQCAAAAAAgAAAAAAAAAIAAAAAgAAABAA=</HashCode>
+      <FileName>AccountBalance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Action">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BEXCore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BEx.Transaction">
+    <Position X="5.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAABAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Exchange">
+    <Position X="14" Y="1.75" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Exchange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BitStamp" Collapsed="true">
+    <Position X="15.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BitStamp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BitFinex">
+    <Position X="13.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BitFinex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BTCe">
+    <Position X="17.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BTCe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.AuthenticatedAction">
+    <Position X="7.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAACAE=</HashCode>
+      <FileName>AuthenticatedAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Order">
+    <Position X="13.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BuyOrder">
+    <Position X="14.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BuyOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.SellOrder">
+    <Position X="12.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SellOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="BEx.CryptoCurrency">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IBAAAAAAAAQAgAAAABAAAAAAQAAAAAAAgAAAAAQAAAA=</HashCode>
+      <FileName>CryptoCurrency.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BEx.Fiat">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAASCAAAAAAAAAAAAAAEg=</HashCode>
+      <FileName>Fiat.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
