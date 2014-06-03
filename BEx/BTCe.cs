@@ -5,7 +5,19 @@ using System.Text;
 
 namespace BEx
 {
-    public class BTCe :Exchange
+    public class BTCe : Exchange
     {
+
+        
+
+        public BTCe() : base()
+        {
+
+        }
+
+        protected override void LoadAPICommandCollection()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

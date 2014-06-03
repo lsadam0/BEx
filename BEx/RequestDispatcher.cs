@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BEx
 {
-    public class BuyOrder : Order
+    public class RequestDispatcher
     {
     }
 }

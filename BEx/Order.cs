@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BEx
 {
-    public abstract class Order
+    public class Order
     {
     }
 }

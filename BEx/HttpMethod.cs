@@ -5,7 +5,9 @@ using System.Text;
 
 namespace BEx
 {
-    public class SellOrder : Order
+    public enum HttpMethod
     {
+        GET,
+        POST
     }
 }
