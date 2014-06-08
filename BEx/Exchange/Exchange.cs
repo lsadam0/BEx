@@ -14,9 +14,10 @@ namespace BEx
     public abstract class Exchange
     {
 
-        protected Dictionary<Currency, Currency> SupportedPairs = new Dictionary<Currency, Currency>();
+        //protected Dictionary<Currency, Currency> SupportedPairs = new Dictionary<Currency, Currency>();
 
-
+        protected Dictionary<Currency, HashSet<Currency>> SupportedPairs;
+        
         protected RestClient apiClient
         {
             get;
@@ -87,20 +88,12 @@ namespace BEx
 
         }
 
-
-
-        protected void LoadConfigFromXML(string file)
+        private void LoadSupportedPairs(XElement configFile)
         {
-            APICommandCollection = new Dictionary<string, APICommand>();
-
-            XElement configFile = XElement.Load(file);
-
-            string baseUrl = configFile.Element("BaseURL").Value;
-
-            BaseURI = new Uri(baseUrl);
-
             XElement supportedPairs = configFile.Element("SupportedPairs");
-            SupportedPairs = new Dictionary<Currency, Currency>();
+
+            SupportedPairs = new Dictionary<Currency, HashSet<Currency>>();
+            
             foreach (XElement pairs in supportedPairs.Elements())
             {
                 XElement b = pairs.Element("Base");
@@ -114,12 +107,22 @@ namespace BEx
                     &&
                 Enum.TryParse<Currency>(c.Value, out cs))
                 {
-                    SupportedPairs.Add(bs, cs);
+                    if (!SupportedPairs.ContainsKey(bs))
+                    {
+                        SupportedPairs.Add(bs, new HashSet<Currency>());
+                    }
+
+                    if (!SupportedPairs[bs].Contains(cs))
+                    {
+                        SupportedPairs[bs].Add(cs);
+                    }
                 }
 
-              //  Enum.TryParse<Currency>(pair)
             }
+        }
 
+        protected void LoadCommands(XElement configFile)
+        {
             XElement commands = configFile.Element("Commands");
 
             foreach (XElement command in commands.Elements())
@@ -156,6 +159,23 @@ namespace BEx
                 APICommandCollection.Add(cId, commandToLoad);
 
             }
+        }
+
+        protected void LoadConfigFromXML(string file)
+        {
+            APICommandCollection = new Dictionary<string, APICommand>();
+
+            XElement configFile = XElement.Load(file);
+
+            string baseUrl = configFile.Element("BaseURL").Value;
+
+            BaseURI = new Uri(baseUrl);
+
+            LoadSupportedPairs(configFile);
+
+            LoadCommands(configFile);
+
+            
 
         }
 
@@ -181,6 +201,17 @@ namespace BEx
 
         protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
         {
+            
+
+            if (toExecute.BaseCurrency != null && toExecute.CounterCurrency != null)
+            {
+                if (!IsCurrencyPairSupported((Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency))
+                {
+                    throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toExecute.BaseCurrency.ToString(), toExecute.CounterCurrency.ToString(), this.GetType().ToString()));
+                }
+                
+            }
+
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
             IRestResponse<T> response = apiClient.Execute<T>(request);
@@ -188,6 +219,20 @@ namespace BEx
             return (T)response.Data;
         }
 
+        private bool IsCurrencyPairSupported(Currency baseC, Currency counterC)
+        {
+            bool res = false;
+
+            if (SupportedPairs.ContainsKey(baseC))
+            {
+                if (SupportedPairs[baseC].Contains(counterC))
+                {
+                    res = true;
+                }
+            }
+
+            return res;
+        }
 
         protected string ExecuteCommand(APICommand toExecute)
         {
@@ -209,7 +254,6 @@ namespace BEx
             return null;
 
         }
-
 
         public abstract Tick GetTick();
 

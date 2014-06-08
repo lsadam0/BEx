@@ -8,9 +8,14 @@ using System.Net;
 using RestSharp;
 namespace BEx
 {
+    public delegate bool IsCurrencyPairSupportedDelegate(Currency b, Currency c);
+
     [Serializable]
     public class APICommand
     {
+        public IsCurrencyPairSupportedDelegate IsCurrencyPairSupported;
+
+
         public Method HttpMethod
         {
             get;
@@ -35,7 +40,16 @@ namespace BEx
             set;
         }
 
+        private bool CheckCurrencyPairSupport(Currency baseC, Currency counterC)
+        {
+            bool res = true;
+            if (IsCurrencyPairSupported != null)
+            {
+                res = IsCurrencyPairSupported(baseC, counterC);
+            }
 
+            return res;
+        }
 
         public string ResolvedRelativeURI
         {
@@ -43,10 +57,10 @@ namespace BEx
             get
             {
                 string res = RelativeURI;
-                
+
                 foreach (KeyValuePair<string, string> pair in Args)
                 {
-                    res = res.Replace(pair.Key, pair.Value);
+                    res = res.Replace("{" + pair.Key + "}", pair.Value);
                 }
 
                 return res;
@@ -56,6 +70,42 @@ namespace BEx
         public APICommand()
         {
             Args = new Dictionary<string, string>();
+        }
+
+        private Currency? baseC = null;
+        public Currency? BaseCurrency
+        {
+            get
+            {
+                return baseC;
+            }
+            set
+            {
+                baseC = value;
+
+                if (!Args.ContainsKey("BaseCurrency"))
+                    Args.Add("BaseCurrency", baseC.ToString());
+                else
+                    Args["BaseCurrency"] = baseC.ToString();
+            }
+        }
+
+        private Currency? counterC;
+        public Currency? CounterCurrency
+        {
+            get
+            {
+                return counterC;
+            }
+            set
+            {
+                counterC = value;
+
+                if (!Args.ContainsKey("CounterCurrency"))
+                    Args.Add("CounterCurrency", counterC.ToString());
+                else
+                    Args["CounterCurrency"] = counterC.ToString();
+            }
         }
 
     }

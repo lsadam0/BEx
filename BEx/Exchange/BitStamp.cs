@@ -44,11 +44,20 @@ namespace BEx
             
         }
 
+        /// <summary>
+        /// Return the current tick for the BTC/USD pair
+        /// </summary>
+        /// <returns></returns>
         public override Tick GetTick()
         {
             Tick res;
 
-            res = new Tick(ExecuteCommand<BitstampTickJSON>(APICommandCollection["Tick"]));
+            APICommand toExecute = APICommandCollection["Tick"];
+
+            toExecute.BaseCurrency = Currency.BTC;
+            toExecute.CounterCurrency = Currency.USD;
+
+            res = new Tick(ExecuteCommand<BitstampTickJSON>(toExecute), Currency.BTC, Currency.USD);
 
             return res;
         }

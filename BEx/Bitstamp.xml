@@ -3,7 +3,7 @@
   <BaseURL>https://www.bitstamp.net/api/</BaseURL>
   <SupportedPairs>
     <Pair>
-      <Base>BitCoin</Base>
+      <Base>BTC</Base>
       <Counter>USD</Counter>
     </Pair>
   </SupportedPairs>

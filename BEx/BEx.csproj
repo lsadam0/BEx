@@ -48,6 +48,11 @@
   <ItemGroup>
     <Compile Include="AccountBalance.cs" />
     <Compile Include="BExBase.cs" />
+    <Compile Include="ErrorMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Exchange\BitStamp\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTransactionsJSON.cs" />
@@ -78,6 +83,7 @@
     </Content>
     <Content Include="BTCE.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Documentation\BitFinex\Reference\Actions\AccountInfo.html" />
     <Content Include="Documentation\BitFinex\Reference\Actions\ActiveCredits.html" />
@@ -144,6 +150,12 @@
   <ItemGroup>
     <None Include="Documentation\Objects.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

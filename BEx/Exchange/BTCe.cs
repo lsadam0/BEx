@@ -14,9 +14,19 @@ namespace BEx
         }
         
 
+
         public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
         {
-            return null;
+            Tick res;
+
+            APICommand tickCommand = APICommandCollection["Tick"];
+
+            tickCommand.BaseCurrency = baseCurrency;
+            tickCommand.CounterCurrency = counterCurrency;
+
+            res = new Tick(ExecuteCommand<BTCeTickJSON>(tickCommand), baseCurrency, counterCurrency);
+
+            return res;
         }
 
         /// <summary>
@@ -27,7 +37,12 @@ namespace BEx
         {
             Tick res;
 
-            res = new Tick(ExecuteCommand<BTCeTickJSON>(APICommandCollection["Tick"]));
+            APICommand toExecute = APICommandCollection["Tick"];
+
+            toExecute.BaseCurrency = Currency.BTC;
+            toExecute.CounterCurrency = Currency.USD;
+
+            res = new Tick(ExecuteCommand<BTCeTickJSON>(toExecute), Currency.BTC, Currency.USD);
 
             return res;
         }

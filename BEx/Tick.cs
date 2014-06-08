@@ -8,6 +8,7 @@ namespace BEx
     public class Tick
     {
 
+
         public Decimal High
         {
             get;
@@ -60,7 +61,19 @@ namespace BEx
 
         }
 
-        internal Tick(BitstampTickJSON source)
+        public Currency BaseCurrency
+        {
+            get;
+            set;
+        }
+
+        public Currency CounterCurrency
+        {
+            get;
+            set;
+
+        }
+        internal Tick(BitstampTickJSON source, Currency baseC, Currency counterC)
         {
 
             this.Ask = Convert.ToDecimal(source.ask);
@@ -71,9 +84,11 @@ namespace BEx
             //this.TimeStamp = Convert.tol
             this.Volume = Convert.ToDecimal(source.volume);
             this.VWAP = Convert.ToDecimal(source.vwap);
+            this.BaseCurrency = baseC;
+            this.CounterCurrency = counterC;
         }
 
-        internal Tick(BTCeTickJSON source)
+        internal Tick(BTCeTickJSON source, Currency baseC, Currency counterC)
         {
             this.Bid = Convert.ToDecimal(source.ticker.sell);
             this.Ask = Convert.ToDecimal(source.ticker.buy);
@@ -81,7 +96,9 @@ namespace BEx
             this.Last = Convert.ToDecimal(source.ticker.last);
             this.Low = Convert.ToDecimal(source.ticker.low);
             this.Volume = Convert.ToDecimal(source.ticker.vol);
-         
+
+            this.BaseCurrency = baseC;
+            this.CounterCurrency = counterC;
         }
     }
 }

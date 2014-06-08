@@ -3,14 +3,14 @@
   <BaseURL>https://btc-e.com/api/2/</BaseURL>
   <SupportedPairs>
     <Pair>
-      <Base>BitCoin</Base>
+      <Base>BTC</Base>
       <Counter>USD</Counter>
     </Pair>
   </SupportedPairs>
   <Commands>
     <Command ID="Tick">
       <Method>GET</Method>
-      <RelativeURL>{base}_{counter}/ticker</RelativeURL>
+      <RelativeURL>{BaseCurrency}_{CounterCurrency}/ticker</RelativeURL>
       <RequiresAuthentication>false</RequiresAuthentication>
       <args>
         <arg ID="base">BTC</arg>
