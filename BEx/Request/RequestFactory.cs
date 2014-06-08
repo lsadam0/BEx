@@ -36,8 +36,10 @@ namespace BEx
 
         private RestRequest CreateUnauthenticatedRequest(APICommand command)
         {
-            var request = new RestRequest((new Uri(this.BaseURI, command.ResolvedRelativeURI)).ToString(), command.HttpMethod);
+            var request = new RestRequest(command.ResolvedRelativeURI, command.HttpMethod);
 
+            request.RequestFormat = DataFormat.Json;
+            
             return request;
         }
     }

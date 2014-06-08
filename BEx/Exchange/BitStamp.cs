@@ -35,16 +35,32 @@ namespace BEx
         }
 
 
-        
-
-        public BitStamp() : base()
+        public Tick GetTick()
         {
+            Tick res = null;
+
+            res = new Tick(ExecuteCommand(APICommandCollection[(int)BitStampCommand.GetTick]));
+
+
+            return res;
+
+        }
+
+
+
+        public BitStamp()
+            : base()
+        {
+            BaseURI = new Uri(@"https://www.bitstamp.net/api/");
             LoadAPICommandCollection();
+
+            Initialize();
         }
 
 
         protected override void LoadAPICommandCollection()
         {
+            APICommandCollection = new Dictionary<int, APICommand>();
 
             APICommand tickCommand = new APICommand();
 
@@ -52,9 +68,9 @@ namespace BEx
             tickCommand.RelativeURI = @"ticker/";
             tickCommand.RequiresAuthentication = false;
 
-            APICommandCollection.Add(1, tickCommand);
-            
+            APICommandCollection.Add((int)BitStampCommand.GetTick, tickCommand);
+
         }
-        
+
     }
 }

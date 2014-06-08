@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Reflection;
 
 using RestSharp;
 
@@ -70,6 +71,12 @@ namespace BEx
 
         public Exchange()
         {
+
+
+        }
+
+        internal void Initialize()
+        {
             apiClient = new RestClient(BaseURI.ToString());
             apiRequestFactory = new RequestFactory(BaseURI);
 
@@ -118,19 +125,23 @@ namespace BEx
             throw new System.NotImplementedException();
         }
 
-        protected object ExecuteCommand(APICommand toExecute)
+        protected BitstampTickJSON ExecuteCommand(APICommand toExecute)
         {
 
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
-            IRestResponse response = apiClient.Execute(request);
-            var content = response.Content; // raw content as string
-            
+            //IRestResponse response = apiClient.Execute(request);
+            //var content = response.Content; // raw content as string
 
+
+            //return apiClient.Execute<T>(request);
+            IRestResponse<BitstampTickJSON> response = apiClient.Execute<BitstampTickJSON>(request);
+            
+            //apiClient.Execute<Bit
             // or automatically deserialize result
             // return content type is sniffed but can be explicitly set via RestClient.AddHandler();
             //IRestResponse<Person> response2 = client.Execute<Person>(request);
-            return null;
+            return response.Data;
         }
 
         protected object ExecutePOSTAction(APICommand toExecute)
