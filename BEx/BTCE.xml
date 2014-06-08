@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BTCe>
+  <BaseURL>https://btc-e.com/api/2/</BaseURL>
+  <SupportedPairs>
+    <Pair>
+      <Base>BitCoin</Base>
+      <Counter>USD</Counter>
+    </Pair>
+  </SupportedPairs>
+  <Commands>
+    <Command ID="Tick">
+      <Method>GET</Method>
+      <RelativeURL>{base}_{counter}/ticker</RelativeURL>
+      <RequiresAuthentication>false</RequiresAuthentication>
+      <args>
+        <arg ID="base">BTC</arg>
+        <arg ID="counter">USD</arg>
+      </args>
+    </Command>
+  </Commands>
+</BTCe>

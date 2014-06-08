@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitStamp_Commands.cs" />
+    <Compile Include="BTCe_Commands.cs" />
     <Compile Include="HelloWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

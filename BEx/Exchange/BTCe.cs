@@ -7,19 +7,29 @@ namespace BEx
 {
     public class BTCe : Exchange
     {
-
-        
-
         public BTCe() : base("BTCe.xml")
         {
+            
 
         }
+        
 
+        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Return the current BTC/USD Tick
+        /// </summary>
+        /// <returns></returns>
         public override Tick GetTick()
         {
-            throw new NotImplementedException();
+            Tick res;
 
-            return null;
+            res = new Tick(ExecuteCommand<BTCeTickJSON>(APICommandCollection["Tick"]));
+
+            return res;
         }
 
 

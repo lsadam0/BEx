@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Bitstamp>
   <BaseURL>https://www.bitstamp.net/api/</BaseURL>
+  <SupportedPairs>
+    <Pair>
+      <Base>BitCoin</Base>
+      <Counter>USD</Counter>
+    </Pair>
+  </SupportedPairs>
   <Commands>
     <Command ID="Tick">
       <Method>GET</Method>

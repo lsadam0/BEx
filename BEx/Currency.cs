@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BEx
 {
-    public enum CryptoCurrency
+    public enum Currency
     {
         BitCoin = 0, // BTC
         LiteCoin = 1, // LTC
@@ -14,7 +14,8 @@ namespace BEx
         PeerCoin = 4, // PPC
         TerraCoin = 5, // TRC
         FeatherCoin = 6, // FTC
-        PrimeCoin = 7 // XPM
-
+        PrimeCoin = 7, // XPM
+        USD = 8,
+        GBP = 9
     }
 }

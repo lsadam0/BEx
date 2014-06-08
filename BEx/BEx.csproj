@@ -51,12 +51,13 @@
     <Compile Include="Exchange\BitStamp\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTransactionsJSON.cs" />
+    <Compile Include="Exchange\BTCe\BTCeTickJSON.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Request\APIRequest.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
     <Compile Include="BitStampCommand.cs" />
     <Compile Include="Exchange\BTCe.cs" />
-    <Compile Include="CryptoCurrency.cs" />
+    <Compile Include="Currency.cs" />
     <Compile Include="Exchange\Exchange.cs" />
     <Compile Include="Fiat.cs" />
     <Compile Include="Request\HttpMethod.cs" />
@@ -73,6 +74,10 @@
   <ItemGroup>
     <Content Include="Bitstamp.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="BTCE.xml">
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Documentation\BitFinex\Reference\Actions\AccountInfo.html" />
     <Content Include="Documentation\BitFinex\Reference\Actions\ActiveCredits.html" />

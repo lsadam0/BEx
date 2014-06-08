@@ -72,5 +72,16 @@ namespace BEx
             this.Volume = Convert.ToDecimal(source.volume);
             this.VWAP = Convert.ToDecimal(source.vwap);
         }
+
+        internal Tick(BTCeTickJSON source)
+        {
+            this.Bid = Convert.ToDecimal(source.ticker.sell);
+            this.Ask = Convert.ToDecimal(source.ticker.buy);
+            this.High = Convert.ToDecimal(source.ticker.high);
+            this.Last = Convert.ToDecimal(source.ticker.last);
+            this.Low = Convert.ToDecimal(source.ticker.low);
+            this.Volume = Convert.ToDecimal(source.ticker.vol);
+         
+        }
     }
 }

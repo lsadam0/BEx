@@ -5,9 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Reflection;
 using System.Xml;
-using System.Linq;
 using System.Xml.Linq;
-
 
 using RestSharp;
 
@@ -15,6 +13,9 @@ namespace BEx
 {
     public abstract class Exchange
     {
+
+        protected Dictionary<Currency, Currency> SupportedPairs = new Dictionary<Currency, Currency>();
+
 
         protected RestClient apiClient
         {
@@ -97,6 +98,27 @@ namespace BEx
             string baseUrl = configFile.Element("BaseURL").Value;
 
             BaseURI = new Uri(baseUrl);
+
+            XElement supportedPairs = configFile.Element("SupportedPairs");
+            SupportedPairs = new Dictionary<Currency, Currency>();
+            foreach (XElement pairs in supportedPairs.Elements())
+            {
+                XElement b = pairs.Element("Base");
+
+                XElement c = pairs.Element("Counter");
+
+                Currency bs;
+                Currency cs;
+
+                if (Enum.TryParse<Currency>(b.Value, out bs)
+                    &&
+                Enum.TryParse<Currency>(c.Value, out cs))
+                {
+                    SupportedPairs.Add(bs, cs);
+                }
+
+              //  Enum.TryParse<Currency>(pair)
+            }
 
             XElement commands = configFile.Element("Commands");
 
