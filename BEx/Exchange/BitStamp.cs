@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Linq;
+using System.Xml.Linq;
 
 using RestSharp;
 
@@ -34,43 +37,44 @@ namespace BEx
             throw new System.NotImplementedException();
         }
 
-
-        public Tick GetTick()
+        public BitStamp()
+            : base("Bitstamp.xml")
         {
-            Tick res = null;
+            
+            
+        }
 
-            res = new Tick(ExecuteCommand(APICommandCollection[(int)BitStampCommand.GetTick]));
+        public override Tick GetTick()
+        {
+            Tick res;
 
+            res = new Tick(ExecuteCommand<BitstampTickJSON>(APICommandCollection["Tick"]));
 
             return res;
-
         }
 
-
-
-        public BitStamp()
-            : base()
+        public override OrderBook GetOrderBook()
         {
-            BaseURI = new Uri(@"https://www.bitstamp.net/api/");
-            LoadAPICommandCollection();
+            OrderBook res;
 
-            Initialize();
+            //res = new OrderBook(ExecuteCommand<BitstampOrderBookJSON>(APICommandCollection["OrderBook"]));
+
+            string response = ExecuteCommand(APICommandCollection["OrderBook"]);
+
+            return null;
         }
 
-
-        protected override void LoadAPICommandCollection()
+        public override List<Transaction> GetTransactions()
         {
-            APICommandCollection = new Dictionary<int, APICommand>();
+            List<Transaction> res = new List<Transaction>();
 
-            APICommand tickCommand = new APICommand();
 
-            tickCommand.HttpMethod = Method.GET;
-            tickCommand.RelativeURI = @"ticker/";
-            tickCommand.RequiresAuthentication = false;
+            BitstampTransactionsJSON r = ExecuteCommand<BitstampTransactionsJSON>(APICommandCollection["Transactions"]);
 
-            APICommandCollection.Add((int)BitStampCommand.GetTick, tickCommand);
-
+            return null;
         }
+        
+
 
     }
 }

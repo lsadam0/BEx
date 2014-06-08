@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Bitstamp>
+  <BaseURL>https://www.bitstamp.net/api/</BaseURL>
+  <Commands>
+    <Command ID="Tick">
+      <Method>GET</Method>
+      <RelativeURL>ticker/</RelativeURL>
+      <RequiresAuthentication>false</RequiresAuthentication>
+      <args />
+    </Command>
+    <Command ID="OrderBook">
+      <Method>GET</Method>
+      <RelativeURL>order_book/</RelativeURL>
+      <RequiresAuthentication>false</RequiresAuthentication>
+      <args>
+        <arg ID="group">1</arg>
+      </args>
+    </Command>
+    <Command ID="Transactions">
+      <Method>GET</Method>
+      <RelativeURL>transactions/</RelativeURL>
+      <RequiresAuthentication>false</RequiresAuthentication>
+      <args>
+        <arg ID="time">hour</arg>
+      </args>      
+    </Command>
+  </Commands>
+</Bitstamp>

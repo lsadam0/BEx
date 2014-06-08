@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Reflection;
+using System.Xml;
+using System.Linq;
+using System.Xml.Linq;
+
 
 using RestSharp;
 
@@ -61,18 +65,18 @@ namespace BEx
             }
         }
 
-        public Dictionary<int, APICommand> APICommandCollection
+        public Dictionary<string, APICommand> APICommandCollection
         {
             // Serialize this into a config file?
             get;
             set;
         }
 
-
-        public Exchange()
+        public Exchange(string configFile)
         {
+            LoadConfigFromXML(configFile);
 
-
+            Initialize();
         }
 
         internal void Initialize()
@@ -82,27 +86,55 @@ namespace BEx
 
         }
 
-        public Tick GetTick()
-        {
-            ExecuteCommand(APICommandCollection[1]);
 
-            return null;
-        }
 
-        public OrderBook GetOrderBook()
+        protected void LoadConfigFromXML(string file)
         {
-            /*
-             * 
-             * BitStamp - GET https://www.bitstamp.net/api/order_book/
-             * BTCe - TransHistory
-             * GET /book/:symbol
-             */
-            throw new System.NotImplementedException();
-        }
+            APICommandCollection = new Dictionary<string, APICommand>();
 
-        public List<Transaction> GetTransactions()
-        {
-            throw new System.NotImplementedException();
+            XElement configFile = XElement.Load(file);
+
+            string baseUrl = configFile.Element("BaseURL").Value;
+
+            BaseURI = new Uri(baseUrl);
+
+            XElement commands = configFile.Element("Commands");
+
+            foreach (XElement command in commands.Elements())
+            {
+                APICommand commandToLoad = new APICommand();
+
+                foreach (XElement c in command.Elements())
+                {
+
+                    if (c.Name == "Method")
+                    {
+                        if (c.Value == "GET")
+                        {
+                            commandToLoad.HttpMethod = Method.GET;
+                        }
+                        else
+                            commandToLoad.HttpMethod = Method.POST;
+                    }
+
+                    if (c.Name == "RelativeURL")
+                    {
+                        commandToLoad.RelativeURI = c.Value;
+                    }
+
+                    if (c.Value == "RequiresAuthentication")
+                    {
+                        commandToLoad.RequiresAuthentication = Convert.ToBoolean(c.Value);
+                    }
+
+                }
+
+                string cId = command.Attribute("ID").Value;
+
+                APICommandCollection.Add(cId, commandToLoad);
+
+            }
+
         }
 
         public AccountBalance GetAccountBalance()
@@ -125,24 +157,25 @@ namespace BEx
             throw new System.NotImplementedException();
         }
 
-        protected BitstampTickJSON ExecuteCommand(APICommand toExecute)
+        protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
         {
-
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
-            //IRestResponse response = apiClient.Execute(request);
-            //var content = response.Content; // raw content as string
+            IRestResponse<T> response = apiClient.Execute<T>(request);
 
-
-            //return apiClient.Execute<T>(request);
-            IRestResponse<BitstampTickJSON> response = apiClient.Execute<BitstampTickJSON>(request);
-            
-            //apiClient.Execute<Bit
-            // or automatically deserialize result
-            // return content type is sniffed but can be explicitly set via RestClient.AddHandler();
-            //IRestResponse<Person> response2 = client.Execute<Person>(request);
-            return response.Data;
+            return (T)response.Data;
         }
+
+
+        protected string ExecuteCommand(APICommand toExecute)
+        {
+            RestRequest request = apiRequestFactory.GetRequest(toExecute);
+
+            IRestResponse response = apiClient.Execute(request);
+
+            return response.Content;
+        }
+
 
         protected object ExecutePOSTAction(APICommand toExecute)
         {
@@ -156,8 +189,10 @@ namespace BEx
         }
 
 
-        protected abstract void LoadAPICommandCollection();
+        public abstract Tick GetTick();
 
+        public abstract OrderBook GetOrderBook();
 
+        public abstract List<Transaction> GetTransactions();
     }
 }

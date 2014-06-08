@@ -7,5 +7,10 @@ namespace BEx
 {
     public class OrderBook
     {
+
+        internal OrderBook(BitstampOrderBookJSON source)
+        {
+            { }
+        }
     }
 }
