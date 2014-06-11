@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BEx
+{
+    public class Bitfinex : Exchange
+    {
+
+        public Bitfinex() : base("Bitfinex.xml")
+        {
+
+        }
+
+        public override Tick GetTick()
+        {
+            Tick res;
+
+            APICommand toExecute = APICommandCollection["Tick"];
+
+            toExecute.BaseCurrency = Currency.BTC;
+            toExecute.CounterCurrency = Currency.USD;
+
+            res = new Tick(ExecuteCommand<BitfinexTickJSON>(toExecute), Currency.BTC, Currency.USD);
+
+            return res;
+        }
+
+        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res;
+
+            APICommand toExecute = APICommandCollection["Tick"];
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            res = new Tick(ExecuteCommand<BitfinexTickJSON>(toExecute), baseCurrency, counterCurrency);
+
+            return res;
+
+        }
+
+        public override OrderBook GetOrderBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Transaction> GetTransactions()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

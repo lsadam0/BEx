@@ -57,20 +57,24 @@ namespace BEx
             toExecute.BaseCurrency = Currency.BTC;
             toExecute.CounterCurrency = Currency.USD;
 
-            res = new Tick(ExecuteCommand<BitstampTickJSON>(toExecute), Currency.BTC, Currency.USD);
+            res = new BitstampTick(ExecuteCommand<BitstampTickJSON>(toExecute), Currency.BTC, Currency.USD);
 
             return res;
         }
+
+        
 
         public override OrderBook GetOrderBook()
         {
             OrderBook res;
 
-            //res = new OrderBook(ExecuteCommand<BitstampOrderBookJSON>(APICommandCollection["OrderBook"]));
+            APICommand toExecute = APICommandCollection["OrderBook"];
 
-            string response = ExecuteCommand(APICommandCollection["OrderBook"]);
+            res = new OrderBook(ExecuteCommand<BitstampOrderBookJSON>(toExecute), Currency.BTC, Currency.USD);
 
-            return null;
+
+
+            return res;
         }
 
         public override List<Transaction> GetTransactions()

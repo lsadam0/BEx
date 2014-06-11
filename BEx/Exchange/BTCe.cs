@@ -19,7 +19,7 @@ namespace BEx
         {
             Tick res;
 
-            APICommand tickCommand = APICommandCollection["Tick"];
+            BTCeAPICommand tickCommand = new BTCeAPICommand(APICommandCollection["Tick"]);
 
             tickCommand.BaseCurrency = baseCurrency;
             tickCommand.CounterCurrency = counterCurrency;
@@ -37,7 +37,7 @@ namespace BEx
         {
             Tick res;
 
-            APICommand toExecute = APICommandCollection["Tick"];
+            BTCeAPICommand toExecute = new BTCeAPICommand(APICommandCollection["Tick"]);
 
             toExecute.BaseCurrency = Currency.BTC;
             toExecute.CounterCurrency = Currency.USD;

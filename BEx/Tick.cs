@@ -34,12 +34,7 @@ namespace BEx
             set;
         }
 
-        public Decimal VWAP
-        {
-            get;
-            set;
-
-        }
+        
 
         public Decimal Volume
         {
@@ -83,22 +78,66 @@ namespace BEx
             this.Low = Convert.ToDecimal(source.low);
             //this.TimeStamp = Convert.tol
             this.Volume = Convert.ToDecimal(source.volume);
-            this.VWAP = Convert.ToDecimal(source.vwap);
+            //this.VWAP = Convert.ToDecimal(source.vwap);
             this.BaseCurrency = baseC;
             this.CounterCurrency = counterC;
         }
 
         internal Tick(BTCeTickJSON source, Currency baseC, Currency counterC)
         {
-            this.Bid = Convert.ToDecimal(source.ticker.sell);
-            this.Ask = Convert.ToDecimal(source.ticker.buy);
-            this.High = Convert.ToDecimal(source.ticker.high);
-            this.Last = Convert.ToDecimal(source.ticker.last);
-            this.Low = Convert.ToDecimal(source.ticker.low);
-            this.Volume = Convert.ToDecimal(source.ticker.vol);
+
+            this.Bid = Convert.ToDecimal(source.Ticker.Sell);
+            this.Ask = Convert.ToDecimal(source.Ticker.Buy);
+            this.High = Convert.ToDecimal(source.Ticker.High);
+            this.Last = Convert.ToDecimal(source.Ticker.Last);
+            this.Low = Convert.ToDecimal(source.Ticker.Low);
+            this.Volume = Convert.ToDecimal(source.Ticker.Vol);
 
             this.BaseCurrency = baseC;
             this.CounterCurrency = counterC;
         }
+
+        internal Tick(BitfinexTickJSON source, Currency baseC, Currency counterC)
+        {
+            this.Ask = Convert.ToDecimal(source.Ask);
+            this.BaseCurrency = baseC;
+            this.Bid = Convert.ToDecimal(source.Bid);
+            this.CounterCurrency = counterC;
+            this.High = Convert.ToDecimal(source.High);
+            this.Last = Convert.ToDecimal(source.LastPrice);
+            this.Low = Convert.ToDecimal(source.Low);
+            this.Volume = Convert.ToDecimal(source.Volume);
+            //this.VWAP = source.
+        }
+        /*
+        public static bool operator ==(Tick a, Tick b)
+        {
+            if (
+                (a.Ask == b.Ask)
+                &&
+                (a.BaseCurrency == b.BaseCurrency)
+                &&
+                (a.Bid == b.Bid)
+                &&
+                (a.CounterCurrency == b.CounterCurrency)
+                &&
+                (a.High == b.High)
+                &&
+                (a.Last == b.Last)
+                &&
+                (a.Low == b.Low)
+                &&
+                (a.Volume == b.Volume)
+                )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }*/
     }
 }

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BTCe>
+  <BaseURL>https://api.bitfinex.com/v1</BaseURL>
+  <SupportedPairs>
+    <Pair>
+      <Base>BTC</Base>
+      <Counter>USD</Counter>
+    </Pair>
+    <Pair>
+      <Base>LTC</Base>
+      <Counter>USD</Counter>
+    </Pair>
+    <Pair>
+      <Base>LTC</Base>
+      <Counter>BTC</Counter>
+    </Pair>
+    <Pair>
+      <Base>DRK</Base>
+      <Counter>USD</Counter>
+    </Pair>
+    <Pair>
+      <Base>DRK</Base>
+      <Counter>BTC</Counter>
+    </Pair>    
+  </SupportedPairs>
+  <Commands>
+    <Command ID="Tick">
+      <Method>GET</Method>
+      <RelativeURL>pubticker/{BaseCurrency}{CounterCurrency}</RelativeURL>
+      <RequiresAuthentication>false</RequiresAuthentication>
+      <args>
+        <arg ID="base">BTC</arg>
+        <arg ID="counter">USD</arg>
+      </args>
+    </Command>
+  </Commands>
+</BTCe>

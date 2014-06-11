@@ -7,6 +7,10 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+
 using RestSharp;
 
 namespace BEx
@@ -214,9 +218,10 @@ namespace BEx
 
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
-            IRestResponse<T> response = apiClient.Execute<T>(request);
+            IRestResponse response = apiClient.Execute(request);
 
-            return (T)response.Data;
+            return JsonConvert.DeserializeObject<T>(response.Content);
+            //return (T)response.Data;
         }
 
         private bool IsCurrencyPairSupported(Currency baseC, Currency counterC)
@@ -233,7 +238,7 @@ namespace BEx
 
             return res;
         }
-
+        /*
         protected string ExecuteCommand(APICommand toExecute)
         {
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
@@ -241,7 +246,7 @@ namespace BEx
             IRestResponse response = apiClient.Execute(request);
 
             return response.Content;
-        }
+        }*/
 
 
         protected object ExecutePOSTAction(APICommand toExecute)

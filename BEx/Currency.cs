@@ -16,6 +16,9 @@ namespace BEx
         FTC = 6, // FeatherCoin
         XPM = 7, // PrimeCoin
         USD = 8, // United States Dollar
-        GBP = 9 // Great British Pound
+        GBP = 9, // Great British Pound
+        RUR = 10, // Russian 
+        CNH = 11, // Yuan
+        EUR = 12 // Euro
     }
 }

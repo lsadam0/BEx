@@ -51,7 +51,7 @@ namespace BEx
             return res;
         }
 
-        public string ResolvedRelativeURI
+        public virtual string ResolvedRelativeURI
         {
 
             get

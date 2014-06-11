@@ -10,24 +10,20 @@ using BEx;
 namespace NUnitTests
 {
     [TestFixture]
-    public class BitStamp_Commands
+    [Category("BitStamp")]
+    public class BitStamp_Commands : VerifyExchangeBase
     {
         [Test]
         public void BitStamp_GetTick()
         {
             BitStamp bts = new BitStamp();
 
-            Tick t = bts.GetTick();
+            BitstampTick t = (BitstampTick)bts.GetTick();
 
-            Assert.IsNotNull(t);
 
-            Assert.IsTrue(t.Ask > 0);
-            Assert.IsTrue(t.Bid > 0);
-            Assert.IsTrue(t.High > 0);
-            Assert.IsTrue(t.Last > 0);
-            Assert.IsTrue(t.Low > 0);
-            Assert.IsTrue(t.Volume > 0);
-            Assert.IsTrue(t.VWAP > 0);
+            VerifyTick(t, Currency.BTC, Currency.USD);
+
+            Assert.IsTrue(t.VolumeWeightedAveragePrice > 0);
         }
 
 
@@ -38,7 +34,7 @@ namespace NUnitTests
 
             OrderBook o = bts.GetOrderBook();
 
-            Assert.IsNotNull(o);
+            VerifyOrderBook(o);
 
         }
 
