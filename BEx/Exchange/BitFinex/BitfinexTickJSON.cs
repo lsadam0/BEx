@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-namespace BEx
+namespace BEx.BitFinexSupport
 {
     internal class BitfinexTickJSON
     {

@@ -68,7 +68,7 @@ namespace BEx
             set;
 
         }
-        internal Tick(BitstampTickJSON source, Currency baseC, Currency counterC)
+        internal Tick(BitStampSupport.BitstampTickJSON source, Currency baseC, Currency counterC)
         {
 
             this.Ask = Convert.ToDecimal(source.ask);
@@ -83,7 +83,7 @@ namespace BEx
             this.CounterCurrency = counterC;
         }
 
-        internal Tick(BTCeTickJSON source, Currency baseC, Currency counterC)
+        internal Tick(BTCeSupport.BTCeTickJSON source, Currency baseC, Currency counterC)
         {
 
             this.Bid = Convert.ToDecimal(source.Ticker.Sell);
@@ -97,7 +97,7 @@ namespace BEx
             this.CounterCurrency = counterC;
         }
 
-        internal Tick(BitfinexTickJSON source, Currency baseC, Currency counterC)
+        internal Tick(BitFinexSupport.BitfinexTickJSON source, Currency baseC, Currency counterC)
         {
             this.Ask = Convert.ToDecimal(source.Ask);
             this.BaseCurrency = baseC;

@@ -19,6 +19,7 @@ namespace BEx
         GBP = 9, // Great British Pound
         RUR = 10, // Russian 
         CNH = 11, // Yuan
-        EUR = 12 // Euro
+        EUR = 12, // Euro
+        DRK = 13 // DarkCoin
     }
 }

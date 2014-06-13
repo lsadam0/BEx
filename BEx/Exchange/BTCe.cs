@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using BEx.BTCeSupport;
+
 namespace BEx
 {
     public class BTCe : Exchange

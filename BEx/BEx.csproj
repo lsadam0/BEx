@@ -58,6 +58,7 @@
       <DependentUpon>ErrorMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Exchange\Bitfinex.cs" />
+    <Compile Include="Exchange\BitFinex\BitFinexOrderBookJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
@@ -85,7 +86,9 @@
     <Compile Include="Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BitFinex.xml" />
+    <Content Include="BitFinex.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Bitstamp.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

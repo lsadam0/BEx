@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BEx.BitFinexSupport;
+
 namespace BEx
 {
     public class Bitfinex : Exchange
     {
 
-        public Bitfinex() : base("Bitfinex.xml")
+        public Bitfinex() : base("BitFinex.xml")
         {
 
         }
@@ -45,7 +47,16 @@ namespace BEx
 
         public override OrderBook GetOrderBook()
         {
-            throw new NotImplementedException();
+            OrderBook res;
+
+            APICommand toExecute = APICommandCollection["OrderBook"];
+
+            toExecute.BaseCurrency = Currency.BTC;
+            toExecute.CounterCurrency = Currency.USD;
+
+            res = new OrderBook(ExecuteCommand<BitFinexOrderBookJSON>(toExecute), Currency.BTC, Currency.USD);
+
+            return res;
         }
 
         public override List<Transaction> GetTransactions()

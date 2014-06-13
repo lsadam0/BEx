@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace BEx
+namespace BEx.BitStampSupport
 {
 
     internal class BitstampOrderBookJSON

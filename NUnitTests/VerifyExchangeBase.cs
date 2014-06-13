@@ -32,8 +32,8 @@ namespace NUnitTests
 
             Assert.IsNotNull(toVerify);
 
-            Assert.IsTrue(toVerify.Bids.Keys.Count > 0);
-            Assert.IsTrue(toVerify.Asks.Keys.Count > 0);
+            Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
+            Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
         }
 
 

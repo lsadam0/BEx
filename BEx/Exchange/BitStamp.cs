@@ -7,6 +7,7 @@ using System.Linq;
 using System.Xml.Linq;
 
 using RestSharp;
+using BEx.BitStampSupport;
 
 namespace BEx
 {

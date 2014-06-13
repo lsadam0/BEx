@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bitfinex_Commands.cs" />
     <Compile Include="BitStamp_Commands.cs" />
     <Compile Include="BTCe_Commands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
