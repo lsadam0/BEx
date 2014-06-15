@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AccountBalance.cs" />
     <Compile Include="BExBase.cs" />
+    <Compile Include="Common\UnixTime.cs" />
     <Compile Include="ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,6 +61,8 @@
     <Compile Include="Exchange\Bitfinex.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexOrderBookJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitfinexTickJSON.cs" />
+    <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />
+    <Compile Include="Exchange\BitFinex\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTickJSON.cs" />

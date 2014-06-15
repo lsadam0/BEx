@@ -82,10 +82,10 @@ namespace BEx
         {
             List<Transaction> res = new List<Transaction>();
 
+            List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(APICommandCollection["Transactions"]);
 
-            BitstampTransactionsJSON r = ExecuteCommand<BitstampTransactionsJSON>(APICommandCollection["Transactions"]);
+            return Transaction.ConvertBitStampTransactionList(r);
 
-            return null;
         }
         
 

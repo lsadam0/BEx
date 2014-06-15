@@ -79,5 +79,14 @@ namespace NUnitTests
             VerifyOrderBook(o);
 
         }
+
+        [Test]
+        public void BitFinex_GetTransactions()
+        {
+            List<Transaction> t = bfx.GetTransactions();
+
+            { }
+
+        }
     }
 }

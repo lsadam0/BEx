@@ -61,7 +61,12 @@ namespace BEx
 
         public override List<Transaction> GetTransactions()
         {
-            throw new NotImplementedException();
+            List<Transaction> res = new List<Transaction>();
+
+            List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
+
+            
+            return Transaction.ConvertBitStampTransactionList(r);
         }
     }
 }
