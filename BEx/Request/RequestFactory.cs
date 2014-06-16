@@ -39,7 +39,17 @@ namespace BEx
             var request = new RestRequest(command.ResolvedRelativeURI, command.HttpMethod);
 
             request.RequestFormat = DataFormat.Json;
-            
+
+            foreach (KeyValuePair<string, string> param in command.Parameters)
+            {
+                Parameter p = new Parameter();
+                p.Name = param.Key;
+                p.Value = param.Value;
+                p.Type = ParameterType.QueryString;
+
+                request.Parameters.Add(p);
+            }
+
             return request;
         }
 

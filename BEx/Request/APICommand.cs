@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-
+using System.Xml.Linq;
+using System.Xml;
 
 using RestSharp;
 namespace BEx
@@ -15,6 +16,11 @@ namespace BEx
     {
         public IsCurrencyPairSupportedDelegate IsCurrencyPairSupported;
 
+        public string ID
+        {
+            get;
+            set;
+        }
 
         public Method HttpMethod
         {
@@ -34,8 +40,15 @@ namespace BEx
             set;
         }
 
-        public Dictionary<string, string> Args
+        public Dictionary<string, string> QueryStringArgs
         {
+            get;
+            set;
+        }
+
+        public Dictionary<string, string> Parameters
+        {
+
             get;
             set;
         }
@@ -58,7 +71,7 @@ namespace BEx
             {
                 string res = RelativeURI;
 
-                foreach (KeyValuePair<string, string> pair in Args)
+                foreach (KeyValuePair<string, string> pair in QueryStringArgs)
                 {
                     res = res.Replace("{" + pair.Key + "}", pair.Value);
                 }
@@ -67,9 +80,86 @@ namespace BEx
             }
         }
 
+        public virtual string MessageBody
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+
+                int x = 0;
+                foreach (KeyValuePair<string, string> pair in Parameters)
+                {
+                    if (x > 0)
+                        sb.Append("&");
+
+                    sb.AppendFormat("{0}={1}", pair.Key, pair.Value);
+                }
+
+                return sb.ToString();
+            }
+        }
+
         public APICommand()
         {
-            Args = new Dictionary<string, string>();
+            QueryStringArgs = new Dictionary<string, string>();
+            Parameters = new Dictionary<string, string>();
+        }
+
+        public APICommand(XElement commandToLoad)
+        {
+
+            QueryStringArgs = new Dictionary<string, string>();
+            Parameters = new Dictionary<string, string>();
+
+            foreach (XElement c in commandToLoad.Elements())
+            {
+
+                if (c.Name == "Method")
+                {
+                    if (c.Value == "GET")
+                    {
+                        HttpMethod = Method.GET;
+                    }
+                    else
+                        HttpMethod = Method.POST;
+                }
+
+                if (c.Name == "RelativeURL")
+                {
+                    RelativeURI = c.Value;
+                }
+
+                if (c.Value == "RequiresAuthentication")
+                {
+                    RequiresAuthentication = Convert.ToBoolean(c.Value);
+                }
+
+                if (c.Value == "args")
+                    LoadArgs(c);
+
+            }
+
+            ID = commandToLoad.Attribute("ID").Value;
+        }
+
+        private void LoadArgs(XElement args)
+        {
+            foreach (XElement arg in args.Elements())
+            {
+                string type = arg.Attribute("type").Value;
+                string id = arg.Attribute("ID").Value;
+                string defaultValue = arg.Value;
+
+                if (string.IsNullOrEmpty(type) || type == "query")
+                {
+                    QueryStringArgs.Add(id, defaultValue);
+                }
+                else
+                {
+                    Parameters.Add(id, defaultValue);
+                }
+            }
+
         }
 
         private Currency? baseC = null;
@@ -83,10 +173,10 @@ namespace BEx
             {
                 baseC = value;
 
-                if (!Args.ContainsKey("BaseCurrency"))
-                    Args.Add("BaseCurrency", baseC.ToString());
+                if (!QueryStringArgs.ContainsKey("BaseCurrency"))
+                    QueryStringArgs.Add("BaseCurrency", baseC.ToString());
                 else
-                    Args["BaseCurrency"] = baseC.ToString();
+                    QueryStringArgs["BaseCurrency"] = baseC.ToString();
             }
         }
 
@@ -101,10 +191,10 @@ namespace BEx
             {
                 counterC = value;
 
-                if (!Args.ContainsKey("CounterCurrency"))
-                    Args.Add("CounterCurrency", counterC.ToString());
+                if (!QueryStringArgs.ContainsKey("CounterCurrency"))
+                    QueryStringArgs.Add("CounterCurrency", counterC.ToString());
                 else
-                    Args["CounterCurrency"] = counterC.ToString();
+                    QueryStringArgs["CounterCurrency"] = counterC.ToString();
             }
         }
 

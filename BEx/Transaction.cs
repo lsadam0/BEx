@@ -69,7 +69,7 @@ namespace BEx
             return res;
         }
 
-        internal static List<Transaction> ConvertBitStampTransactionList(List<BitFinexTransactionJSON> transactions)
+        internal static List<Transaction> ConvertBitFinexTransactionList(List<BitFinexTransactionJSON> transactions)
         {
             List<Transaction> res = new List<Transaction>();
 

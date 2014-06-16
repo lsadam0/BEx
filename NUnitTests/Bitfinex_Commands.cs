@@ -72,7 +72,7 @@ namespace NUnitTests
 
 
         [Test]
-        public void BitFinex_GetOrderBook()
+        public void BitFinex_GetOrderBookBTCUSD()
         {
             OrderBook o = bfx.GetOrderBook();
 
@@ -81,12 +81,80 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetTransactions()
+        public void BitFinex_GetOrderBookDRKBTC()
+        {
+            OrderBook o = bfx.GetOrderBook(Currency.DRK, Currency.BTC);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BitFinex_GetOrderBookDRKUSD()
+        {
+            OrderBook o = bfx.GetOrderBook(Currency.DRK, Currency.USD);
+
+            VerifyOrderBook(o);
+        }
+
+
+        [Test]
+        public void BitFinex_GetOrderBookLTCBTC()
+        {
+            OrderBook o = bfx.GetOrderBook(Currency.LTC, Currency.BTC);
+
+            VerifyOrderBook(o);
+        }
+        [Test]
+        public void BitFinex_GetOrderBookLTCUSD()
+        {
+            OrderBook o = bfx.GetOrderBook(Currency.LTC, Currency.USD);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BitFinex_GetTransactionsBTCUSD()
         {
             List<Transaction> t = bfx.GetTransactions();
 
-            { }
+            VerifyTransactions(t);
 
         }
+
+        [Test]
+        public void BitFinex_GetTransactionsDRKBTC()
+        {
+            List<Transaction> t = bfx.GetTransactions(Currency.DRK, Currency.BTC);
+
+            VerifyTransactions(t);
+        }
+
+
+        [Test]
+        public void BitFinex_GetTransactionsDRKUSD()
+        {
+            List<Transaction> t = bfx.GetTransactions(Currency.DRK, Currency.USD);
+
+            VerifyTransactions(t);
+        }
+
+        [Test]
+        public void BitFinex_GetTransactionsLTCBTC()
+        {
+            List<Transaction> t = bfx.GetTransactions(Currency.LTC, Currency.BTC);
+
+            VerifyTransactions(t);
+        }
+
+        [Test]
+        public void BitFinex_GetTransactionsLTCUSD()
+        {
+            List<Transaction> t = bfx.GetTransactions(Currency.LTC, Currency.USD);
+
+            VerifyTransactions(t);
+        }
+
+
+        
     }
 }

@@ -37,5 +37,12 @@ namespace NUnitTests
         }
 
 
+        protected void VerifyTransactions(List<Transaction> toVerify)
+        {
+            Assert.IsNotNull(toVerify);
+            Assert.IsTrue(toVerify.Count > 0);
+        }
+
+
     }
 }

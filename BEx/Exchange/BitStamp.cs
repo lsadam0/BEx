@@ -63,8 +63,6 @@ namespace BEx
             return res;
         }
 
-        
-
         public override OrderBook GetOrderBook()
         {
             OrderBook res;
@@ -73,9 +71,21 @@ namespace BEx
 
             res = new OrderBook(ExecuteCommand<BitstampOrderBookJSON>(toExecute), Currency.BTC, Currency.USD);
 
-
-
             return res;
+        }
+
+        public List<Transaction> GetTransactions(string time)
+        {
+            List<Transaction> res = new List<Transaction>();
+
+            APICommand toExecute = APICommandCollection["Transactions"];
+
+            toExecute.Parameters["time"] = time;
+
+            List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(toExecute);
+
+            return Transaction.ConvertBitStampTransactionList(r);           
+
         }
 
         public override List<Transaction> GetTransactions()

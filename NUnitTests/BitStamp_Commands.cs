@@ -47,5 +47,15 @@ namespace NUnitTests
 
             Assert.IsNotNull(trans);
         }
+
+        [Test]
+        public void BitStamp_GetTransactions_Parameters()
+        {
+            BitStamp bts = new BitStamp();
+
+            List<Transaction> trans = bts.GetTransactions("hour");
+
+            Assert.IsNotNull(trans);
+        }
     }
 }

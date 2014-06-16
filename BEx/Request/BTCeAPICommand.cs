@@ -15,7 +15,7 @@ namespace BEx
             {
                 string res = RelativeURI;
 
-                foreach (KeyValuePair<string, string> pair in Args)
+                foreach (KeyValuePair<string, string> pair in QueryStringArgs)
                 {
                     res = res.Replace("{" + pair.Key + "}", pair.Value.ToLower());
                 }
@@ -26,7 +26,7 @@ namespace BEx
 
         public BTCeAPICommand(APICommand source)
         {
-            this.Args = source.Args;
+            this.QueryStringArgs = source.QueryStringArgs;
             this.BaseCurrency = source.BaseCurrency;
             this.CounterCurrency = source.CounterCurrency;
             this.HttpMethod = source.HttpMethod;

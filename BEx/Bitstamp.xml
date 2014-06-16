@@ -18,17 +18,15 @@
       <Method>GET</Method>
       <RelativeURL>order_book/</RelativeURL>
       <RequiresAuthentication>false</RequiresAuthentication>
-      <args>
-        <arg ID="group">1</arg>
-      </args>
+      <args />
     </Command>
     <Command ID="Transactions">
       <Method>GET</Method>
       <RelativeURL>transactions/</RelativeURL>
       <RequiresAuthentication>false</RequiresAuthentication>
       <args>
-        <arg ID="time">hour</arg>
-      </args>      
+        <arg ID="time" type="parameter">hour</arg>
+      </args>
     </Command>
   </Commands>
 </Bitstamp>

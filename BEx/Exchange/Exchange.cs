@@ -131,36 +131,9 @@ namespace BEx
 
             foreach (XElement command in commands.Elements())
             {
-                APICommand commandToLoad = new APICommand();
+                APICommand commandToLoad = new APICommand(command);
 
-                foreach (XElement c in command.Elements())
-                {
-
-                    if (c.Name == "Method")
-                    {
-                        if (c.Value == "GET")
-                        {
-                            commandToLoad.HttpMethod = Method.GET;
-                        }
-                        else
-                            commandToLoad.HttpMethod = Method.POST;
-                    }
-
-                    if (c.Name == "RelativeURL")
-                    {
-                        commandToLoad.RelativeURI = c.Value;
-                    }
-
-                    if (c.Value == "RequiresAuthentication")
-                    {
-                        commandToLoad.RequiresAuthentication = Convert.ToBoolean(c.Value);
-                    }
-
-                }
-
-                string cId = command.Attribute("ID").Value;
-
-                APICommandCollection.Add(cId, commandToLoad);
+                APICommandCollection.Add(commandToLoad.ID, commandToLoad);
 
             }
         }
@@ -203,18 +176,20 @@ namespace BEx
             throw new System.NotImplementedException();
         }
 
+        protected void CheckCurrencySupport(APICommand toCheck)
+        {
+            if (toCheck.BaseCurrency != null && toCheck.CounterCurrency != null)
+            {
+                if (!IsCurrencyPairSupported((Currency)toCheck.BaseCurrency, (Currency)toCheck.CounterCurrency))
+                {
+                    throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toCheck.BaseCurrency.ToString(), toCheck.CounterCurrency.ToString(), this.GetType().ToString()));
+                }
+            }
+        }
+
         protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
         {
-            
-
-            if (toExecute.BaseCurrency != null && toExecute.CounterCurrency != null)
-            {
-                if (!IsCurrencyPairSupported((Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency))
-                {
-                    throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toExecute.BaseCurrency.ToString(), toExecute.CounterCurrency.ToString(), this.GetType().ToString()));
-                }
-                
-            }
+            CheckCurrencySupport(toExecute);
 
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
