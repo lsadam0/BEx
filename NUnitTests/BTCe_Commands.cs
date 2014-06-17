@@ -15,9 +15,9 @@ namespace NUnitTests
     {
 
         BTCe be = new BTCe();
-        
+
+        #region Ticks
         [Test]
-        
         public void BTCe_GetTick()
         {
 
@@ -74,7 +74,6 @@ namespace NUnitTests
             VerifyTick(t, Currency.LTC, Currency.USD);
         }
 
-
         [Test]
         public void BTCe_GetLTCRURTick()
         {
@@ -82,7 +81,6 @@ namespace NUnitTests
 
             VerifyTick(t, Currency.LTC, Currency.RUR);
         }
-
 
         [Test]
         public void BTCe_GetLTCEURTick()
@@ -92,8 +90,6 @@ namespace NUnitTests
             VerifyTick(t, Currency.LTC, Currency.EUR);
         }
 
-
-
         [Test]
         public void BTCe_GetLTCCNHTick()
         {
@@ -102,7 +98,6 @@ namespace NUnitTests
             VerifyTick(t, Currency.LTC, Currency.CNH);
         }
 
-
         [Test]
         public void BTCe_GetLTCGBPTick()
         {
@@ -110,8 +105,6 @@ namespace NUnitTests
 
             VerifyTick(t, Currency.LTC, Currency.GBP);
         }
-
-
 
         [Test]
         public void BTCe_GetNMCBTCTick()
@@ -132,7 +125,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetNVCBTCTick()
         {
@@ -143,7 +135,6 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-
 
         [Test]
         public void BTCe_GetNVCUSDTick()
@@ -156,7 +147,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetUSDRURTick()
         {
@@ -167,7 +157,6 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-
 
         [Test]
         public void BTCe_GetEURUSDTick()
@@ -180,7 +169,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetEURRURTick()
         {
@@ -191,7 +179,6 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-
 
         [Test]
         public void BTCe_GetUSDCNHTick()
@@ -204,7 +191,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetGBPUSDTick()
         {
@@ -215,7 +201,6 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-
 
         [Test]
         public void BTCe_GetTRCBTCTick()
@@ -228,7 +213,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetPPCBTCTick()
         {
@@ -239,7 +223,6 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-
 
         [Test]
         public void BTCe_GetPPCUSDTick()
@@ -252,7 +235,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetFTCBTCTick()
         {
@@ -264,7 +246,6 @@ namespace NUnitTests
             VerifyTick(t, baseC, counterC);
         }
 
-
         [Test]
         public void BTCe_GetXPMBTCTick()
         {
@@ -275,5 +256,34 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
+
+        #endregion
+
+
+        #region OrderBook
+
+        [Test]
+        public void BTCe_GetOrderBookBTCUSD()
+        {
+            Currency b = Currency.BTC;
+            Currency c = Currency.USD;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBookLTCBTC()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        #endregion
     }
 }

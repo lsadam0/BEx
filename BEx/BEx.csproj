@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountBalance.cs" />
     <Compile Include="BExBase.cs" />
     <Compile Include="Common\UnixTime.cs" />
     <Compile Include="ErrorMessages.Designer.cs">
@@ -59,28 +58,25 @@
       <DependentUpon>ErrorMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Exchange\Bitfinex.cs" />
-    <Compile Include="Exchange\BitFinex\BitFinexOrderBookJSON.cs" />
-    <Compile Include="Exchange\BitFinex\BitfinexTickJSON.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderBookJSON.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />
-    <Compile Include="Exchange\BitFinex\BitfinexTransactionJSON.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />
+    <Compile Include="Exchange\BTCe\BTCeOrderBookJSON.cs" />
     <Compile Include="Exchange\BTCe\BTCeTickJSON.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Request\APIRequest.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
-    <Compile Include="BitStampCommand.cs" />
     <Compile Include="Exchange\BTCe.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Exchange\Exchange.cs" />
-    <Compile Include="Fiat.cs" />
     <Compile Include="Request\BTCeAPICommand.cs" />
     <Compile Include="Request\HttpMethod.cs" />
     <Compile Include="Request\HttpRequest.cs" />
-    <Compile Include="LimitOrder.cs" />
-    <Compile Include="Order.cs" />
     <Compile Include="OrderBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\RequestDispatcher.cs" />

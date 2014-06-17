@@ -17,9 +17,9 @@ namespace BEx
             set;
         }
 
-       internal BitFinexTransaction(BitFinexTransactionJSON source) : base(source)
+       internal BitFinexTransaction() : base()
         {
-            ExchangeSource = source.exchange;
+            
         }
     }
 }

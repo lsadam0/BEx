@@ -52,7 +52,16 @@ namespace BEx
 
         public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
-            throw new NotImplementedException();
+            OrderBook res;
+
+            BTCeAPICommand toExecute = new BTCeAPICommand(APICommandCollection["OrderBook"]);
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            BTCeOrderBookJSON r = ExecuteCommand<BTCeOrderBookJSON>(toExecute);
+
+            return r.ToOrderBook(baseCurrency, counterCurrency);
             
         }
 

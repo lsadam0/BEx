@@ -113,5 +113,14 @@
         <arg ID="counter">USD</arg>
       </args>
     </Command>
+    <Command ID="OrderBook">
+      <Method>GET</Method>
+      <RelativeURL>{BaseCurrency}_{CounterCurrency}/depth</RelativeURL>
+      <RequiresAuthentication>false</RequiresAuthentication>
+      <args>
+        <arg ID="base">BTC</arg>
+        <arg ID="counter">USD</arg>
+      </args>
+    </Command>
   </Commands>
 </BTCe>

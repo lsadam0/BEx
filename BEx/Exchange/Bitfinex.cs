@@ -85,7 +85,11 @@ namespace BEx
             List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
 
             
-            return Transaction.ConvertBitFinexTransactionList(r);
+            //return Transaction.ConvertBitFinexTransactionList(r);
+
+            return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, (Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
+            
+
         }
 
         public override List<Transaction> GetTransactions(Currency baseC, Currency counterC)
@@ -98,9 +102,9 @@ namespace BEx
             toExecute.CounterCurrency = counterC;
 
             List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
+            
 
-
-            return Transaction.ConvertBitFinexTransactionList(r);
+            return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, baseC, counterC);
         }
     }
 }

@@ -59,7 +59,8 @@ namespace BEx
 
             List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(toExecute);
 
-            return Transaction.ConvertBitStampTransactionList(r);           
+            //return Transaction.ConvertBitStampTransactionList(r);           
+            return BitstampTransactionJSON.ConvertBitStampTransactionList(r, Currency.BTC, Currency.USD);
         }
 
         public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
@@ -68,7 +69,8 @@ namespace BEx
 
             List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(APICommandCollection["Transactions"]);
 
-            return Transaction.ConvertBitStampTransactionList(r);
+            return BitstampTransactionJSON.ConvertBitStampTransactionList(r, baseCurrency, counterCurrency);
+            
 
         }
 

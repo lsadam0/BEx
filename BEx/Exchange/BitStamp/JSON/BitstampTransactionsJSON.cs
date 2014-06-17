@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
+using BEx.Common;
+
 namespace BEx.BitStampSupport
 {
 
@@ -35,6 +37,32 @@ namespace BEx.BitStampSupport
 
         [JsonProperty("amount")]
         public string amount { get; set; }
+
+
+        internal Transaction ToTransaction(Currency baseCurrency, Currency counterCurrency)
+        {
+            Transaction res = new Transaction();
+
+            res.Amount = Convert.ToDecimal(amount);
+            res.Price = Convert.ToDecimal(price);
+            res.TransactionID = Convert.ToInt64(tid);
+
+            res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date));
+
+            return res;
+        }
+
+        internal static List<Transaction> ConvertBitStampTransactionList(List<BitstampTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        {
+            List<Transaction> res = new List<Transaction>();
+
+            foreach (BitstampTransactionJSON source in transactions)
+            {
+                res.Add(source.ToTransaction(baseCurrency, counterCurrency));
+            }
+
+            return res;
+        }
     }
 
 }
