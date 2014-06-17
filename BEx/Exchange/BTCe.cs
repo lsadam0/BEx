@@ -14,10 +14,10 @@ namespace BEx
             
 
         }
-        
 
 
-        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+
+        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res;
 
@@ -26,7 +26,7 @@ namespace BEx
             tickCommand.BaseCurrency = baseCurrency;
             tickCommand.CounterCurrency = counterCurrency;
 
-            res = new Tick(ExecuteCommand<BTCeTickJSON>(tickCommand), baseCurrency, counterCurrency);
+            res = ExecuteCommand<BTCeTickJSON>(tickCommand).ToTick(baseCurrency, counterCurrency);
 
             return res;
         }
@@ -35,7 +35,7 @@ namespace BEx
         /// Return the current BTC/USD Tick
         /// </summary>
         /// <returns></returns>
-        public override Tick GetTick()
+        public Tick GetTick()
         {
             Tick res;
 
@@ -44,22 +44,22 @@ namespace BEx
             toExecute.BaseCurrency = Currency.BTC;
             toExecute.CounterCurrency = Currency.USD;
 
-            res = new Tick(ExecuteCommand<BTCeTickJSON>(toExecute), Currency.BTC, Currency.USD);
+            res = ExecuteCommand<BTCeTickJSON>(toExecute).ToTick(Currency.BTC, Currency.USD);
 
             return res;
         }
 
 
-        public override OrderBook GetOrderBook()
+        public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
             throw new NotImplementedException();
-            return null;
+            
         }
 
-        public override List<Transaction> GetTransactions()
+        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             throw new NotImplementedException();
-            return null;
+            
         }
         
     }

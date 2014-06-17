@@ -18,9 +18,11 @@ namespace BEx
     public abstract class Exchange
     {
 
-        //protected Dictionary<Currency, Currency> SupportedPairs = new Dictionary<Currency, Currency>();
-
-        protected Dictionary<Currency, HashSet<Currency>> SupportedPairs;
+        #region Vars
+        /// <summary>
+        /// Collection of currency pairs supported by the current exchange indexed by the base currency
+        /// </summary>
+        public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
         
         protected RestClient apiClient
         {
@@ -33,7 +35,6 @@ namespace BEx
             get;
             set;
         }
-
 
         public Uri BaseURI
         {
@@ -71,59 +72,70 @@ namespace BEx
             }
         }
 
-        public Dictionary<string, APICommand> APICommandCollection
+        protected Dictionary<string, APICommand> APICommandCollection
         {
-            // Serialize this into a config file?
             get;
             set;
         }
 
-        public Exchange(string configFile)
+        #endregion
+
+        protected Exchange(string configFile)
         {
             LoadConfigFromXML(configFile);
 
-            Initialize();
-        }
-
-        internal void Initialize()
-        {
             apiClient = new RestClient(BaseURI.ToString());
             apiRequestFactory = new RequestFactory(BaseURI);
-
         }
 
-        private void LoadSupportedPairs(XElement configFile)
+        #region Command Execution
+        /// <summary>
+        /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
+        /// </summary>
+        /// <param name="baseCurrency">Base Currency</param>
+        /// <param name="counterCurrency">Counter Currency</param>
+        /// <returns>True if supported, otherwise false.</returns>
+        public bool IsCurrencyPairSupported(Currency baseCurrency, Currency counterCurrency)
         {
-            XElement supportedPairs = configFile.Element("SupportedPairs");
+            bool res = false;
 
-            SupportedPairs = new Dictionary<Currency, HashSet<Currency>>();
-            
-            foreach (XElement pairs in supportedPairs.Elements())
+            if (SupportedPairs.ContainsKey(baseCurrency))
             {
-                XElement b = pairs.Element("Base");
-
-                XElement c = pairs.Element("Counter");
-
-                Currency bs;
-                Currency cs;
-
-                if (Enum.TryParse<Currency>(b.Value, out bs)
-                    &&
-                Enum.TryParse<Currency>(c.Value, out cs))
+                if (SupportedPairs[baseCurrency].Contains(counterCurrency))
                 {
-                    if (!SupportedPairs.ContainsKey(bs))
-                    {
-                        SupportedPairs.Add(bs, new HashSet<Currency>());
-                    }
-
-                    if (!SupportedPairs[bs].Contains(cs))
-                    {
-                        SupportedPairs[bs].Add(cs);
-                    }
+                    res = true;
                 }
+            }
 
+            return res;
+        }
+
+        protected void VerifyCurrencySupport(APICommand toCheck)
+        {
+            if (toCheck.BaseCurrency != null && toCheck.CounterCurrency != null)
+            {
+                if (!IsCurrencyPairSupported((Currency)toCheck.BaseCurrency, (Currency)toCheck.CounterCurrency))
+                {
+                    throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toCheck.BaseCurrency.ToString(), toCheck.CounterCurrency.ToString(), this.GetType().ToString()));
+                }
             }
         }
+
+        protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
+        {
+            VerifyCurrencySupport(toExecute);
+
+            RestRequest request = apiRequestFactory.GetRequest(toExecute);
+
+            IRestResponse response = apiClient.Execute(request);
+
+            return JsonConvert.DeserializeObject<T>(response.Content);
+            
+        }
+
+        #endregion
+
+        #region Load Exchange from XML
 
         protected void LoadCommands(XElement configFile)
         {
@@ -152,93 +164,50 @@ namespace BEx
 
             LoadCommands(configFile);
 
-            
+
 
         }
 
-        public AccountBalance GetAccountBalance()
+        private void LoadSupportedPairs(XElement configFile)
         {
-            throw new System.NotImplementedException();
-        }
+            XElement supportedPairs = configFile.Element("SupportedPairs");
 
-        public List<BEx.Transaction> GetMyTransactions()
-        {
-            throw new System.NotImplementedException();
-        }
+            SupportedPairs = new Dictionary<Currency, HashSet<Currency>>();
 
-        public List<Order> GetOpenOrders()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CancelOrder(Order toCancel)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected void CheckCurrencySupport(APICommand toCheck)
-        {
-            if (toCheck.BaseCurrency != null && toCheck.CounterCurrency != null)
+            foreach (XElement pairs in supportedPairs.Elements())
             {
-                if (!IsCurrencyPairSupported((Currency)toCheck.BaseCurrency, (Currency)toCheck.CounterCurrency))
+                XElement b = pairs.Element("Base");
+
+                XElement c = pairs.Element("Counter");
+
+                Currency bs;
+                Currency cs;
+
+                if (Enum.TryParse<Currency>(b.Value, out bs)
+                    &&
+                Enum.TryParse<Currency>(c.Value, out cs))
                 {
-                    throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toCheck.BaseCurrency.ToString(), toCheck.CounterCurrency.ToString(), this.GetType().ToString()));
+                    if (!SupportedPairs.ContainsKey(bs))
+                    {
+                        SupportedPairs.Add(bs, new HashSet<Currency>());
+                    }
+
+                    if (!SupportedPairs[bs].Contains(cs))
+                    {
+                        SupportedPairs[bs].Add(cs);
+                    }
                 }
+
             }
         }
+        #endregion
 
-        protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
-        {
-            CheckCurrencySupport(toExecute);
+        #region API Methods
+        public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
 
-            RestRequest request = apiRequestFactory.GetRequest(toExecute);
+        public abstract OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency);
 
-            IRestResponse response = apiClient.Execute(request);
-
-            return JsonConvert.DeserializeObject<T>(response.Content);
-            //return (T)response.Data;
-        }
-
-        private bool IsCurrencyPairSupported(Currency baseC, Currency counterC)
-        {
-            bool res = false;
-
-            if (SupportedPairs.ContainsKey(baseC))
-            {
-                if (SupportedPairs[baseC].Contains(counterC))
-                {
-                    res = true;
-                }
-            }
-
-            return res;
-        }
-        /*
-        protected string ExecuteCommand(APICommand toExecute)
-        {
-            RestRequest request = apiRequestFactory.GetRequest(toExecute);
-
-            IRestResponse response = apiClient.Execute(request);
-
-            return response.Content;
-        }*/
-
-
-        protected object ExecutePOSTAction(APICommand toExecute)
-        {
-            return null;
-        }
-
-        protected object ExecuteGETAction(APICommand toExecute)
-        {
-            return null;
-
-        }
-
-        public abstract Tick GetTick();
-
-        public abstract OrderBook GetOrderBook();
-
-        public abstract List<Transaction> GetTransactions();
+        public abstract List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency);
+        #endregion
     }
 }

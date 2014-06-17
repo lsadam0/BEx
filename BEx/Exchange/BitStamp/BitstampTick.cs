@@ -16,10 +16,9 @@ namespace BEx
             set;
         }
 
-        internal BitstampTick(BitstampTickJSON source, Currency baseC, Currency counterC) : base(source, baseC, counterC)
+        internal BitstampTick()
         {
 
-            this.VolumeWeightedAveragePrice = Convert.ToDecimal(source.vwap);
         }
     }
 }

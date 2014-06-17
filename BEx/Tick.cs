@@ -68,47 +68,16 @@ namespace BEx
             set;
 
         }
-        internal Tick(BitStampSupport.BitstampTickJSON source, Currency baseC, Currency counterC)
+
+        internal Tick()
         {
 
-            this.Ask = Convert.ToDecimal(source.ask);
-            this.Bid = Convert.ToDecimal(source.bid);
-            this.High = Convert.ToDecimal(source.high);
-            this.Last = Convert.ToDecimal(source.last);
-            this.Low = Convert.ToDecimal(source.low);
-            //this.TimeStamp = Convert.tol
-            this.Volume = Convert.ToDecimal(source.volume);
-            //this.VWAP = Convert.ToDecimal(source.vwap);
-            this.BaseCurrency = baseC;
-            this.CounterCurrency = counterC;
         }
 
-        internal Tick(BTCeSupport.BTCeTickJSON source, Currency baseC, Currency counterC)
-        {
+    
 
-            this.Bid = Convert.ToDecimal(source.Ticker.Sell);
-            this.Ask = Convert.ToDecimal(source.Ticker.Buy);
-            this.High = Convert.ToDecimal(source.Ticker.High);
-            this.Last = Convert.ToDecimal(source.Ticker.Last);
-            this.Low = Convert.ToDecimal(source.Ticker.Low);
-            this.Volume = Convert.ToDecimal(source.Ticker.Vol);
 
-            this.BaseCurrency = baseC;
-            this.CounterCurrency = counterC;
-        }
 
-        internal Tick(BitFinexSupport.BitfinexTickJSON source, Currency baseC, Currency counterC)
-        {
-            this.Ask = Convert.ToDecimal(source.Ask);
-            this.BaseCurrency = baseC;
-            this.Bid = Convert.ToDecimal(source.Bid);
-            this.CounterCurrency = counterC;
-            this.High = Convert.ToDecimal(source.High);
-            this.Last = Convert.ToDecimal(source.LastPrice);
-            this.Low = Convert.ToDecimal(source.Low);
-            this.Volume = Convert.ToDecimal(source.Volume);
-            //this.VWAP = source.
-        }
         /*
         public static bool operator ==(Tick a, Tick b)
         {

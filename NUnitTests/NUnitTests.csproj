@@ -46,6 +46,7 @@
     <Compile Include="BitStamp_Commands.cs" />
     <Compile Include="BTCe_Commands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scratch.cs" />
     <Compile Include="VerifyExchangeBase.cs" />
   </ItemGroup>
   <ItemGroup>

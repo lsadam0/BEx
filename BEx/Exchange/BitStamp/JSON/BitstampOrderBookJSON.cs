@@ -19,6 +19,43 @@ namespace BEx.BitStampSupport
 
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
+
+        public OrderBook ToOrderbook(Currency baseCurrency, Currency counterCurrency)
+        {
+            OrderBook res = new OrderBook();
+
+            res.BaseCurrency = baseCurrency;
+            res.CounterCurrency = counterCurrency;
+
+
+            for (int x = 0; x < Bids.Length; ++x)
+            {
+                string[] values = Bids[x];
+
+                Decimal price = Convert.ToDecimal(values[0]);
+                Decimal amount = Convert.ToDecimal(values[1]);
+
+                res.BidsByPrice.Add(price, amount);
+
+            }
+
+
+            for (int x = 0; x < Asks.Length; ++x)
+            {
+                string[] values = Asks[x];
+
+                Decimal price = Convert.ToDecimal(values[0]);
+                Decimal amount = Convert.ToDecimal(values[1]);
+
+                res.AsksByPrice.Add(price, amount);
+
+
+            }
+
+            return res;
+
+
+        }
     }
 
 

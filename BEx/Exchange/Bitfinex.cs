@@ -16,7 +16,7 @@ namespace BEx
 
         }
 
-        public override Tick GetTick()
+        public Tick GetTick()
         {
             Tick res;
 
@@ -25,12 +25,12 @@ namespace BEx
             toExecute.BaseCurrency = Currency.BTC;
             toExecute.CounterCurrency = Currency.USD;
 
-            res = new Tick(ExecuteCommand<BitfinexTickJSON>(toExecute), Currency.BTC, Currency.USD);
+            res = ExecuteCommand<BitfinexTickJSON>(toExecute).ToTick(Currency.BTC, Currency.USD);
 
             return res;
         }
 
-        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res;
 
@@ -39,13 +39,13 @@ namespace BEx
             toExecute.BaseCurrency = baseCurrency;
             toExecute.CounterCurrency = counterCurrency;
 
-            res = new Tick(ExecuteCommand<BitfinexTickJSON>(toExecute), baseCurrency, counterCurrency);
+            res = ExecuteCommand<BitfinexTickJSON>(toExecute).ToTick(baseCurrency, counterCurrency);
 
             return res;
 
         }
 
-        public override OrderBook GetOrderBook()
+        public OrderBook GetOrderBook()
         {
             OrderBook res;
 
@@ -54,12 +54,12 @@ namespace BEx
             toExecute.BaseCurrency = Currency.BTC;
             toExecute.CounterCurrency = Currency.USD;
 
-            res = new OrderBook(ExecuteCommand<BitFinexOrderBookJSON>(toExecute), Currency.BTC, Currency.USD);
+            res = ExecuteCommand<BitFinexOrderBookJSON>(toExecute).ToOrderBook(Currency.BTC, Currency.USD);
 
             return res;
         }
 
-        public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
+        public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res;
 
@@ -68,12 +68,12 @@ namespace BEx
             toExecute.BaseCurrency = baseCurrency;
             toExecute.CounterCurrency = counterCurrency;
 
-            res = new OrderBook(ExecuteCommand<BitFinexOrderBookJSON>(toExecute), baseCurrency, counterCurrency);
+            res = ExecuteCommand<BitFinexOrderBookJSON>(toExecute).ToOrderBook(baseCurrency, counterCurrency);
 
             return res;
         }
 
-        public override List<Transaction> GetTransactions()
+        public List<Transaction> GetTransactions()
         {
             List<Transaction> res = new List<Transaction>();
 
@@ -88,7 +88,7 @@ namespace BEx
             return Transaction.ConvertBitFinexTransactionList(r);
         }
 
-        public List<Transaction> GetTransactions(Currency baseC, Currency counterC)
+        public override List<Transaction> GetTransactions(Currency baseC, Currency counterC)
         {
             List<Transaction> res = new List<Transaction>();
 

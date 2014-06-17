@@ -54,6 +54,23 @@ namespace BEx.BTCeSupport
             Ticker = new Ticker();
 
         }
+
+        public Tick ToTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = new Tick();
+
+            res.Bid = Convert.ToDecimal(Ticker.Sell);
+            res.Ask = Convert.ToDecimal(Ticker.Buy);
+            res.High = Convert.ToDecimal(Ticker.High);
+            res.Last = Convert.ToDecimal(Ticker.Last);
+            res.Low = Convert.ToDecimal(Ticker.Low);
+            res.Volume = Convert.ToDecimal(Ticker.Vol);
+
+            res.BaseCurrency = baseCurrency;
+            res.CounterCurrency = counterCurrency;
+
+            return res;
+        }
     }
- 
+
 }

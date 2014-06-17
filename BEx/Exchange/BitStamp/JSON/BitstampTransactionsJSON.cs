@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 namespace BEx.BitStampSupport
 {
 
-    public class BitstampTransactionsJSON
+   internal class BitstampTransactionsJSON
     {
         public Class1[] Property1 { get; set; }
     }
 
-    public class Class1
+    internal class Class1
     {
         public string date { get; set; }
         public int tid { get; set; }

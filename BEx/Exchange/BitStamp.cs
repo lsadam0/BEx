@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Linq;
 using System.Xml.Linq;
 
 using RestSharp;
@@ -13,30 +12,6 @@ namespace BEx
 {
     public class BitStamp : Exchange
     {
-        public void CreateBuyLimitOrder()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CreateSellLimitOrder()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void GetUnconfirmedDeposits()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CreateWithDrawalRequest()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void GetDepositAddress()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public BitStamp()
             : base("Bitstamp.xml")
@@ -46,32 +21,32 @@ namespace BEx
         }
 
         /// <summary>
-        /// Return the current tick for the BTC/USD pair
+        /// Get the BTC/USD Order Book
         /// </summary>
         /// <returns></returns>
-        public override Tick GetTick()
+        public OrderBook GetOrderBook()
         {
-            Tick res;
-
-            APICommand toExecute = APICommandCollection["Tick"];
-
-            toExecute.BaseCurrency = Currency.BTC;
-            toExecute.CounterCurrency = Currency.USD;
-
-            res = new BitstampTick(ExecuteCommand<BitstampTickJSON>(toExecute), Currency.BTC, Currency.USD);
-
-            return res;
+            return GetOrderBook(Currency.BTC, Currency.USD);
         }
 
-        public override OrderBook GetOrderBook()
+        public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res;
 
             APICommand toExecute = APICommandCollection["OrderBook"];
 
-            res = new OrderBook(ExecuteCommand<BitstampOrderBookJSON>(toExecute), Currency.BTC, Currency.USD);
+            res = ExecuteCommand<BitstampOrderBookJSON>(toExecute).ToOrderbook(Currency.BTC, Currency.USD);
 
             return res;
+        }
+
+        /// <summary>
+        /// Return BTC/USD Transactions
+        /// </summary>
+        /// <returns></returns>
+        public List<Transaction> GetTransactions()
+        {
+            return GetTransactions(Currency.BTC, Currency.USD);
         }
 
         public List<Transaction> GetTransactions(string time)
@@ -85,10 +60,9 @@ namespace BEx
             List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(toExecute);
 
             return Transaction.ConvertBitStampTransactionList(r);           
-
         }
 
-        public override List<Transaction> GetTransactions()
+        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             List<Transaction> res = new List<Transaction>();
 
@@ -96,6 +70,30 @@ namespace BEx
 
             return Transaction.ConvertBitStampTransactionList(r);
 
+        }
+
+
+        /// <summary>
+        /// Get the current BTC/USD Tick
+        /// </summary>
+        /// <returns>Tick</returns>
+        public Tick GetTick()
+        {
+            return GetTick(Currency.BTC, Currency.USD);
+        }
+
+        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res;
+
+            APICommand toExecute = APICommandCollection["Tick"];
+
+            toExecute.BaseCurrency = Currency.BTC;
+            toExecute.CounterCurrency = Currency.USD;
+
+            res = ExecuteCommand<BitstampTickJSON>(toExecute).ToBitStampTick((Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
+
+            return res;
         }
         
 
