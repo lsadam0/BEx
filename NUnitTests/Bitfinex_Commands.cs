@@ -16,7 +16,7 @@ namespace NUnitTests
         Bitfinex bfx = new Bitfinex();
 
         [Test]
-        public void BitFinex_GetBTCUSDTick()
+        public void BitFinex_GetTick_BTCUSD()
         {
             Currency baseC = Currency.BTC;
             Currency counterC = Currency.USD;
@@ -27,7 +27,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetLTCUSDTick()
+        public void BitFinex_GetTick_LTCUSD()
         {
             Currency baseC = Currency.LTC;
             Currency counterC = Currency.USD;
@@ -38,7 +38,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetDRKUSDTick()
+        public void BitFinex_GetTick_DRKUSD()
         {
             Currency baseC = Currency.DRK;
             Currency counterC = Currency.USD;
@@ -49,7 +49,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetLTCBTCTick()
+        public void BitFinex_GetTick_LTCBTC()
         {
             Currency baseC = Currency.LTC;
             Currency counterC = Currency.BTC;
@@ -60,7 +60,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetDRKBTCTick()
+        public void BitFinex_GetTick_DRKBTC()
         {
             Currency baseC = Currency.DRK;
             Currency counterC = Currency.BTC;
@@ -72,7 +72,7 @@ namespace NUnitTests
 
 
         [Test]
-        public void BitFinex_GetOrderBookBTCUSD()
+        public void BitFinex_GetOrderBook_BTCUSD()
         {
             OrderBook o = bfx.GetOrderBook();
 
@@ -81,7 +81,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetOrderBookDRKBTC()
+        public void BitFinex_GetOrderBook_DRKBTC()
         {
             OrderBook o = bfx.GetOrderBook(Currency.DRK, Currency.BTC);
 
@@ -89,7 +89,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetOrderBookDRKUSD()
+        public void BitFinex_GetOrderBook_DRKUSD()
         {
             OrderBook o = bfx.GetOrderBook(Currency.DRK, Currency.USD);
 
@@ -98,14 +98,14 @@ namespace NUnitTests
 
 
         [Test]
-        public void BitFinex_GetOrderBookLTCBTC()
+        public void BitFinex_GetOrderBook_LTCBTC()
         {
             OrderBook o = bfx.GetOrderBook(Currency.LTC, Currency.BTC);
 
             VerifyOrderBook(o);
         }
         [Test]
-        public void BitFinex_GetOrderBookLTCUSD()
+        public void BitFinex_GetOrderBook_LTCUSD()
         {
             OrderBook o = bfx.GetOrderBook(Currency.LTC, Currency.USD);
 
@@ -113,7 +113,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetTransactionsBTCUSD()
+        public void BitFinex_GetTransactions_BTCUSD()
         {
             List<Transaction> t = bfx.GetTransactions();
 
@@ -122,7 +122,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetTransactionsDRKBTC()
+        public void BitFinex_GetTransactions_DRKBTC()
         {
             List<Transaction> t = bfx.GetTransactions(Currency.DRK, Currency.BTC);
 
@@ -131,7 +131,7 @@ namespace NUnitTests
 
 
         [Test]
-        public void BitFinex_GetTransactionsDRKUSD()
+        public void BitFinex_GetTransactions_DRKUSD()
         {
             List<Transaction> t = bfx.GetTransactions(Currency.DRK, Currency.USD);
 
@@ -139,7 +139,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetTransactionsLTCBTC()
+        public void BitFinex_GetTransactions_LTCBTC()
         {
             List<Transaction> t = bfx.GetTransactions(Currency.LTC, Currency.BTC);
 
@@ -147,7 +147,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_GetTransactionsLTCUSD()
+        public void BitFinex_GetTransactions_LTCUSD()
         {
             List<Transaction> t = bfx.GetTransactions(Currency.LTC, Currency.USD);
 

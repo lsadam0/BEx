@@ -38,6 +38,8 @@ namespace BEx.BTCeSupport
                 res.AsksByPrice.Add(Convert.ToDecimal(Asks[x][0]), Convert.ToDecimal(Asks[x][1]));
             }
 
+
+            res.TimeStamp = DateTime.Now;
             return res;
 
         }

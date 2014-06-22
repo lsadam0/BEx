@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
+using BEx.Common;
+
 namespace BEx.BitStampSupport
 {
 
@@ -52,6 +54,8 @@ namespace BEx.BitStampSupport
 
             }
 
+
+            res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp));
             return res;
 
 

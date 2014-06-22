@@ -27,7 +27,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetBTCRURTick()
+        public void BTCe_GetTick_BTCRUR()
         {
             Tick t= be.GetTick(Currency.BTC, Currency.RUR);
 
@@ -35,7 +35,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetBTCEURTick()
+        public void BTCe_GetTick_BTCEUR()
         {
             Tick t = be.GetTick(Currency.BTC, Currency.EUR);
 
@@ -43,7 +43,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetBTCCNHTick()
+        public void BTCe_GetTick_BTCCNH()
         {
             Tick t = be.GetTick(Currency.BTC, Currency.CNH);
 
@@ -51,7 +51,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetBTCGBPTick()
+        public void BTCe_GetTick_BTCGBP()
         {
             Tick t = be.GetTick(Currency.BTC, Currency.GBP);
 
@@ -59,7 +59,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetLTCBTCTick()
+        public void BTCe_GetTick_LTCBTC()
         {
             Tick t = be.GetTick(Currency.LTC, Currency.BTC);
 
@@ -67,7 +67,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetLTCUSDTick()
+        public void BTCe_GetTick_LTCUSD()
         {
             Tick t = be.GetTick(Currency.LTC, Currency.USD);
 
@@ -75,7 +75,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetLTCRURTick()
+        public void BTCe_GetTick_LTCRUR()
         {
             Tick t = be.GetTick(Currency.LTC, Currency.RUR);
 
@@ -83,7 +83,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetLTCEURTick()
+        public void BTCe_GetTick_LTCEUR()
         {
             Tick t = be.GetTick(Currency.LTC, Currency.EUR);
 
@@ -91,7 +91,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetLTCCNHTick()
+        public void BTCe_GetTick_LTCCNH()
         {
             Tick t = be.GetTick(Currency.LTC, Currency.CNH);
 
@@ -99,7 +99,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetLTCGBPTick()
+        public void BTCe_GetTick_LTCGBP()
         {
             Tick t = be.GetTick(Currency.LTC, Currency.GBP);
 
@@ -107,7 +107,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetNMCBTCTick()
+        public void BTCe_GetTick_NMCBTC()
         {
             Tick t = be.GetTick(Currency.NMC, Currency.BTC);
 
@@ -115,7 +115,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetNMCUSDTick()
+        public void BTCe_GetTick_NMCUSD()
         {
             Currency baseC = Currency.NMC;
             Currency counterC = Currency.USD;
@@ -126,7 +126,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetNVCBTCTick()
+        public void BTCe_GetTick_NVCBTC()
         {
             Currency baseC = Currency.NVC;
             Currency counterC = Currency.BTC;
@@ -137,7 +137,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetNVCUSDTick()
+        public void BTCe_GetTick_NVCUSD()
         {
             Currency baseC = Currency.NVC;
             Currency counterC = Currency.USD;
@@ -148,7 +148,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetUSDRURTick()
+        public void BTCe_GetTick_USDRUR()
         {
             Currency baseC = Currency.USD;
             Currency counterC = Currency.RUR;
@@ -159,7 +159,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetEURUSDTick()
+        public void BTCe_GetTick_EURUSD()
         {
             Currency baseC = Currency.EUR;
             Currency counterC = Currency.USD;
@@ -170,7 +170,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetEURRURTick()
+        public void BTCe_GetTick_EURRUR()
         {
             Currency baseC = Currency.EUR;
             Currency counterC = Currency.RUR;
@@ -181,7 +181,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetUSDCNHTick()
+        public void BTCe_GetTick_USDCNH()
         {
             Currency baseC = Currency.USD;
             Currency counterC = Currency.CNH;
@@ -192,7 +192,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetGBPUSDTick()
+        public void BTCe_GetTick_GBPUSD()
         {
             Currency baseC = Currency.GBP;
             Currency counterC = Currency.USD;
@@ -203,7 +203,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetTRCBTCTick()
+        public void BTCe_GetTick_TRCBTC()
         {
             Currency baseC = Currency.TRC;
             Currency counterC = Currency.BTC;
@@ -214,7 +214,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetPPCBTCTick()
+        public void BTCe_GetTick_PPCBTC()
         {
             Currency baseC = Currency.PPC;
             Currency counterC = Currency.BTC;
@@ -225,7 +225,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetPPCUSDTick()
+        public void BTCe_GetTick_PPCUSD()
         {
             Currency baseC = Currency.PPC;
             Currency counterC = Currency.USD;
@@ -236,7 +236,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetFTCBTCTick()
+        public void BTCe_GetTick_FTCBTC()
         {
             Currency baseC = Currency.FTC;
             Currency counterC = Currency.BTC;
@@ -247,7 +247,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetXPMBTCTick()
+        public void BTCe_GetTick_XPMBTC()
         {
             Currency baseC = Currency.XPM;
             Currency counterC = Currency.BTC;
@@ -263,7 +263,7 @@ namespace NUnitTests
         #region OrderBook
 
         [Test]
-        public void BTCe_GetOrderBookBTCUSD()
+        public void BTCe_GetOrderBook_BTCUSD()
         {
             Currency b = Currency.BTC;
             Currency c = Currency.USD;
@@ -274,7 +274,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BTCe_GetOrderBookLTCBTC()
+        public void BTCe_GetOrderBook_LTCBTC()
         {
             Currency b = Currency.LTC;
             Currency c = Currency.BTC;
@@ -282,6 +282,276 @@ namespace NUnitTests
             OrderBook o = be.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_BTCCNH()
+        {
+            Currency b = Currency.BTC;
+            Currency c = Currency.CNH;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_BTCEUR()
+        {
+            Currency b = Currency.BTC;
+            Currency c = Currency.EUR;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_BTCGBP()
+        {
+            Currency b = Currency.BTC;
+            Currency c = Currency.GBP;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_BTCRUR()
+        {
+            Currency b = Currency.BTC;
+            Currency c = Currency.RUR;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_EURRUR()
+        {
+            Currency b = Currency.EUR;
+            Currency c = Currency.RUR;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_EURUSD()
+        {
+            Currency b = Currency.EUR;
+            Currency c = Currency.USD;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_FTCBTC()
+        {
+            Currency b = Currency.FTC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_GBPUSD()
+        {
+            Currency b = Currency.GBP;
+            Currency c = Currency.USD;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_LTCCNH()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.CNH;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_LTCEUR()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.EUR;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_LTCGBP()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.GBP;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_LTCRUR()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.RUR;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_LTCUSD()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.USD;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_NMCBTC()
+        {
+            Currency b = Currency.NMC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_NMCUSD()
+        {
+            Currency b = Currency.NMC;
+            Currency c = Currency.USD;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_NVCBTC()
+        {
+            Currency b = Currency.NVC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_NVCUSD()
+        {
+            Currency b = Currency.LTC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+
+        [Test]
+        public void BTCe_GetOrderBook_PPCBTC()
+        {
+            Currency b = Currency.PPC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_PPCUSD()
+        {
+            Currency b = Currency.PPC;
+            Currency c = Currency.USD;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_TRCBTC()
+        {
+            Currency b = Currency.TRC;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_USDCNH()
+        {
+            Currency b = Currency.USD;
+            Currency c = Currency.CNH;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_USDRUR()
+        {
+            Currency b = Currency.USD;
+            Currency c = Currency.RUR;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+
+        [Test]
+        public void BTCe_GetOrderBook_XPMBTC()
+        {
+            Currency b = Currency.XPM;
+            Currency c = Currency.BTC;
+
+            OrderBook o = be.GetOrderBook(b, c);
+
+            VerifyOrderBook(o);
+        }
+        #endregion
+
+
+        #region Transactions
+
+        [Test]
+        public void BTCe_GetTransactions_BTCUSD()
+        {
+            Currency b = Currency.BTC;
+            Currency c = Currency.USD;
+
+            List<Transaction> t = be.GetTransactions(b, c);
+
+            VerifyTransactions(t);
+
         }
 
         #endregion

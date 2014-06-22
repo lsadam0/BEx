@@ -30,7 +30,7 @@ namespace BEx.BitFinexSupport
         public string type { get; set; }
 
 
-        internal Transaction ToTransaction(Currency baseCurency, Currency counterCurrency)
+        internal Transaction ToTransaction()
         {
             Transaction res = new Transaction();
 
@@ -44,7 +44,7 @@ namespace BEx.BitFinexSupport
 
         }
 
-        internal BitFinexTransaction ToBitFinexTransaction(Currency baseCurency, Currency counterCurrency)
+        internal BitFinexTransaction ToBitFinexTransaction()
         {
             BitFinexTransaction res = new BitFinexTransaction();
 
@@ -65,7 +65,7 @@ namespace BEx.BitFinexSupport
 
             foreach (BitFinexTransactionJSON source in transactions)
             {
-                res.Add(source.ToTransaction(baseCurrency, counterCurrency));
+                res.Add(source.ToTransaction());
             }
 
             return res;

@@ -52,7 +52,6 @@ namespace BEx
 
         public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderBook res;
 
             BTCeAPICommand toExecute = new BTCeAPICommand(APICommandCollection["OrderBook"]);
 
@@ -67,7 +66,16 @@ namespace BEx
 
         public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
-            throw new NotImplementedException();
+            List<Transaction> res;
+
+            BTCeAPICommand toExecute = new BTCeAPICommand(APICommandCollection["Transactions"]);
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            List<BTCeTransactionsJSON> r = ExecuteCommand<List<BTCeTransactionsJSON>>(toExecute);
+
+            return BTCeTransactionsJSON.ConvertBTCeTransactionList(r, baseCurrency, counterCurrency);
             
         }
         

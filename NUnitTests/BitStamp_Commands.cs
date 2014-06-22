@@ -14,7 +14,7 @@ namespace NUnitTests
     public class BitStamp_Commands : VerifyExchangeBase
     {
         [Test]
-        public void BitStamp_GetTick()
+        public void BitStamp_GetTick_BTCUSD()
         {
             BitStamp bts = new BitStamp();
 
@@ -28,7 +28,7 @@ namespace NUnitTests
 
 
         [Test]
-        public void BitStamp_GetOrderBook()
+        public void BitStamp_GetOrderBook_BTCUSD()
         {
             BitStamp bts = new BitStamp();
 
@@ -39,7 +39,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_GetTransactions()
+        public void BitStamp_GetTransactions_BTCUSD()
         {
             BitStamp bts = new BitStamp();
 
@@ -49,7 +49,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_GetTransactions_Parameters()
+        public void BitStamp_GetTransactions_Parameters_BTCUSD()
         {
             BitStamp bts = new BitStamp();
 

@@ -39,7 +39,7 @@ namespace BEx.BitStampSupport
         public string amount { get; set; }
 
 
-        internal Transaction ToTransaction(Currency baseCurrency, Currency counterCurrency)
+        internal Transaction ToTransaction()
         {
             Transaction res = new Transaction();
 
@@ -58,7 +58,7 @@ namespace BEx.BitStampSupport
 
             foreach (BitstampTransactionJSON source in transactions)
             {
-                res.Add(source.ToTransaction(baseCurrency, counterCurrency));
+                res.Add(source.ToTransaction());
             }
 
             return res;

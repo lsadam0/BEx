@@ -19,6 +19,12 @@ namespace BEx
             set;
         }
 
+        public DateTime TimeStamp
+        {
+            get;
+            set;
+        }
+
         public SortedDictionary<Decimal, Decimal> BidsByPrice
         {
             get;
