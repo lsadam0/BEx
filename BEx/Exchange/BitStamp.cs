@@ -49,17 +49,22 @@ namespace BEx
             return GetTransactions(Currency.BTC, Currency.USD);
         }
 
-        public List<Transaction> GetTransactions(string time)
+
+        /// <summary>
+        /// Get Transactions for a particular time frame
+        /// </summary>
+        /// <param name="time">Accepted values: "minute" or "hour"</param>
+        /// <returns></returns>
+        public List<Transaction> GetTransactions(string timeFrame)
         {
             List<Transaction> res = new List<Transaction>();
 
             APICommand toExecute = APICommandCollection["Transactions"];
 
-            toExecute.Parameters["time"] = time;
+            toExecute.Parameters["time"] = timeFrame;
 
             List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(toExecute);
-
-            //return Transaction.ConvertBitStampTransactionList(r);           
+            
             return BitstampTransactionJSON.ConvertBitStampTransactionList(r, Currency.BTC, Currency.USD);
         }
 

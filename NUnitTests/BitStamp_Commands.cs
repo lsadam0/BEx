@@ -53,7 +53,7 @@ namespace NUnitTests
         {
             BitStamp bts = new BitStamp();
 
-            List<Transaction> trans = bts.GetTransactions("hour");
+            List<Transaction> trans = bts.GetTransactions("minute");
 
             Assert.IsNotNull(trans);
         }
