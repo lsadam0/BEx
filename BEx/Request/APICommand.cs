@@ -129,12 +129,12 @@ namespace BEx
                     RelativeURI = c.Value;
                 }
 
-                if (c.Value == "RequiresAuthentication")
+                if (c.Name == "RequiresAuthentication")
                 {
                     RequiresAuthentication = Convert.ToBoolean(c.Value);
                 }
 
-                if (c.Value == "args")
+                if (c.Name == "args")
                     LoadArgs(c);
 
             }
@@ -146,9 +146,10 @@ namespace BEx
         {
             foreach (XElement arg in args.Elements())
             {
-                string type = arg.Attribute("type").Value;
+                string type = arg.Attribute("type") != null ? arg.Attribute("type").Value : null;
                 string id = arg.Attribute("ID").Value;
-                string defaultValue = arg.Value;
+
+                string defaultValue = arg.Value ?? "";
 
                 if (string.IsNullOrEmpty(type) || type == "query")
                 {
@@ -156,7 +157,7 @@ namespace BEx
                 }
                 else
                 {
-                    Parameters.Add(id, defaultValue);
+                    Parameters.Add(id, defaultValue ?? "");
                 }
             }
 

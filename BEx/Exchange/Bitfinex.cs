@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BEx.BitFinexSupport;
+using BEx.Common;
 
 namespace BEx
 {
@@ -89,6 +90,29 @@ namespace BEx
 
             return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, (Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
             
+
+        }
+
+        /// <summary>
+        /// Return transactions that have occurred since the provided DateTime
+        /// </summary>
+        /// <param name="sinceThisDate"></param>
+        /// <returns></returns>
+        public List<Transaction> GetTransactions(DateTime sinceThisDate, Currency baseCurrency, Currency counterCurrency)
+        {
+            List<Transaction> res = new List<Transaction>();
+
+            APICommand toExecute = APICommandCollection["Transactions"];
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            toExecute.Parameters["timestamp"] = UnixTime.DateTimeToUnixTimestamp(sinceThisDate).ToString();
+
+            List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
+
+            return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, (Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
+
 
         }
 
