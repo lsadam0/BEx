@@ -23,6 +23,7 @@ namespace NUnitTests
 
             Tick t = bfx.GetTick();
 
+            
             VerifyTick(t, baseC, counterC);
         }
 
@@ -69,8 +70,8 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-
-
+        /*
+        #region OrderBook Tests
         [Test]
         public void BitFinex_GetOrderBook_BTCUSD()
         {
@@ -112,6 +113,9 @@ namespace NUnitTests
             VerifyOrderBook(o);
         }
 
+        #endregion
+        */
+        #region Transaction Tests
         [Test]
         public void BitFinex_GetTransactions_BTCUSD()
         {
@@ -154,7 +158,8 @@ namespace NUnitTests
             VerifyTransactions(t);
         }
 
-
+        #endregion
         
+
     }
 }

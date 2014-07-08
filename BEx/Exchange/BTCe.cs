@@ -7,15 +7,25 @@ using BEx.BTCeSupport;
 
 namespace BEx
 {
-    public class BTCe : Exchange
+    public class BTCe : Exchange<BTCeTickJSON, BTCeTransactionsJSON>
     {
+        
+
         public BTCe() : base("BTCe.xml")
         {
+            foreach (APICommand command in APICommandCollection.Values)
+            {
+                command.CurrencyFormatter += FormatCurrency;
+            }
             
-
         }
 
+        private string FormatCurrency(string currency)
+        {
 
+            return currency.ToLower();
+        }
+        /*
         #region GetOrderBook
 
         public override OrderBook GetOrderBook()
@@ -39,64 +49,13 @@ namespace BEx
 
         #endregion
 
-        #region GetTick
+        
+         */
 
-        /// <summary>
-        /// Get the current tick for a particular currency pair
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
-        {
-                Tick res;
-
-                BTCeAPICommand tickCommand = new BTCeAPICommand(APICommandCollection["Tick"]);
-
-                tickCommand.BaseCurrency = baseCurrency;
-                tickCommand.CounterCurrency = counterCurrency;
-
-                res = ExecuteCommand<BTCeTickJSON>(tickCommand).ToTick(baseCurrency, counterCurrency);
-
-                return res;
-        }
-
-        /// <summary>
-        /// Return the current BTC/USD Tick
-        /// </summary>
-        /// <returns></returns>
-        public override Tick GetTick()
-        {
-            return GetTick(Currency.BTC, Currency.USD);
-        }
-
-        #endregion
-
-        #region GetTransactions
-
-        public override List<Transaction> GetTransactions()
-        {
-            return GetTransactions(Currency.BTC, Currency.USD);
-        }
-
-        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        internal override void SetParameters(APICommand command)
         {
             
-
-            BTCeAPICommand toExecute = new BTCeAPICommand(APICommandCollection["Transactions"]);
-
-            double since = Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1));
-            toExecute.Parameters["since"] = since.ToString();
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            List<BTCeTransactionsJSON> r = ExecuteCommand<List<BTCeTransactionsJSON>>(toExecute);
-
-            return BTCeTransactionsJSON.ConvertBTCeTransactionList(r, baseCurrency, counterCurrency);
-
         }
-
-        #endregion
 
     }
 }

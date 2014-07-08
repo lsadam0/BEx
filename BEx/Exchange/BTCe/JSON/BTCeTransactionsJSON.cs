@@ -10,7 +10,7 @@ using BEx.Common;
 
 namespace BEx.BTCeSupport
 {
-    internal class BTCeTransactionsJSON
+    public class BTCeTransactionsJSON
     {
         [JsonProperty("date")]
         public int Date { get; set; }
@@ -34,7 +34,7 @@ namespace BEx.BTCeSupport
         public string TradeType { get; set; }
 
 
-        internal Transaction ToTransaction()
+        public Transaction ToTransaction()
         {
             Transaction res = new Transaction();
 
@@ -46,7 +46,7 @@ namespace BEx.BTCeSupport
             return res;
         }
 
-        internal static List<Transaction> ConvertBTCeTransactionList(List<BTCeTransactionsJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        public static List<Transaction> ToTransactionList(List<BTCeTransactionsJSON> transactions, Currency baseCurrency, Currency counterCurrency)
         {
             List<Transaction> res = new List<Transaction>();
 

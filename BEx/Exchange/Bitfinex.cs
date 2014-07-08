@@ -9,7 +9,7 @@ using BEx.Common;
 
 namespace BEx
 {
-    public class Bitfinex : Exchange
+    public class Bitfinex : Exchange<BitfinexTickJSON, BitFinexTransactionJSON>
     {
 
         public Bitfinex() : base("BitFinex.xml")
@@ -17,7 +17,7 @@ namespace BEx
 
         }
 
-
+        /*
         #region GetOrderBook
 
         public override OrderBook GetOrderBook()
@@ -41,78 +41,22 @@ namespace BEx
 
         #endregion
 
-        #region GetTick
+       */
 
-        /// <summary>
-        /// Get the current BTC/USD tick
-        /// </summary>
-        /// <returns></returns>
-        public override Tick GetTick()
+
+
+        internal override void SetParameters(APICommand command)
         {
-            return GetTick(Currency.BTC, Currency.USD);
+            /*
+            switch (command.ID)
+            {
+                case "Transactions":
+                    DateTime sinceThisDate = DateTime.Now.AddHours(-1);
+                    command.Parameters["timestamp"] = UnixTime.DateTimeToUnixTimestamp(sinceThisDate).ToString();
+                    break;
+                default:
+                    break;
+            }*/
         }
-
-        /// <summary>
-        /// Get the current tick for a particular currency pair
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res;
-
-            APICommand toExecute = APICommandCollection["Tick"];
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            res = ExecuteCommand<BitfinexTickJSON>(toExecute).ToTick(baseCurrency, counterCurrency);
-
-            return res;
-
-        }
-        #endregion
-
-        #region GetTransactions
-
-        /// <summary>
-        /// Get BTC/USD transactions for the previous hour
-        /// </summary>
-        /// <returns></returns>
-        public override List<Transaction> GetTransactions()
-        {
-            return GetTransactions(Currency.BTC, Currency.USD);
-        }
-
-        /// <summary>
-        /// Return transactions that have occurred since the provided DateTime
-        /// </summary>
-        /// <param name="sinceThisDate"></param>
-        /// <returns></returns>
-        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
-        {
-            List<Transaction> res = new List<Transaction>();
-
-            APICommand toExecute = APICommandCollection["Transactions"];
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            DateTime sinceThisDate = DateTime.Now.AddHours(-1);
-            toExecute.Parameters["timestamp"] = UnixTime.DateTimeToUnixTimestamp(sinceThisDate).ToString();
-
-            List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
-
-            return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, (Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
-
-
-        }
-
-        #endregion
-
-
-
-
     }
 }

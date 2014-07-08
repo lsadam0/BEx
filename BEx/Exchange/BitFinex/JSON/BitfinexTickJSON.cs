@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace BEx.BitFinexSupport
 {
-    internal class BitfinexTickJSON
+    public class BitfinexTickJSON
     {
 
         [JsonProperty("mid")]

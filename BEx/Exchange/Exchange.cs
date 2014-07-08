@@ -16,7 +16,7 @@ using BEx.BitFinexSupport;
 
 namespace BEx
 {
-    public abstract class Exchange
+    public abstract class Exchange<K, A>
     {
 
         #region Vars
@@ -24,7 +24,7 @@ namespace BEx
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
-        
+
         protected RestClient apiClient
         {
             get;
@@ -121,7 +121,7 @@ namespace BEx
                 }
             }
         }
-
+        /*
         protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
         {
             VerifyCurrencySupport(toExecute);
@@ -129,9 +129,19 @@ namespace BEx
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
             IRestResponse response = apiClient.Execute(request);
-
-            return JsonConvert.DeserializeObject<T>(response.Content);
             
+            return JsonConvert.DeserializeObject<T>(response.Content);
+        }*/
+
+        protected string ExecuteCommand(APICommand toExecute)
+        {
+            VerifyCurrencySupport(toExecute);
+
+            RestRequest request = apiRequestFactory.GetRequest(toExecute);
+
+            IRestResponse response = apiClient.Execute(request);
+
+            return response.Content;
         }
 
         #endregion
@@ -203,6 +213,7 @@ namespace BEx
         }
         #endregion
 
+        /*
         #region API Methods
 
         #region GetOrderBook
@@ -244,22 +255,97 @@ namespace BEx
         #endregion
 
         #endregion
-        /*
-        public Tick GetTickGen(Currency baseCurrency, Currency counterCurrency)
+        */
+
+        public Tick GetTick()
         {
-            Tick res;
+            return GetTick(Currency.BTC, Currency.USD);
+        }
+
+        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = null;
 
             APICommand toExecute = APICommandCollection["Tick"];
 
             toExecute.BaseCurrency = baseCurrency;
             toExecute.CounterCurrency = counterCurrency;
 
-            res = ExecuteCommand(toExecute).ToTick(baseCurrency, counterCurrency);
+            string result = ExecuteCommand(toExecute);
 
+            res = DeserializeTick(result, baseCurrency, counterCurrency);
 
-            
             return res;
 
-        }*/
+        }
+
+        internal Tick DeserializeTick(string tick, Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = null;
+
+            object deserialized = JsonConvert.DeserializeObject<K>(tick);
+
+            MethodInfo conversionMethod = deserialized.GetType().GetMethod("ToTick");
+
+            if (conversionMethod != null)
+            {
+                res = (Tick)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
+            }
+
+            return res;
+        }
+
+
+        internal List<Transaction> DeserializeTransactions(string transactions, Currency baseCurrency, Currency counterCurrency)
+        {
+            List<Transaction> res = null;
+
+            object deserialized = JsonConvert.DeserializeObject<List<A>>(transactions);
+
+            MethodInfo conversionMethod = typeof(A).GetMethod("ToTransactionList");
+
+            if (conversionMethod != null)
+            {
+                res = (List<Transaction>)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
+            }
+
+            return res;
+        }
+
+
+        public List<Transaction> GetTransactions()
+        {
+
+            return GetTransactions(Currency.BTC, Currency.USD);
+        }
+
+        /// <summary>
+        /// Return transactions that have occurred since the provided DateTime
+        /// </summary>
+        /// <param name="sinceThisDate"></param>
+        /// <returns></returns>
+        public List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        {
+            List<Transaction> res = new List<Transaction>();
+
+            APICommand toExecute = APICommandCollection["Transactions"];
+
+            SetParameters(toExecute);
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            //List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
+
+            string result = ExecuteCommand(toExecute);
+
+            res = DeserializeTransactions(result, baseCurrency, counterCurrency);
+            // return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, (Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
+            return res;
+
+        }
+
+
+        internal abstract void SetParameters(APICommand command);
     }
 }

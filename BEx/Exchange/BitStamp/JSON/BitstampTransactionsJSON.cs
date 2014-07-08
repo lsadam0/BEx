@@ -24,7 +24,7 @@ namespace BEx.BitStampSupport
         public string amount { get; set; }
     }
 
-    internal class BitstampTransactionJSON
+    public class BitstampTransactionJSON
     {
         [JsonProperty("date")]
         public string date { get; set; }
@@ -39,7 +39,7 @@ namespace BEx.BitStampSupport
         public string amount { get; set; }
 
 
-        internal Transaction ToTransaction()
+        public Transaction ToTransaction()
         {
             Transaction res = new Transaction();
 
@@ -52,7 +52,7 @@ namespace BEx.BitStampSupport
             return res;
         }
 
-        internal static List<Transaction> ConvertBitStampTransactionList(List<BitstampTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        public static List<Transaction> ToTransactionList(List<BitstampTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
         {
             List<Transaction> res = new List<Transaction>();
 

@@ -9,12 +9,16 @@ using System.Xml;
 using RestSharp;
 namespace BEx
 {
-    public delegate bool IsCurrencyPairSupportedDelegate(Currency b, Currency c);
+
+
+    public delegate string CurrencyFormatterDelegate(string currency);
 
     [Serializable]
     public class APICommand
     {
-        public IsCurrencyPairSupportedDelegate IsCurrencyPairSupported;
+
+
+        public CurrencyFormatterDelegate CurrencyFormatter;
 
         public string ID
         {
@@ -40,12 +44,6 @@ namespace BEx
             set;
         }
 
-        public Dictionary<string, string> QueryStringArgs
-        {
-            get;
-            set;
-        }
-
         public Dictionary<string, string> Parameters
         {
 
@@ -53,62 +51,38 @@ namespace BEx
             set;
         }
 
-        private bool CheckCurrencyPairSupport(Currency baseC, Currency counterC)
-        {
-            bool res = true;
-            if (IsCurrencyPairSupported != null)
-            {
-                res = IsCurrencyPairSupported(baseC, counterC);
-            }
-
-            return res;
-        }
-
         public virtual string ResolvedRelativeURI
         {
-
             get
             {
                 string res = RelativeURI;
 
-                foreach (KeyValuePair<string, string> pair in QueryStringArgs)
-                {
-                    res = res.Replace("{" + pair.Key + "}", pair.Value);
-                }
+                res = res.Replace("{BaseCurrency}", GetCurrencyFormat(BaseCurrency.ToString()));
+                res = res.Replace("{CounterCurrency}", GetCurrencyFormat(CounterCurrency.ToString()));
 
                 return res;
             }
         }
 
-        public virtual string MessageBody
+        private string GetCurrencyFormat(string currency)
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
 
-                int x = 0;
-                foreach (KeyValuePair<string, string> pair in Parameters)
-                {
-                    if (x > 0)
-                        sb.Append("&");
+            if (CurrencyFormatter != null)
+                return CurrencyFormatter(currency);
 
-                    sb.AppendFormat("{0}={1}", pair.Key, pair.Value);
-                }
-
-                return sb.ToString();
-            }
+            else return currency;
         }
 
         public APICommand()
         {
-            QueryStringArgs = new Dictionary<string, string>();
+            
             Parameters = new Dictionary<string, string>();
         }
 
         public APICommand(XElement commandToLoad)
         {
 
-            QueryStringArgs = new Dictionary<string, string>();
+            
             Parameters = new Dictionary<string, string>();
 
             foreach (XElement c in commandToLoad.Elements())
@@ -153,7 +127,7 @@ namespace BEx
 
                 if (string.IsNullOrEmpty(type) || type == "query")
                 {
-                    QueryStringArgs.Add(id, defaultValue);
+                    //QueryStringArgs.Add(id, defaultValue);
                 }
                 else
                 {
@@ -174,10 +148,6 @@ namespace BEx
             {
                 baseC = value;
 
-                if (!QueryStringArgs.ContainsKey("BaseCurrency"))
-                    QueryStringArgs.Add("BaseCurrency", baseC.ToString());
-                else
-                    QueryStringArgs["BaseCurrency"] = baseC.ToString();
             }
         }
 
@@ -192,10 +162,6 @@ namespace BEx
             {
                 counterC = value;
 
-                if (!QueryStringArgs.ContainsKey("CounterCurrency"))
-                    QueryStringArgs.Add("CounterCurrency", counterC.ToString());
-                else
-                    QueryStringArgs["CounterCurrency"] = counterC.ToString();
             }
         }
 

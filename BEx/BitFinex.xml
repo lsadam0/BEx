@@ -49,7 +49,6 @@
       <args>
         <arg ID="base">BTC</arg>
         <arg ID="counter">USD</arg>
-        <arg ID="timestamp" type="parameter"/>
       </args>
     </Command>    
   </Commands>

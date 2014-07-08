@@ -10,7 +10,7 @@ using BEx.BitStampSupport;
 
 namespace BEx
 {
-    public class BitStamp : Exchange
+    public class BitStamp : Exchange<BitstampTickJSON, BitstampTransactionJSON>
     {
 
         public BitStamp()
@@ -20,7 +20,7 @@ namespace BEx
             
         }
 
-
+        /*
         #region GetOrderBook
 
         /// <summary>
@@ -45,66 +45,14 @@ namespace BEx
 
         #endregion
 
-        #region GetTransactions
-        /// <summary>
-        /// Return BTC/USD Transactions for the previous hour
-        /// </summary>
-        /// <returns></returns>
-        public override List<Transaction> GetTransactions()
-        {
-            return GetTransactions(Currency.BTC, Currency.USD);
-        }
        
-        /// <summary>
-        /// Return transactions from the previous hour for a particular currency pair
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+         * 
+         */
+
+        internal override void SetParameters(APICommand command)
         {
-            List<Transaction> res = new List<Transaction>();
-
-            List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(APICommandCollection["Transactions"]);
-
-            return BitstampTransactionJSON.ConvertBitStampTransactionList(r, baseCurrency, counterCurrency);
             
-
         }
-        #endregion
-
-        #region GetTick
-        /// <summary>
-        /// Get the current BTC/USD Tick
-        /// </summary>
-        /// <returns>Tick</returns>
-        public override Tick GetTick()
-        {
-            return GetTick(Currency.BTC, Currency.USD);
-        }
-
-        /// <summary>
-        /// Get the current tick for a particular currency pair
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res;
-
-            APICommand toExecute = APICommandCollection["Tick"];
-
-            toExecute.BaseCurrency = Currency.BTC;
-            toExecute.CounterCurrency = Currency.USD;
-
-            res = ExecuteCommand<BitstampTickJSON>(toExecute).ToBitStampTick((Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
-
-            return res;
-        }
-        #endregion
-
-
 
     }
 }

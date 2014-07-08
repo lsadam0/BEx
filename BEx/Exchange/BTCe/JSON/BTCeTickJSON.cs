@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace BEx.BTCeSupport
 {
 
-    internal class Ticker
+    public class Ticker
     {
 
         [JsonProperty("high")]
@@ -43,7 +43,7 @@ namespace BEx.BTCeSupport
         public long ServerTime { get; set; }
     }
 
-    internal class BTCeTickJSON
+    public class BTCeTickJSON
     {
 
         [JsonProperty("ticker")]
@@ -69,6 +69,7 @@ namespace BEx.BTCeSupport
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
 
+            
             return res;
         }
     }

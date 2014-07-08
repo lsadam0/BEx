@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BEx
 {
+ /*   
     public class BTCeAPICommand : APICommand
     {
         public override string ResolvedRelativeURI 
@@ -34,5 +35,5 @@ namespace BEx
             this.RelativeURI = source.RelativeURI;
             this.RequiresAuthentication = source.RequiresAuthentication;
         }
-    }
+    }*/
 }
