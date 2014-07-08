@@ -20,11 +20,14 @@ namespace BEx
             
         }
 
+
+        #region GetOrderBook
+
         /// <summary>
         /// Get the BTC/USD Order Book
         /// </summary>
         /// <returns></returns>
-        public OrderBook GetOrderBook()
+        public override OrderBook GetOrderBook()
         {
             return GetOrderBook(Currency.BTC, Currency.USD);
         }
@@ -40,34 +43,24 @@ namespace BEx
             return res;
         }
 
+        #endregion
+
+        #region GetTransactions
         /// <summary>
-        /// Return BTC/USD Transactions
+        /// Return BTC/USD Transactions for the previous hour
         /// </summary>
         /// <returns></returns>
-        public List<Transaction> GetTransactions()
+        public override List<Transaction> GetTransactions()
         {
             return GetTransactions(Currency.BTC, Currency.USD);
         }
-
-
+       
         /// <summary>
-        /// Get Transactions for a particular time frame
+        /// Return transactions from the previous hour for a particular currency pair
         /// </summary>
-        /// <param name="time">Accepted values: "minute" or "hour"</param>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
         /// <returns></returns>
-        public List<Transaction> GetTransactions(string timeFrame)
-        {
-            List<Transaction> res = new List<Transaction>();
-
-            APICommand toExecute = APICommandCollection["Transactions"];
-
-            toExecute.Parameters["time"] = timeFrame;
-
-            List<BitstampTransactionJSON> r = ExecuteCommand<List<BitstampTransactionJSON>>(toExecute);
-            
-            return BitstampTransactionJSON.ConvertBitStampTransactionList(r, Currency.BTC, Currency.USD);
-        }
-
         public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             List<Transaction> res = new List<Transaction>();
@@ -78,17 +71,24 @@ namespace BEx
             
 
         }
+        #endregion
 
-
+        #region GetTick
         /// <summary>
         /// Get the current BTC/USD Tick
         /// </summary>
         /// <returns>Tick</returns>
-        public Tick GetTick()
+        public override Tick GetTick()
         {
             return GetTick(Currency.BTC, Currency.USD);
         }
 
+        /// <summary>
+        /// Get the current tick for a particular currency pair
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
         public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res;
@@ -102,7 +102,8 @@ namespace BEx
 
             return res;
         }
-        
+        #endregion
+
 
 
     }

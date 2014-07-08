@@ -45,17 +45,10 @@ namespace NUnitTests
 
             List<Transaction> trans = bts.GetTransactions();
 
+            
             Assert.IsNotNull(trans);
         }
 
-        [Test]
-        public void BitStamp_GetTransactions_Parameters_BTCUSD()
-        {
-            BitStamp bts = new BitStamp();
 
-            List<Transaction> trans = bts.GetTransactions("minute");
-
-            Assert.IsNotNull(trans);
-        }
     }
 }

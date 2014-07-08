@@ -155,14 +155,6 @@ namespace NUnitTests
         }
 
 
-        [Test]
-        public void BitFinex_GetTransactions_SinceDate_BTCUSD()
-        {
-            DateTime cutoff = DateTime.Now.AddMinutes(-30);
-            List<Transaction> t = bfx.GetTransactions(cutoff, Currency.BTC, Currency.USD);
-
-            VerifyTransactions(t);
-
-        }
+        
     }
 }

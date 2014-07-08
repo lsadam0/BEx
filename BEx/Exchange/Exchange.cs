@@ -12,6 +12,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 using RestSharp;
+using BEx.BitFinexSupport;
 
 namespace BEx
 {
@@ -203,11 +204,62 @@ namespace BEx
         #endregion
 
         #region API Methods
-        public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
+
+        #region GetOrderBook
+
+        public abstract OrderBook GetOrderBook();
 
         public abstract OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency);
 
-        public abstract List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency);
         #endregion
+
+        #region GetTick
+
+        /// <summary>
+        /// Return the current BTC/USD Tick
+        /// </summary>
+        /// <returns></returns>
+        public abstract Tick GetTick();
+
+        public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
+
+        #endregion
+
+        #region GetTransactions
+
+        /// <summary>
+        /// Return transactions from the previous hour
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
+        public abstract List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency);
+
+        /// <summary>
+        /// Return BTC/USD transactions from the previous hour
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<Transaction> GetTransactions();
+
+        #endregion
+
+        #endregion
+        /*
+        public Tick GetTickGen(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res;
+
+            APICommand toExecute = APICommandCollection["Tick"];
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            res = ExecuteCommand(toExecute).ToTick(baseCurrency, counterCurrency);
+
+
+            
+            return res;
+
+        }*/
     }
 }
