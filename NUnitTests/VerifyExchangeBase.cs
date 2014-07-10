@@ -9,11 +9,29 @@ using BEx;
 
 namespace NUnitTests
 {
+    
+
     public class VerifyExchangeBase
     {
+        public static object testVelocityLock = new object();
+
+        /// <summary>
+        /// Exchanges ban API access for those that make excessive requests, 
+        /// in order to avoid the banhammer let's slow down the pace of testing
+        /// so that at most we make one request every 2 seconds.
+        /// </summary>
+        protected void ThrottleTestVelocity()
+        {
+            lock (testVelocityLock)
+            {
+                new System.Threading.ManualResetEvent(false).WaitOne(3000);
+            }
+        }
 
         protected void VerifyTick(Tick toVerify, Currency baseC, Currency counterC)
         {
+            ThrottleTestVelocity();
+
             Assert.IsNotNull(toVerify);
 
             Assert.IsTrue(toVerify.BaseCurrency == baseC);
@@ -29,6 +47,7 @@ namespace NUnitTests
 
         protected void VerifyOrderBook(OrderBook toVerify)
         {
+            ThrottleTestVelocity();
 
             Assert.IsNotNull(toVerify);
 
@@ -39,6 +58,8 @@ namespace NUnitTests
 
         protected void VerifyTransactions(List<Transaction> toVerify)
         {
+            ThrottleTestVelocity();
+
             Assert.IsNotNull(toVerify);
             Assert.IsTrue(toVerify.Count > 0);
         }

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BEx.BTCeSupport
 {
 
-    internal class BTCeOrderBookJSON
+    public class BTCeOrderBookJSON
     {
 
         [JsonProperty("asks")]

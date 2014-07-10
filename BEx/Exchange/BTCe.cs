@@ -7,7 +7,7 @@ using BEx.BTCeSupport;
 
 namespace BEx
 {
-    public class BTCe : Exchange<BTCeTickJSON, BTCeTransactionsJSON>
+    public class BTCe : Exchange<BTCeTickJSON, BTCeTransactionsJSON, BTCeOrderBookJSON>
     {
         
 

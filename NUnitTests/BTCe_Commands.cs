@@ -259,7 +259,7 @@ namespace NUnitTests
 
         #endregion
 
-        /*
+        
         #region OrderBook
 
         [Test]
@@ -538,7 +538,7 @@ namespace NUnitTests
             VerifyOrderBook(o);
         }
         #endregion
-        */
+        
 
         #region Transactions
 

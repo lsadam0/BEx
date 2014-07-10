@@ -26,7 +26,7 @@ namespace NUnitTests
             //Assert.IsTrue(t.VolumeWeightedAveragePrice > 0);
         }
 
-        /*
+        
         [Test]
         public void BitStamp_GetOrderBook_BTCUSD()
         {
@@ -37,7 +37,7 @@ namespace NUnitTests
             VerifyOrderBook(o);
 
         }
-        */
+        
         [Test]
         public void BitStamp_GetTransactions_BTCUSD()
         {

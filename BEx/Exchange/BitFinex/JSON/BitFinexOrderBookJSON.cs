@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
  namespace BEx.BitFinexSupport
 {
-    internal class Bid
+    public class Bid
     {
 
         [JsonProperty("price")]
@@ -21,7 +21,7 @@ using Newtonsoft.Json;
         public string Timestamp { get; set; }
     }
 
-    internal class Ask
+    public class Ask
     {
 
         [JsonProperty("price")]
@@ -34,7 +34,7 @@ using Newtonsoft.Json;
         public string Timestamp { get; set; }
     }
 
-    internal class BitFinexOrderBookJSON
+    public class BitFinexOrderBookJSON
     {
 
         [JsonProperty("bids")]

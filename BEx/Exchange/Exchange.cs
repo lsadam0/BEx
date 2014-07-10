@@ -16,7 +16,7 @@ using BEx.BitFinexSupport;
 
 namespace BEx
 {
-    public abstract class Exchange<K, A>
+    public abstract class Exchange<K, A, O>
     {
 
         #region Vars
@@ -224,38 +224,54 @@ namespace BEx
 
         #endregion
 
-        #region GetTick
 
-        /// <summary>
-        /// Return the current BTC/USD Tick
-        /// </summary>
-        /// <returns></returns>
-        public abstract Tick GetTick();
-
-        public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
-
-        #endregion
-
-        #region GetTransactions
-
-        /// <summary>
-        /// Return transactions from the previous hour
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public abstract List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency);
-
-        /// <summary>
-        /// Return BTC/USD transactions from the previous hour
-        /// </summary>
-        /// <returns></returns>
-        public abstract List<Transaction> GetTransactions();
-
-        #endregion
-
-        #endregion
         */
+
+        #region GetOrderBook
+
+        public OrderBook GetOrderBook()
+        {
+
+            return GetOrderBook(Currency.BTC, Currency.USD);
+        }
+
+        public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
+        {
+            OrderBook res;
+
+
+            APICommand toExecute = APICommandCollection["OrderBook"];
+
+            SetParameters(toExecute);
+
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            string result = ExecuteCommand(toExecute);
+
+            res = DeserializeOrderBook(result, baseCurrency, counterCurrency);
+
+            return res;
+        }
+
+        internal OrderBook DeserializeOrderBook(string book, Currency baseCurrency, Currency counterCurrency)
+        {
+            OrderBook res = null;
+
+            object deserialized = JsonConvert.DeserializeObject<O>(book);
+
+            MethodInfo conversionMethod = typeof(O).GetMethod("ToOrderBook");
+
+            if (conversionMethod != null)
+            {
+                res = (OrderBook)conversionMethod.Invoke(deserialized, new object[] {baseCurrency, counterCurrency });
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region GetTick
 
         public Tick GetTick()
         {
@@ -295,23 +311,9 @@ namespace BEx
             return res;
         }
 
+        #endregion
 
-        internal List<Transaction> DeserializeTransactions(string transactions, Currency baseCurrency, Currency counterCurrency)
-        {
-            List<Transaction> res = null;
-
-            object deserialized = JsonConvert.DeserializeObject<List<A>>(transactions);
-
-            MethodInfo conversionMethod = typeof(A).GetMethod("ToTransactionList");
-
-            if (conversionMethod != null)
-            {
-                res = (List<Transaction>)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
-            }
-
-            return res;
-        }
-
+        #region GetTransactions
 
         public List<Transaction> GetTransactions()
         {
@@ -345,6 +347,24 @@ namespace BEx
 
         }
 
+        internal List<Transaction> DeserializeTransactions(string transactions, Currency baseCurrency, Currency counterCurrency)
+        {
+            List<Transaction> res = null;
+
+            object deserialized = JsonConvert.DeserializeObject<List<A>>(transactions);
+
+
+            MethodInfo conversionMethod = typeof(A).GetMethod("ToTransactionList");
+
+            if (conversionMethod != null)
+            {
+                res = (List<Transaction>)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
+            }
+
+            return res;
+        }
+
+        #endregion
 
         internal abstract void SetParameters(APICommand command);
     }

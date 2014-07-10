@@ -9,7 +9,7 @@ using BEx.Common;
 
 namespace BEx
 {
-    public class Bitfinex : Exchange<BitfinexTickJSON, BitFinexTransactionJSON>
+    public class Bitfinex : Exchange<BitfinexTickJSON, BitFinexTransactionJSON, BitFinexOrderBookJSON>
     {
 
         public Bitfinex() : base("BitFinex.xml")

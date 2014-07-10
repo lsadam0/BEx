@@ -10,7 +10,7 @@ using BEx.BitStampSupport;
 
 namespace BEx
 {
-    public class BitStamp : Exchange<BitstampTickJSON, BitstampTransactionJSON>
+    public class BitStamp : Exchange<BitstampTickJSON, BitstampTransactionJSON, BitstampOrderBookJSON>
     {
 
         public BitStamp()

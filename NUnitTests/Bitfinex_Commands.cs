@@ -70,7 +70,7 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-        /*
+        
         #region OrderBook Tests
         [Test]
         public void BitFinex_GetOrderBook_BTCUSD()
@@ -114,7 +114,7 @@ namespace NUnitTests
         }
 
         #endregion
-        */
+        
         #region Transaction Tests
         [Test]
         public void BitFinex_GetTransactions_BTCUSD()
