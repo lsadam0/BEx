@@ -10,44 +10,44 @@ using BEx.BitStampSupport;
 
 namespace BEx
 {
-    public class BitStamp : Exchange<BitstampTickJSON, BitstampTransactionJSON, BitstampOrderBookJSON>
+    public class BitStamp : Exchange//<BitstampTickJSON, BitstampTransactionJSON, BitstampOrderBookJSON>
     {
 
         public BitStamp()
             : base("Bitstamp.xml")
         {
             
-            
         }
 
-        /*
-        #region GetOrderBook
+        public override Tick GetTick()
+        {
+            return base.GetTick<BitstampTickJSON>(Currency.BTC, Currency.USD);
+        }
 
-        /// <summary>
-        /// Get the BTC/USD Order Book
-        /// </summary>
-        /// <returns></returns>
+        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            return base.GetTick<BitstampTickJSON>(baseCurrency, counterCurrency);
+        }
+
         public override OrderBook GetOrderBook()
         {
-            return GetOrderBook(Currency.BTC, Currency.USD);
+            return base.GetOrderBook<BitstampOrderBookJSON>(Currency.BTC, Currency.USD);
         }
 
         public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderBook res;
-
-            APICommand toExecute = APICommandCollection["OrderBook"];
-
-            res = ExecuteCommand<BitstampOrderBookJSON>(toExecute).ToOrderbook(Currency.BTC, Currency.USD);
-
-            return res;
+            return base.GetOrderBook<BitstampOrderBookJSON>(baseCurrency, counterCurrency);
         }
 
-        #endregion
+        public override List<Transaction> GetTransactions()
+        {
+            return base.GetTransactions<BitstampTransactionJSON>(Currency.BTC, Currency.USD);
+        }
 
-       
-         * 
-         */
+        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        {
+            return base.GetTransactions<BitstampTransactionJSON>(baseCurrency, counterCurrency);
+        }
 
         internal override void SetParameters(APICommand command)
         {

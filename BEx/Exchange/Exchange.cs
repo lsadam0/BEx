@@ -6,6 +6,7 @@ using System.Collections;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
+using System.Net;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -16,8 +17,10 @@ using BEx.BitFinexSupport;
 
 namespace BEx
 {
-    public abstract class Exchange<K, A, O>
+    public abstract class Exchange
     {
+
+        
 
         #region Vars
         /// <summary>
@@ -25,6 +28,9 @@ namespace BEx
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
 
+        
+
+        
         protected RestClient apiClient
         {
             get;
@@ -56,7 +62,13 @@ namespace BEx
             }
         }
 
-        public string Key
+        public string APIKey
+        {
+            get;
+            set;
+        }
+
+        public string SecretKey
         {
             get;
             set;
@@ -85,6 +97,7 @@ namespace BEx
         {
             LoadConfigFromXML(configFile);
 
+            
             apiClient = new RestClient(BaseURI.ToString());
             apiRequestFactory = new RequestFactory(BaseURI);
         }
@@ -121,17 +134,7 @@ namespace BEx
                 }
             }
         }
-        /*
-        protected T ExecuteCommand<T>(APICommand toExecute) where T : new()
-        {
-            VerifyCurrencySupport(toExecute);
 
-            RestRequest request = apiRequestFactory.GetRequest(toExecute);
-
-            IRestResponse response = apiClient.Execute(request);
-            
-            return JsonConvert.DeserializeObject<T>(response.Content);
-        }*/
 
         protected string ExecuteCommand(APICommand toExecute)
         {
@@ -141,7 +144,29 @@ namespace BEx
 
             IRestResponse response = apiClient.Execute(request);
 
-            return response.Content;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                return response.Content;
+            else
+                return HandleResponseError(response);
+        }
+
+
+        protected string HandleResponseError(IRestResponse response)
+        {
+            // To Do
+
+            WebException toThrow;
+
+
+            if (response.ErrorException != null)
+                toThrow = new WebException(response.StatusCode.ToString(), response.ErrorException);
+            else
+                toThrow = new WebException(response.StatusCode.ToString());
+
+
+            throw toThrow;
+
+            return "";
         }
 
         #endregion
@@ -213,153 +238,59 @@ namespace BEx
         }
         #endregion
 
-        /*
-        #region API Methods
-
         #region GetOrderBook
 
         public abstract OrderBook GetOrderBook();
 
         public abstract OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency);
 
-        #endregion
 
-
-        */
-
-        #region GetOrderBook
-
-        public OrderBook GetOrderBook()
-        {
-
-            return GetOrderBook(Currency.BTC, Currency.USD);
-        }
-
-        public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
-        {
-            OrderBook res;
-
-
-            APICommand toExecute = APICommandCollection["OrderBook"];
-
-            SetParameters(toExecute);
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            string result = ExecuteCommand(toExecute);
-
-            res = DeserializeOrderBook(result, baseCurrency, counterCurrency);
-
-            return res;
-        }
-
-        internal OrderBook DeserializeOrderBook(string book, Currency baseCurrency, Currency counterCurrency)
+        protected OrderBook GetOrderBook<J>(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = null;
 
-            object deserialized = JsonConvert.DeserializeObject<O>(book);
-
-            MethodInfo conversionMethod = typeof(O).GetMethod("ToOrderBook");
-
-            if (conversionMethod != null)
-            {
-                res = (OrderBook)conversionMethod.Invoke(deserialized, new object[] {baseCurrency, counterCurrency });
-            }
+            res = (OrderBook)SendCommandToDispatcher<J, OrderBook>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
 
             return res;
         }
+
+
         #endregion
 
         #region GetTick
 
-        public Tick GetTick()
-        {
-            return GetTick(Currency.BTC, Currency.USD);
-        }
+        public abstract Tick GetTick();
 
-        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res = null;
+        public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
 
-            APICommand toExecute = APICommandCollection["Tick"];
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            string result = ExecuteCommand(toExecute);
-
-            res = DeserializeTick(result, baseCurrency, counterCurrency);
-
-            return res;
-
-        }
-
-        internal Tick DeserializeTick(string tick, Currency baseCurrency, Currency counterCurrency)
+        protected Tick GetTick<J>(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = null;
 
-            object deserialized = JsonConvert.DeserializeObject<K>(tick);
-
-            MethodInfo conversionMethod = deserialized.GetType().GetMethod("ToTick");
-
-            if (conversionMethod != null)
-            {
-                res = (Tick)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
-            }
+            res = (Tick)SendCommandToDispatcher<J, Tick>(APICommandCollection["Tick"], baseCurrency, counterCurrency);
 
             return res;
         }
+
 
         #endregion
 
         #region GetTransactions
 
-        public List<Transaction> GetTransactions()
-        {
-
-            return GetTransactions(Currency.BTC, Currency.USD);
-        }
+        public abstract List<Transaction> GetTransactions();
 
         /// <summary>
         /// Return transactions that have occurred since the provided DateTime
         /// </summary>
         /// <param name="sinceThisDate"></param>
         /// <returns></returns>
-        public List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        public abstract List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency);
+
+        protected List<Transaction> GetTransactions<J>(Currency baseCurrency, Currency counterCurrency)
         {
             List<Transaction> res = new List<Transaction>();
 
-            APICommand toExecute = APICommandCollection["Transactions"];
-
-            SetParameters(toExecute);
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            //List<BitFinexTransactionJSON> r = ExecuteCommand<List<BitFinexTransactionJSON>>(APICommandCollection["Transactions"]);
-
-            string result = ExecuteCommand(toExecute);
-
-            res = DeserializeTransactions(result, baseCurrency, counterCurrency);
-            // return BitFinexTransactionJSON.ConvertBitFinexTransactionList(r, (Currency)toExecute.BaseCurrency, (Currency)toExecute.CounterCurrency);
-            return res;
-
-        }
-
-        internal List<Transaction> DeserializeTransactions(string transactions, Currency baseCurrency, Currency counterCurrency)
-        {
-            List<Transaction> res = null;
-
-            object deserialized = JsonConvert.DeserializeObject<List<A>>(transactions);
-
-
-            MethodInfo conversionMethod = typeof(A).GetMethod("ToTransactionList");
-
-            if (conversionMethod != null)
-            {
-                res = (List<Transaction>)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
-            }
+            res = (List<Transaction>)SendCommandToDispatcher<List<J>, List<Transaction>>(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -367,5 +298,17 @@ namespace BEx
         #endregion
 
         internal abstract void SetParameters(APICommand command);
+
+        private object SendCommandToDispatcher<J, R>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency)
+        {
+            toExecute.BaseCurrency = baseCurrency;
+            toExecute.CounterCurrency = counterCurrency;
+
+            VerifyCurrencySupport(toExecute);
+
+            RequestDispatcher<J, R> disp = new RequestDispatcher<J, R>(BaseURI, apiClient, apiRequestFactory);
+
+            return disp.ExecuteCommand(toExecute);
+        }
     }
 }

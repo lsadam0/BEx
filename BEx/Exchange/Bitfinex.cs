@@ -9,40 +9,46 @@ using BEx.Common;
 
 namespace BEx
 {
-    public class Bitfinex : Exchange<BitfinexTickJSON, BitFinexTransactionJSON, BitFinexOrderBookJSON>
+    public class Bitfinex : Exchange
     {
 
         public Bitfinex() : base("BitFinex.xml")
         {
-
+            
         }
 
-        /*
-        #region GetOrderBook
+
+
+        public override Tick GetTick()
+        {
+            return base.GetTick<BitfinexTickJSON>(Currency.BTC, Currency.USD);
+        }
+
+        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            return base.GetTick<BitfinexTickJSON>(baseCurrency, counterCurrency);
+        }
 
         public override OrderBook GetOrderBook()
         {
-            return GetOrderBook(Currency.BTC, Currency.USD);
+            
+            return base.GetOrderBook<BitFinexOrderBookJSON>(Currency.BTC, Currency.USD);
         }
 
         public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderBook res;
-
-            APICommand toExecute = APICommandCollection["OrderBook"];
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            res = ExecuteCommand<BitFinexOrderBookJSON>(toExecute).ToOrderBook(baseCurrency, counterCurrency);
-
-            return res;
+            return base.GetOrderBook<BitFinexOrderBookJSON>(baseCurrency, counterCurrency);
         }
 
-        #endregion
+        public override List<Transaction> GetTransactions()
+        {
+            return base.GetTransactions<BitFinexTransactionJSON>(Currency.BTC, Currency.USD);
+        }
 
-       */
-
+        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        {
+            return base.GetTransactions<BitFinexTransactionJSON>(baseCurrency, counterCurrency);
+        }
 
 
         internal override void SetParameters(APICommand command)

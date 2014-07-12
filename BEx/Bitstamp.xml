@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Bitstamp>
   <BaseURL>https://www.bitstamp.net/api/</BaseURL>
+  <APIKey>WWHjRXfwRXsaZrSrjbKTJLUdotiaeeeF</APIKey>
+  <SecretKey></SecretKey>
+  <ClientID>431812</ClientID>
   <SupportedPairs>
     <Pair>
       <Base>BTC</Base>

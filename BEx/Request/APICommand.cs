@@ -75,14 +75,11 @@ namespace BEx
 
         public APICommand()
         {
-            
             Parameters = new Dictionary<string, string>();
         }
 
         public APICommand(XElement commandToLoad)
         {
-
-            
             Parameters = new Dictionary<string, string>();
 
             foreach (XElement c in commandToLoad.Elements())
@@ -162,6 +159,25 @@ namespace BEx
             {
                 counterC = value;
 
+            }
+        }
+
+        public string ExpectedConversionMethod
+        {
+            get
+            {
+                switch (ID)
+                {
+
+                    case ("Tick"):
+                        return "ToTick";
+                    case ("OrderBook"):
+                        return "ToOrderBook";
+                    case ("Transactions"):
+                        return "ToTransactionList";
+                    default:
+                        throw new Exception("Unable to determine APICommand.ExpectedConversionMethod for comand with ID " + ID);
+                }
             }
         }
 

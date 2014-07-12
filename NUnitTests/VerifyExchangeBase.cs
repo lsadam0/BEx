@@ -13,7 +13,12 @@ namespace NUnitTests
 
     public class VerifyExchangeBase
     {
+
+        
+        
         public static object testVelocityLock = new object();
+
+        
 
         /// <summary>
         /// Exchanges ban API access for those that make excessive requests, 

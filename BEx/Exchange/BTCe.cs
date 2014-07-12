@@ -7,7 +7,7 @@ using BEx.BTCeSupport;
 
 namespace BEx
 {
-    public class BTCe : Exchange<BTCeTickJSON, BTCeTransactionsJSON, BTCeOrderBookJSON>
+    public class BTCe : Exchange
     {
         
 
@@ -17,40 +17,44 @@ namespace BEx
             {
                 command.CurrencyFormatter += FormatCurrency;
             }
-            
         }
 
         private string FormatCurrency(string currency)
         {
-
             return currency.ToLower();
         }
-        /*
-        #region GetOrderBook
+
+        public override Tick GetTick()
+        {
+            return base.GetTick<BTCeTickJSON>(Currency.BTC, Currency.USD);
+        }
+
+        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            return base.GetTick<BTCeTickJSON>(baseCurrency, counterCurrency);
+        }
 
         public override OrderBook GetOrderBook()
         {
-            return GetOrderBook(Currency.BTC, Currency.USD);
+
+            return base.GetOrderBook<BTCeOrderBookJSON>(Currency.BTC, Currency.USD);
         }
 
         public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
-
-            BTCeAPICommand toExecute = new BTCeAPICommand(APICommandCollection["OrderBook"]);
-
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
-
-            BTCeOrderBookJSON r = ExecuteCommand<BTCeOrderBookJSON>(toExecute);
-
-            return r.ToOrderBook(baseCurrency, counterCurrency);
-
+            return base.GetOrderBook<BTCeOrderBookJSON>(baseCurrency, counterCurrency);
         }
 
-        #endregion
+        public override List<Transaction> GetTransactions()
+        {
+            
+            return base.GetTransactions<BTCeTransactionsJSON>(Currency.BTC, Currency.USD);
+        }
 
-        
-         */
+        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        {
+            return base.GetTransactions<BTCeTransactionsJSON>(baseCurrency, counterCurrency);
+        }
 
         internal override void SetParameters(APICommand command)
         {

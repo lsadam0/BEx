@@ -10,7 +10,7 @@ using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
-
+    /*
    internal class BitstampTransactionsJSON
     {
         public Class1[] Property1 { get; set; }
@@ -23,7 +23,7 @@ namespace BEx.BitStampSupport
         public string price { get; set; }
         public string amount { get; set; }
     }
-
+    */
     public class BitstampTransactionJSON
     {
         [JsonProperty("date")]

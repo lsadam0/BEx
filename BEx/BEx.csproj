@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BExBase.cs" />
+    <Compile Include="AccountBalance.cs" />
     <Compile Include="Common\UnixTime.cs" />
     <Compile Include="ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,17 +69,19 @@
     <Compile Include="Exchange\BTCe\JSON\BTCeOrderBookJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTransactionsJSON.cs" />
+    <Compile Include="Exchange\ExchangeJSONTypes.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
     <Compile Include="Exchange\BTCe.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Exchange\Exchange.cs" />
-    <Compile Include="Request\BTCeAPICommand.cs" />
     <Compile Include="OrderBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\RequestDispatcher.cs" />
     <Compile Include="Request\RequestFactory.cs" />
     <Compile Include="Tick.cs" />
     <Compile Include="Transaction.cs" />
+    <Compile Include="Transactions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BitFinex.xml">
