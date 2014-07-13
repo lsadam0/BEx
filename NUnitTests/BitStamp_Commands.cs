@@ -15,21 +15,18 @@ namespace NUnitTests
     [Category("BitStamp")]
     public class BitStamp_Commands : VerifyExchangeBase
     {
-
-        BitStamp bts;
-
-        public BitStamp_Commands() : base()
+        public BitStamp_Commands() : base(typeof(BEx.BitStamp))
         {
-            bts = new BitStamp();
+            toTest = new BitStamp();
 
-            // Get Secret Key
-
-
+            toTest.APIKey = base.APIKey;
+            toTest.SecretKey = base.Secret;
         }
+
         [Test]
         public void BitStamp_GetTick_BTCUSD()
         {
-            Tick t = bts.GetTick();
+            Tick t = toTest.GetTick();
 
             VerifyTick(t, Currency.BTC, Currency.USD);
         }
@@ -39,7 +36,7 @@ namespace NUnitTests
         public void BitStamp_GetOrderBook_BTCUSD()
         {
 
-            OrderBook o = bts.GetOrderBook();
+            OrderBook o = toTest.GetOrderBook();
 
             VerifyOrderBook(o);
         }
@@ -48,7 +45,7 @@ namespace NUnitTests
         public void BitStamp_GetTransactions_BTCUSD()
         {
 
-            List<Transaction> trans = bts.GetTransactions();
+            List<Transaction> trans = toTest.GetTransactions();
             
             Assert.IsNotNull(trans);
         }

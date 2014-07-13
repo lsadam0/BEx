@@ -9,7 +9,7 @@ using BEx.Common;
 
 namespace BEx
 {
-    public class Transaction
+    public class Transaction : APIResult
     {
 
         public DateTime TimeStamp
@@ -36,7 +36,7 @@ namespace BEx
             set;
         }
 
-        internal Transaction()
+        internal Transaction() : base()
         {
 
         }

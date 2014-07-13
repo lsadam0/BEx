@@ -44,22 +44,7 @@ namespace BEx.BitFinexSupport
 
         }
 
-        internal BitFinexTransaction ToBitFinexTransaction()
-        {
-            BitFinexTransaction res = new BitFinexTransaction();
-
-            res.Amount = Convert.ToDecimal(amount);
-            res.Price = Convert.ToDecimal(price);
-            res.TransactionID = Convert.ToInt64(tid);
-
-            res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
-            res.ExchangeSource = exchange;
-
-            return res;
-
-        }
-
-        public static List<Transaction> ToTransactionList(List<BitFinexTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        public static List<Transaction> ConvertToStandard(List<BitFinexTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
         {
             List<Transaction> res = new List<Transaction>();
 

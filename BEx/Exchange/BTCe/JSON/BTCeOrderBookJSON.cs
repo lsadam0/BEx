@@ -18,7 +18,7 @@ namespace BEx.BTCeSupport
         [JsonProperty("bids")]
         public double[][] Bids { get; set; }
 
-        public OrderBook ToOrderBook(Currency baseCurrency, Currency counterCurrency)
+        public OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
 
             OrderBook res = new OrderBook();

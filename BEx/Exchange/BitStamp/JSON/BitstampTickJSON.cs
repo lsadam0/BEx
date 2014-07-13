@@ -17,7 +17,7 @@ namespace BEx.BitStampSupport
         public string low { get; set; }
         public string ask { get; set; }
 
-        public Tick ToTick(Currency baseCurrency, Currency counterCurrency)
+        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
 

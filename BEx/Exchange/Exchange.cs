@@ -20,8 +20,6 @@ namespace BEx
     public abstract class Exchange
     {
 
-        
-
         #region Vars
         /// <summary>
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
@@ -96,7 +94,6 @@ namespace BEx
         protected Exchange(string configFile)
         {
             LoadConfigFromXML(configFile);
-
             
             apiClient = new RestClient(BaseURI.ToString());
             apiRequestFactory = new RequestFactory(BaseURI);

@@ -22,7 +22,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
 
-        public OrderBook ToOrderBook(Currency baseCurrency, Currency counterCurrency)
+        public OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = new OrderBook();
 

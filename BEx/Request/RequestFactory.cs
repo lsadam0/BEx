@@ -52,7 +52,5 @@ namespace BEx
 
             return request;
         }
-
-
     }
 }

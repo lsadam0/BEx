@@ -162,24 +162,7 @@ namespace BEx
             }
         }
 
-        public string ExpectedConversionMethod
-        {
-            get
-            {
-                switch (ID)
-                {
-
-                    case ("Tick"):
-                        return "ToTick";
-                    case ("OrderBook"):
-                        return "ToOrderBook";
-                    case ("Transactions"):
-                        return "ToTransactionList";
-                    default:
-                        throw new Exception("Unable to determine APICommand.ExpectedConversionMethod for comand with ID " + ID);
-                }
-            }
-        }
+      
 
     }
 }

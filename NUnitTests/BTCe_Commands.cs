@@ -16,6 +16,11 @@ namespace NUnitTests
 
         BTCe be = new BTCe();
 
+        public BTCe_Commands() : base(typeof(BEx.BTCe))
+        {
+
+        }
+
         #region Ticks
         [Test]
         public void BTCe_GetTick()

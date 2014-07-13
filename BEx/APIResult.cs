@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace BEx
 {
-    public class Transactions
+    public class APIResult
     {
-
-        public List<Transaction> TransactionList
+        public DateTime Timestamp
         {
             get;
             set;
         }
 
-        public Transactions()
+        internal APIResult()
         {
-
-            TransactionList = new List<Transaction>();
+            Timestamp = DateTime.Now;
         }
     }
 }

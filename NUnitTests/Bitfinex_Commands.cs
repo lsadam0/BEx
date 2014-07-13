@@ -15,6 +15,11 @@ namespace NUnitTests
     {
         Bitfinex bfx = new Bitfinex();
 
+        public Bitfinex_Commands() : base(typeof(Bitfinex_Commands))
+        {
+
+        }
+
         [Test]
         public void BitFinex_GetTick_BTCUSD()
         {

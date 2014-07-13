@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBalance.cs" />
+    <Compile Include="APIResult.cs" />
     <Compile Include="Common\UnixTime.cs" />
     <Compile Include="ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -80,7 +81,6 @@
     <Compile Include="Request\RequestFactory.cs" />
     <Compile Include="Tick.cs" />
     <Compile Include="Transaction.cs" />
-    <Compile Include="Transactions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BitFinex.xml">

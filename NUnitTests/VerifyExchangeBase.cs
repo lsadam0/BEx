@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using NUnit.Framework;
 
 using BEx;
@@ -13,12 +15,46 @@ namespace NUnitTests
 
     public class VerifyExchangeBase
     {
+        public Exchange toTest;
 
-        
-        
+
+        protected string APIKey
+        {
+            get;
+            set;
+        }
+
+        protected string Secret
+        {
+            get;
+            set;
+        }
+
+        public VerifyExchangeBase(Type exchangeType)
+        {
+            GetAPIKeys(exchangeType);
+        }
+
+        private void GetAPIKeys(Type exchangeType)
+        {
+            XElement keyFile = XElement.Load(@"C:\_Work\BEx\TestingKeys.xml");
+
+
+            XElement exchangeElement = null;
+
+            switch (exchangeType.ToString())
+            {
+                case ("BEx.BitStamp"):
+                    exchangeElement = keyFile.Element("BitStamp");
+                    break;
+            }
+
+            APIKey = exchangeElement.Element("Key").Value;
+            Secret = exchangeElement.Element("Secret").Value;
+
+        }
+
         public static object testVelocityLock = new object();
-
-        
 
         /// <summary>
         /// Exchanges ban API access for those that make excessive requests, 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BEx
 {
-    public class OrderBook
+    public class OrderBook : APIResult
     {
         public Currency BaseCurrency
         {
@@ -37,7 +37,7 @@ namespace BEx
             set;
         }
 
-        internal OrderBook()
+        internal OrderBook() : base()
         {
             BidsByPrice = new SortedDictionary<decimal, decimal>();
             AsksByPrice = new SortedDictionary<decimal, decimal>();

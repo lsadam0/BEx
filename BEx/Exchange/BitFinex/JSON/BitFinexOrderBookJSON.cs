@@ -44,7 +44,7 @@ using Newtonsoft.Json;
         public Ask[] Asks { get; set; }
 
 
-        public OrderBook ToOrderBook(Currency baseCurrency, Currency counterCurrency)
+        public OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = new OrderBook();
 

@@ -5,10 +5,8 @@ using System.Text;
 
 namespace BEx
 {
-    public class Tick
+    public class Tick : APIResult
     {
-
-
         public Decimal High
         {
             get;
@@ -19,14 +17,7 @@ namespace BEx
         {
             get;
             set;
-
         }
-        /*
-        public long TimeStamp
-        {
-            get;
-            set;
-        }*/
 
         public Decimal Bid
         {
@@ -34,13 +25,10 @@ namespace BEx
             set;
         }
 
-        
-
         public Decimal Volume
         {
             get;
             set;
-
         }
 
         public Decimal Low
@@ -53,7 +41,6 @@ namespace BEx
         {
             get;
             set;
-
         }
 
         public Currency BaseCurrency
@@ -66,47 +53,12 @@ namespace BEx
         {
             get;
             set;
-
         }
 
-        internal Tick()
+        internal Tick() : base()
         {
 
         }
 
-    
-
-
-
-        /*
-        public static bool operator ==(Tick a, Tick b)
-        {
-            if (
-                (a.Ask == b.Ask)
-                &&
-                (a.BaseCurrency == b.BaseCurrency)
-                &&
-                (a.Bid == b.Bid)
-                &&
-                (a.CounterCurrency == b.CounterCurrency)
-                &&
-                (a.High == b.High)
-                &&
-                (a.Last == b.Last)
-                &&
-                (a.Low == b.Low)
-                &&
-                (a.Volume == b.Volume)
-                )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-
-        }*/
     }
 }

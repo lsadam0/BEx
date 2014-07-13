@@ -55,7 +55,7 @@ namespace BEx.BTCeSupport
 
         }
 
-        public Tick ToTick(Currency baseCurrency, Currency counterCurrency)
+        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
 

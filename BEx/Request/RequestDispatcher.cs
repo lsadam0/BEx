@@ -52,39 +52,27 @@ namespace BEx
 
             object deserialized = JsonConvert.DeserializeObject<J>(content);
 
-            MethodInfo conversionMethod = deserialized.GetType().GetMethod(toExecute.ExpectedConversionMethod);
+            MethodInfo conversionMethod = deserialized.GetType().GetMethod("ConvertToStandard");
 
             if (conversionMethod == null)
             {
-                conversionMethod = ListOfWhat(deserialized).GetMethod(toExecute.ExpectedConversionMethod);
+                conversionMethod = ListOfWhat(deserialized).GetMethod("ConvertToStandard");
                 res = (R)conversionMethod.Invoke(null, new object[] { deserialized, toExecute.BaseCurrency, toExecute.CounterCurrency });
             }
-            else if (conversionMethod != null)
-            {
-                res = (R)conversionMethod.Invoke(deserialized, new object[] { toExecute.BaseCurrency, toExecute.CounterCurrency });
-
-            }
             else
-                throw new Exception("Unable to determine conversion method for type " + deserialized.GetType().ToString());
+                res = (R)conversionMethod.Invoke(deserialized, new object[] { toExecute.BaseCurrency, toExecute.CounterCurrency });
 
             return res;
         }
 
-
-
-
         private string HandleResponseError(IRestResponse response)
         {
-            // To Do
-
             WebException toThrow;
-
 
             if (response.ErrorException != null)
                 toThrow = new WebException(response.StatusCode.ToString(), response.ErrorException);
             else
                 toThrow = new WebException(response.StatusCode.ToString());
-
 
             throw toThrow;
 
