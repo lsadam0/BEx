@@ -56,9 +56,23 @@ namespace BEx
             return base.GetTransactions<BTCeTransactionsJSON>(baseCurrency, counterCurrency);
         }
 
+
+        public override object GetAccountBalance()
+        {
+            return base.GetAccountBalance(Currency.BTC, Currency.USD);
+        }
+
+
         internal override void SetParameters(APICommand command)
         {
             
+        }
+
+        protected override Tuple<string, string, string> CreateSignature()
+        {
+            Tuple<string, string, string> res = new Tuple<string, string, string>("", "", "");
+
+            return res;
         }
 
     }

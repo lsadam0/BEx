@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Net;
+using System.Security.Cryptography;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -17,6 +18,9 @@ using BEx.BitFinexSupport;
 
 namespace BEx
 {
+
+    public delegate string GetSignature();
+
     public abstract class Exchange
     {
 
@@ -26,9 +30,9 @@ namespace BEx
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
 
-        
 
-        
+
+
         protected RestClient apiClient
         {
             get;
@@ -46,18 +50,6 @@ namespace BEx
 
             get;
             set;
-        }
-
-        /// <summary>
-        /// Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
-        public long Nonce
-        {
-            get
-            {
-                return DateTime.Now.Ticks;
-            }
         }
 
         public string APIKey
@@ -83,20 +75,38 @@ namespace BEx
             }
         }
 
+        public string ClientID
+        {
+            get;
+            set;
+        }
+
         protected Dictionary<string, APICommand> APICommandCollection
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Consecutively increasing action counter
+        /// </summary>
+        /// <value>0</value>
+        public long Nonce
+        {
+            get
+            {
+                return DateTime.Now.Ticks;
+            }
+        }
         #endregion
 
         protected Exchange(string configFile)
         {
             LoadConfigFromXML(configFile);
-            
+
             apiClient = new RestClient(BaseURI.ToString());
             apiRequestFactory = new RequestFactory(BaseURI);
+            apiRequestFactory.GetSignature += CreateSignature;
         }
 
         #region Command Execution
@@ -294,6 +304,21 @@ namespace BEx
 
         #endregion
 
+        #region Account Balance
+
+        public abstract object GetAccountBalance();
+
+        protected object GetAccountBalance(Currency baseCurrency, Currency counterCurrency)
+        {
+            object res = new object();
+
+            res = SendCommandToDispatcher<object, object>(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
+
+            return res;
+        }
+
+        #endregion
+
         internal abstract void SetParameters(APICommand command);
 
         private object SendCommandToDispatcher<J, R>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency)
@@ -307,5 +332,24 @@ namespace BEx
 
             return disp.ExecuteCommand(toExecute);
         }
+
+
+        #region Signature
+
+        protected abstract Tuple<string, string, string> CreateSignature();
+
+        protected string CreateToken(string message, string secret)
+        {
+            secret = secret ?? "";
+            var encoding = new System.Text.ASCIIEncoding();
+            byte[] keyByte = encoding.GetBytes(secret);
+            byte[] messageBytes = encoding.GetBytes(message);
+            using (var hmacsha256 = new HMACSHA256(keyByte))
+            {
+                byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+                return Convert.ToBase64String(hashmessage);
+            }
+        }
+        #endregion
     }
 }

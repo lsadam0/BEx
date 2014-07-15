@@ -12,9 +12,10 @@ namespace BEx
     public class Bitfinex : Exchange
     {
 
-        public Bitfinex() : base("BitFinex.xml")
+        public Bitfinex()
+            : base("BitFinex.xml")
         {
-            
+
         }
 
 
@@ -31,7 +32,7 @@ namespace BEx
 
         public override OrderBook GetOrderBook()
         {
-            
+
             return base.GetOrderBook<BitFinexOrderBookJSON>(Currency.BTC, Currency.USD);
         }
 
@@ -50,6 +51,19 @@ namespace BEx
             return base.GetTransactions<BitFinexTransactionJSON>(baseCurrency, counterCurrency);
         }
 
+
+        public override object GetAccountBalance()
+        {
+            return base.GetAccountBalance(Currency.BTC, Currency.USD);
+        }
+
+
+        protected override Tuple<string, string, string> CreateSignature()
+        {
+            Tuple<string, string, string> res = new Tuple<string, string, string>("", "", "");
+
+            return res;
+        }
 
         internal override void SetParameters(APICommand command)
         {

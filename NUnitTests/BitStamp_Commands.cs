@@ -21,6 +21,7 @@ namespace NUnitTests
 
             toTest.APIKey = base.APIKey;
             toTest.SecretKey = base.Secret;
+            toTest.ClientID = base.ClientID;
         }
 
         [Test]
@@ -50,6 +51,15 @@ namespace NUnitTests
             Assert.IsNotNull(trans);
         }
 
+
+        [Test]
+        public void BitStamp_GetAccountBalance()
+        {
+            object res = toTest.GetAccountBalance();
+
+            VerifyAccountBalance(res);
+
+        }
 
     }
 }

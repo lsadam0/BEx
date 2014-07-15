@@ -8,9 +8,14 @@ using RestSharp;
 
 namespace BEx
 {
+
+    public delegate Tuple<string, string, string> GetSignatureDelegate();
+
     public class RequestFactory
     {
         private Uri BaseURI;
+
+        public GetSignatureDelegate GetSignature;
 
         public RequestFactory(Uri baseUri)
         {
@@ -19,6 +24,16 @@ namespace BEx
 
         public RestRequest GetRequest(APICommand command)
         {
+
+            RestRequest result = CreateRequest(command);
+
+
+            if (command.RequiresAuthentication)
+                AuthenticateRequest(result, command);
+
+
+            return result;
+            /*
             if (command.RequiresAuthentication)
             {
                 return CreateAuthenticatedRequest();
@@ -26,21 +41,45 @@ namespace BEx
             else
             {
                 return CreateUnauthenticatedRequest(command);
-            }
+            }*/
 
         }
 
 
         private RestRequest CreateRequest(APICommand command)
         {
-            return null;
+            var request = new RestRequest(command.ResolvedRelativeURI, command.HttpMethod);
+
+            request.RequestFormat = DataFormat.Json;
+            request.Method = command.HttpMethod;
+
+            foreach (KeyValuePair<string, string> param in command.Parameters)
+            {
+                Parameter p = new Parameter();
+                p.Name = param.Key;
+                p.Value = param.Value;
+                p.Type = ParameterType.QueryString;
+
+                request.Parameters.Add(p);
+            }
+
+            return request;
         }
 
-        private RestRequest CreateAuthenticatedRequest()
+        private void AuthenticateRequest(RestRequest request, APICommand command)
         {
-            return null;
+            if (GetSignature != null)
+            {
+                Tuple<string, string, string> result = GetSignature();
+
+                request.AddParameter("key", result.Item1);
+                request.AddParameter("nonce", result.Item2);
+                request.AddParameter("signature", result.Item3);
+                
+            }
         }
 
+        /*
         private RestRequest CreateUnauthenticatedRequest(APICommand command)
         {
             var request = new RestRequest(command.ResolvedRelativeURI, command.HttpMethod);
@@ -58,19 +97,8 @@ namespace BEx
             }
 
             return request;
-        }
+        }*/
 
-        private string CreateToken(string message, string secret)
-        {
-            secret = secret ?? "";
-            var encoding = new System.Text.ASCIIEncoding();
-            byte[] keyByte = encoding.GetBytes(secret);
-            byte[] messageBytes = encoding.GetBytes(message);
-            using (var hmacsha256 = new HMACSHA256(keyByte))
-            {
-                byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
-                return Convert.ToBase64String(hashmessage);
-            }
-        }
+
     }
 }

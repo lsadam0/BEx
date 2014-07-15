@@ -31,5 +31,11 @@
         <arg ID="time" type="parameter">hour</arg>
       </args>
     </Command>
+    <Command ID="AccountBalance">
+      <Method>POST</Method>
+      <RelativeURL>balance/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
+    </Command>
   </Commands>
 </Bitstamp>

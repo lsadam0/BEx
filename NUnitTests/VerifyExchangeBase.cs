@@ -113,5 +113,11 @@ namespace NUnitTests
         }
 
 
+        protected void VerifyAccountBalance(object toVerify)
+        {
+            ThrottleTestVelocity();
+
+            Assert.IsNotNull(toVerify);
+        }
     }
 }
