@@ -3,7 +3,7 @@
   <BaseURL>https://www.bitstamp.net/api/</BaseURL>
   <APIKey></APIKey>
   <SecretKey></SecretKey>
-  <ClientID>431812</ClientID>
+  <ClientID></ClientID>
   <SupportedPairs>
     <Pair>
       <Base>BTC</Base>

@@ -30,6 +30,12 @@ namespace NUnitTests
             set;
         }
 
+        protected string ClientID
+        {
+            get;
+            set;
+        }
+
         public VerifyExchangeBase(Type exchangeType)
         {
             GetAPIKeys(exchangeType);
@@ -51,6 +57,7 @@ namespace NUnitTests
 
             APIKey = exchangeElement.Element("Key").Value;
             Secret = exchangeElement.Element("Secret").Value;
+            ClientID = exchangeElement.Element("ClientID").Value;
 
         }
 
