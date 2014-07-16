@@ -56,7 +56,7 @@ namespace BEx
 
         public override AccountBalance GetAccountBalance()
         {
-            return base.GetAccountBalance<object>(Currency.BTC, Currency.USD);
+            return base.GetAccountBalance<List<BitFinexAccountBalanceJSON>>(Currency.BTC, Currency.USD);
         }
 
 
@@ -82,7 +82,6 @@ namespace BEx
                 X-BFX-PAYLOAD
                 X-BFX-SIGNATURE*/
             request.AddHeader("X-BFX-APIKEY", APIKey);
-
 
           //  string payloadFrame = "{\"request\": \"/v1/balances\",\"nonce\": \"" + Nonce + "\"}"; //ie. {"request": "/v1/balances","nonce": "1402207693893"}
            StringBuilder payload = new StringBuilder();

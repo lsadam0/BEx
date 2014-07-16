@@ -43,9 +43,6 @@ namespace BEx.BitStampSupport
             res.Available.Add(Currency.USD, Convert.ToDecimal(UsdAvailable));
             res.Available.Add(Currency.BTC, Convert.ToDecimal(BtcAvailable));
 
-            res.Reserved.Add(Currency.USD, Convert.ToDecimal(UsdReserved));
-            res.Reserved.Add(Currency.BTC, Convert.ToDecimal(BtcReserved));
-
             res.Balance.Add(Currency.USD, Convert.ToDecimal(UsdBalance));
             res.Balance.Add(Currency.BTC, Convert.ToDecimal(BtcBalance));
 

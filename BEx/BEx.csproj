@@ -59,6 +59,7 @@
       <DependentUpon>ErrorMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Exchange\Bitfinex.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitFinexAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderBookJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />

@@ -30,7 +30,22 @@ namespace BEx
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
 
+        public HashSet<Currency> CurrencyList
+        {
 
+            get
+            {
+                HashSet<Currency> all = new HashSet<Currency>();
+
+                foreach (KeyValuePair<Currency, HashSet<Currency>> pair in SupportedPairs)
+                {
+                    all.Add(pair.Key);
+                    all.UnionWith(pair.Value);
+                }
+
+                return all;
+            }
+        }
 
 
         protected RestClient apiClient
