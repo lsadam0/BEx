@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 
 using RestSharp;
 using BEx.BitStampSupport;
@@ -16,7 +17,7 @@ namespace BEx
         public BitStamp()
             : base("Bitstamp.xml")
         {
-            
+
         }
 
         public override Tick GetTick()
@@ -49,18 +50,18 @@ namespace BEx
             return base.GetTransactions<BitstampTransactionJSON>(baseCurrency, counterCurrency);
         }
 
-        public override object GetAccountBalance()
+        public override AccountBalance GetAccountBalance()
         {
-            return base.GetAccountBalance(Currency.BTC, Currency.USD);
+            return base.GetAccountBalance<BitStampAccountBalanceJSON>(Currency.BTC, Currency.USD);
         }
 
         internal override void SetParameters(APICommand command)
         {
-            
+
         }
 
 
-        protected override Tuple<string, string, string> CreateSignature()
+        protected override void CreateSignature(RestRequest request, APICommand command)
         {
             Tuple<string, string, string> res = null;// = new Tuple<string, string, string>("", "");
 
@@ -70,12 +71,25 @@ namespace BEx
                 message = nonce + client_id + api_key
                 signature = hmac.new(API_SECRET, msg=message, digestmod=hashlib.sha256).hexdigest().upper()*/
 
-            string signature = CreateToken(Nonce + ClientID + APIKey, SecretKey);
+            //string signature = CreateToken(Nonce + ClientID + APIKey, SecretKey);
 
-            res = new Tuple<string, string, string>(APIKey, Nonce.ToString(), signature);
+            string msg = string.Format("{0}{1}{2}", Nonce, ClientID, APIKey);
 
-            return res;
-            
+            string signature = ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
+
+
+            request.AddParameter("key", APIKey);
+            request.AddParameter("nonce", Nonce);
+            request.AddParameter("signature", signature);
+
+        }
+
+
+
+        public static byte[] SignHMACSHA256(String key, byte[] data)
+        {
+            HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
+            return hashMaker.ComputeHash(data);
         }
     }
 }

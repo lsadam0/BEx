@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using RestSharp;
 using BEx.BTCeSupport;
 
 namespace BEx
@@ -57,9 +58,9 @@ namespace BEx
         }
 
 
-        public override object GetAccountBalance()
+        public override AccountBalance GetAccountBalance()
         {
-            return base.GetAccountBalance(Currency.BTC, Currency.USD);
+            return base.GetAccountBalance<object>(Currency.BTC, Currency.USD);
         }
 
 
@@ -68,11 +69,11 @@ namespace BEx
             
         }
 
-        protected override Tuple<string, string, string> CreateSignature()
+        protected override void CreateSignature(RestRequest request, APICommand command)
         {
             Tuple<string, string, string> res = new Tuple<string, string, string>("", "", "");
 
-            return res;
+            
         }
 
     }

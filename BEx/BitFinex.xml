@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <BTCe>
-  <BaseURL>https://api.bitfinex.com/v1</BaseURL>
+  <BaseURL>https://api.bitfinex.com</BaseURL>
   <SupportedPairs>
     <Pair>
       <Base>BTC</Base>
@@ -26,7 +26,7 @@
   <Commands>
     <Command ID="Tick">
       <Method>GET</Method>
-      <RelativeURL>pubticker/{BaseCurrency}{CounterCurrency}</RelativeURL>
+      <RelativeURL>/v1/pubticker/{BaseCurrency}{CounterCurrency}</RelativeURL>
       <RequiresAuthentication>false</RequiresAuthentication>
       <args>
         <arg ID="base">BTC</arg>
@@ -35,7 +35,7 @@
     </Command>
     <Command ID="OrderBook">
       <Method>GET</Method>
-      <RelativeURL>book/{BaseCurrency}{CounterCurrency}</RelativeURL>
+      <RelativeURL>/v1/book/{BaseCurrency}{CounterCurrency}</RelativeURL>
       <RequiresAuthentication>false</RequiresAuthentication>
       <args>
         <arg ID="base">BTC</arg>
@@ -44,12 +44,18 @@
     </Command>
     <Command ID="Transactions">
       <Method>GET</Method>
-      <RelativeURL>trades/{BaseCurrency}{CounterCurrency}</RelativeURL>
+      <RelativeURL>/v1/trades/{BaseCurrency}{CounterCurrency}</RelativeURL>
       <RequiresAuthentication>false</RequiresAuthentication>
       <args>
         <arg ID="base">BTC</arg>
         <arg ID="counter">USD</arg>
       </args>
-    </Command>    
+    </Command>
+    <Command ID="AccountBalance">
+      <Method>POST</Method>
+      <RelativeURL>/v1/balances</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
+    </Command>
   </Commands>
 </BTCe>

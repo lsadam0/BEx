@@ -11,7 +11,7 @@ using BEx;
 
 namespace NUnitTests
 {
-    
+
 
     public class VerifyExchangeBase
     {
@@ -53,11 +53,17 @@ namespace NUnitTests
                 case ("BEx.BitStamp"):
                     exchangeElement = keyFile.Element("BitStamp");
                     break;
+                case ("BEx.Bitfinex"):
+                    exchangeElement = keyFile.Element("BitFinex");
+                    break;
+
             }
 
             APIKey = exchangeElement.Element("Key").Value;
             Secret = exchangeElement.Element("Secret").Value;
-            ClientID = exchangeElement.Element("ClientID").Value;
+
+            if (exchangeElement.Element("ClientID") != null)
+                ClientID = exchangeElement.Element("ClientID").Value;
 
         }
 

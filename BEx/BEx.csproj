@@ -64,6 +64,7 @@
     <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
+    <Compile Include="Exchange\BitStamp\JSON\BitStampAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />

@@ -9,7 +9,7 @@ using RestSharp;
 namespace BEx
 {
 
-    public delegate Tuple<string, string, string> GetSignatureDelegate();
+    public delegate void GetSignatureDelegate(RestRequest request, APICommand command);
 
     public class RequestFactory
     {
@@ -70,11 +70,13 @@ namespace BEx
         {
             if (GetSignature != null)
             {
-                Tuple<string, string, string> result = GetSignature();
+                 //GetSignature()
 
-                request.AddParameter("key", result.Item1);
-                request.AddParameter("nonce", result.Item2);
-                request.AddParameter("signature", result.Item3);
+                GetSignature(request, command);
+
+                //request.AddParameter("key", result.Item1);
+                //request.AddParameter("nonce", result.Item2);
+                //request.AddParameter("signature", result.Item3);
                 
             }
         }

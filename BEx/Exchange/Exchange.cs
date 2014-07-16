@@ -306,13 +306,13 @@ namespace BEx
 
         #region Account Balance
 
-        public abstract object GetAccountBalance();
+        public abstract AccountBalance GetAccountBalance();
 
-        protected object GetAccountBalance(Currency baseCurrency, Currency counterCurrency)
+        protected AccountBalance GetAccountBalance<B>(Currency baseCurrency, Currency counterCurrency)
         {
-            object res = new object();
+            AccountBalance res;
 
-            res = SendCommandToDispatcher<object, object>(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
+            res = (AccountBalance)SendCommandToDispatcher<B, AccountBalance>(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -336,20 +336,35 @@ namespace BEx
 
         #region Signature
 
-        protected abstract Tuple<string, string, string> CreateSignature();
+        protected abstract void CreateSignature(RestRequest request, APICommand command);
 
+        /*
         protected string CreateToken(string message, string secret)
         {
             secret = secret ?? "";
             var encoding = new System.Text.ASCIIEncoding();
+            
             byte[] keyByte = encoding.GetBytes(secret);
             byte[] messageBytes = encoding.GetBytes(message);
+
             using (var hmacsha256 = new HMACSHA256(keyByte))
             {
                 byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
-                return Convert.ToBase64String(hashmessage);
+                //return Convert.ToBase64String(hashmessage);
+
+                return BitConverter.ToString(hashmessage).Replace("-", "").ToLower();
             }
-        }
+        }*/
         #endregion
+
+        protected string ByteArrayToString(byte[] hash)
+        {
+            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+        }
+
+        protected byte[] StringToByteArray(string str)
+        {
+            return System.Text.Encoding.ASCII.GetBytes(str);
+        }
     }
 }

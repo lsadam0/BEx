@@ -55,7 +55,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetAccountBalance()
         {
-            object res = toTest.GetAccountBalance();
+            AccountBalance res = toTest.GetAccountBalance();
 
             VerifyAccountBalance(res);
 

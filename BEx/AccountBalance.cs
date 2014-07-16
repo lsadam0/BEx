@@ -9,7 +9,19 @@ namespace BEx
     public class AccountBalance : APIResult
     {
 
-        public Dictionary<string, string> Balances
+        public Dictionary<Currency, decimal> Available
+        {
+            get;
+            set;
+        }
+
+        public Dictionary<Currency, decimal> Reserved
+        {
+            get;
+            set;
+        }
+
+        public Dictionary<Currency, decimal> Balance
         {
             get;
             set;
@@ -17,7 +29,9 @@ namespace BEx
 
         internal AccountBalance() : base()
         {
-            
+            Balance = new Dictionary<Currency, decimal>();
+            Available = new Dictionary<Currency, decimal>();
+            Reserved = new Dictionary<Currency, decimal>();
 
         }
     }
