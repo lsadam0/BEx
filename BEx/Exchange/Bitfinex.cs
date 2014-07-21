@@ -83,8 +83,7 @@ namespace BEx
                 X-BFX-SIGNATURE*/
             request.AddHeader("X-BFX-APIKEY", APIKey);
 
-          //  string payloadFrame = "{\"request\": \"/v1/balances\",\"nonce\": \"" + Nonce + "\"}"; //ie. {"request": "/v1/balances","nonce": "1402207693893"}
-           StringBuilder payload = new StringBuilder();
+            StringBuilder payload = new StringBuilder();
 
             payload.Append("{");
             payload.Append("\"request\": \"" +  command.ResolvedRelativeURI + "\",");
@@ -95,18 +94,11 @@ namespace BEx
 
             request.AddHeader("X-BFX-PAYLOAD", payload64);
 
-            
-
             using (HMACSHA384 hasher = new HMACSHA384(Encoding.UTF8.GetBytes(SecretKey)))
             {
-
                byte[] hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
-
-                
                request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
             }
-
-
             
         }
 
