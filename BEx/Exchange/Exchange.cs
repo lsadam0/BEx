@@ -21,7 +21,7 @@ namespace BEx
 
     public delegate string GetSignature();
 
-    public abstract class Exchange
+    public abstract class Exchange : IDisposable
     {
 
         #region Vars
@@ -47,8 +47,15 @@ namespace BEx
             }
         }
 
+        private string configurationFile;
 
         protected RestClient apiClient
+        {
+            get;
+            set;
+        }
+
+        protected RestClient authenticatedClient
         {
             get;
             set;
@@ -63,6 +70,12 @@ namespace BEx
         public Uri BaseURI
         {
 
+            get;
+            set;
+        }
+
+        public Uri AuthenticatedURI
+        {
             get;
             set;
         }
@@ -102,6 +115,9 @@ namespace BEx
             set;
         }
 
+        private long sequentialNonce;
+        private bool requiresSequentialNonce = false;
+
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -110,17 +126,31 @@ namespace BEx
         {
             get
             {
-                return DateTime.Now.Ticks;
+                if (!requiresSequentialNonce)
+                    return DateTime.Now.Ticks;
+                else
+                {
+                    long res = sequentialNonce;
+                    ++sequentialNonce;
+                    return res;
+                }
             }
         }
         #endregion
 
         protected Exchange(string configFile)
         {
+            configurationFile = configFile;
             LoadConfigFromXML(configFile);
 
             apiClient = new RestClient(BaseURI.ToString());
-            apiRequestFactory = new RequestFactory(BaseURI);
+
+            if (AuthenticatedURI != null)
+                authenticatedClient = new RestClient(AuthenticatedURI.ToString());
+            else
+                authenticatedClient = null;
+
+            apiRequestFactory = new RequestFactory();
             apiRequestFactory.GetSignature += CreateSignature;
         }
 
@@ -157,7 +187,7 @@ namespace BEx
             }
         }
 
-
+        /*
         protected string ExecuteCommand(APICommand toExecute)
         {
             VerifyCurrencySupport(toExecute);
@@ -190,7 +220,7 @@ namespace BEx
 
             return "";
         }
-
+        */
         #endregion
 
         #region Load Exchange from XML
@@ -217,6 +247,15 @@ namespace BEx
             string baseUrl = configFile.Element("BaseURL").Value;
 
             BaseURI = new Uri(baseUrl);
+
+            if (configFile.Element("AuthenticatedURL") != null)
+                AuthenticatedURI = new Uri(configFile.Element("AuthenticatedURL").Value);
+
+            if (configFile.Element("Nonce") != null)
+            {
+                requiresSequentialNonce = true;
+                sequentialNonce = Convert.ToInt64(configFile.Element("Nonce").Value);
+            }
 
             LoadSupportedPairs(configFile);
 
@@ -343,7 +382,11 @@ namespace BEx
 
             VerifyCurrencySupport(toExecute);
 
-            RequestDispatcher<J, R> disp = new RequestDispatcher<J, R>(BaseURI, apiClient, apiRequestFactory);
+            RequestDispatcher<J, R> disp = null;
+            if (toExecute.RequiresAuthentication && authenticatedClient != null)
+                disp = new RequestDispatcher<J, R>(authenticatedClient, apiRequestFactory);
+            else
+                disp = new RequestDispatcher<J, R>(apiClient, apiRequestFactory);
 
             return disp.ExecuteCommand(toExecute);
         }
@@ -381,5 +424,26 @@ namespace BEx
         {
             return System.Text.Encoding.ASCII.GetBytes(str);
         }
+
+
+        #region Dispose
+        public void Dispose()
+        {
+
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+
+                //
+            }
+        }
+
+
+        #endregion
     }
 }

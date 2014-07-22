@@ -31,7 +31,7 @@ namespace BEx
             set;
         }
 
-        internal RequestDispatcher(Uri BaseURI, RestClient client, RequestFactory factory)
+        internal RequestDispatcher(RestClient client, RequestFactory factory)
         {
             apiClient = client;
             apiRequestFactory = factory;

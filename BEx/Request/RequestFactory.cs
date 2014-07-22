@@ -13,13 +13,12 @@ namespace BEx
 
     public class RequestFactory
     {
-        private Uri BaseURI;
+
 
         public GetSignatureDelegate GetSignature;
 
-        public RequestFactory(Uri baseUri)
+        public RequestFactory()
         {
-            BaseURI = baseUri;
         }
 
         public RestRequest GetRequest(APICommand command)
@@ -33,15 +32,7 @@ namespace BEx
 
 
             return result;
-            /*
-            if (command.RequiresAuthentication)
-            {
-                return CreateAuthenticatedRequest();
-            }
-            else
-            {
-                return CreateUnauthenticatedRequest(command);
-            }*/
+
 
         }
 

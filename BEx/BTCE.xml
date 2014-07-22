@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <BTCe>
   <BaseURL>https://btc-e.com/api/2/</BaseURL>
+  <AuthenticatedURL>https://btc-e.com/tapi</AuthenticatedURL>
+  <Nonce>5</Nonce>
   <SupportedPairs>
     <Pair>
       <Base>BTC</Base>

@@ -69,6 +69,7 @@
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />
+    <Compile Include="Exchange\BTCe\JSON\BTCeAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeOrderBookJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTransactionsJSON.cs" />
