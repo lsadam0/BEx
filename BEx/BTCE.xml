@@ -121,12 +121,19 @@
     </Command>
     <Command ID="Transactions">
       <Method>GET</Method>
+      <RequiresAuthentication>false</RequiresAuthentication>
       <RelativeURL>{BaseCurrency}_{CounterCurrency}/trades</RelativeURL>
       <args>
         <arg ID="base">BTC</arg>
         <arg ID="counter">USD</arg>
         <arg ID="since" type="parameter"></arg>
       </args>
+    </Command>
+    <Command ID="AccountBalance">
+      <Method>POST</Method>
+      <RelativeURL>getInfo</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
     </Command>
   </Commands>
 </BTCe>

@@ -14,10 +14,16 @@ namespace NUnitTests
     public class BTCe_Commands : VerifyExchangeBase
     {
 
-        BTCe be = new BTCe();
+       // BTCe be = new BTCe();
 
         public BTCe_Commands() : base(typeof(BEx.BTCe))
         {
+
+            toTest = new BTCe();
+
+            toTest.APIKey = base.APIKey;
+            toTest.SecretKey = base.Secret;
+          //  toTest.ClientID = base.ClientID;
 
         }
 
@@ -26,7 +32,7 @@ namespace NUnitTests
         public void BTCe_GetTick()
         {
 
-            Tick t = be.GetTick();
+            Tick t = toTest.GetTick();
 
             VerifyTick(t, Currency.BTC, Currency.USD);                
         }
@@ -34,7 +40,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_BTCRUR()
         {
-            Tick t= be.GetTick(Currency.BTC, Currency.RUR);
+            Tick t= toTest.GetTick(Currency.BTC, Currency.RUR);
 
             VerifyTick(t, Currency.BTC, Currency.RUR);
         }
@@ -42,7 +48,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_BTCEUR()
         {
-            Tick t = be.GetTick(Currency.BTC, Currency.EUR);
+            Tick t = toTest.GetTick(Currency.BTC, Currency.EUR);
 
             VerifyTick(t, Currency.BTC, Currency.EUR);
         }
@@ -50,7 +56,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_BTCCNH()
         {
-            Tick t = be.GetTick(Currency.BTC, Currency.CNH);
+            Tick t = toTest.GetTick(Currency.BTC, Currency.CNH);
 
             VerifyTick(t, Currency.BTC, Currency.CNH);
         }
@@ -58,7 +64,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_BTCGBP()
         {
-            Tick t = be.GetTick(Currency.BTC, Currency.GBP);
+            Tick t = toTest.GetTick(Currency.BTC, Currency.GBP);
 
             VerifyTick(t, Currency.BTC, Currency.GBP);
         }
@@ -66,7 +72,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_LTCBTC()
         {
-            Tick t = be.GetTick(Currency.LTC, Currency.BTC);
+            Tick t = toTest.GetTick(Currency.LTC, Currency.BTC);
 
             VerifyTick(t, Currency.LTC, Currency.BTC);
         }
@@ -74,7 +80,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_LTCUSD()
         {
-            Tick t = be.GetTick(Currency.LTC, Currency.USD);
+            Tick t = toTest.GetTick(Currency.LTC, Currency.USD);
 
             VerifyTick(t, Currency.LTC, Currency.USD);
         }
@@ -82,7 +88,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_LTCRUR()
         {
-            Tick t = be.GetTick(Currency.LTC, Currency.RUR);
+            Tick t = toTest.GetTick(Currency.LTC, Currency.RUR);
 
             VerifyTick(t, Currency.LTC, Currency.RUR);
         }
@@ -90,7 +96,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_LTCEUR()
         {
-            Tick t = be.GetTick(Currency.LTC, Currency.EUR);
+            Tick t = toTest.GetTick(Currency.LTC, Currency.EUR);
 
             VerifyTick(t, Currency.LTC, Currency.EUR);
         }
@@ -98,7 +104,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_LTCCNH()
         {
-            Tick t = be.GetTick(Currency.LTC, Currency.CNH);
+            Tick t = toTest.GetTick(Currency.LTC, Currency.CNH);
 
             VerifyTick(t, Currency.LTC, Currency.CNH);
         }
@@ -106,7 +112,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_LTCGBP()
         {
-            Tick t = be.GetTick(Currency.LTC, Currency.GBP);
+            Tick t = toTest.GetTick(Currency.LTC, Currency.GBP);
 
             VerifyTick(t, Currency.LTC, Currency.GBP);
         }
@@ -114,7 +120,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetTick_NMCBTC()
         {
-            Tick t = be.GetTick(Currency.NMC, Currency.BTC);
+            Tick t = toTest.GetTick(Currency.NMC, Currency.BTC);
 
             VerifyTick(t, Currency.NMC, Currency.BTC);
         }
@@ -125,7 +131,7 @@ namespace NUnitTests
             Currency baseC = Currency.NMC;
             Currency counterC = Currency.USD;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -136,7 +142,7 @@ namespace NUnitTests
             Currency baseC = Currency.NVC;
             Currency counterC = Currency.BTC;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -147,7 +153,7 @@ namespace NUnitTests
             Currency baseC = Currency.NVC;
             Currency counterC = Currency.USD;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -158,7 +164,7 @@ namespace NUnitTests
             Currency baseC = Currency.USD;
             Currency counterC = Currency.RUR;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -169,7 +175,7 @@ namespace NUnitTests
             Currency baseC = Currency.EUR;
             Currency counterC = Currency.USD;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -180,7 +186,7 @@ namespace NUnitTests
             Currency baseC = Currency.EUR;
             Currency counterC = Currency.RUR;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -191,7 +197,7 @@ namespace NUnitTests
             Currency baseC = Currency.USD;
             Currency counterC = Currency.CNH;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -202,7 +208,7 @@ namespace NUnitTests
             Currency baseC = Currency.GBP;
             Currency counterC = Currency.USD;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -213,7 +219,7 @@ namespace NUnitTests
             Currency baseC = Currency.TRC;
             Currency counterC = Currency.BTC;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -224,7 +230,7 @@ namespace NUnitTests
             Currency baseC = Currency.PPC;
             Currency counterC = Currency.BTC;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -235,7 +241,7 @@ namespace NUnitTests
             Currency baseC = Currency.PPC;
             Currency counterC = Currency.USD;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -246,7 +252,7 @@ namespace NUnitTests
             Currency baseC = Currency.FTC;
             Currency counterC = Currency.BTC;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -257,7 +263,7 @@ namespace NUnitTests
             Currency baseC = Currency.XPM;
             Currency counterC = Currency.BTC;
 
-            Tick t = be.GetTick(baseC, counterC);
+            Tick t = toTest.GetTick(baseC, counterC);
 
             VerifyTick(t, baseC, counterC);
         }
@@ -273,7 +279,7 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.USD;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -284,7 +290,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -295,7 +301,7 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.CNH;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -306,7 +312,7 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.EUR;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -317,7 +323,7 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.GBP;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -328,7 +334,7 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.RUR;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -339,7 +345,7 @@ namespace NUnitTests
             Currency b = Currency.EUR;
             Currency c = Currency.RUR;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -350,7 +356,7 @@ namespace NUnitTests
             Currency b = Currency.EUR;
             Currency c = Currency.USD;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -361,7 +367,7 @@ namespace NUnitTests
             Currency b = Currency.FTC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -372,7 +378,7 @@ namespace NUnitTests
             Currency b = Currency.GBP;
             Currency c = Currency.USD;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -383,7 +389,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.CNH;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -394,7 +400,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.EUR;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -405,7 +411,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.GBP;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -416,7 +422,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.RUR;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -427,7 +433,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.USD;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -438,7 +444,7 @@ namespace NUnitTests
             Currency b = Currency.NMC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -449,7 +455,7 @@ namespace NUnitTests
             Currency b = Currency.NMC;
             Currency c = Currency.USD;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -460,7 +466,7 @@ namespace NUnitTests
             Currency b = Currency.NVC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -471,7 +477,7 @@ namespace NUnitTests
             Currency b = Currency.LTC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -483,7 +489,7 @@ namespace NUnitTests
             Currency b = Currency.PPC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -494,7 +500,7 @@ namespace NUnitTests
             Currency b = Currency.PPC;
             Currency c = Currency.USD;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -505,7 +511,7 @@ namespace NUnitTests
             Currency b = Currency.TRC;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -516,7 +522,7 @@ namespace NUnitTests
             Currency b = Currency.USD;
             Currency c = Currency.CNH;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -527,7 +533,7 @@ namespace NUnitTests
             Currency b = Currency.USD;
             Currency c = Currency.RUR;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -538,7 +544,7 @@ namespace NUnitTests
             Currency b = Currency.XPM;
             Currency c = Currency.BTC;
 
-            OrderBook o = be.GetOrderBook(b, c);
+            OrderBook o = toTest.GetOrderBook(b, c);
 
             VerifyOrderBook(o);
         }
@@ -553,13 +559,26 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.USD;
 
-            List<Transaction> t = be.GetTransactions(b, c);
+            List<Transaction> t = toTest.GetTransactions(b, c);
 
             VerifyTransactions(t);
 
         }
 
         #endregion
-         
+
+        #region AccountBalance
+
+        [Test]
+        public void BTCe_GetAccountBalance()
+        {
+            object o = toTest.GetAccountBalance();
+
+            VerifyAccountBalance(o);
+
+        }
+
+        #endregion
+
     }
 }

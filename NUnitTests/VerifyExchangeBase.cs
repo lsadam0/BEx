@@ -56,6 +56,9 @@ namespace NUnitTests
                 case ("BEx.Bitfinex"):
                     exchangeElement = keyFile.Element("BitFinex");
                     break;
+                case ("BEx.BTCe"):
+                    exchangeElement = keyFile.Element("BTCe");
+                    break;
 
             }
 
