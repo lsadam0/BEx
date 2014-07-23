@@ -128,5 +128,12 @@ namespace NUnitTests
 
             Assert.IsNotNull(toVerify);
         }
+
+        protected void VerifyBuyOrder(object toVerify)
+        {
+            ThrottleTestVelocity();
+
+            Assert.IsNotNull(toVerify);
+        }
     }
 }

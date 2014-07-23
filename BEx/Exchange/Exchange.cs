@@ -30,25 +30,6 @@ namespace BEx
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
 
-        public HashSet<Currency> CurrencyList
-        {
-
-            get
-            {
-                HashSet<Currency> all = new HashSet<Currency>();
-
-                foreach (KeyValuePair<Currency, HashSet<Currency>> pair in SupportedPairs)
-                {
-                    all.Add(pair.Key);
-                    all.UnionWith(pair.Value);
-                }
-
-                return all;
-            }
-        }
-
-        private string configurationFile;
-
         protected RestClient apiClient
         {
             get;
@@ -115,9 +96,6 @@ namespace BEx
             set;
         }
 
-        private long sequentialNonce;
-        private bool requiresSequentialNonce = false;
-
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -126,21 +104,13 @@ namespace BEx
         {
             get
             {
-                if (!requiresSequentialNonce)
-                    return DateTime.Now.Ticks;
-                else
-                {
-                    long res = sequentialNonce;
-                    ++sequentialNonce;
-                    return res;
-                }
+                return DateTime.Now.Ticks;
             }
         }
         #endregion
 
         protected Exchange(string configFile)
         {
-            configurationFile = configFile;
             LoadConfigFromXML(configFile);
 
             apiClient = new RestClient(BaseURI.ToString());
@@ -186,118 +156,10 @@ namespace BEx
                 }
             }
         }
-
-        /*
-        protected string ExecuteCommand(APICommand toExecute)
-        {
-            VerifyCurrencySupport(toExecute);
-
-            RestRequest request = apiRequestFactory.GetRequest(toExecute);
-
-            IRestResponse response = apiClient.Execute(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                return response.Content;
-            else
-                return HandleResponseError(response);
-        }
-
-
-        protected string HandleResponseError(IRestResponse response)
-        {
-            // To Do
-
-            WebException toThrow;
-
-
-            if (response.ErrorException != null)
-                toThrow = new WebException(response.StatusCode.ToString(), response.ErrorException);
-            else
-                toThrow = new WebException(response.StatusCode.ToString());
-
-
-            throw toThrow;
-
-            return "";
-        }
-        */
+        
         #endregion
 
-        #region Load Exchange from XML
-
-        protected void LoadCommands(XElement configFile)
-        {
-            XElement commands = configFile.Element("Commands");
-
-            foreach (XElement command in commands.Elements())
-            {
-                APICommand commandToLoad = new APICommand(command);
-
-                APICommandCollection.Add(commandToLoad.ID, commandToLoad);
-
-            }
-        }
-
-        protected void LoadConfigFromXML(string file)
-        {
-            APICommandCollection = new Dictionary<string, APICommand>();
-
-            XElement configFile = XElement.Load(file);
-
-            string baseUrl = configFile.Element("BaseURL").Value;
-
-            BaseURI = new Uri(baseUrl);
-
-            if (configFile.Element("AuthenticatedURL") != null)
-                AuthenticatedURI = new Uri(configFile.Element("AuthenticatedURL").Value);
-
-            if (configFile.Element("Nonce") != null)
-            {
-                requiresSequentialNonce = true;
-                sequentialNonce = Convert.ToInt64(configFile.Element("Nonce").Value);
-            }
-
-            LoadSupportedPairs(configFile);
-
-            LoadCommands(configFile);
-
-
-
-        }
-
-        private void LoadSupportedPairs(XElement configFile)
-        {
-            XElement supportedPairs = configFile.Element("SupportedPairs");
-
-            SupportedPairs = new Dictionary<Currency, HashSet<Currency>>();
-
-            foreach (XElement pairs in supportedPairs.Elements())
-            {
-                XElement b = pairs.Element("Base");
-
-                XElement c = pairs.Element("Counter");
-
-                Currency bs;
-                Currency cs;
-
-                if (Enum.TryParse<Currency>(b.Value, out bs)
-                    &&
-                Enum.TryParse<Currency>(c.Value, out cs))
-                {
-                    if (!SupportedPairs.ContainsKey(bs))
-                    {
-                        SupportedPairs.Add(bs, new HashSet<Currency>());
-                    }
-
-                    if (!SupportedPairs[bs].Contains(cs))
-                    {
-                        SupportedPairs[bs].Add(cs);
-                    }
-                }
-
-            }
-        }
-        #endregion
+        #region API Commands
 
         #region GetOrderBook
 
@@ -373,7 +235,42 @@ namespace BEx
 
         #endregion
 
-        internal abstract void SetParameters(APICommand command);
+        #region Buy Limit Order
+
+        public abstract object CreateBuyOrder(decimal amount, decimal price);
+
+        public abstract object CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+
+        protected object CreateBuyOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        {
+            object res;
+
+            res = (object)SendCommandToDispatcher<B, object>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
+
+            return res;
+        }
+
+        #endregion
+
+        #region Sell Limit Order
+
+        public abstract object CreateSellOrder(decimal amount, decimal price);
+
+        public abstract object CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+
+        protected object CreateSellOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        {
+            object res;
+
+            res = (object)SendCommandToDispatcher<B, object>(APICommandCollection["SellOrder"], Currency.BTC, Currency.USD);
+
+            return res;
+        }
+
+        #endregion
+
+
+        #endregion
 
         private object SendCommandToDispatcher<J, R>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency)
         {
@@ -391,39 +288,7 @@ namespace BEx
             return disp.ExecuteCommand(toExecute);
         }
 
-
-        #region Signature
-
         protected abstract void CreateSignature(RestRequest request, APICommand command);
-
-        /*
-        protected string CreateToken(string message, string secret)
-        {
-            secret = secret ?? "";
-            var encoding = new System.Text.ASCIIEncoding();
-            
-            byte[] keyByte = encoding.GetBytes(secret);
-            byte[] messageBytes = encoding.GetBytes(message);
-
-            using (var hmacsha256 = new HMACSHA256(keyByte))
-            {
-                byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
-                //return Convert.ToBase64String(hashmessage);
-
-                return BitConverter.ToString(hashmessage).Replace("-", "").ToLower();
-            }
-        }*/
-        #endregion
-
-        protected string ByteArrayToString(byte[] hash)
-        {
-            return BitConverter.ToString(hash).Replace("-", "").ToLower();
-        }
-
-        protected byte[] StringToByteArray(string str)
-        {
-            return System.Text.Encoding.ASCII.GetBytes(str);
-        }
 
 
         #region Dispose
@@ -444,6 +309,76 @@ namespace BEx
         }
 
 
+        #endregion
+
+        #region Load Exchange from XML
+
+        protected void LoadCommands(XElement configFile)
+        {
+            XElement commands = configFile.Element("Commands");
+
+            foreach (XElement command in commands.Elements())
+            {
+                APICommand commandToLoad = new APICommand(command);
+
+                APICommandCollection.Add(commandToLoad.ID, commandToLoad);
+
+            }
+        }
+
+        protected void LoadConfigFromXML(string file)
+        {
+            APICommandCollection = new Dictionary<string, APICommand>();
+
+            XElement configFile = XElement.Load(file);
+
+            string baseUrl = configFile.Element("BaseURL").Value;
+
+            BaseURI = new Uri(baseUrl);
+
+            if (configFile.Element("AuthenticatedURL") != null)
+                AuthenticatedURI = new Uri(configFile.Element("AuthenticatedURL").Value);
+
+            LoadSupportedPairs(configFile);
+
+            LoadCommands(configFile);
+
+
+
+        }
+
+        private void LoadSupportedPairs(XElement configFile)
+        {
+            XElement supportedPairs = configFile.Element("SupportedPairs");
+
+            SupportedPairs = new Dictionary<Currency, HashSet<Currency>>();
+
+            foreach (XElement pairs in supportedPairs.Elements())
+            {
+                XElement b = pairs.Element("Base");
+
+                XElement c = pairs.Element("Counter");
+
+                Currency bs;
+                Currency cs;
+
+                if (Enum.TryParse<Currency>(b.Value, out bs)
+                    &&
+                Enum.TryParse<Currency>(c.Value, out cs))
+                {
+                    if (!SupportedPairs.ContainsKey(bs))
+                    {
+                        SupportedPairs.Add(bs, new HashSet<Currency>());
+                    }
+
+                    if (!SupportedPairs[bs].Contains(cs))
+                    {
+                        SupportedPairs[bs].Add(cs);
+                    }
+                }
+
+            }
+        }
         #endregion
     }
 }

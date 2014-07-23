@@ -11,6 +11,8 @@ namespace BEx
 {
     public class BTCe : Exchange
     {
+
+        DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         
         public BTCe() : base("BTCe.xml")
         {
@@ -37,7 +39,6 @@ namespace BEx
 
         public override OrderBook GetOrderBook()
         {
-
             return base.GetOrderBook<BTCeOrderBookJSON>(Currency.BTC, Currency.USD);
         }
 
@@ -48,7 +49,6 @@ namespace BEx
 
         public override List<Transaction> GetTransactions()
         {
-            
             return base.GetTransactions<BTCeTransactionsJSON>(Currency.BTC, Currency.USD);
         }
 
@@ -57,33 +57,36 @@ namespace BEx
             return base.GetTransactions<BTCeTransactionsJSON>(baseCurrency, counterCurrency);
         }
 
-
         public override AccountBalance GetAccountBalance()
         {
             return base.GetAccountBalance<BTCeAccountBalanceJSON>(Currency.BTC, Currency.USD);
         }
 
-
-        internal override void SetParameters(APICommand command)
+        public override object CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
-            
+            return null;
+        }
+
+        public override object CreateBuyOrder(decimal amount, decimal price)
+        {
+            return null;
+        }
+
+        public override object CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            return null;
+        }
+
+        public override object CreateSellOrder(decimal amount, decimal price)
+        {
+            return null;
         }
 
         protected override void CreateSignature(RestRequest request, APICommand command)
         {
-            Tuple<string, string, string> res = new Tuple<string, string, string>("", "", "");
-            //hashMaker = new HMACSHA512(Encoding.ASCII.GetBytes(secret));
-
-            // PostData order
-            // method
-            // nonce
-
-
-            long _nonce = Nonce;
+            long _nonce = BTCeNonce;
 
             StringBuilder dataBuilder = new StringBuilder();
-
-           // foreach (string p in data)
 
             string postString = "method=getInfo&nonce=" + _nonce.ToString();
                 
@@ -91,11 +94,8 @@ namespace BEx
             using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
             {
                 byte[] hashBytes = hasher.ComputeHash(Encoding.ASCII.GetBytes(postString));
-                //request.AddHeader("Sign", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
                 signature = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
-
-
             // Header
             // Key
             request.AddHeader("Key", APIKey);
@@ -105,9 +105,16 @@ namespace BEx
             // Parameters
             request.AddParameter("method", "getInfo");
             request.AddParameter("nonce", _nonce.ToString());
-            
-
         }
 
+        private UInt32 BTCeNonce
+        {
+            get
+            {
+                return (UInt32)(DateTime.Now - epoch).TotalSeconds;
+            }
+        }
+
+   
     }
 }

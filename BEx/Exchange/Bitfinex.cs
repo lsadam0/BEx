@@ -13,14 +13,11 @@ namespace BEx
 {
     public class Bitfinex : Exchange
     {
-
         public Bitfinex()
             : base("BitFinex.xml")
         {
 
         }
-
-
 
         public override Tick GetTick()
         {
@@ -59,6 +56,25 @@ namespace BEx
             return base.GetAccountBalance<List<BitFinexAccountBalanceJSON>>(Currency.BTC, Currency.USD);
         }
 
+        public override object CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            return null;
+        }
+
+        public override object CreateBuyOrder(decimal amount, decimal price)
+        {
+            return null;
+        }
+
+        public override object CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            return null;
+        }
+
+        public override object CreateSellOrder(decimal amount, decimal price)
+        {
+            return null;
+        }
 
         protected override void CreateSignature(RestRequest request, APICommand command)
         {
@@ -102,25 +118,6 @@ namespace BEx
             
         }
 
-        protected byte[] SignHMACSHA256(String key, byte[] data)
-        {
-            // borrowed
-            HMACSHA384 hashMaker = new HMACSHA384(Encoding.ASCII.GetBytes(key));
-            return hashMaker.ComputeHash(data);
-        }
-
-        internal override void SetParameters(APICommand command)
-        {
-            /*
-            switch (command.ID)
-            {
-                case "Transactions":
-                    DateTime sinceThisDate = DateTime.Now.AddHours(-1);
-                    command.Parameters["timestamp"] = UnixTime.DateTimeToUnixTimestamp(sinceThisDate).ToString();
-                    break;
-                default:
-                    break;
-            }*/
-        }
+     
     }
 }

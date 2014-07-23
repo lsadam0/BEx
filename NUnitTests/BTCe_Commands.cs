@@ -24,7 +24,6 @@ namespace NUnitTests
             toTest.APIKey = base.APIKey;
             toTest.SecretKey = base.Secret;
           //  toTest.ClientID = base.ClientID;
-
         }
 
         #region Ticks
@@ -269,7 +268,6 @@ namespace NUnitTests
         }
 
         #endregion
-
         
         #region OrderBook
 
@@ -549,7 +547,6 @@ namespace NUnitTests
             VerifyOrderBook(o);
         }
         #endregion
-        
 
         #region Transactions
 
@@ -579,6 +576,8 @@ namespace NUnitTests
         }
 
         #endregion
+
+        
 
     }
 }

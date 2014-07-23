@@ -55,11 +55,35 @@ namespace BEx
             return base.GetAccountBalance<BitStampAccountBalanceJSON>(Currency.BTC, Currency.USD);
         }
 
-        internal override void SetParameters(APICommand command)
+        public override object CreateBuyOrder(decimal amount, decimal price)
         {
-
+            return CreateBuyOrder(Currency.BTC, Currency.USD, amount, price);
         }
 
+        public override object CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            APICommand toExecute = APICommandCollection["BuyOrder"];
+
+            toExecute.Parameters["amount"] = amount.ToString();
+            toExecute.Parameters["price"] = price.ToString();
+
+            return base.CreateBuyOrder<object>(baseCurrency, counterCurrency);
+        }
+
+        public override object CreateSellOrder(decimal amount, decimal price)
+        {
+            return CreateSellOrder(Currency.BTC, Currency.USD, amount, price);
+        }
+
+        public override object CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            APICommand toExecute = APICommandCollection["SellOrder"];
+
+            toExecute.Parameters["amount"] = amount.ToString();
+            toExecute.Parameters["price"] = price.ToString();
+
+            return base.CreateSellOrder<object>(baseCurrency, counterCurrency);
+        }
 
         protected override void CreateSignature(RestRequest request, APICommand command)
         {
@@ -72,18 +96,31 @@ namespace BEx
 
             //string signature = CreateToken(Nonce + ClientID + APIKey, SecretKey);
 
-            string msg = string.Format("{0}{1}{2}", Nonce, ClientID, APIKey);
+            long _nonce = Nonce;
 
-            string signature = ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
+            string msg = string.Format("{0}{1}{2}", _nonce, ClientID, APIKey);
 
+            string signature = "";//ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
+
+
+            using (HMACSHA256 hasher = new HMACSHA256(Encoding.ASCII.GetBytes(SecretKey)))
+            {
+                byte[] dta = Encoding.ASCII.GetBytes(msg);
+
+                signature = BitConverter.ToString(hasher.ComputeHash(dta)).Replace("-", "").ToLower();
+                //BitConverter.ToSingle(hasher.ComputeHash(dta);
+            }
 
             request.AddParameter("key", APIKey);
-            request.AddParameter("nonce", Nonce);
+            request.AddParameter("nonce", _nonce);
             request.AddParameter("signature", signature);
 
+            foreach (KeyValuePair<string, string> param in command.Parameters)
+            {
+                request.AddParameter(param.Key, param.Value);
+            }
+
         }
-
-
 
         public static byte[] SignHMACSHA256(String key, byte[] data)
         {
