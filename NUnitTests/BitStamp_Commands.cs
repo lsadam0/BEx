@@ -70,6 +70,14 @@ namespace NUnitTests
             VerifyBuyOrder(res);
         }
 
+        [Test]
+        public void BitStamp_CreateSellOrder()
+        {
+            object res = toTest.CreateSellOrder(0.01m, 619.00m);
+
+            VerifySellOrder(res);
+        }
+
         
 
     }

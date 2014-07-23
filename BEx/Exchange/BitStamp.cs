@@ -107,17 +107,17 @@ namespace BEx
             {
                 byte[] dta = Encoding.ASCII.GetBytes(msg);
 
-                signature = BitConverter.ToString(hasher.ComputeHash(dta)).Replace("-", "").ToLower();
+                signature = BitConverter.ToString(hasher.ComputeHash(dta)).Replace("-", "").ToUpper();
                 //BitConverter.ToSingle(hasher.ComputeHash(dta);
             }
 
-            request.AddParameter("key", APIKey);
-            request.AddParameter("nonce", _nonce);
-            request.AddParameter("signature", signature);
-
+            request.AddParameter("key", Uri.EscapeUriString(APIKey));
+            request.AddParameter("signature", Uri.EscapeUriString(signature));
+            request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
+                        
             foreach (KeyValuePair<string, string> param in command.Parameters)
             {
-                request.AddParameter(param.Key, param.Value);
+                request.AddParameter(param.Key, Uri.EscapeUriString(param.Value.ToString()));
             }
 
         }

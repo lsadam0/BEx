@@ -44,6 +44,7 @@ namespace BEx
             request.RequestFormat = DataFormat.Json;
             request.Method = command.HttpMethod;
 
+            /* Bad
             foreach (KeyValuePair<string, string> param in command.Parameters)
             {
                 Parameter p = new Parameter();
@@ -52,7 +53,7 @@ namespace BEx
                 p.Type = ParameterType.QueryString;
 
                 request.Parameters.Add(p);
-            }
+            }*/
 
             return request;
         }
