@@ -11,6 +11,7 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 using RestSharp;
 using BEx.BitFinexSupport;
@@ -37,18 +38,18 @@ namespace BEx
             apiRequestFactory = factory;
         }
 
-        internal R ExecuteCommand(APICommand toExecute)
+        internal APIResult ExecuteCommand(APICommand toExecute)
         {
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
             IRestResponse response = apiClient.Execute(request);
-
-            return DeserializeObject(response.Content, toExecute);
+            
+            return (APIResult)DeserializeObject(response.Content, toExecute);
         }
 
-        private R DeserializeObject(string content, APICommand toExecute)
+        private APIResult DeserializeObject(string content, APICommand toExecute)
         {
-            R res = default(R);
+            APIResult res = default(APIResult);
 
             object deserialized = JsonConvert.DeserializeObject<J>(content);
 
@@ -57,10 +58,10 @@ namespace BEx
             if (conversionMethod == null)
             {
                 conversionMethod = ListOfWhat(deserialized).GetMethod("ConvertToStandard");
-                res = (R)conversionMethod.Invoke(null, new object[] { deserialized, toExecute.BaseCurrency, toExecute.CounterCurrency });
+                res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, toExecute.BaseCurrency, toExecute.CounterCurrency });
             }
             else
-                res = (R)conversionMethod.Invoke(deserialized, new object[] { toExecute.BaseCurrency, toExecute.CounterCurrency });
+                res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { toExecute.BaseCurrency, toExecute.CounterCurrency });
 
             return res;
         }

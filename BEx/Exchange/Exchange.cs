@@ -237,15 +237,15 @@ namespace BEx
 
         #region Buy Limit Order
 
-        public abstract object CreateBuyOrder(decimal amount, decimal price);
+        public abstract OrderConfirmation CreateBuyOrder(decimal amount, decimal price);
 
-        public abstract object CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+        public abstract OrderConfirmation CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
 
-        protected object CreateBuyOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        protected OrderConfirmation CreateBuyOrder<B>(Currency baseCurrency, Currency counterCurrency)
         {
-            object res;
+            OrderConfirmation res;
 
-            res = (object)SendCommandToDispatcher<B, object>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
+            res = (OrderConfirmation)SendCommandToDispatcher<B, OrderConfirmation>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -254,15 +254,15 @@ namespace BEx
 
         #region Sell Limit Order
 
-        public abstract object CreateSellOrder(decimal amount, decimal price);
+        public abstract OrderConfirmation CreateSellOrder(decimal amount, decimal price);
 
-        public abstract object CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+        public abstract OrderConfirmation CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
 
-        protected object CreateSellOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        protected OrderConfirmation CreateSellOrder<B>(Currency baseCurrency, Currency counterCurrency)
         {
-            object res;
+            OrderConfirmation res;
 
-            res = (object)SendCommandToDispatcher<B, object>(APICommandCollection["SellOrder"], Currency.BTC, Currency.USD);
+            res = (OrderConfirmation)SendCommandToDispatcher<B, OrderConfirmation>(APICommandCollection["SellOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }

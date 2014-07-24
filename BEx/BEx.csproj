@@ -66,13 +66,17 @@
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampAccountBalanceJSON.cs" />
+    <Compile Include="Exchange\BitStamp\JSON\BitstampErrorJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
+    <Compile Include="Exchange\BitStamp\JSON\BitstampOrderConfirmationJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeOrderBookJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTransactionsJSON.cs" />
+    <Compile Include="APIError.cs" />
+    <Compile Include="OrderConfirmation.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
     <Compile Include="Exchange\BTCe.cs" />

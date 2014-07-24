@@ -62,22 +62,22 @@ namespace BEx
             return base.GetAccountBalance<BTCeAccountBalanceJSON>(Currency.BTC, Currency.USD);
         }
 
-        public override object CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        public override OrderConfirmation CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
             return null;
         }
 
-        public override object CreateBuyOrder(decimal amount, decimal price)
+        public override OrderConfirmation CreateBuyOrder(decimal amount, decimal price)
         {
             return null;
         }
 
-        public override object CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        public override OrderConfirmation CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
             return null;
         }
 
-        public override object CreateSellOrder(decimal amount, decimal price)
+        public override OrderConfirmation CreateSellOrder(decimal amount, decimal price)
         {
             return null;
         }
