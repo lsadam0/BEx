@@ -126,7 +126,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetTransactions_BTCUSD()
         {
-            List<Transaction> t = toTest.GetTransactions();
+            Transactions t = toTest.GetTransactions();
 
             VerifyTransactions(t);
 
@@ -135,7 +135,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetTransactions_DRKBTC()
         {
-            List<Transaction> t = toTest.GetTransactions(Currency.DRK, Currency.BTC);
+            Transactions t = toTest.GetTransactions(Currency.DRK, Currency.BTC);
 
             VerifyTransactions(t);
         }
@@ -144,7 +144,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetTransactions_DRKUSD()
         {
-            List<Transaction> t = toTest.GetTransactions(Currency.DRK, Currency.USD);
+            Transactions t = toTest.GetTransactions(Currency.DRK, Currency.USD);
 
             VerifyTransactions(t);
         }
@@ -152,7 +152,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetTransactions_LTCBTC()
         {
-            List<Transaction> t = toTest.GetTransactions(Currency.LTC, Currency.BTC);
+            Transactions t = toTest.GetTransactions(Currency.LTC, Currency.BTC);
 
             VerifyTransactions(t);
         }
@@ -160,7 +160,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetTransactions_LTCUSD()
         {
-            List<Transaction> t = toTest.GetTransactions(Currency.LTC, Currency.USD);
+            Transactions t = toTest.GetTransactions(Currency.LTC, Currency.USD);
 
             VerifyTransactions(t);
         }

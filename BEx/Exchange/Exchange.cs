@@ -156,7 +156,7 @@ namespace BEx
                 }
             }
         }
-        
+
         #endregion
 
         #region API Commands
@@ -172,7 +172,7 @@ namespace BEx
         {
             OrderBook res = null;
 
-            res = (OrderBook)SendCommandToDispatcher<J, OrderBook>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
+            res = (OrderBook)SendCommandToDispatcher<J>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -190,7 +190,7 @@ namespace BEx
         {
             Tick res = null;
 
-            res = (Tick)SendCommandToDispatcher<J, Tick>(APICommandCollection["Tick"], baseCurrency, counterCurrency);
+            res = (Tick)SendCommandToDispatcher<J>(APICommandCollection["Tick"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -200,20 +200,20 @@ namespace BEx
 
         #region GetTransactions
 
-        public abstract List<Transaction> GetTransactions();
+        public abstract Transactions GetTransactions();
 
         /// <summary>
         /// Return transactions that have occurred since the provided DateTime
         /// </summary>
         /// <param name="sinceThisDate"></param>
         /// <returns></returns>
-        public abstract List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency);
+        public abstract Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency);
 
-        protected List<Transaction> GetTransactions<J>(Currency baseCurrency, Currency counterCurrency)
+        protected Transactions GetTransactions<J>(Currency baseCurrency, Currency counterCurrency)
         {
-            List<Transaction> res = new List<Transaction>();
+            Transactions res = new Transactions();
 
-            res = (List<Transaction>)SendCommandToDispatcher<List<J>, List<Transaction>>(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
+            res = (Transactions)SendCommandToDispatcher<List<J>>(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -228,7 +228,7 @@ namespace BEx
         {
             AccountBalance res;
 
-            res = (AccountBalance)SendCommandToDispatcher<B, AccountBalance>(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
+            res = (AccountBalance)SendCommandToDispatcher<B>(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -237,15 +237,15 @@ namespace BEx
 
         #region Buy Limit Order
 
-        public abstract OrderConfirmation CreateBuyOrder(decimal amount, decimal price);
+        public abstract Order CreateBuyOrder(decimal amount, decimal price);
 
-        public abstract OrderConfirmation CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+        public abstract Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
 
-        protected OrderConfirmation CreateBuyOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        protected Order CreateBuyOrder<B>(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderConfirmation res;
+            Order res;
 
-            res = (OrderConfirmation)SendCommandToDispatcher<B, OrderConfirmation>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
+            res = (Order)SendCommandToDispatcher<B>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -254,36 +254,82 @@ namespace BEx
 
         #region Sell Limit Order
 
-        public abstract OrderConfirmation CreateSellOrder(decimal amount, decimal price);
+        public abstract Order CreateSellOrder(decimal amount, decimal price);
 
-        public abstract OrderConfirmation CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+        public abstract Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
 
-        protected OrderConfirmation CreateSellOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        protected Order CreateSellOrder<B>(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderConfirmation res;
+            Order res;
 
-            res = (OrderConfirmation)SendCommandToDispatcher<B, OrderConfirmation>(APICommandCollection["SellOrder"], Currency.BTC, Currency.USD);
+            res = (Order)SendCommandToDispatcher<B>(APICommandCollection["SellOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }
 
         #endregion
 
+        #region Open Orders
+
+        public abstract OpenOrders GetOpenOrders();
+
+        protected OpenOrders GetOpenOrders<B>(Currency baseCurrency, Currency counterCurrency)
+        {
+            OpenOrders res;
+
+            res = (OpenOrders)SendCommandToDispatcher<List<B>>(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
+
+            return res;
+
+        }
+        #endregion
+
+        #region User Transactions
+
+        public abstract UserTransactions GetUserTransactions();
+
+        protected UserTransactions GetUserTransactions<B>(Currency baseCurrency, Currency counterCurrency)
+        {
+            UserTransactions res;
+
+            res = (UserTransactions)SendCommandToDispatcher<List<B>>(APICommandCollection["UserTransactions"], baseCurrency, counterCurrency);
+
+            return res;
+        }
 
         #endregion
 
-        private object SendCommandToDispatcher<J, R>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency)
+        #region Cancel Order
+
+        public abstract object CancelOrder(int id);
+
+        public abstract object CancelOrder(Order toCancel);
+
+        protected object CancelOrder<B>(int id)
+        {
+            object res;
+
+            res = (object)SendCommandToDispatcher<B>(APICommandCollection["CancelOrder"], Currency.BTC, Currency.USD);
+
+            return res;
+        }
+
+        #endregion
+        
+        #endregion
+
+        private object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency)
         {
             toExecute.BaseCurrency = baseCurrency;
             toExecute.CounterCurrency = counterCurrency;
 
             VerifyCurrencySupport(toExecute);
 
-            RequestDispatcher<J, R> disp = null;
+            RequestDispatcher<J> disp = null;
             if (toExecute.RequiresAuthentication && authenticatedClient != null)
-                disp = new RequestDispatcher<J, R>(authenticatedClient, apiRequestFactory);
+                disp = new RequestDispatcher<J>(authenticatedClient, apiRequestFactory);
             else
-                disp = new RequestDispatcher<J, R>(apiClient, apiRequestFactory);
+                disp = new RequestDispatcher<J>(apiClient, apiRequestFactory);
 
             return disp.ExecuteCommand(toExecute);
         }

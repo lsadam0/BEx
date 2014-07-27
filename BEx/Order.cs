@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BEx
 {
-    public class OrderConfirmation : APIResult
+    public class Order : APIResult
     {
         public Decimal Price
         {
@@ -44,7 +44,7 @@ namespace BEx
             set;
         }
         
-        public OrderConfirmation() : base()
+        public Order() : base()
         {
 
         }

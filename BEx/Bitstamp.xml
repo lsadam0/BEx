@@ -55,5 +55,25 @@
         <arg ID="price" type="parameter" />
       </args>
     </Command>
+    <Command ID="OpenOrders">
+      <Method>POST</Method>
+      <RelativeURL>open_orders/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
+    </Command>
+    <Command ID="UserTransactions">
+      <Method>POST</Method>
+      <RelativeURL>user_transactions/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
+    </Command>
+    <Command ID="CancelOrder">
+      <Method>POST</Method>
+      <RelativeURL>cancel_order/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args>
+        <arg ID="id" type="parameter"></arg>
+      </args>
+    </Command>
   </Commands>
 </Bitstamp>

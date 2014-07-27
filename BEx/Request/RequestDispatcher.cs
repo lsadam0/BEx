@@ -18,7 +18,7 @@ using BEx.BitFinexSupport;
 
 namespace BEx
 {
-    internal class RequestDispatcher<J, R>
+    internal class RequestDispatcher<J>
     {
         private RestClient apiClient
         {
@@ -43,7 +43,7 @@ namespace BEx
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
             IRestResponse response = apiClient.Execute(request);
-            
+
             return (APIResult)DeserializeObject(response.Content, toExecute);
         }
 
@@ -57,7 +57,7 @@ namespace BEx
 
             if (conversionMethod == null)
             {
-                conversionMethod = ListOfWhat(deserialized).GetMethod("ConvertToStandard");
+                conversionMethod = ListOfWhat(deserialized).GetMethod("ConvertListToStandard");
                 res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, toExecute.BaseCurrency, toExecute.CounterCurrency });
             }
             else
@@ -66,8 +66,13 @@ namespace BEx
             return res;
         }
 
-        private string HandleResponseError(IRestResponse response)
+        private string HandleResponseError(string content, APICommand toExecute)
         {
+
+            APIError error = default(APIError);
+            return null;
+            //error = JsonConvert.DeserializeObject<
+            /*
             WebException toThrow;
 
             if (response.ErrorException != null)
@@ -77,7 +82,7 @@ namespace BEx
 
             throw toThrow;
 
-            return "";
+            return "";*/
         }
 
 

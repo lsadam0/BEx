@@ -44,13 +44,13 @@ namespace BEx.BitFinexSupport
 
         }
 
-        public static List<Transaction> ConvertToStandard(List<BitFinexTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        public static Transactions ConvertListToStandard(List<BitFinexTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
         {
-            List<Transaction> res = new List<Transaction>();
+            Transactions res = new Transactions();
 
             foreach (BitFinexTransactionJSON source in transactions)
             {
-                res.Add(source.ToTransaction());
+                res.TransactionsCollection.Add(source.ToTransaction());
             }
 
             return res;

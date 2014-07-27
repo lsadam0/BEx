@@ -46,7 +46,7 @@ namespace NUnitTests
         public void BitStamp_GetTransactions_BTCUSD()
         {
 
-            List<Transaction> trans = toTest.GetTransactions();
+            Transactions trans = toTest.GetTransactions();
             
             Assert.IsNotNull(trans);
         }
@@ -65,7 +65,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_CreateBuyOrder()
         {
-            object res = toTest.CreateBuyOrder(100.0m, 605.00m);
+            object res = toTest.CreateBuyOrder(100.0m, 100.99m);
 
             VerifyBuyOrder(res);
         }
@@ -73,12 +73,38 @@ namespace NUnitTests
         [Test]
         public void BitStamp_CreateSellOrder()
         {
-            object res = toTest.CreateSellOrder(0.01m, 619.00m);
+            object res = toTest.CreateSellOrder(0.01m, 1200.00m);
 
             VerifySellOrder(res);
         }
 
-        
+        [Test]
+        public void BitStamp_GetOpenOrders()
+        {
+            object res = toTest.GetOpenOrders();
 
+            VerifyOpenOrders(res);
+        }
+
+        [Test]
+        public void BitStamp_GetUserTransactions()
+        {
+            UserTransactions res = toTest.GetUserTransactions();
+
+            VerifyUserTransactions(res);
+        }
+
+
+        [Test]
+        public void BitStamp_CancelOrder()
+        {
+            OpenOrders orders = toTest.GetOpenOrders();
+
+            Order toCancel = orders.Orders[0];
+
+            toTest.CancelOrder(toCancel);
+
+            { }
+        }
     }
 }

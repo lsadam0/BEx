@@ -112,15 +112,13 @@ namespace NUnitTests
             Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
         }
 
-
-        protected void VerifyTransactions(List<Transaction> toVerify)
+        protected void VerifyTransactions(Transactions toVerify)
         {
             ThrottleTestVelocity();
 
             Assert.IsNotNull(toVerify);
-            Assert.IsTrue(toVerify.Count > 0);
+            Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
         }
-
 
         protected void VerifyAccountBalance(object toVerify)
         {
@@ -142,6 +140,16 @@ namespace NUnitTests
 
             Assert.IsNotNull(toVerify);
 
+        }
+
+        protected void VerifyOpenOrders(object toVerify)
+        {
+            Assert.IsNotNull(toVerify);
+        }
+
+        protected void VerifyUserTransactions(object toVerify)
+        {
+            Assert.IsNotNull(toVerify);
         }
     }
 }

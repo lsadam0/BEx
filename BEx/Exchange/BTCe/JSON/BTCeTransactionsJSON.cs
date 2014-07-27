@@ -46,16 +46,14 @@ namespace BEx.BTCeSupport
             return res;
         }
 
-        public static List<Transaction> ConvertToStandard(List<BTCeTransactionsJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        public static Transactions ConvertListToStandard(List<BTCeTransactionsJSON> transactions, Currency baseCurrency, Currency counterCurrency)
         {
-            List<Transaction> res = new List<Transaction>();
+            Transactions res = new Transactions();
 
             foreach (BTCeTransactionsJSON source in transactions)
             {
-                res.Add(source.ToTransaction());
-
+                res.TransactionsCollection.Add(source.ToTransaction());
             }
-
 
             return res;
 

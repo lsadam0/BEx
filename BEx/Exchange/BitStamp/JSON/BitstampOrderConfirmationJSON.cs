@@ -28,9 +28,9 @@ namespace BEx.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public OrderConfirmation ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderConfirmation res = new OrderConfirmation();
+            Order res = new Order();
 
             res.Amount = Convert.ToDecimal(Amount);
             res.Price = Convert.ToDecimal(Price);
@@ -45,6 +45,18 @@ namespace BEx.BitStampSupport
 
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
+
+            return res;
+        }
+
+        public static OpenOrders ConvertListToStandard(List<BitStampOrderConfirmationJSON> orders, Currency baseCurrency, Currency counterCurrency)
+        {
+            OpenOrders res = new OpenOrders();
+
+            foreach (BitStampOrderConfirmationJSON source in orders)
+            {
+                res.Orders.Add(source.ConvertToStandard(baseCurrency, counterCurrency));
+            }
 
             return res;
         }

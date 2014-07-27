@@ -40,12 +40,12 @@ namespace BEx
             return base.GetOrderBook<BitstampOrderBookJSON>(baseCurrency, counterCurrency);
         }
 
-        public override List<Transaction> GetTransactions()
+        public override Transactions GetTransactions()
         {
             return base.GetTransactions<BitstampTransactionJSON>(Currency.BTC, Currency.USD);
         }
 
-        public override List<Transaction> GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        public override Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             return base.GetTransactions<BitstampTransactionJSON>(baseCurrency, counterCurrency);
         }
@@ -55,12 +55,12 @@ namespace BEx
             return base.GetAccountBalance<BitStampAccountBalanceJSON>(Currency.BTC, Currency.USD);
         }
 
-        public override OrderConfirmation CreateBuyOrder(decimal amount, decimal price)
+        public override Order CreateBuyOrder(decimal amount, decimal price)
         {
             return CreateBuyOrder(Currency.BTC, Currency.USD, amount, price);
         }
 
-        public override OrderConfirmation CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        public override Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
             APICommand toExecute = APICommandCollection["BuyOrder"];
 
@@ -70,12 +70,12 @@ namespace BEx
             return base.CreateBuyOrder<BitStampOrderConfirmationJSON>(baseCurrency, counterCurrency);
         }
 
-        public override OrderConfirmation CreateSellOrder(decimal amount, decimal price)
+        public override Order CreateSellOrder(decimal amount, decimal price)
         {
             return CreateSellOrder(Currency.BTC, Currency.USD, amount, price);
         }
 
-        public override OrderConfirmation CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        public override Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
             APICommand toExecute = APICommandCollection["SellOrder"];
 
@@ -84,6 +84,35 @@ namespace BEx
 
             return base.CreateSellOrder<BitStampOrderConfirmationJSON>(baseCurrency, counterCurrency);
         }
+
+        public override OpenOrders GetOpenOrders()
+        {
+            APICommand toExecute = APICommandCollection["OpenOrders"];
+
+            return base.GetOpenOrders<BitStampOrderConfirmationJSON>(Currency.BTC, Currency.USD);
+        }
+
+        public override UserTransactions GetUserTransactions()
+        {
+            APICommand toExecute = APICommandCollection["UserTransactions"];
+
+            return base.GetUserTransactions<BitStampUserTransactionJSON>(Currency.BTC, Currency.USD);
+        }
+
+        public override object CancelOrder(int id)
+        {
+            APICommand toExecute = APICommandCollection["CancelOrder"];
+
+            toExecute.Parameters["id"] = id.ToString();
+
+            return base.CancelOrder<object>(id);
+        }
+
+        public override object CancelOrder(Order toCancel)
+        {
+            return CancelOrder(toCancel.ID);
+        }
+
 
         protected override void CreateSignature(RestRequest request, APICommand command)
         {

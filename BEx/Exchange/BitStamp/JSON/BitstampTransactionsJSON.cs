@@ -52,13 +52,13 @@ namespace BEx.BitStampSupport
             return res;
         }
 
-        public static List<Transaction> ConvertToStandard(List<BitstampTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
+        public static Transactions ConvertListToStandard(List<BitstampTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
         {
-            List<Transaction> res = new List<Transaction>();
+            Transactions res = new Transactions();
 
             foreach (BitstampTransactionJSON source in transactions)
             {
-                res.Add(source.ToTransaction());
+                res.TransactionsCollection.Add(source.ToTransaction());
             }
 
             return res;

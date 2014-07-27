@@ -556,7 +556,7 @@ namespace NUnitTests
             Currency b = Currency.BTC;
             Currency c = Currency.USD;
 
-            List<Transaction> t = toTest.GetTransactions(b, c);
+            Transactions t = toTest.GetTransactions(b, c);
 
             VerifyTransactions(t);
 
