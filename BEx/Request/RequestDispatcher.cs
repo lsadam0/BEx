@@ -38,13 +38,22 @@ namespace BEx
             apiRequestFactory = factory;
         }
 
-        internal APIResult ExecuteCommand(APICommand toExecute)
+        internal object ExecuteCommand(APICommand toExecute)
         {
             RestRequest request = apiRequestFactory.GetRequest(toExecute);
 
             IRestResponse response = apiClient.Execute(request);
 
-            return (APIResult)DeserializeObject(response.Content, toExecute);
+            if (!toExecute.ReturnsValueType)
+                return (APIResult)DeserializeObject(response.Content, toExecute);
+            else
+                return GetValueType(response.Content);
+        }
+
+        private object GetValueType(string content)
+        {
+            object deserialized = JsonConvert.DeserializeObject<J>(content);
+            return (J)deserialized;
         }
 
         private APIResult DeserializeObject(string content, APICommand toExecute)

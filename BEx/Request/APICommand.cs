@@ -16,8 +16,6 @@ namespace BEx
     [Serializable]
     public class APICommand
     {
-
-
         public CurrencyFormatterDelegate CurrencyFormatter;
 
         public string ID
@@ -51,6 +49,8 @@ namespace BEx
             set;
         }
 
+        public bool ReturnsValueType = false;
+        
         public virtual string ResolvedRelativeURI
         {
             get
@@ -108,6 +108,11 @@ namespace BEx
                 if (c.Name == "args")
                     LoadArgs(c);
 
+                if (c.Name == "ReturnsValueType")
+                {
+                    ReturnsValueType = Convert.ToBoolean(c.Value);
+                }
+
             }
 
             ID = commandToLoad.Attribute("ID").Value;
@@ -161,8 +166,6 @@ namespace BEx
 
             }
         }
-
-      
 
     }
 }

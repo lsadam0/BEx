@@ -13,8 +13,9 @@ namespace BEx
     {
 
         DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        
-        public BTCe() : base("BTCe.xml")
+
+        public BTCe()
+            : base("BTCe.xml")
         {
             foreach (APICommand command in APICommandCollection.Values)
             {
@@ -95,7 +96,7 @@ namespace BEx
         }
 
 
-        public override object CancelOrder(int id)
+        public override bool CancelOrder(int id)
         {
             APICommand toExecute = APICommandCollection["CancelOrder"];
 
@@ -104,11 +105,45 @@ namespace BEx
             return base.CancelOrder<object>(id);
         }
 
-        public override object CancelOrder(Order toCancel)
+        public override bool CancelOrder(Order toCancel)
         {
             return CancelOrder(toCancel.ID);
         }
 
+
+        public override string GetDepositAddress()
+        {
+            return GetDepositAddress(Currency.BTC);
+        }
+
+        public override string GetDepositAddress(Currency toDeposit)
+        {
+            APICommand toExecute = APICommandCollection["DepositAddress"];
+
+            return base.GetDepositAddress<object>(toDeposit).ToString();
+        }
+
+        public override string Withdraw()
+        {
+            return Withdraw(Currency.BTC);
+        }
+
+        public override string Withdraw(Currency toWithdraw)
+        {
+            APICommand toExecute = APICommandCollection["Withdraw"];
+
+            return base.Withdraw<string>(toWithdraw).ToString();
+        }
+
+        public override object PendingDeposits()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object PendingWithdrawals()
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void CreateSignature(RestRequest request, APICommand command)
         {
@@ -117,7 +152,7 @@ namespace BEx
             StringBuilder dataBuilder = new StringBuilder();
 
             string postString = "method=getInfo&nonce=" + _nonce.ToString();
-                
+
             string signature;
             using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
             {
@@ -143,6 +178,6 @@ namespace BEx
             }
         }
 
-   
+
     }
 }

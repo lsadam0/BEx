@@ -15,7 +15,8 @@ namespace NUnitTests
     [Category("BitStamp")]
     public class BitStamp_Commands : VerifyExchangeBase
     {
-        public BitStamp_Commands() : base(typeof(BEx.BitStamp))
+        public BitStamp_Commands()
+            : base(typeof(BEx.BitStamp))
         {
             toTest = new BitStamp();
 
@@ -32,7 +33,7 @@ namespace NUnitTests
             VerifyTick(t, Currency.BTC, Currency.USD);
         }
 
-        
+
         [Test]
         public void BitStamp_GetOrderBook_BTCUSD()
         {
@@ -41,13 +42,13 @@ namespace NUnitTests
 
             VerifyOrderBook(o);
         }
-        
+
         [Test]
         public void BitStamp_GetTransactions_BTCUSD()
         {
 
             Transactions trans = toTest.GetTransactions();
-            
+
             Assert.IsNotNull(trans);
         }
 
@@ -102,9 +103,18 @@ namespace NUnitTests
 
             Order toCancel = orders.Orders[0];
 
-            toTest.CancelOrder(toCancel);
+            Assert.IsTrue(toTest.CancelOrder(toCancel));
 
             { }
+        }
+
+        [Test] 
+        public void BitStamp_GetDepositAddress()
+        {
+            string address = toTest.GetDepositAddress();
+
+            Assert.IsTrue(!String.IsNullOrEmpty(address));
+
         }
     }
 }

@@ -301,24 +301,78 @@ namespace BEx
 
         #region Cancel Order
 
-        public abstract object CancelOrder(int id);
+        public abstract bool CancelOrder(int id);
 
-        public abstract object CancelOrder(Order toCancel);
+        public abstract bool CancelOrder(Order toCancel);
 
-        protected object CancelOrder<B>(int id)
+        protected bool CancelOrder<B>(int id)
         {
-            object res;
+            bool res;
 
-            res = (object)SendCommandToDispatcher<B>(APICommandCollection["CancelOrder"], Currency.BTC, Currency.USD);
+            res = (bool)SendCommandToDispatcher<B>(APICommandCollection["CancelOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }
 
         #endregion
+
+        #region Deposit Address
+
+        public abstract string GetDepositAddress();
+
+        public abstract string GetDepositAddress(Currency toDeposit);
         
+
+        protected object GetDepositAddress<B>(Currency toDeposit)
+        {
+            object res;
+
+            res = SendCommandToDispatcher<B>(APICommandCollection["DepositAddress"], toDeposit);
+
+            return res;
+        }
+
         #endregion
 
-        private object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency)
+        #region Withdraw
+
+        public abstract string Withdraw();
+
+        public abstract string Withdraw(Currency toWithdraw);
+
+        protected object Withdraw<B>(Currency toWithdraw)
+        {
+            object res;
+
+            res = SendCommandToDispatcher<string>(APICommandCollection["Withdraw"], toWithdraw);
+
+            return res;
+        }
+
+        #endregion
+
+        public abstract object PendingDeposits();
+
+        protected object PendingDeposits<B>()
+        {
+            object res = null;
+
+            //res = SendCommandToDispatcher<object>(APICommandCollection["PendingDeposits"])
+
+            return res;
+        }
+
+        public abstract object PendingWithdrawals();
+
+        protected object PendingWithdrawals<B>()
+        {
+            object res = null;
+
+            return res;
+        }
+        #endregion
+
+        private object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency? counterCurrency = null)
         {
             toExecute.BaseCurrency = baseCurrency;
             toExecute.CounterCurrency = counterCurrency;

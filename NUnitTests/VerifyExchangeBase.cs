@@ -79,10 +79,11 @@ namespace NUnitTests
         /// </summary>
         protected void ThrottleTestVelocity()
         {
+            /*
             lock (testVelocityLock)
             {
                 new System.Threading.ManualResetEvent(false).WaitOne(3000);
-            }
+            }*/
         }
 
         protected void VerifyTick(Tick toVerify, Currency baseC, Currency counterC)

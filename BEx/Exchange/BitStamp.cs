@@ -99,20 +99,53 @@ namespace BEx
             return base.GetUserTransactions<BitStampUserTransactionJSON>(Currency.BTC, Currency.USD);
         }
 
-        public override object CancelOrder(int id)
+        public override bool CancelOrder(int id)
         {
             APICommand toExecute = APICommandCollection["CancelOrder"];
 
             toExecute.Parameters["id"] = id.ToString();
 
-            return base.CancelOrder<object>(id);
+            return base.CancelOrder<bool>(id);
         }
 
-        public override object CancelOrder(Order toCancel)
+        public override bool CancelOrder(Order toCancel)
         {
             return CancelOrder(toCancel.ID);
         }
 
+        public override string GetDepositAddress()
+        {
+            return GetDepositAddress(Currency.BTC);
+        }
+
+        public override string GetDepositAddress(Currency toDeposit)
+        {
+            APICommand toExecute = APICommandCollection["DepositAddress"];
+
+            return base.GetDepositAddress<string>(toDeposit).ToString();
+        }
+
+        public override string Withdraw()
+        {
+            return Withdraw(Currency.BTC);
+        }
+
+        public override string Withdraw(Currency toWithdraw)
+        {
+            APICommand toExecute = APICommandCollection["Withdraw"];
+
+            return base.Withdraw<string>(toWithdraw).ToString();
+        }
+
+        public override object PendingDeposits()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object PendingWithdrawals()
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void CreateSignature(RestRequest request, APICommand command)
         {

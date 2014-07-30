@@ -71,9 +71,39 @@
       <Method>POST</Method>
       <RelativeURL>cancel_order/</RelativeURL>
       <RequiresAuthentication>true</RequiresAuthentication>
+      <ReturnsValueType>true</ReturnsValueType>
       <args>
         <arg ID="id" type="parameter"></arg>
       </args>
+    </Command>
+    <Command ID="DepositAddress">
+      <Method>POST</Method>
+      <RelativeURL>bitcoin_deposit_address/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <ReturnsValueType>true</ReturnsValueType>
+      <args />
+    </Command>
+    <Command ID="Withdraw">
+      <Method>POST</Method>
+      <RelativeURL>bitcoin_withdrawal/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <ReturnsValueType>true</ReturnsValueType>
+      <args>
+        <arg ID="amount" type="parameter" />
+        <arg ID="address" type="parameter"></arg>
+      </args>
+    </Command>
+    <Command ID="PendingDeposits">
+      <Method>POST</Method>
+      <RelativeURL>unconfirmed_btc/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
+    </Command>
+    <Command ID="PendingWithdrawals">
+      <Method>POST</Method>
+      <RelativeURL>withdrawal_requests/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args />
     </Command>
   </Commands>
 </Bitstamp>
