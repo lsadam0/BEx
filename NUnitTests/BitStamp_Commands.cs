@@ -11,6 +11,19 @@ using BEx;
 
 namespace NUnitTests
 {
+    public struct TestStruct
+    {
+        public Currency baseC;
+        public Currency? counterC;
+
+        public TestStruct(Currency aa)
+        {
+            baseC = Currency.BTC;
+            counterC = Currency.BTN;
+        }
+
+    }
+
     [TestFixture]
     [Category("BitStamp")]
     public class BitStamp_Commands : VerifyExchangeBase
@@ -114,6 +127,23 @@ namespace NUnitTests
             string address = toTest.GetDepositAddress();
 
             Assert.IsTrue(!String.IsNullOrEmpty(address));
+
+        }
+
+        
+
+        [Test]
+        public void StructTest()
+        {
+            TestStruct A = new TestStruct();
+            TestStruct B = A;
+
+            A.counterC = null;
+            A.baseC = Currency.BOB;
+
+            { }
+
+
 
         }
     }

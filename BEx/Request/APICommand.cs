@@ -50,18 +50,15 @@ namespace BEx
         }
 
         public bool ReturnsValueType = false;
-        
-        public virtual string ResolvedRelativeURI
+
+        public string GetResolvedRelativeURI(Currency baseC, Currency counterC)
         {
-            get
-            {
-                string res = RelativeURI;
+            string res = RelativeURI;
 
-                res = res.Replace("{BaseCurrency}", GetCurrencyFormat(BaseCurrency.ToString()));
-                res = res.Replace("{CounterCurrency}", GetCurrencyFormat(CounterCurrency.ToString()));
+            res = res.Replace("{BaseCurrency}", GetCurrencyFormat(baseC.ToString()));
+            res = res.Replace("{CounterCurrency}", GetCurrencyFormat(counterC.ToString()));
 
-                return res;
-            }
+            return res;
         }
 
         private string GetCurrencyFormat(string currency)
@@ -137,34 +134,6 @@ namespace BEx
                 }
             }
 
-        }
-
-        private Currency? baseC = null;
-        public Currency? BaseCurrency
-        {
-            get
-            {
-                return baseC;
-            }
-            set
-            {
-                baseC = value;
-
-            }
-        }
-
-        private Currency? counterC;
-        public Currency? CounterCurrency
-        {
-            get
-            {
-                return counterC;
-            }
-            set
-            {
-                counterC = value;
-
-            }
         }
 
     }

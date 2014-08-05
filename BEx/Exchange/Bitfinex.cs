@@ -135,7 +135,7 @@ namespace BEx
             throw new NotImplementedException();
         }
 
-        protected override void CreateSignature(RestRequest request, APICommand command)
+        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
 
             /*POST https://api.bitfinex.com/v1/order/new
@@ -161,7 +161,7 @@ namespace BEx
             StringBuilder payload = new StringBuilder();
 
             payload.Append("{");
-            payload.Append("\"request\": \"" +  command.ResolvedRelativeURI + "\",");
+            payload.Append("\"request\": \"" +  command.GetResolvedRelativeURI(baseCurrency, counterCurrency) + "\",");
             payload.Append("\"nonce\": \"" + Nonce + "\"");
             payload.Append("}");
 

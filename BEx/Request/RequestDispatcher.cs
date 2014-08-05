@@ -18,7 +18,7 @@ using BEx.BitFinexSupport;
 
 namespace BEx
 {
-    internal class RequestDispatcher<J>
+    internal class RequestDispatcher
     {
         private RestClient apiClient
         {
@@ -26,37 +26,39 @@ namespace BEx
             set;
         }
 
-        private RequestFactory apiRequestFactory
+        private RestClient authenticatedClient
         {
             get;
             set;
         }
 
-        internal RequestDispatcher(RestClient client, RequestFactory factory)
+        internal RequestDispatcher(string apiUri, string authenticatedUri = null)
         {
-            apiClient = client;
-            apiRequestFactory = factory;
+            apiClient = new RestClient(apiUri);
+
+            if (authenticatedUri != null)
+                authenticatedClient = new RestClient(authenticatedUri);
+            else
+                authenticatedClient = null;
         }
 
-        internal object ExecuteCommand(APICommand toExecute)
+        internal object ExecuteCommand<J>(RestRequest request, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
-            RestRequest request = apiRequestFactory.GetRequest(toExecute);
-
             IRestResponse response = apiClient.Execute(request);
 
-            if (!toExecute.ReturnsValueType)
-                return (APIResult)DeserializeObject(response.Content, toExecute);
+            if (!commandReference.ReturnsValueType)
+                return (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
             else
-                return GetValueType(response.Content);
+                return GetValueType<J>(response.Content);
         }
 
-        private object GetValueType(string content)
+        private object GetValueType<J>(string content)
         {
             object deserialized = JsonConvert.DeserializeObject<J>(content);
             return (J)deserialized;
         }
 
-        private APIResult DeserializeObject(string content, APICommand toExecute)
+        private APIResult DeserializeObject<J>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
             APIResult res = default(APIResult);
 
@@ -67,10 +69,10 @@ namespace BEx
             if (conversionMethod == null)
             {
                 conversionMethod = ListOfWhat(deserialized).GetMethod("ConvertListToStandard");
-                res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, toExecute.BaseCurrency, toExecute.CounterCurrency });
+                res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
             }
             else
-                res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { toExecute.BaseCurrency, toExecute.CounterCurrency });
+                res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
 
             return res;
         }
@@ -80,18 +82,7 @@ namespace BEx
 
             APIError error = default(APIError);
             return null;
-            //error = JsonConvert.DeserializeObject<
-            /*
-            WebException toThrow;
 
-            if (response.ErrorException != null)
-                toThrow = new WebException(response.StatusCode.ToString(), response.ErrorException);
-            else
-                toThrow = new WebException(response.StatusCode.ToString());
-
-            throw toThrow;
-
-            return "";*/
         }
 
 

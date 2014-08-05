@@ -147,7 +147,7 @@ namespace BEx
             throw new NotImplementedException();
         }
 
-        protected override void CreateSignature(RestRequest request, APICommand command)
+        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             
             /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
@@ -164,13 +164,10 @@ namespace BEx
 
             string signature = "";//ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
 
-
             using (HMACSHA256 hasher = new HMACSHA256(Encoding.ASCII.GetBytes(SecretKey)))
             {
                 byte[] dta = Encoding.ASCII.GetBytes(msg);
-
                 signature = BitConverter.ToString(hasher.ComputeHash(dta)).Replace("-", "").ToUpper();
-                //BitConverter.ToSingle(hasher.ComputeHash(dta);
             }
 
             request.AddParameter("key", Uri.EscapeUriString(APIKey));

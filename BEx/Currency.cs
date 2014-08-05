@@ -9,6 +9,7 @@ namespace BEx
     {
 
         // Crypto
+        None,
         BTC, // BitCoin
         LTC, // LiteCoin
         NMC, // NameCoin

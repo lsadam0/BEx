@@ -9,7 +9,7 @@ using RestSharp;
 namespace BEx
 {
 
-    public delegate void GetSignatureDelegate(RestRequest request, APICommand command);
+    public delegate void GetSignatureDelegate(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency);
 
     public class RequestFactory
     {
@@ -19,24 +19,21 @@ namespace BEx
         {
         }
 
-        public RestRequest GetRequest(APICommand command)
+        public RestRequest GetRequest(APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
 
-            RestRequest result = CreateRequest(command);
-
+            RestRequest result = CreateRequest(command, baseCurrency, counterCurrency);
 
             if (command.RequiresAuthentication)
-                AuthenticateRequest(result, command);
-
+                AuthenticateRequest(result, command, baseCurrency, counterCurrency);
 
             return result;
-
-
         }
 
-        private RestRequest CreateRequest(APICommand command)
+        private RestRequest CreateRequest(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            var request = new RestRequest(command.ResolvedRelativeURI, command.HttpMethod);
+            //command.GetResolvedRelativeURI()
+            var request = new RestRequest(command.GetResolvedRelativeURI(baseCurrency, counterCurrency), command.HttpMethod);
 
             request.RequestFormat = DataFormat.Json;
             request.Method = command.HttpMethod;
@@ -55,13 +52,13 @@ namespace BEx
             return request;
         }
 
-        private void AuthenticateRequest(RestRequest request, APICommand command)
+        private void AuthenticateRequest(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             if (GetSignature != null)
             {
                  //GetSignature()
 
-                GetSignature(request, command);
+                GetSignature(request, command, baseCurrency, counterCurrency);
 
                 //request.AddParameter("key", result.Item1);
                 //request.AddParameter("nonce", result.Item2);

@@ -30,19 +30,13 @@ namespace BEx
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
 
-        protected RestClient apiClient
-        {
-            get;
-            set;
-        }
-
-        protected RestClient authenticatedClient
-        {
-            get;
-            set;
-        }
-
         protected RequestFactory apiRequestFactory
+        {
+            get;
+            set;
+        }
+
+        internal RequestDispatcher dispatcher
         {
             get;
             set;
@@ -113,12 +107,17 @@ namespace BEx
         {
             LoadConfigFromXML(configFile);
 
-            apiClient = new RestClient(BaseURI.ToString());
+            string apiClient = null;
+            string authenticatedClient = null;
+
+            apiClient = BaseURI.ToString();
 
             if (AuthenticatedURI != null)
-                authenticatedClient = new RestClient(AuthenticatedURI.ToString());
+                authenticatedClient = AuthenticatedURI.ToString();
             else
                 authenticatedClient = null;
+
+            dispatcher = new RequestDispatcher(apiClient, authenticatedClient);
 
             apiRequestFactory = new RequestFactory();
             apiRequestFactory.GetSignature += CreateSignature;
@@ -146,6 +145,7 @@ namespace BEx
             return res;
         }
 
+        /*
         protected void VerifyCurrencySupport(APICommand toCheck)
         {
             if (toCheck.BaseCurrency != null && toCheck.CounterCurrency != null)
@@ -155,7 +155,7 @@ namespace BEx
                     throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toCheck.BaseCurrency.ToString(), toCheck.CounterCurrency.ToString(), this.GetType().ToString()));
                 }
             }
-        }
+        }*/
 
         #endregion
 
@@ -186,7 +186,7 @@ namespace BEx
 
         public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
 
-        protected Tick GetTick<J>(Currency baseCurrency, Currency counterCurrency)
+        protected Tick GetTick<J>(Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             Tick res = null;
 
@@ -327,7 +327,7 @@ namespace BEx
         {
             object res;
 
-            res = SendCommandToDispatcher<B>(APICommandCollection["DepositAddress"], toDeposit);
+            res = SendCommandToDispatcher<B>(APICommandCollection["DepositAddress"], toDeposit, Currency.None);
 
             return res;
         }
@@ -344,7 +344,7 @@ namespace BEx
         {
             object res;
 
-            res = SendCommandToDispatcher<string>(APICommandCollection["Withdraw"], toWithdraw);
+            res = SendCommandToDispatcher<string>(APICommandCollection["Withdraw"], toWithdraw, Currency.None);
 
             return res;
         }
@@ -372,23 +372,15 @@ namespace BEx
         }
         #endregion
 
-        private object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency? counterCurrency = null)
+        private object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
-            toExecute.BaseCurrency = baseCurrency;
-            toExecute.CounterCurrency = counterCurrency;
 
-            VerifyCurrencySupport(toExecute);
+            RestRequest request = apiRequestFactory.GetRequest(toExecute, baseCurrency, counterCurrency, parameters);
 
-            RequestDispatcher<J> disp = null;
-            if (toExecute.RequiresAuthentication && authenticatedClient != null)
-                disp = new RequestDispatcher<J>(authenticatedClient, apiRequestFactory);
-            else
-                disp = new RequestDispatcher<J>(apiClient, apiRequestFactory);
-
-            return disp.ExecuteCommand(toExecute);
+            return dispatcher.ExecuteCommand<J>(request, toExecute, baseCurrency, counterCurrency);
         }
 
-        protected abstract void CreateSignature(RestRequest request, APICommand command);
+        protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency);
 
 
         #region Dispose
