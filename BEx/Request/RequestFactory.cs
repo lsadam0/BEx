@@ -9,7 +9,7 @@ using RestSharp;
 namespace BEx
 {
 
-    public delegate void GetSignatureDelegate(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency);
+    public delegate void GetSignatureDelegate(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
 
     public class RequestFactory
     {
@@ -56,14 +56,14 @@ namespace BEx
         {
             if (GetSignature != null)
             {
-                 //GetSignature()
+                //GetSignature()
 
                 GetSignature(request, command, baseCurrency, counterCurrency);
 
                 //request.AddParameter("key", result.Item1);
                 //request.AddParameter("nonce", result.Item2);
                 //request.AddParameter("signature", result.Item3);
-                
+
             }
         }
 

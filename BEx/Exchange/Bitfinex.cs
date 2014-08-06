@@ -135,7 +135,7 @@ namespace BEx
             throw new NotImplementedException();
         }
 
-        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency,  Dictionary<string, string> parameters = null)
         {
 
             /*POST https://api.bitfinex.com/v1/order/new

@@ -380,7 +380,7 @@ namespace BEx
             return dispatcher.ExecuteCommand<J>(request, toExecute, baseCurrency, counterCurrency);
         }
 
-        protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency);
+        protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
 
 
         #region Dispose

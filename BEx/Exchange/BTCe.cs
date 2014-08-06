@@ -145,7 +145,7 @@ namespace BEx
             throw new NotImplementedException();
         }
 
-        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency)
+        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             long _nonce = BTCeNonce;
 
