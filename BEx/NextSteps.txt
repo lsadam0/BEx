@@ -1,0 +1,7 @@
+﻿- Parameters are not getting read from XML
+- Parameters are not set and sent with APICommand
+- BTCe auth is failing
+- standarize API Commands
+- Error handling is entirely absent
+- Thread Safety - RestSharp is not thread safe
+- Eliminate exchange specific JSON types (maybe)

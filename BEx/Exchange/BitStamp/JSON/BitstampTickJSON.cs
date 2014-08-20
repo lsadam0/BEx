@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BEx.BitStampSupport
 {
-    public class BitstampTickJSON
+    public class BitstampTickJSON : JSONBase
     {
         public string high { get; set; }
         public string last { get; set; }
@@ -54,4 +54,13 @@ namespace BEx.BitStampSupport
         }
     }
 
+
+    public class JSONBase
+    {
+        public JSONBase()
+        {
+
+        }
+
+    }
 }

@@ -12,6 +12,9 @@ namespace BEx
     public class BTCe : Exchange
     {
 
+        /// <summary>
+        /// Nonce computation
+        /// </summary>
         DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public BTCe()
@@ -23,127 +26,17 @@ namespace BEx
             }
         }
 
+        /// <summary>
+        /// BTCe expects lower case currency abbreviations
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <returns></returns>
         private string FormatCurrency(string currency)
         {
             return currency.ToLower();
         }
 
-        public override Tick GetTick()
-        {
-            return base.GetTick<BTCeTickJSON>(Currency.BTC, Currency.USD);
-        }
-
-        public override Tick GetTick(Currency baseCurrency, Currency counterCurrency)
-        {
-            return base.GetTick<BTCeTickJSON>(baseCurrency, counterCurrency);
-        }
-
-        public override OrderBook GetOrderBook()
-        {
-            return base.GetOrderBook<BTCeOrderBookJSON>(Currency.BTC, Currency.USD);
-        }
-
-        public override OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
-        {
-            return base.GetOrderBook<BTCeOrderBookJSON>(baseCurrency, counterCurrency);
-        }
-
-        public override Transactions GetTransactions()
-        {
-            return base.GetTransactions<BTCeTransactionsJSON>(Currency.BTC, Currency.USD);
-        }
-
-        public override Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
-        {
-            return base.GetTransactions<BTCeTransactionsJSON>(baseCurrency, counterCurrency);
-        }
-
-        public override AccountBalance GetAccountBalance()
-        {
-            return base.GetAccountBalance<BTCeAccountBalanceJSON>(Currency.BTC, Currency.USD);
-        }
-
-        public override Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
-        {
-            return null;
-        }
-
-        public override Order CreateBuyOrder(decimal amount, decimal price)
-        {
-            return null;
-        }
-
-        public override Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
-        {
-            return null;
-        }
-
-        public override Order CreateSellOrder(decimal amount, decimal price)
-        {
-            return null;
-        }
-
-        public override OpenOrders GetOpenOrders()
-        {
-            APICommand toExecute = APICommandCollection["OpenOrders"];
-
-            return base.GetOpenOrders<object>(Currency.BTC, Currency.USD);
-        }
-
-        public override UserTransactions GetUserTransactions()
-        {
-            return null;
-        }
-
-
-        public override bool CancelOrder(int id)
-        {
-            APICommand toExecute = APICommandCollection["CancelOrder"];
-
-            toExecute.Parameters["id"] = id.ToString();
-
-            return base.CancelOrder<object>(id);
-        }
-
-        public override bool CancelOrder(Order toCancel)
-        {
-            return CancelOrder(toCancel.ID);
-        }
-
-
-        public override string GetDepositAddress()
-        {
-            return GetDepositAddress(Currency.BTC);
-        }
-
-        public override string GetDepositAddress(Currency toDeposit)
-        {
-            APICommand toExecute = APICommandCollection["DepositAddress"];
-
-            return base.GetDepositAddress<object>(toDeposit).ToString();
-        }
-
-        public override string Withdraw()
-        {
-            return Withdraw(Currency.BTC);
-        }
-
-        public override string Withdraw(Currency toWithdraw)
-        {
-            APICommand toExecute = APICommandCollection["Withdraw"];
-
-            return base.Withdraw<string>(toWithdraw).ToString();
-        }
-
-        public override object PendingDeposits()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object PendingWithdrawals()
-        {
-            throw new NotImplementedException();
-        }
+        #region Authorization
 
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
@@ -178,6 +71,89 @@ namespace BEx
             }
         }
 
+        #endregion
 
+        #region Command Execution
+
+        protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (Tick)SendCommandToDispatcher<BTCeTickJSON>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (OrderBook)SendCommandToDispatcher<BTCeOrderBookJSON>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (Transactions)SendCommandToDispatcher<BTCeTransactionsJSON>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (AccountBalance)SendCommandToDispatcher<BTCeAccountBalanceJSON>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+
+            throw new NotImplementedException("BTCe cannot create orders");
+            /*
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("amount", amount.ToString());
+            parameters.Add("price", amount.ToString());
+
+            return (Order)SendCommandToDispatcher<BT>(command, baseCurrency, counterCurrency, parameters);*/
+        }
+
+        protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            throw new NotImplementedException("BTCe cannot retrieve open orders");
+            return null;
+        }
+
+        protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            throw new NotImplementedException("BTCe cannot retrieve user transactions");
+            return null;
+        }
+
+        protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
+        {
+            throw new NotImplementedException("BTCe cannot cancel orders");
+            return false;
+        }
+
+        protected override string ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
+        {
+            throw new NotImplementedException("BTCe cannot retrieve deposit address");
+            return "";
+        }
+
+
+        protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
+        {
+            throw new NotImplementedException("BTCe cannot execute withdrawals");
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            parameters.Add("amount", amount.ToString());
+            parameters.Add("address", address);
+
+            return (string)SendCommandToDispatcher<string>(command, toWithdraw, Currency.None, parameters);
+        }
+
+        protected override object ExecutePendingDepositsCommand(APICommand command)
+        {
+            throw new NotImplementedException("Get Pending Deposits is not implemented");
+        }
+
+        protected override object ExecutePendingWithdrawalsCommand(APICommand command)
+        {
+            throw new NotImplementedException("Get Pending Withdrawals is not implemented");
+        }
+
+        #endregion
     }
 }

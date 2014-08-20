@@ -23,7 +23,6 @@ namespace BEx
 
     public abstract class Exchange : IDisposable
     {
-
         #region Vars
         /// <summary>
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
@@ -123,6 +122,12 @@ namespace BEx
             apiRequestFactory.GetSignature += CreateSignature;
         }
 
+        #region Command abstracts
+
+        
+
+        #endregion
+
         #region Command Execution
         /// <summary>
         /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
@@ -163,16 +168,19 @@ namespace BEx
 
         #region GetOrderBook
 
-        public abstract OrderBook GetOrderBook();
+        protected abstract OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        public abstract OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency);
+        public OrderBook GetOrderBook()
+        {
+            return GetOrderBook(Currency.BTC, Currency.USD);
+        }
 
-
-        protected OrderBook GetOrderBook<J>(Currency baseCurrency, Currency counterCurrency)
+        public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = null;
 
-            res = (OrderBook)SendCommandToDispatcher<J>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
+            res = ExecuteOrderBookCommand(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
+            //res = (OrderBook)SendCommandToDispatcher<J>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -182,38 +190,40 @@ namespace BEx
 
         #region GetTick
 
-        public abstract Tick GetTick();
+        protected abstract Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        public abstract Tick GetTick(Currency baseCurrency, Currency counterCurrency);
+        public Tick GetTick()
+        {
 
-        protected Tick GetTick<J>(Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+            return GetTick(Currency.BTC, Currency.USD);
+        }
+
+        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = null;
 
-            res = (Tick)SendCommandToDispatcher<J>(APICommandCollection["Tick"], baseCurrency, counterCurrency);
+            res = ExecuteTickCommand(APICommandCollection["Tick"], baseCurrency, counterCurrency);
 
             return res;
         }
-
 
         #endregion
 
         #region GetTransactions
 
-        public abstract Transactions GetTransactions();
+        protected abstract Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        /// <summary>
-        /// Return transactions that have occurred since the provided DateTime
-        /// </summary>
-        /// <param name="sinceThisDate"></param>
-        /// <returns></returns>
-        public abstract Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency);
-
-        protected Transactions GetTransactions<J>(Currency baseCurrency, Currency counterCurrency)
+        public Transactions GetTransactions()
+        {
+            return GetTransactions(Currency.BTC, Currency.USD);
+        }
+        
+        public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             Transactions res = new Transactions();
 
-            res = (Transactions)SendCommandToDispatcher<List<J>>(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
+            res = ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
+            //res = (Transactions)SendCommandToDispatcher<List<J>>(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -222,13 +232,18 @@ namespace BEx
 
         #region Account Balance
 
-        public abstract AccountBalance GetAccountBalance();
+        protected abstract AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        protected AccountBalance GetAccountBalance<B>(Currency baseCurrency, Currency counterCurrency)
+        public AccountBalance GetAccountBalance()
+        {
+            return GetAccountBalance(Currency.BTC, Currency.USD);
+        }
+
+        public AccountBalance GetAccountBalance(Currency baseCurrency, Currency counterCurrency)
         {
             AccountBalance res;
 
-            res = (AccountBalance)SendCommandToDispatcher<B>(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
+            res = ExecuteAccountBalanceCommand(APICommandCollection["AccountBalance"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -237,15 +252,19 @@ namespace BEx
 
         #region Buy Limit Order
 
-        public abstract Order CreateBuyOrder(decimal amount, decimal price);
+        protected abstract Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
 
-        public abstract Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+        public Order CreateBuyOrder(decimal amount, decimal price)
+        {
+            return CreateBuyOrder(Currency.BTC, Currency.USD, amount, price);
+        }
 
-        protected Order CreateBuyOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        public Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
             Order res;
 
-            res = (Order)SendCommandToDispatcher<B>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
+            res = ExecuteOrderCommand(APICommandCollection["BuyOrder"], baseCurrency, counterCurrency, amount, price);
+            //res = (Order)SendCommandToDispatcher<B>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -254,15 +273,16 @@ namespace BEx
 
         #region Sell Limit Order
 
-        public abstract Order CreateSellOrder(decimal amount, decimal price);
+        public Order CreateSellOrder(decimal amount, decimal price)
+        {
+            return CreateSellOrder(Currency.BTC, Currency.USD, amount, price);
+        }
 
-        public abstract Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
-
-        protected Order CreateSellOrder<B>(Currency baseCurrency, Currency counterCurrency)
+        public Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
             Order res;
 
-            res = (Order)SendCommandToDispatcher<B>(APICommandCollection["SellOrder"], Currency.BTC, Currency.USD);
+            res = ExecuteOrderCommand(APICommandCollection["SellOrder"], baseCurrency, counterCurrency, amount, price);
 
             return res;
         }
@@ -271,13 +291,19 @@ namespace BEx
 
         #region Open Orders
 
-        public abstract OpenOrders GetOpenOrders();
+        protected abstract OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        protected OpenOrders GetOpenOrders<B>(Currency baseCurrency, Currency counterCurrency)
+        public OpenOrders GetOpenOrders()
+        {
+            return GetOpenOrders(Currency.BTC, Currency.USD);
+        }
+
+        protected OpenOrders GetOpenOrders(Currency baseCurrency, Currency counterCurrency)
         {
             OpenOrders res;
 
-            res = (OpenOrders)SendCommandToDispatcher<List<B>>(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
+            res = ExecuteGetOpenOrdersCommand(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
+            //res = (OpenOrders)SendCommandToDispatcher<List<B>>(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
 
             return res;
 
@@ -286,13 +312,18 @@ namespace BEx
 
         #region User Transactions
 
-        public abstract UserTransactions GetUserTransactions();
+        protected abstract UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        protected UserTransactions GetUserTransactions<B>(Currency baseCurrency, Currency counterCurrency)
+        public UserTransactions GetUserTransactions()
+        {
+            return GetUserTransactions(Currency.BTC, Currency.USD);
+        }
+
+        public UserTransactions GetUserTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             UserTransactions res;
 
-            res = (UserTransactions)SendCommandToDispatcher<List<B>>(APICommandCollection["UserTransactions"], baseCurrency, counterCurrency);
+            res = ExecuteGetUserTransactionsCommand(APICommandCollection["UserTransactions"], baseCurrency, counterCurrency);
 
             return res;
         }
@@ -301,15 +332,19 @@ namespace BEx
 
         #region Cancel Order
 
-        public abstract bool CancelOrder(int id);
+        protected abstract bool ExecuteCancelOrderCommand(APICommand command, int id);
+        
+        public  bool CancelOrder(Order toCancel)
+        {
+            return CancelOrder(toCancel.ID);
+        }
 
-        public abstract bool CancelOrder(Order toCancel);
-
-        protected bool CancelOrder<B>(int id)
+        public bool CancelOrder(int id)
         {
             bool res;
 
-            res = (bool)SendCommandToDispatcher<B>(APICommandCollection["CancelOrder"], Currency.BTC, Currency.USD);
+            res = ExecuteCancelOrderCommand(APICommandCollection["CancelOrder"], id);
+            //res = (bool)SendCommandToDispatcher<B>(APICommandCollection["CancelOrder"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -318,16 +353,18 @@ namespace BEx
 
         #region Deposit Address
 
-        public abstract string GetDepositAddress();
+        protected abstract string ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
 
-        public abstract string GetDepositAddress(Currency toDeposit);
-        
-
-        protected object GetDepositAddress<B>(Currency toDeposit)
+        public string GetDepositAddress()
         {
-            object res;
+            return GetDepositAddress(Currency.BTC);
+        }
 
-            res = SendCommandToDispatcher<B>(APICommandCollection["DepositAddress"], toDeposit, Currency.None);
+        protected string GetDepositAddress(Currency toDeposit)
+        {
+            string res;
+
+            res = ExecuteGetDepositAddressCommand(APICommandCollection["DepositAddress"], toDeposit);
 
             return res;
         }
@@ -336,43 +373,53 @@ namespace BEx
 
         #region Withdraw
 
-        public abstract string Withdraw();
+        protected abstract object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount);
 
-        public abstract string Withdraw(Currency toWithdraw);
-
-        protected object Withdraw<B>(Currency toWithdraw)
+        public object Withdraw(Currency toWithdraw, string address, decimal amount)
         {
             object res;
 
-            res = SendCommandToDispatcher<string>(APICommandCollection["Withdraw"], toWithdraw, Currency.None);
+            res = ExecuteWithdrawCommand(APICommandCollection["Withdraw"], toWithdraw, address, amount);
 
             return res;
         }
 
         #endregion
 
-        public abstract object PendingDeposits();
+        #region Pending Deposits
+        
+        protected abstract object ExecutePendingDepositsCommand(APICommand command);
 
-        protected object PendingDeposits<B>()
+        public object GetPendingDeposits()
         {
             object res = null;
 
-            //res = SendCommandToDispatcher<object>(APICommandCollection["PendingDeposits"])
+            ExecutePendingDepositsCommand(APICommandCollection["PendingDeposits"]);
+            //res = SendCommandToDispatcher<object>(APICommandCollection["PendingDeposits"], Currency.None, Currency.None);
 
             return res;
         }
 
-        public abstract object PendingWithdrawals();
-
-        protected object PendingWithdrawals<B>()
-        {
-            object res = null;
-
-            return res;
-        }
         #endregion
 
-        private object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        #region Pending Withdrawals
+
+        protected abstract object ExecutePendingWithdrawalsCommand(APICommand command);
+
+        protected object PendingWithdrawals()
+        {
+            object res = null;
+
+            res = ExecutePendingWithdrawalsCommand(APICommandCollection["PendingWithdrawals"]);
+
+            return res;
+        }
+
+        #endregion
+
+        #endregion
+
+        protected object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
 
             RestRequest request = apiRequestFactory.GetRequest(toExecute, baseCurrency, counterCurrency, parameters);
@@ -381,7 +428,6 @@ namespace BEx
         }
 
         protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
-
 
         #region Dispose
         public void Dispose()

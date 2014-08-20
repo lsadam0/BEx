@@ -166,6 +166,7 @@
     <Content Include="Documentation\BTCe\Reference\API.htm" />
     <Content Include="Documentation\BTCe\Reference\API.txt" />
     <Content Include="Documentation\BTCe\Reference\Authentication.txt" />
+    <Content Include="NextSteps.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\Coinbase\" />

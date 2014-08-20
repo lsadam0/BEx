@@ -46,6 +46,7 @@ namespace BEx
         {
             IRestResponse response = apiClient.Execute(request);
 
+            
             if (!commandReference.ReturnsValueType)
                 return (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
             else

@@ -23,7 +23,7 @@ namespace BEx.BitFinexSupport
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public static AccountBalance ConvertToStandard(List<BitFinexAccountBalanceJSON> balances, Currency baseCurrency, Currency counterCurrency)
+        public static AccountBalance ConvertListToStandard(List<BitFinexAccountBalanceJSON> balances, Currency baseCurrency, Currency counterCurrency)
         {
             AccountBalance res = new AccountBalance();
 
