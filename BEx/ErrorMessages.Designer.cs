@@ -61,7 +61,25 @@ namespace BEx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured while executing the API Command {0}.  Please see the InnerException property for more details..
+        ///   Looks up a localized string similar to Executed command {0}, but the server replied that the request was bad (HTTP 400)..
+        /// </summary>
+        internal static string RESTBadRequest {
+            get {
+                return ResourceManager.GetString("RESTBadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check the Inner Exception for more details..
+        /// </summary>
+        internal static string RESTCheckInnerException {
+            get {
+                return ResourceManager.GetString("RESTCheckInnerException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while executing the API Command {0}.  .
         /// </summary>
         internal static string RESTExecuteException {
             get {
@@ -70,7 +88,25 @@ namespace BEx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The path {0} does not exist on the server.  Executed Command {1}..
+        ///   Looks up a localized string similar to Executed command {0}, but the server replied that the action is forbidden (HTTP 403)..
+        /// </summary>
+        internal static string RESTForbidden {
+            get {
+                return ResourceManager.GetString("RESTForbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executed command {0}, but the server had an internal error preventing execution (HTTP 500)..
+        /// </summary>
+        internal static string RESTInternalServerError {
+            get {
+                return ResourceManager.GetString("RESTInternalServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The path {0} does not exist on the server.  Executed Command {1} (HTTP 404)..
         /// </summary>
         internal static string RESTInvalidURL {
             get {
@@ -79,11 +115,65 @@ namespace BEx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An HTTP status of {0} was returned, but it unhandled by the API..
+        ///   Looks up a localized string similar to Attempted to execute command {0} but the server responded that the method was not allowed (HTTP 405).  The method used was {1}..
+        /// </summary>
+        internal static string RESTMethodNotAllowed {
+            get {
+                return ResourceManager.GetString("RESTMethodNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempted to execute command {0}, but the server replied that our request timed out (HTTP 408)..
+        /// </summary>
+        internal static string RESTRequestTimeout {
+            get {
+                return ResourceManager.GetString("RESTRequestTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempted to execute command {0}, but the server responded that the service was unavailable (HTTP 503)..
+        /// </summary>
+        internal static string RESTServiceUnavailable {
+            get {
+                return ResourceManager.GetString("RESTServiceUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server returned status OK (HTTP 200) when executing command {0}, but an exception was raised on the response. .
+        /// </summary>
+        internal static string RESTSuccessButHasException {
+            get {
+                return ResourceManager.GetString("RESTSuccessButHasException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executed command {0}, but the server replied that the request is unauthorized (HTTP 401).  Is your API Key/Secret correctly specified and active?.
+        /// </summary>
+        internal static string RESTUnauthorized {
+            get {
+                return ResourceManager.GetString("RESTUnauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An HTTP status of {0} was returned, but is unhandled by the API..
         /// </summary>
         internal static string RESTUnhandledStatus {
             get {
                 return ResourceManager.GetString("RESTUnhandledStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempted to execute command {0}, but the server replied that the URI was too long (HTTP 414)..
+        /// </summary>
+        internal static string RESTURITooLong {
+            get {
+                return ResourceManager.GetString("RESTURITooLong", resourceCulture);
             }
         }
         

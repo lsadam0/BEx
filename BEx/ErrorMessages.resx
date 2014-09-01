@@ -117,16 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="RESTBadRequest" xml:space="preserve">
+    <value>Executed command {0}, but the server replied that the request was bad (HTTP 400).</value>
+  </data>
   <data name="RESTExecuteException" xml:space="preserve">
-    <value>An error occured while executing the API Command {0}.  Please see the InnerException property for more details.</value>
+    <value>An error occured while executing the API Command {0}.  </value>
+  </data>
+  <data name="RESTForbidden" xml:space="preserve">
+    <value>Executed command {0}, but the server replied that the action is forbidden (HTTP 403).</value>
+  </data>
+  <data name="RESTInternalServerError" xml:space="preserve">
+    <value>Executed command {0}, but the server had an internal error preventing execution (HTTP 500).</value>
   </data>
   <data name="RESTInvalidURL" xml:space="preserve">
-    <value>The path {0} does not exist on the server.  Executed Command {1}.</value>
+    <value>The path {0} does not exist on the server.  Executed Command {1} (HTTP 404).</value>
+  </data>
+  <data name="RESTRequestTimeout" xml:space="preserve">
+    <value>Attempted to execute command {0}, but the server replied that our request timed out (HTTP 408).</value>
+  </data>
+  <data name="RESTServiceUnavailable" xml:space="preserve">
+    <value>Attempted to execute command {0}, but the server responded that the service was unavailable (HTTP 503).</value>
+  </data>
+  <data name="RESTUnauthorized" xml:space="preserve">
+    <value>Executed command {0}, but the server replied that the request is unauthorized (HTTP 401).  Is your API Key/Secret correctly specified and active?</value>
   </data>
   <data name="RESTUnhandledStatus" xml:space="preserve">
-    <value>An HTTP status of {0} was returned, but it unhandled by the API.</value>
+    <value>An HTTP status of {0} was returned, but is unhandled by the API.</value>
+  </data>
+  <data name="RESTURITooLong" xml:space="preserve">
+    <value>Attempted to execute command {0}, but the server replied that the URI was too long (HTTP 414).</value>
   </data>
   <data name="UnsupportedCurrencyPair" xml:space="preserve">
     <value>The currency pair {0}/{1} is not currently supported by the exchange {2}</value>
+  </data>
+  <data name="RESTCheckInnerException" xml:space="preserve">
+    <value>Check the Inner Exception for more details.</value>
+  </data>
+  <data name="RESTMethodNotAllowed" xml:space="preserve">
+    <value>Attempted to execute command {0} but the server responded that the method was not allowed (HTTP 405).  The method used was {1}.</value>
+  </data>
+  <data name="RESTSuccessButHasException" xml:space="preserve">
+    <value>Server returned status OK (HTTP 200) when executing command {0}, but an exception was raised on the response. </value>
   </data>
 </root>

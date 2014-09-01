@@ -68,15 +68,37 @@ namespace BEx
 
         private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand)
         {
-            if (response.ErrorException != null)
-            {
-                var ex = new Exception(String.Format(ErrorMessages.RESTExecuteException, executedCommand.ID), response.ErrorException);
-                throw ex;
-            }
 
             string exceptionMessage = "";
             switch (response.StatusCode)
             {
+                case (HttpStatusCode.BadRequest):
+                    exceptionMessage = String.Format(ErrorMessages.RESTBadRequest, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.Unauthorized):
+                    exceptionMessage = String.Format(ErrorMessages.RESTUnauthorized, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.Forbidden):
+                    exceptionMessage = String.Format(ErrorMessages.RESTForbidden, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.MethodNotAllowed):
+                    exceptionMessage = String.Format(ErrorMessages.RESTMethodNotAllowed, executedCommand.ID, request.Method.ToString());
+                    break;
+                case (HttpStatusCode.RequestTimeout):
+                    exceptionMessage = String.Format(ErrorMessages.RESTRequestTimeout, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.RequestUriTooLong):
+                    exceptionMessage = String.Format(ErrorMessages.RESTURITooLong, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.InternalServerError):
+                    exceptionMessage = String.Format(ErrorMessages.RESTInternalServerError, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.ServiceUnavailable):
+                    exceptionMessage = String.Format(ErrorMessages.RESTServiceUnavailable, executedCommand.ID);
+                    break;
+                case (HttpStatusCode.OK):
+                    exceptionMessage = String.Format(ErrorMessages.RESTSuccessButHasException, executedCommand.ID);
+                    break;
                 case (HttpStatusCode.NotFound):
                     exceptionMessage = String.Format(ErrorMessages.RESTInvalidURL, request.Resource, executedCommand.ID);
                     break;
@@ -85,8 +107,18 @@ namespace BEx
                     break;
             }
 
-            var excep = new Exception(exceptionMessage, response.ErrorException);
-            throw excep;
+            Exception newException;
+
+            if (response.ErrorException != null)
+            {
+                newException = new Exception(exceptionMessage + " " + ErrorMessages.RESTCheckInnerException, response.ErrorException);
+            }
+            else
+            {
+                newException = new Exception(exceptionMessage);
+            }
+
+            throw newException;
         }
 
         private object GetValueType<J>(string content)
