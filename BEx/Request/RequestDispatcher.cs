@@ -51,11 +51,42 @@ namespace BEx
             else
                 response = apiClient.Execute(request);
 
-
-            if (!commandReference.ReturnsValueType)
-                return (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
+            if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK)
+            {
+                HandlerErrorResponse(response, request, commandReference);
+                return null;
+            }
             else
-                return GetValueType<J>(response.Content);
+            {
+                if (!commandReference.ReturnsValueType)
+                    return (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
+                else
+                    return GetValueType<J>(response.Content);
+            }
+
+        }
+
+        private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand)
+        {
+            if (response.ErrorException != null)
+            {
+                var ex = new Exception(String.Format(ErrorMessages.RESTExecuteException, executedCommand.ID), response.ErrorException);
+                throw ex;
+            }
+
+            string exceptionMessage = "";
+            switch (response.StatusCode)
+            {
+                case (HttpStatusCode.NotFound):
+                    exceptionMessage = String.Format(ErrorMessages.RESTInvalidURL, request.Resource, executedCommand.ID);
+                    break;
+                default:
+                    exceptionMessage = String.Format(ErrorMessages.RESTUnhandledStatus, response.StatusCode.ToString());
+                    break;
+            }
+
+            var excep = new Exception(exceptionMessage, response.ErrorException);
+            throw excep;
         }
 
         private object GetValueType<J>(string content)
@@ -90,7 +121,6 @@ namespace BEx
             return null;
 
         }
-
 
         // Support finding the Type of List<T>
         private Type ListOfWhat(Object list)

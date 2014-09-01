@@ -61,6 +61,33 @@ namespace BEx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured while executing the API Command {0}.  Please see the InnerException property for more details..
+        /// </summary>
+        internal static string RESTExecuteException {
+            get {
+                return ResourceManager.GetString("RESTExecuteException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The path {0} does not exist on the server.  Executed Command {1}..
+        /// </summary>
+        internal static string RESTInvalidURL {
+            get {
+                return ResourceManager.GetString("RESTInvalidURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An HTTP status of {0} was returned, but it unhandled by the API..
+        /// </summary>
+        internal static string RESTUnhandledStatus {
+            get {
+                return ResourceManager.GetString("RESTUnhandledStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The currency pair {0}/{1} is not currently supported by the exchange {2}.
         /// </summary>
         internal static string UnsupportedCurrencyPair {

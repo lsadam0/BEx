@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="RESTExecuteException" xml:space="preserve">
+    <value>An error occured while executing the API Command {0}.  Please see the InnerException property for more details.</value>
+  </data>
+  <data name="RESTInvalidURL" xml:space="preserve">
+    <value>The path {0} does not exist on the server.  Executed Command {1}.</value>
+  </data>
+  <data name="RESTUnhandledStatus" xml:space="preserve">
+    <value>An HTTP status of {0} was returned, but it unhandled by the API.</value>
+  </data>
   <data name="UnsupportedCurrencyPair" xml:space="preserve">
     <value>The currency pair {0}/{1} is not currently supported by the exchange {2}</value>
   </data>
