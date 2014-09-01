@@ -132,7 +132,7 @@
     </Command>
     <Command ID="AccountBalance">
       <Method>POST</Method>
-      <RelativeURL>getInfo</RelativeURL>
+      <RelativeURL>getInfo/</RelativeURL>
       <RequiresAuthentication>true</RequiresAuthentication>
       <args />
     </Command>

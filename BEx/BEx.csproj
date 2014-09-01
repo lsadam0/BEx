@@ -11,6 +11,7 @@
     <AssemblyName>BEx</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,11 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NUnit.VisualStudio.TestAdapter">
       <HintPath>..\packages\NUnitTestAdapter.1.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
@@ -71,9 +74,11 @@
     <Compile Include="Exchange\BitStamp\JSON\BitstampOpenOrdersJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderBookJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOrderConfirmationJSON.cs" />
+    <Compile Include="Exchange\BitStamp\JSON\BitStampPendingDepositJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTickJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampUserTransactionJSON.cs" />
+    <Compile Include="Exchange\BitStamp\JSON\BitStampPendingWithdrawalJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeOrderBookJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
@@ -81,6 +86,9 @@
     <Compile Include="APIError.cs" />
     <Compile Include="OpenOrders.cs" />
     <Compile Include="Order.cs" />
+    <Compile Include="PendingDeposit.cs" />
+    <Compile Include="PendingDeposits.cs" />
+    <Compile Include="PendingWithdrawals.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
     <Compile Include="Exchange\BTCe.cs" />
@@ -95,6 +103,7 @@
     <Compile Include="Transactions.cs" />
     <Compile Include="UserTransaction.cs" />
     <Compile Include="UserTransactions.cs" />
+    <Compile Include="PendingWithdrawal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BitFinex.xml">

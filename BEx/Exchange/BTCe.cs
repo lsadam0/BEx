@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using System.Web;
 
 using RestSharp;
 using BEx.BTCeSupport;
@@ -41,9 +42,9 @@ namespace BEx
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             long _nonce = BTCeNonce;
-
+            
             StringBuilder dataBuilder = new StringBuilder();
-
+            
             string postString = "method=getInfo&nonce=" + _nonce.ToString();
 
             string signature;
@@ -54,6 +55,7 @@ namespace BEx
             }
             // Header
             // Key
+            
             request.AddHeader("Key", APIKey);
             // Sign
             request.AddHeader("Sign", signature);
@@ -87,7 +89,7 @@ namespace BEx
 
         protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Transactions)SendCommandToDispatcher<BTCeTransactionsJSON>(command, baseCurrency, counterCurrency);
+            return (Transactions)SendCommandToDispatcher<List<BTCeTransactionsJSON>>(command, baseCurrency, counterCurrency);
         }
 
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
@@ -144,12 +146,12 @@ namespace BEx
             return (string)SendCommandToDispatcher<string>(command, toWithdraw, Currency.None, parameters);
         }
 
-        protected override object ExecutePendingDepositsCommand(APICommand command)
+        protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
         {
             throw new NotImplementedException("Get Pending Deposits is not implemented");
         }
 
-        protected override object ExecutePendingWithdrawalsCommand(APICommand command)
+        protected override PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command)
         {
             throw new NotImplementedException("Get Pending Withdrawals is not implemented");
         }

@@ -122,12 +122,6 @@ namespace BEx
             apiRequestFactory.GetSignature += CreateSignature;
         }
 
-        #region Command abstracts
-
-        
-
-        #endregion
-
         #region Command Execution
         /// <summary>
         /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
@@ -388,13 +382,13 @@ namespace BEx
 
         #region Pending Deposits
         
-        protected abstract object ExecutePendingDepositsCommand(APICommand command);
+        protected abstract PendingDeposits ExecutePendingDepositsCommand(APICommand command);
 
-        public object GetPendingDeposits()
+        public PendingDeposits GetPendingDeposits()
         {
-            object res = null;
+            PendingDeposits res = null;
 
-            ExecutePendingDepositsCommand(APICommandCollection["PendingDeposits"]);
+            res = ExecutePendingDepositsCommand(APICommandCollection["PendingDeposits"]);
             //res = SendCommandToDispatcher<object>(APICommandCollection["PendingDeposits"], Currency.None, Currency.None);
 
             return res;
@@ -404,11 +398,11 @@ namespace BEx
 
         #region Pending Withdrawals
 
-        protected abstract object ExecutePendingWithdrawalsCommand(APICommand command);
+        protected abstract PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command);
 
-        protected object PendingWithdrawals()
+        public PendingWithdrawals GetPendingWithdrawals()
         {
-            object res = null;
+            PendingWithdrawals res = null;
 
             res = ExecutePendingWithdrawalsCommand(APICommandCollection["PendingWithdrawals"]);
 
@@ -421,7 +415,6 @@ namespace BEx
 
         protected object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
-
             RestRequest request = apiRequestFactory.GetRequest(toExecute, baseCurrency, counterCurrency, parameters);
 
             return dispatcher.ExecuteCommand<J>(request, toExecute, baseCurrency, counterCurrency);

@@ -1,5 +1,6 @@
 ﻿- Parameters are not getting read from XML
 - Parameters are not set and sent with APICommand
+
 - BTCe auth is failing
 - standarize API Commands
 - Error handling is entirely absent

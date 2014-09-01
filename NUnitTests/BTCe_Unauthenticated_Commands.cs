@@ -10,20 +10,20 @@ using BEx;
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BTCe")]
-    public class BTCe_Commands : VerifyExchangeBase
+    [Category("BTCe.Unauthenticated")]
+    public class BTCe_Unauthenticated_Commands : VerifyExchangeBase
     {
 
        // BTCe be = new BTCe();
 
-        public BTCe_Commands() : base(typeof(BEx.BTCe))
+        public BTCe_Unauthenticated_Commands() : base(typeof(BEx.BTCe))
         {
 
             toTest = new BTCe();
 
             toTest.APIKey = base.APIKey;
             toTest.SecretKey = base.Secret;
-          //  toTest.ClientID = base.ClientID;
+          
         }
 
         #region Ticks
@@ -564,18 +564,7 @@ namespace NUnitTests
 
         #endregion
 
-        #region AccountBalance
 
-        [Test]
-        public void BTCe_GetAccountBalance()
-        {
-            object o = toTest.GetAccountBalance();
-
-            VerifyAccountBalance(o);
-
-        }
-
-        #endregion
 
         
 

@@ -44,9 +44,14 @@ namespace BEx
 
         internal object ExecuteCommand<J>(RestRequest request, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
-            IRestResponse response = apiClient.Execute(request);
+            IRestResponse response;
 
-            
+            if (commandReference.RequiresAuthentication && authenticatedClient != null)
+                response = authenticatedClient.Execute(request);
+            else
+                response = apiClient.Execute(request);
+
+
             if (!commandReference.ReturnsValueType)
                 return (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
             else

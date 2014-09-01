@@ -79,7 +79,7 @@ namespace BEx
 
         protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Transactions)SendCommandToDispatcher<BitFinexTransactionJSON>(command, baseCurrency, counterCurrency);
+            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>>(command, baseCurrency, counterCurrency);
         }
 
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
@@ -136,12 +136,12 @@ namespace BEx
             return (string)SendCommandToDispatcher<string>(command, toWithdraw, Currency.None, parameters);
         }
 
-        protected override object ExecutePendingDepositsCommand(APICommand command)
+        protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
         {
             throw new NotImplementedException("Get Pending Deposits is not implemented");
         }
 
-        protected override object ExecutePendingWithdrawalsCommand(APICommand command)
+        protected override PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command)
         {
             throw new NotImplementedException("Get Pending Withdrawals is not implemented");
         }

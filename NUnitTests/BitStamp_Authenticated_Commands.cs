@@ -11,13 +11,12 @@ using BEx;
 
 namespace NUnitTests
 {
-    
     [TestFixture]
-    [Category("BitStamp")]
-    public class BitStamp_Commands : VerifyExchangeBase
+    [Category("BitStamp.Authenticated")]
+    public class BitStamp_Authenticated_Commands : VerifyExchangeBase
     {
-        public BitStamp_Commands()
-            : base(typeof(BEx.BitStamp))
+
+        public BitStamp_Authenticated_Commands() : base(typeof(BEx.BitStamp))
         {
             toTest = new BitStamp();
 
@@ -27,34 +26,6 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_GetTick_BTCUSD()
-        {
-            Tick t = toTest.GetTick();
-
-            VerifyTick(t, Currency.BTC, Currency.USD);
-        }
-
-
-        [Test]
-        public void BitStamp_GetOrderBook_BTCUSD()
-        {
-
-            OrderBook o = toTest.GetOrderBook();
-
-            VerifyOrderBook(o);
-        }
-
-        [Test]
-        public void BitStamp_GetTransactions_BTCUSD()
-        {
-
-            Transactions trans = toTest.GetTransactions();
-
-            Assert.IsNotNull(trans);
-        }
-
-
-        [Test]
         public void BitStamp_GetAccountBalance()
         {
             AccountBalance res = toTest.GetAccountBalance();
@@ -62,7 +33,6 @@ namespace NUnitTests
             VerifyAccountBalance(res);
 
         }
-
 
         [Test]
         public void BitStamp_CreateBuyOrder()
@@ -75,7 +45,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_CreateSellOrder()
         {
-            object res = toTest.CreateSellOrder(0.01m, 1200.00m);
+            Order res = toTest.CreateSellOrder(0.01m, 1200.00m);
 
             VerifySellOrder(res);
         }
@@ -83,7 +53,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetOpenOrders()
         {
-            object res = toTest.GetOpenOrders();
+            OpenOrders res = toTest.GetOpenOrders();
 
             VerifyOpenOrders(res);
         }
@@ -95,7 +65,6 @@ namespace NUnitTests
 
             VerifyUserTransactions(res);
         }
-
 
         [Test]
         public void BitStamp_CancelOrder()
@@ -109,7 +78,7 @@ namespace NUnitTests
             { }
         }
 
-        [Test] 
+        [Test]
         public void BitStamp_GetDepositAddress()
         {
             string address = toTest.GetDepositAddress();
@@ -118,7 +87,20 @@ namespace NUnitTests
 
         }
 
-        
+        [Test]
+        public void BitStamp_GetPendingDeposits()
+        {
+            PendingDeposits d = toTest.GetPendingDeposits();
 
+            Assert.IsNotNull(d);
+        }
+
+        [Test]
+        public void BitStamp_GetPendingWithdrawals()
+        {
+            PendingWithdrawals w = toTest.GetPendingWithdrawals();
+
+            Assert.IsNotNull(w);
+        }
     }
 }

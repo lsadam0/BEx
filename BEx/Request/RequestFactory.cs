@@ -27,27 +27,18 @@ namespace BEx
             if (command.RequiresAuthentication)
                 AuthenticateRequest(result, command, baseCurrency, counterCurrency);
 
+            if (parameters != null && parameters.Count > 0)
+                SetParameters(result, command, baseCurrency, counterCurrency, parameters);
+
             return result;
         }
 
         private RestRequest CreateRequest(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            //command.GetResolvedRelativeURI()
             var request = new RestRequest(command.GetResolvedRelativeURI(baseCurrency, counterCurrency), command.HttpMethod);
 
             request.RequestFormat = DataFormat.Json;
             request.Method = command.HttpMethod;
-
-            /* Bad
-            foreach (KeyValuePair<string, string> param in command.Parameters)
-            {
-                Parameter p = new Parameter();
-                p.Name = param.Key;
-                p.Value = param.Value;
-                p.Type = ParameterType.QueryString;
-
-                request.Parameters.Add(p);
-            }*/
 
             return request;
         }
@@ -56,14 +47,16 @@ namespace BEx
         {
             if (GetSignature != null)
             {
-                //GetSignature()
-
                 GetSignature(request, command, baseCurrency, counterCurrency);
+            }
+        }
 
-                //request.AddParameter("key", result.Item1);
-                //request.AddParameter("nonce", result.Item2);
-                //request.AddParameter("signature", result.Item3);
-
+        private void SetParameters(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters)
+        {
+            // BitStamp
+            foreach (KeyValuePair<string, string> param in parameters)
+            {
+                request.AddParameter(param.Key, Uri.EscapeUriString(param.Value.ToString()));
             }
         }
 

@@ -9,12 +9,13 @@ using BEx;
 
 namespace NUnitTests
 {
-    [Category("BitFinex")]
+    
     [TestFixture]
-    public class Bitfinex_Commands : VerifyExchangeBase
+    [Category("BitFinex.Unauthenticated")]
+    public class BitFinex_Unauthenticated_Commands : VerifyExchangeBase
     {
 
-        public Bitfinex_Commands() : base(typeof(BEx.Bitfinex))
+        public BitFinex_Unauthenticated_Commands() : base(typeof(BEx.Bitfinex))
         {
             toTest = new Bitfinex();
 
@@ -167,20 +168,7 @@ namespace NUnitTests
 
         #endregion
 
-
-        #region Account Balance Tests
-
-        [Test]
-        public void BitFinex_GetAccountBalance()
-        {
-            object o = toTest.GetAccountBalance();
-
-            VerifyAccountBalance(o);
-
-        }
-
-
-        #endregion
+        
 
     }
 }
