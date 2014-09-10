@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -16,10 +19,20 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using BEx.BitFinexSupport;
 
+using BEx.BitStampSupport;
+
 namespace BEx
 {
+    internal delegate string ExtractErrorDelegate(string content);
+
     internal class RequestDispatcher
     {
+
+        internal ExtractErrorDelegate ExtractError;
+
+        private Regex ErrorMessageRegex;
+
+
         private RestClient apiClient
         {
             get;
@@ -40,33 +53,75 @@ namespace BEx
                 authenticatedClient = new RestClient(authenticatedUri);
             else
                 authenticatedClient = null;
+
+            ErrorMessageRegex = new Regex("\"error\"");
         }
 
         internal object ExecuteCommand<J>(RestRequest request, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
             IRestResponse response;
+            object result = null;
+
 
             if (commandReference.RequiresAuthentication && authenticatedClient != null)
                 response = authenticatedClient.Execute(request);
             else
                 response = apiClient.Execute(request);
 
-            if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK)
+            string possibleError = ExtractError(response.Content);
+
+            if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || possibleError != null)
             {
                 HandlerErrorResponse(response, request, commandReference);
-                return null;
             }
             else
             {
-                if (!commandReference.ReturnsValueType)
-                    return (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
-                else
-                    return GetValueType<J>(response.Content);
+                try
+                {
+                    if (!commandReference.ReturnsValueType)
+                    {
+                        result = (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
+                    }
+                    else
+                        result = GetValueType<J>(response.Content);
+                }
+                catch (Exception ex)
+                {
+                    HandlerErrorResponse(response, request, commandReference, ex);
+                }
             }
 
+            return result;
         }
 
-        private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand)
+        private Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner = null)
+        {
+            Exception res;
+
+            switch (executedCommand.ID)
+            {
+                case ("BuyOrder"):
+                case ("SellOrder"):
+
+                    Regex isInsufficient = new Regex("\"You have only");
+
+                    if (isInsufficient.IsMatch(bareResponse))
+                    {
+                        res = new InsufficientFundsException(message, inner);
+                    }
+                    else
+                        res = new OrderRejectedException(message, inner);
+                    break;
+                default:
+                    res = new Exception(message, inner);
+                    break;
+            }
+
+
+            return res;
+        }
+
+        private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
         {
 
             string exceptionMessage = "";
@@ -107,15 +162,19 @@ namespace BEx
                     break;
             }
 
+            // append server response
+
+            exceptionMessage += String.Format(ErrorMessages.RESTErrorResponseContent, response.Content);
+
             Exception newException;
 
             if (response.ErrorException != null)
             {
-                newException = new Exception(exceptionMessage + " " + ErrorMessages.RESTCheckInnerException, response.ErrorException);
+                newException = CreateException(exceptionMessage, response.Content, executedCommand, response.ErrorException);  //new Exception(exceptionMessage + " " + ErrorMessages.RESTCheckInnerException, response.ErrorException);
             }
             else
             {
-                newException = new Exception(exceptionMessage);
+                newException = CreateException(exceptionMessage, response.Content, executedCommand);
             }
 
             throw newException;

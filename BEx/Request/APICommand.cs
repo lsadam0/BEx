@@ -5,8 +5,10 @@ using System.Text;
 using System.Net;
 using System.Xml.Linq;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 using RestSharp;
+
 namespace BEx
 {
 
@@ -16,6 +18,7 @@ namespace BEx
     [Serializable]
     public class APICommand
     {
+
         public CurrencyFormatterDelegate CurrencyFormatter;
 
         public string ID
@@ -73,6 +76,7 @@ namespace BEx
         public APICommand()
         {
             Parameters = new Dictionary<string, string>();
+            
         }
 
         public APICommand(XElement commandToLoad)
@@ -110,6 +114,8 @@ namespace BEx
                     ReturnsValueType = Convert.ToBoolean(c.Value);
                 }
 
+                
+
             }
 
             ID = commandToLoad.Attribute("ID").Value;
@@ -135,6 +141,8 @@ namespace BEx
             }
 
         }
+
+
 
     }
 }

@@ -45,7 +45,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_CreateSellOrder()
         {
-            Order res = toTest.CreateSellOrder(0.01m, 1200.00m);
+            Order res = toTest.CreateSellOrder(1000m, 1200.00m);
 
             VerifySellOrder(res);
         }

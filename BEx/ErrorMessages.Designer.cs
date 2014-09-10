@@ -79,6 +79,15 @@ namespace BEx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The response content contained the following: {0}..
+        /// </summary>
+        internal static string RESTErrorResponseContent {
+            get {
+                return ResourceManager.GetString("RESTErrorResponseContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occured while executing the API Command {0}.  .
         /// </summary>
         internal static string RESTExecuteException {

@@ -5,38 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
+
 using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
-    internal class Error
-    {
 
-        [JsonProperty("__all__")]
-        public string[] All { get; set; }
-    }
-
-    internal class BitStampErrorJSON
+    public class BitStampErrorJSON
     {
 
         [JsonProperty("error")]
-        public Error Error { get; set; }
+        public string Error { get; set; }
 
-
-        public APIError ConvertToStandard()
+        public APIError ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            APIError res = new APIError();
+            APIError error = new APIError();
 
-            StringBuilder errorMessage = new StringBuilder();
+            error.Message = Error;
 
-            foreach(string msg in this.Error.All)
-            {
-                errorMessage.Append(msg + " ");
-            }
-
-            res.Message = errorMessage.ToString();
-
-            return res;
+            return error;
         }
     }
+
 }

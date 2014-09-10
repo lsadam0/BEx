@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 using RestSharp;
 using BEx.BitStampSupport;
@@ -16,14 +17,34 @@ namespace BEx
         public BitStamp()
             : base("Bitstamp.xml")
         {
-            
+            this.dispatcher.ExtractError += this.ExtractError;
+        }
+
+        protected string ExtractError(string content)
+        {
+            string res = null;
+
+            Regex errorId = new Regex("^{\"error\":");// \"API key not found\"}");
+
+            if (errorId.IsMatch(content))
+            {
+                // format 1
+                // {"__all__": ["You have only 0.02000000 BTC available. Check your account balance for details."]}}
+
+                // format 2
+                // "API key not found"}
+
+                res = content.Replace("{\"error\": {\"__all__\": [\"", "").Replace("{\"error\": \"", "").Replace("\"}", "").Replace("\"]}}", "");
+            }
+
+            return res;
         }
 
         #region Authorization
 
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
-            
+
             /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
 
                 Example (Python):
