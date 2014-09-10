@@ -23,12 +23,16 @@ using BEx.BitStampSupport;
 
 namespace BEx
 {
-    internal delegate string ExtractErrorDelegate(string content);
+ 
+    internal delegate bool IsErrorDelegate(string content);
+    internal delegate Exception CreateExceptionDelegate(string message, string bareResponse, APICommand executedCommand, Exception inner = null);
 
     internal class RequestDispatcher
     {
 
-        internal ExtractErrorDelegate ExtractError;
+ 
+        internal IsErrorDelegate IsError;
+        internal CreateExceptionDelegate CreateException;
 
         private Regex ErrorMessageRegex;
 
@@ -68,9 +72,14 @@ namespace BEx
             else
                 response = apiClient.Execute(request);
 
-            string possibleError = ExtractError(response.Content);
 
-            if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || possibleError != null)
+            bool responseIsError = false;
+            if (IsError != null)
+            {
+                responseIsError = IsError(response.Content);
+            }
+
+            if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || responseIsError)
             {
                 HandlerErrorResponse(response, request, commandReference);
             }
@@ -93,7 +102,7 @@ namespace BEx
 
             return result;
         }
-
+        /*
         private Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner = null)
         {
             Exception res;
@@ -119,7 +128,7 @@ namespace BEx
 
 
             return res;
-        }
+        }*/
 
         private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
         {
@@ -166,15 +175,31 @@ namespace BEx
 
             exceptionMessage += String.Format(ErrorMessages.RESTErrorResponseContent, response.Content);
 
-            Exception newException;
+            Exception newException = null;
 
-            if (response.ErrorException != null)
+            if (CreateException != null)
             {
-                newException = CreateException(exceptionMessage, response.Content, executedCommand, response.ErrorException);  //new Exception(exceptionMessage + " " + ErrorMessages.RESTCheckInnerException, response.ErrorException);
+                if (response.ErrorException != null)
+                {
+                    newException = CreateException(exceptionMessage, response.Content, executedCommand, response.ErrorException);  //new Exception(exceptionMessage + " " + ErrorMessages.RESTCheckInnerException, response.ErrorException);
+                }
+                else
+                {
+                    newException = CreateException(exceptionMessage, response.Content, executedCommand);
+                }
             }
-            else
+            
+
+            if (newException == null)
             {
-                newException = CreateException(exceptionMessage, response.Content, executedCommand);
+                if (response.ErrorException != null)
+                {
+                    newException = new Exception(exceptionMessage, response.ErrorException);
+                }
+                else
+                {
+                    newException = new Exception(exceptionMessage);
+                }
             }
 
             throw newException;
