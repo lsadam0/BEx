@@ -25,6 +25,7 @@ namespace NUnitTests
             toTest.ClientID = base.ClientID;
         }
 
+        #region Authorization 
         [Test]
         public void BitStamp_MissingAPIKey_ExchangeAuthorizationException()
         {
@@ -51,7 +52,6 @@ namespace NUnitTests
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
         }
-
 
         [Test]
         public void BitStamp_IncorrectAPIKey_ExchangeAuthorizationException()
@@ -107,7 +107,6 @@ namespace NUnitTests
             }
         }
 
-
         [Test]
         public void BitStamp_IncorrectSecretKey_ExchangeAuthorizationException()
         {
@@ -162,7 +161,6 @@ namespace NUnitTests
             }
         }
 
-
         [Test]
         public void BitStamp_IncorrectClientID_ExchangeAuthorizationException()
         {
@@ -190,6 +188,8 @@ namespace NUnitTests
             }
         }
 
+        #endregion
+
         [Test]
         public void BitStamp_CreateSellOrder_InsufficientFundsException()
         {
@@ -199,15 +199,57 @@ namespace NUnitTests
 
                 throw new AssertionException("Expected an exception, but execution was successful");
             }
-            catch (InsufficientFundsException iex)
+            catch (OrderRejectedException iex)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(iex.Message));
             }
             catch (Exception ex)
             {
-                throw new AssertionException("Expected InsufficientFundsException");
+                throw new AssertionException("Expected OrderRejectedException");
             }
 
         }
+
+        [Test]
+        public void BitStamp_CreateBuyOrder_InsufficientFundsException()
+        {
+            try
+            {
+                Order res = toTest.CreateBuyOrder(1200m, 1.00m);
+
+                throw new AssertionException("Expected an exception, but execution was successful");
+            }
+            catch (OrderRejectedException iex)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(iex.Message));
+            }
+            catch (Exception ex)
+            {
+                throw new AssertionException("Expected OrderRejectedException");
+            }
+        }
+
+        [Test]
+        public void BitStamp_Withdrawal_Exception()
+        {
+            // invalid amount
+            // bad address
+            try
+            {
+                object res = toTest.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
+                { }
+            }
+                catch (WithdrawalRejectedException wex)
+            {
+                { }
+            }
+            catch (Exception ex)
+            {
+                { }
+
+            }
+        }
+
+        
     }
 }

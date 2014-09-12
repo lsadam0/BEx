@@ -14,80 +14,34 @@ namespace BEx
 {
     public class BitStamp : Exchange
     {
-        Dictionary<string, Regex> errorMessageRegexCollection;
+        private Regex errorId;
 
         public BitStamp()
             : base("Bitstamp.xml")
         {
-            BuildErrorMessageRegexCollection();
+            errorId = new Regex("^{\"error\":");// \"API key not found\"}");
 
             this.dispatcher.IsError += IsError;
-            this.dispatcher.CreateException += CreateException;
+            this.dispatcher.ExtractErrorMessage += ExtractMessage;
         }
 
-
-
-        private void BuildErrorMessageRegexCollection()
+        internal string ExtractMessage(string content)
         {
-            errorMessageRegexCollection = new Dictionary<string, Regex>();
-
-            Regex errorId = new Regex("^{\"error\":");// \"API key not found\"}");
-
-            errorMessageRegexCollection.Add("ErrorIdentification", new Regex("^{\"error\":"));
-            errorMessageRegexCollection.Add("InsufFunds", new Regex("\"You have only"));
-            errorMessageRegexCollection.Add("APIKeyMissing", new Regex("\"API key not found\""));
-            errorMessageRegexCollection.Add("MissingAuthParameters", new Regex("\"Missing key, signature and nonce parameters\""));
-            errorMessageRegexCollection.Add("InvalidSignature", new Regex("\"Invalid signature\""));
+            return content.Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Trim();
         }
-
 
         internal bool IsError(string content)
         {
             bool res = false;
 
-            if (errorMessageRegexCollection["ErrorIdentification"].IsMatch(content))
+            if (errorId.IsMatch(content))
             {
                 res = true;
             }
 
             return res;
         }
-
-        internal Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner = null)
-        {
-            Exception res = null;
-
-            if (errorMessageRegexCollection["APIKeyMissing"].IsMatch(bareResponse) ||
-                errorMessageRegexCollection["MissingAuthParameters"].IsMatch(bareResponse) ||
-                errorMessageRegexCollection["InvalidSignature"].IsMatch(bareResponse)
-                )
-            {
-                res = new ExchangeAuthorizationException(message, inner);
-            }
-
-            if (res == null)
-            {
-                switch (executedCommand.ID)
-                {
-                    case ("BuyOrder"):
-                    case ("SellOrder"):
-
-
-                        if (errorMessageRegexCollection["InsufFunds"].IsMatch(bareResponse))
-                        {
-                            res = new InsufficientFundsException(message, inner);
-                        }
-                        else
-                            res = new OrderRejectedException(message, inner);
-                        break;
-                    default:
-                        res = new Exception(message, inner);
-                        break;
-                }
-            }
-
-            return res;
-        }
+        
 
 
         #region Authorization

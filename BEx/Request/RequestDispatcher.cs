@@ -23,19 +23,17 @@ using BEx.BitStampSupport;
 
 namespace BEx
 {
- 
+
     internal delegate bool IsErrorDelegate(string content);
-    internal delegate Exception CreateExceptionDelegate(string message, string bareResponse, APICommand executedCommand, Exception inner = null);
+    internal delegate string ExtractErrorMessageDelegate(string content);
 
     internal class RequestDispatcher
     {
 
- 
         internal IsErrorDelegate IsError;
-        internal CreateExceptionDelegate CreateException;
+        internal ExtractErrorMessageDelegate ExtractErrorMessage;
 
         private Regex ErrorMessageRegex;
-
 
         private RestClient apiClient
         {
@@ -81,7 +79,7 @@ namespace BEx
 
             if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || responseIsError)
             {
-                HandlerErrorResponse(response, request, commandReference);
+                HandlerErrorResponse(response, request, commandReference, response.ErrorException);
             }
             else
             {
@@ -102,107 +100,101 @@ namespace BEx
 
             return result;
         }
-        /*
-        private Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner = null)
+
+        private Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner)
         {
             Exception res;
+
+            if (ExtractErrorMessage != null)
+                bareResponse = ExtractErrorMessage(bareResponse);
 
             switch (executedCommand.ID)
             {
                 case ("BuyOrder"):
                 case ("SellOrder"):
-
-                    Regex isInsufficient = new Regex("\"You have only");
-
-                    if (isInsufficient.IsMatch(bareResponse))
-                    {
-                        res = new InsufficientFundsException(message, inner);
-                    }
-                    else
-                        res = new OrderRejectedException(message, inner);
+                    res = new OrderRejectedException(bareResponse, inner);
+                    break;
+                case ("Withdraw"):
+                    res = new WithdrawalRejectedException(bareResponse, inner);
+                    break;
+                case ("CancelOrder"):
+                    res = new CancelOrderRejectedException(bareResponse, inner);
                     break;
                 default:
                     res = new Exception(message, inner);
                     break;
             }
 
-
             return res;
-        }*/
+        }
 
         private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
         {
 
-            string exceptionMessage = "";
-            switch (response.StatusCode)
+            if (response.ErrorException != null)
             {
-                case (HttpStatusCode.BadRequest):
-                    exceptionMessage = String.Format(ErrorMessages.RESTBadRequest, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.Unauthorized):
-                    exceptionMessage = String.Format(ErrorMessages.RESTUnauthorized, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.Forbidden):
-                    exceptionMessage = String.Format(ErrorMessages.RESTForbidden, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.MethodNotAllowed):
-                    exceptionMessage = String.Format(ErrorMessages.RESTMethodNotAllowed, executedCommand.ID, request.Method.ToString());
-                    break;
-                case (HttpStatusCode.RequestTimeout):
-                    exceptionMessage = String.Format(ErrorMessages.RESTRequestTimeout, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.RequestUriTooLong):
-                    exceptionMessage = String.Format(ErrorMessages.RESTURITooLong, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.InternalServerError):
-                    exceptionMessage = String.Format(ErrorMessages.RESTInternalServerError, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.ServiceUnavailable):
-                    exceptionMessage = String.Format(ErrorMessages.RESTServiceUnavailable, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.OK):
-                    exceptionMessage = String.Format(ErrorMessages.RESTSuccessButHasException, executedCommand.ID);
-                    break;
-                case (HttpStatusCode.NotFound):
-                    exceptionMessage = String.Format(ErrorMessages.RESTInvalidURL, request.Resource, executedCommand.ID);
-                    break;
-                default:
-                    exceptionMessage = String.Format(ErrorMessages.RESTUnhandledStatus, response.StatusCode.ToString());
-                    break;
+                throw response.ErrorException;
             }
-
-            // append server response
-
-            exceptionMessage += String.Format(ErrorMessages.RESTErrorResponseContent, response.Content);
-
-            Exception newException = null;
-
-            if (CreateException != null)
+            else
             {
-                if (response.ErrorException != null)
+                #region Old
+                /*
+                string exceptionMessage = "";
+                switch (response.StatusCode)
                 {
-                    newException = CreateException(exceptionMessage, response.Content, executedCommand, response.ErrorException);  //new Exception(exceptionMessage + " " + ErrorMessages.RESTCheckInnerException, response.ErrorException);
+                    case (HttpStatusCode.BadRequest):
+                        exceptionMessage = String.Format(ErrorMessages.RESTBadRequest, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.Unauthorized):
+                        exceptionMessage = String.Format(ErrorMessages.RESTUnauthorized, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.Forbidden):
+                        exceptionMessage = String.Format(ErrorMessages.RESTForbidden, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.MethodNotAllowed):
+                        exceptionMessage = String.Format(ErrorMessages.RESTMethodNotAllowed, executedCommand.ID, request.Method.ToString());
+                        break;
+                    case (HttpStatusCode.RequestTimeout):
+                        exceptionMessage = String.Format(ErrorMessages.RESTRequestTimeout, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.RequestUriTooLong):
+                        exceptionMessage = String.Format(ErrorMessages.RESTURITooLong, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.InternalServerError):
+                        exceptionMessage = String.Format(ErrorMessages.RESTInternalServerError, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.ServiceUnavailable):
+                        exceptionMessage = String.Format(ErrorMessages.RESTServiceUnavailable, executedCommand.ID);
+                        break;
+                    case (HttpStatusCode.OK):
+                        exceptionMessage = "";
+                        break;
+                    case (HttpStatusCode.NotFound):
+                        exceptionMessage = String.Format(ErrorMessages.RESTInvalidURL, request.Resource, executedCommand.ID);
+                        break;
+                    default:
+                        exceptionMessage = String.Format(ErrorMessages.RESTUnhandledStatus, response.StatusCode.ToString());
+                        break;
                 }
-                else
-                {
-                    newException = CreateException(exceptionMessage, response.Content, executedCommand);
-                }
-            }
-            
 
-            if (newException == null)
-            {
-                if (response.ErrorException != null)
-                {
-                    newException = new Exception(exceptionMessage, response.ErrorException);
-                }
-                else
-                {
-                    newException = new Exception(exceptionMessage);
-                }
-            }
+                exceptionMessage += String.Format(ErrorMessages.RESTErrorResponseContent, response.Content);
 
-            throw newException;
+                */
+                #endregion
+
+                Exception newException = null;
+
+                newException = CreateException(response.Content, response.Content, executedCommand, inner);
+
+                if (newException == null)
+                    newException = new Exception(response.Content, inner);
+
+                newException.Data.Add("ResponseCode", response.StatusCode);
+                newException.Data.Add("ResponseErrorMessage", response.ErrorMessage ?? "");
+                newException.Data.Add("ResponseHeaders", response.Headers);
+
+                throw newException;
+            }
         }
 
         private object GetValueType<J>(string content)

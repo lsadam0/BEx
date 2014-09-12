@@ -62,9 +62,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ErrorMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\CancelOrderRejectedException.cs" />
     <Compile Include="Exceptions\ExchangeAuthorizationException.cs" />
-    <Compile Include="Exceptions\InsufficientFundsException.cs" />
     <Compile Include="Exceptions\OrderRejectedException.cs" />
+    <Compile Include="Exceptions\WithdrawalRejectedException.cs" />
     <Compile Include="Exchange\Bitfinex.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderBookJSON.cs" />
