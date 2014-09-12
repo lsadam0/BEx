@@ -10,6 +10,14 @@ using System.Text.RegularExpressions;
 using RestSharp;
 using BEx.BitStampSupport;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Utilities;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+
 namespace BEx
 {
     public class BitStamp : Exchange
@@ -27,7 +35,29 @@ namespace BEx
 
         internal string ExtractMessage(string content)
         {
-            return content.Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Trim();
+            StringBuilder res = new StringBuilder();
+            // this works for auth errors
+            JObject error = JObject.Parse(content);
+
+            // for other errors
+
+            try
+            { 
+                IDictionary<string, JToken> errors = (JObject)error["error"];
+
+                foreach (KeyValuePair<string, JToken> er in errors)
+                {
+                    res.AppendLine(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Trim());
+
+                }
+            
+            } catch (Exception ex)
+            {
+                res.AppendLine(error.ToString());
+            }
+
+
+            return res.ToString();//content.Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Trim();
         }
 
         internal bool IsError(string content)

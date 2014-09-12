@@ -108,6 +108,8 @@ namespace BEx
             if (ExtractErrorMessage != null)
                 bareResponse = ExtractErrorMessage(bareResponse);
 
+            /* We need a way to ID Auth exceptions vs APIExceptions */
+
             switch (executedCommand.ID)
             {
                 case ("BuyOrder"):
@@ -220,14 +222,6 @@ namespace BEx
                 res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
 
             return res;
-        }
-
-        private string HandleResponseError(string content, APICommand toExecute)
-        {
-
-            APIError error = default(APIError);
-            return null;
-
         }
 
         // Support finding the Type of List<T>
