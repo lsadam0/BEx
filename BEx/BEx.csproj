@@ -57,6 +57,7 @@
     <Compile Include="AccountBalance.cs" />
     <Compile Include="APIResult.cs" />
     <Compile Include="Common\UnixTime.cs" />
+    <Compile Include="DepositAddress.cs" />
     <Compile Include="ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -68,10 +69,12 @@
     <Compile Include="Exceptions\WithdrawalRejectedException.cs" />
     <Compile Include="Exchange\Bitfinex.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexAccountBalanceJSON.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitFinexDepositAddressJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderBookJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitFinexUserTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampErrorJSON.cs" />

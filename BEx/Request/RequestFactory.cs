@@ -25,7 +25,7 @@ namespace BEx
             RestRequest result = CreateRequest(command, baseCurrency, counterCurrency);
 
             if (command.RequiresAuthentication)
-                AuthenticateRequest(result, command, baseCurrency, counterCurrency);
+                AuthenticateRequest(result, command, baseCurrency, counterCurrency, parameters);
 
             if (parameters != null && parameters.Count > 0)
                 SetParameters(result, command, baseCurrency, counterCurrency, parameters);
@@ -43,11 +43,11 @@ namespace BEx
             return request;
         }
 
-        private void AuthenticateRequest(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency)
+        private void AuthenticateRequest(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             if (GetSignature != null)
             {
-                GetSignature(request, command, baseCurrency, counterCurrency);
+                GetSignature(request, command, baseCurrency, counterCurrency, parameters);
             }
         }
 

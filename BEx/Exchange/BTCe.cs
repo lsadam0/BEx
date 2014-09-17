@@ -127,10 +127,10 @@ namespace BEx
             return false;
         }
 
-        protected override string ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
+        protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
             throw new NotImplementedException("BTCe cannot retrieve deposit address");
-            return "";
+            return null;
         }
 
 

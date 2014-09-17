@@ -348,16 +348,16 @@ namespace BEx
 
         #region Deposit Address
 
-        protected abstract string ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
+        protected abstract DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
 
-        public string GetDepositAddress()
+        public DepositAddress GetDepositAddress()
         {
             return GetDepositAddress(Currency.BTC);
         }
 
-        protected string GetDepositAddress(Currency toDeposit)
+        public DepositAddress GetDepositAddress(Currency toDeposit)
         {
-            string res;
+            DepositAddress res;
 
             res = ExecuteGetDepositAddressCommand(APICommandCollection["DepositAddress"], toDeposit);
 

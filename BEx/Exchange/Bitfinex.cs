@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.ComponentModel;
 
 using RestSharp;
 using BEx.BitFinexSupport;
@@ -49,6 +50,16 @@ namespace BEx
             payload.Append("{");
             payload.Append("\"request\": \"" +  command.GetResolvedRelativeURI(baseCurrency, counterCurrency) + "\",");
             payload.Append("\"nonce\": \"" + Nonce + "\"");
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, string> pair in parameters)
+                {
+                    payload.Append(",");
+                    payload.Append("\"" + pair.Key + "\": \"" + pair.Value + "\"");
+                }
+            }
+
             payload.Append("}");
 
             string payload64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload.ToString()));
@@ -84,7 +95,7 @@ namespace BEx
 
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalance)SendCommandToDispatcher<BitFinexAccountBalanceJSON>(command, baseCurrency, counterCurrency);
+            return (AccountBalance)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>>(command, baseCurrency, counterCurrency);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
@@ -105,11 +116,13 @@ namespace BEx
             return null;
         }
 
-
         protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            throw new NotImplementedException("BitFinex cannot retrieve user transactions");
-            return null;
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            parameters.Add("symbol", baseCurrency.ToString().ToUpper() + counterCurrency.ToString().ToUpper());
+
+            return (UserTransactions)SendCommandToDispatcher<List<BitFinexUserTransactionJSON>>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
@@ -118,10 +131,15 @@ namespace BEx
             return false;
         }
 
-        protected override string ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
+        protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
-            throw new NotImplementedException("BitFinex cannot retrieve deposit address");
-            return "";
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            parameters.Add("currency", toDeposit.ToString());
+            parameters.Add("method", EnumExtensions.GetDescription(toDeposit).ToLower());
+            parameters.Add("wallet_name", "exchange");
+
+            return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON>(command, toDeposit, toDeposit, parameters);
         }
 
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)

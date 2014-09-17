@@ -26,13 +26,49 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetAccountBalance()
         {
-            object o = toTest.GetAccountBalance();
+            AccountBalance a = toTest.GetAccountBalance();
 
-            VerifyAccountBalance(o);
+            VerifyAccountBalance(a);
 
         }
 
-
         #endregion
+
+        [Test]
+        public void BitFinex_GetBTCDepositAddress()
+        {
+            DepositAddress res = toTest.GetDepositAddress(Currency.BTC);
+
+            
+            { }
+        }
+
+        [Test]
+        public void BitFinex_GetLTCDepositAddress()
+        {
+            DepositAddress res = toTest.GetDepositAddress(Currency.LTC);
+
+
+            { }
+        }
+
+        [Test]
+        public void BitFinex_GetDRKDepositAddress()
+        {
+            DepositAddress res = toTest.GetDepositAddress(Currency.DRK);
+
+
+            { }
+        }
+
+        [Test]
+        public void BitFinex_GetUserTransactions()
+        {
+
+            UserTransactions t = toTest.GetUserTransactions(Currency.BTC, Currency.USD);
+
+            VerifyUserTransactions(t);
+        }
+
     }
 }

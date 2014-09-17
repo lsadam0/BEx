@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace BEx
 {
@@ -10,9 +12,16 @@ namespace BEx
 
         // Crypto
         None,
+
+        [Description("BitCoin")]
         BTC, // BitCoin
+
+        [Description("LiteCoin")]
         LTC, // LiteCoin
+
+        [Description("NameCoin")]
         NMC, // NameCoin
+
         NVC, // NovaCoin
         PPC, // PeerCoin
         TRC, // TerraCoin
@@ -23,6 +32,7 @@ namespace BEx
         RUR, // Russian 
         CNH, // Yuan
         EUR, // Euro
+        [Description("DarkCoin")]
         DRK, // DarkCoin
         AED, //	United Arab Emirates Dirham
         AFN, //	Afghanistan Afghani
@@ -1081,4 +1091,18 @@ ZTC
 ZUR
 kFC*/
     }
+
+    public static class EnumExtensions
+    {
+        public static string GetDescription(this Enum value)
+        {
+
+            FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
+            DescriptionAttribute attribute = Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
+            return attribute == null ? value.ToString() : attribute.Description;
+
+        }
+
+    }
+
 }

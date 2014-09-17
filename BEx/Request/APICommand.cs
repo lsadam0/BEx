@@ -20,7 +20,7 @@ namespace BEx
     {
 
         public CurrencyFormatterDelegate CurrencyFormatter;
-
+        
         public string ID
         {
             get;
@@ -76,7 +76,6 @@ namespace BEx
         public APICommand()
         {
             Parameters = new Dictionary<string, string>();
-            
         }
 
         public APICommand(XElement commandToLoad)

@@ -163,9 +163,9 @@ namespace BEx
             return (bool)SendCommandToDispatcher<bool>(command, Currency.BTC, Currency.USD, parameters);
         }
 
-        protected override string ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
+        protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
-            return (string)SendCommandToDispatcher<string>(command, Currency.BTC, Currency.USD);
+            return (DepositAddress)SendCommandToDispatcher<string>(command, Currency.BTC, Currency.USD);
         }
 
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
