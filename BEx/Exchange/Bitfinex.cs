@@ -100,20 +100,29 @@ namespace BEx
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
-
-            throw new NotImplementedException("BitFinex cannot create orders");
-            /*
             Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("price", amount.ToString());
 
-            return (Order)SendCommandToDispatcher<BT>(command, baseCurrency, counterCurrency, parameters);*/
+            parameters.Add("symbol", baseCurrency.ToString() + counterCurrency.ToString());
+            parameters.Add("amount", amount.ToString());
+            parameters.Add("price", price.ToString());
+            parameters.Add("exchange", "bitfinex");
+
+            if (command.ID == "BuyOrder")
+                parameters.Add("side", "buy");
+            else
+                parameters.Add("side", "sell");
+
+            parameters.Add("type", "exchange limit");
+            //parameters.Add("is_hidden", "0");
+
+            return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON>(command, baseCurrency, counterCurrency, parameters);
+
         }
 
         protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            throw new NotImplementedException("BitFinex cannot retrieve open orders");
-            return null;
+
+            return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>>(command, baseCurrency, counterCurrency);
         }
 
         protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)

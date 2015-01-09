@@ -209,14 +209,14 @@ namespace BEx
         {
             APIResult res = default(APIResult);
 
-            object deserialized = JsonConvert.DeserializeObject<J>(content);
+            dynamic deserialized = JsonConvert.DeserializeObject<J>(content);
 
             MethodInfo conversionMethod = deserialized.GetType().GetMethod("ConvertToStandard");
 
             if (conversionMethod == null)
             {
-                conversionMethod = ListOfWhat(deserialized).GetMethod("ConvertListToStandard");
-                res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
+                conversionMethod = ListOfWhat(deserialized).BaseType.GetMethod("ConvertListToStandard");
+                res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized.Cast<ExchangeResponse>.ToList(), baseCurrency, counterCurrency });
             }
             else
                 res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });

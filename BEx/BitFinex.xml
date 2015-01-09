@@ -75,5 +75,39 @@
         <arg ID="symbol">BTCUSD</arg>
       </args>
     </command>
+    <command ID="BuyOrder">
+      <Method>POST</Method>
+      <RelativeURL>/v1/order/new</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args>
+        <arg ID="symbol">BTCUSD</arg>
+        <arg ID="amount"></arg>
+        <arg ID="price"></arg>
+        <arg ID="exchange">bitfinex</arg>
+        <arg ID="side">buy</arg>
+        <arg ID="type">exchange limit</arg>
+        <arg ID="is_hidden">false</arg>
+      </args>
+    </command>
+    <command ID="SellOrder">
+      <Method>POST</Method>
+      <RelativeURL>/v1/order/new</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args>
+        <arg ID="symbol">BTCUSD</arg>
+        <arg ID="amount"></arg>
+        <arg ID="price"></arg>
+        <arg ID="exchange">bitfinex</arg>
+        <arg ID="side">sell</arg>
+        <arg ID="type">exchange limit</arg>
+        <arg ID="is_hidden">false</arg>
+      </args>
+    </command>
+    <command ID="OpenOrders">
+      <Method>POST</Method>
+      <RelativeURL>/v1/orders</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args></args>
+    </command>
   </Commands>
 </BTCe>

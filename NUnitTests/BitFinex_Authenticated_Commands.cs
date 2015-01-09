@@ -34,6 +34,7 @@ namespace NUnitTests
 
         #endregion
 
+        #region Deposit Address
         [Test]
         public void BitFinex_GetBTCDepositAddress()
         {
@@ -61,6 +62,8 @@ namespace NUnitTests
             { }
         }
 
+        #endregion
+
         [Test]
         public void BitFinex_GetUserTransactions()
         {
@@ -69,6 +72,37 @@ namespace NUnitTests
 
             VerifyUserTransactions(t);
         }
+
+        #region Orders
+
+        [Test]
+        public void BitFinex_CreateSellOrder()
+        {
+
+            Order o = toTest.CreateSellOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
+
+            VerifySellOrder(o);
+
+        }
+
+        [Test]
+        public void BitFinex_CreateBuyOrder()
+        {
+            Order o = toTest.CreateBuyOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
+
+            VerifyBuyOrder(o);
+
+
+        }
+
+        [Test]
+        public void BitFinex_GetOpenOrders()
+        {
+            OpenOrders o = toTest.GetOpenOrders();
+
+            VerifyOpenOrders(o);
+        }
+        #endregion
 
     }
 }

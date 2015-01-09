@@ -71,6 +71,7 @@
     <Compile Include="Exchange\BitFinex\JSON\BitFinexAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexDepositAddressJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderBookJSON.cs" />
+    <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderResponseJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTransactionsJSON.cs" />
     <Compile Include="APIError.cs" />
+    <Compile Include="Exchange\ExchangeResponse.cs" />
     <Compile Include="OpenOrders.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="PendingDeposit.cs" />
