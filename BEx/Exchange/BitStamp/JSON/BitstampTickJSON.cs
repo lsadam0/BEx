@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BEx.BitStampSupport
 {
-    public class BitstampTickJSON : JSONBase
+    public class BitstampTickJSON : ExchangeResponse
     {
         public string high { get; set; }
         public string last { get; set; }
@@ -16,6 +16,26 @@ namespace BEx.BitStampSupport
         public string volume { get; set; }
         public string low { get; set; }
         public string ask { get; set; }
+
+
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = new Tick();
+
+            res.Ask = Convert.ToDecimal(ask);
+            res.Bid = Convert.ToDecimal(bid);
+            res.High = Convert.ToDecimal(high);
+            res.Last = Convert.ToDecimal(last);
+            res.Low = Convert.ToDecimal(low);
+
+            res.Volume = Convert.ToDecimal(volume);
+
+            res.BaseCurrency = baseCurrency;
+            res.CounterCurrency = counterCurrency;
+
+            return res;
+        }
+        /*
 
         public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -51,16 +71,8 @@ namespace BEx.BitStampSupport
             res.CounterCurrency = counterCurrency;
 
             return res;
-        }
+        }*/
     }
 
 
-    public class JSONBase
-    {
-        public JSONBase()
-        {
-
-        }
-
-    }
 }

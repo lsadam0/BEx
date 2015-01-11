@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitfinexTickJSON
+    public class BitfinexTickJSON :ExchangeResponse
     {
 
         [JsonProperty("mid")]
@@ -35,8 +35,7 @@ namespace BEx.BitFinexSupport
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-
-        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
 
@@ -52,5 +51,22 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
+        /*
+        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = new Tick();
+
+
+            res.Ask = Convert.ToDecimal(Ask);
+            res.BaseCurrency = baseCurrency;
+            res.Bid = Convert.ToDecimal(Bid);
+            res.CounterCurrency = counterCurrency;
+            res.High = Convert.ToDecimal(High);
+            res.Last = Convert.ToDecimal(LastPrice);
+            res.Low = Convert.ToDecimal(Low);
+            res.Volume = Convert.ToDecimal(Volume);
+
+            return res;
+        }*/
     }
 }

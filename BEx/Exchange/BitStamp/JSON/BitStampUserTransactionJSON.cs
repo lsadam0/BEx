@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BEx.BitStampSupport
 {
 
-    public class BitStampUserTransactionJSON
+    public class BitStampUserTransactionJSON : ExchangeResponse
     {
 
         [JsonProperty("usd")]
@@ -36,14 +36,14 @@ namespace BEx.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public UserTransaction ToUserTransaction()
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             UserTransaction res = new UserTransaction();
 
             res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
             res.CounterCurrencyAmount = Convert.ToDecimal(Usd);
             res.ID = Id;
-            
+
             //- transaction type (0 - deposit; 1 - withdrawal; 2 - market trade)
 
             if (Type == 0)
@@ -61,18 +61,6 @@ namespace BEx.BitStampSupport
                 res.OrderID = OrderId;
 
             res.ExchangeRate = Convert.ToDecimal(BtcUsd);
-
-            return res;
-        }
-
-        public static UserTransactions ConvertListToStandard(List<BitStampUserTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
-        {
-            UserTransactions res = new UserTransactions();
-
-            foreach (BitStampUserTransactionJSON transaction in transactions)
-            {
-                res.UserTrans.Add(transaction.ToUserTransaction());
-            }
 
             return res;
         }

@@ -43,7 +43,7 @@ namespace BEx.BTCeSupport
         public long ServerTime { get; set; }
     }
 
-    public class BTCeTickJSON
+    public class BTCeTickJSON : ExchangeResponse
     {
 
         [JsonProperty("ticker")]
@@ -55,6 +55,25 @@ namespace BEx.BTCeSupport
 
         }
 
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = new Tick();
+
+            res.Bid = Convert.ToDecimal(Ticker.Sell);
+            res.Ask = Convert.ToDecimal(Ticker.Buy);
+            res.High = Convert.ToDecimal(Ticker.High);
+            res.Last = Convert.ToDecimal(Ticker.Last);
+            res.Low = Convert.ToDecimal(Ticker.Low);
+            res.Volume = Convert.ToDecimal(Ticker.Vol);
+
+            res.BaseCurrency = baseCurrency;
+            res.CounterCurrency = counterCurrency;
+
+
+            return res;
+        }
+
+        /*
         public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
@@ -71,7 +90,7 @@ namespace BEx.BTCeSupport
 
             
             return res;
-        }
+        }*/
     }
 
 }

@@ -10,7 +10,7 @@ using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
-    public class BitStampPendingDepositJSON
+    public class BitStampPendingDepositJSON : ExchangeResponse
     {
 
         [JsonProperty("amount")]
@@ -22,6 +22,19 @@ namespace BEx.BitStampSupport
         [JsonProperty("address")]
         public string Address { get; set; }
 
+
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            PendingDeposit res = new PendingDeposit();
+
+            res.Amount = Convert.ToDecimal(Amount);
+            res.Confirmations = Confirmations;
+            res.Address = Address;
+            res.DepositedCurrency = Currency.BTC;
+
+            return res;
+        }
+        /*
         public PendingDeposit ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             PendingDeposit res = new PendingDeposit();
@@ -44,7 +57,7 @@ namespace BEx.BitStampSupport
             }
 
             return res;
-        }
+        }*/
     }
 
 }

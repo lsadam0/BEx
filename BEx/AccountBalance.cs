@@ -30,5 +30,7 @@ namespace BEx
             //Reserved = new Dictionary<Currency, decimal>();
 
         }
+
+        
     }
 }

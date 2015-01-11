@@ -9,7 +9,7 @@ using BEx.Common;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitFinexUserTransactionJSON
+    public class BitFinexUserTransactionJSON : ExchangeResponse
     {
 
         [JsonProperty("price")]
@@ -36,6 +36,18 @@ namespace BEx.BitFinexSupport
         [JsonProperty("tid")]
         public int Tid { get; set; }
 
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            UserTransaction u = new UserTransaction();
+
+            u.ID = Tid;
+            u.Type = UserTransactionType.Trade;
+            u.OrderID = Tid;
+
+
+            return u;
+        }
+        /*
         public UserTransaction ToUserTransaction()
         {
             UserTransaction u = new UserTransaction();
@@ -58,6 +70,6 @@ namespace BEx.BitFinexSupport
                 res.UserTrans.Add(t.ToUserTransaction());
             }
             return res;
-        }
+        }*/
     }
 }

@@ -34,7 +34,7 @@ using Newtonsoft.Json;
         public string Timestamp { get; set; }
     }
 
-    public class BitFinexOrderBookJSON
+    public class BitFinexOrderBookJSON : ExchangeResponse
     {
 
         [JsonProperty("bids")]
@@ -44,7 +44,36 @@ using Newtonsoft.Json;
         public Ask[] Asks { get; set; }
 
 
-        public OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            OrderBook res = new OrderBook();
+
+            res.BaseCurrency = baseCurrency;
+            res.CounterCurrency = counterCurrency;
+
+
+
+            for (int x = 0; x < Bids.Length; ++x)
+            {
+
+                //source.Bids[x].
+                res.BidsByPrice.Add(Convert.ToDecimal(Bids[x].Price), Convert.ToDecimal(Bids[x].Amount));
+
+
+            }
+
+            for (int x = 0; x < Asks.Length; ++x)
+            {
+                res.AsksByPrice.Add(Convert.ToDecimal(Asks[x].Price), Convert.ToDecimal(Asks[x].Amount));
+
+            }
+
+            res.TimeStamp = DateTime.Now;
+
+            return res;
+        }
+
+     /*   public OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = new OrderBook();
 
@@ -71,6 +100,6 @@ using Newtonsoft.Json;
             res.TimeStamp = DateTime.Now;
 
             return res;
-        }
+        }*/
     }
 }

@@ -84,7 +84,7 @@ namespace BEx.BTCeSupport
         public int ServerTime { get; set; }
     }
 
-    public class BTCeAccountBalanceJSON
+    public class BTCeAccountBalanceJSON : ExchangeResponse
     {
 
         [JsonProperty("success")]
@@ -93,8 +93,7 @@ namespace BEx.BTCeSupport
         [JsonProperty("return")]
         public Return Return { get; set; }
 
-
-        public AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             AccountBalance res = new AccountBalance();
 
@@ -117,5 +116,29 @@ namespace BEx.BTCeSupport
 
             return res;
         }
+        /*
+        public AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            AccountBalance res = new AccountBalance();
+
+
+            //this.Return.Funds.
+
+            PropertyInfo[] properties = this.Return.Funds.GetType().GetProperties();
+
+            foreach (PropertyInfo prop in properties)
+            {
+                Currency pCurrency;
+
+                if (Enum.TryParse<Currency>(prop.Name.ToUpper(), out pCurrency))
+                {
+                    res.Balance.Add(pCurrency, Convert.ToDecimal(prop.GetValue(this.Return.Funds)));
+                }
+
+            }
+
+
+            return res;
+        }*/
     }
 }

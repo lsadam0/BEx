@@ -9,7 +9,7 @@ using BEx.Common;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitFinexTransactionJSON
+    public class BitFinexTransactionJSON : ExchangeResponse
     {
         [JsonProperty("timestamp")]
         public int timestamp { get; set; }
@@ -30,6 +30,19 @@ namespace BEx.BitFinexSupport
         public string type { get; set; }
 
 
+        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        {
+            Transaction res = new Transaction();
+
+            res.Amount = Convert.ToDecimal(amount);
+            res.Price = Convert.ToDecimal(price);
+            res.TransactionID = Convert.ToInt64(tid);
+
+            res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
+
+            return res;
+        }
+        /*
         public Transaction ToTransaction()
         {
             Transaction res = new Transaction();
@@ -54,6 +67,6 @@ namespace BEx.BitFinexSupport
             }
 
             return res;
-        }
+        }*/
     }
 }

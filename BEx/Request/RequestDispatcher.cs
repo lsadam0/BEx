@@ -215,8 +215,15 @@ namespace BEx
 
             if (conversionMethod == null)
             {
-                conversionMethod = ListOfWhat(deserialized).BaseType.GetMethod("ConvertListToStandard");
-                res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized.Cast<ExchangeResponse>.ToList(), baseCurrency, counterCurrency });
+                Type baseT = ListOfWhat(deserialized);
+
+                conversionMethod = baseT.BaseType.GetMethod("ConvertListToStandard");
+
+                MethodInfo generic = conversionMethod.MakeGenericMethod(baseT);
+
+                List<APIResult> results = (List<APIResult>)generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
+                //res = (APIResult)generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
+                //res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
             }
             else
                 res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
@@ -234,6 +241,9 @@ namespace BEx
         {
             return typeof(T);
         }
+
+
+
 
     }
 }
