@@ -414,11 +414,11 @@ namespace BEx
 
         #endregion
 
-        protected object SendCommandToDispatcher<J>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             RestRequest request = apiRequestFactory.GetRequest(toExecute, baseCurrency, counterCurrency, parameters);
 
-            return dispatcher.ExecuteCommand<J>(request, toExecute, baseCurrency, counterCurrency);
+            return dispatcher.ExecuteCommand<J, E>(request, toExecute, baseCurrency, counterCurrency);
         }
 
         protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);

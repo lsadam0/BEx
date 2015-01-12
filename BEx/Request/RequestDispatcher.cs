@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 
 using Newtonsoft.Json;
@@ -59,7 +60,17 @@ namespace BEx
             ErrorMessageRegex = new Regex("\"error\"");
         }
 
-        internal object ExecuteCommand<J>(RestRequest request, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="J">Intermediate type</typeparam>
+        /// <typeparam name="E">Expected return type</typeparam>
+        /// <param name="request"></param>
+        /// <param name="commandReference"></param>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
+        internal object ExecuteCommand<J, E>(RestRequest request, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
             IRestResponse response;
             object result = null;
@@ -87,7 +98,7 @@ namespace BEx
                 {
                     if (!commandReference.ReturnsValueType)
                     {
-                        result = (APIResult)DeserializeObject<J>(response.Content, commandReference, baseCurrency, counterCurrency);
+                        result = (APIResult)DeserializeObject<J, E>(response.Content, commandReference, baseCurrency, counterCurrency);
                     }
                     else
                         result = GetValueType<J>(response.Content);
@@ -205,7 +216,7 @@ namespace BEx
             return (J)deserialized;
         }
 
-        private APIResult DeserializeObject<J>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
+        private APIResult DeserializeObject<J, E>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
             APIResult res = default(APIResult);
 
@@ -215,15 +226,28 @@ namespace BEx
 
             if (conversionMethod == null)
             {
+                // Json Type
                 Type baseT = ListOfWhat(deserialized);
 
+                // Get Method from ExchangeResponse
                 conversionMethod = baseT.BaseType.GetMethod("ConvertListToStandard");
 
-                MethodInfo generic = conversionMethod.MakeGenericMethod(baseT);
+                MethodInfo singleConversionMethod = baseT.GetMethod("ConvertToStandard");
 
-                List<APIResult> results = (List<APIResult>)generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
-                //res = (APIResult)generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
-                //res = (APIResult)conversionMethod.Invoke(null, new object[] { deserialized, baseCurrency, counterCurrency });
+                Type entryType = singleConversionMethod.ReturnType;
+
+                MethodInfo generic = conversionMethod.MakeGenericMethod(baseT, entryType);
+                
+                dynamic collection = generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
+
+
+                res = (APIResult)Activator.CreateInstance(typeof(E),
+                                                            BindingFlags.NonPublic | BindingFlags.Instance,
+                                                            null,
+                                                            new object[] { collection },
+                                                            null); // Culture?
+
+
             }
             else
                 res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });

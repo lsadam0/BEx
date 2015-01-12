@@ -14,7 +14,7 @@ namespace BEx
             set;
         }
 
-        public UserTransactions() : base()
+        internal UserTransactions() : base()
         {
             UserTrans = new List<UserTransaction>();
         }

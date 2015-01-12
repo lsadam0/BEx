@@ -80,22 +80,22 @@ namespace BEx
 
         protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Tick)SendCommandToDispatcher<BitfinexTickJSON>(command, baseCurrency, counterCurrency);
+            return (Tick)SendCommandToDispatcher<BitfinexTickJSON, Tick>(command, baseCurrency, counterCurrency);
         }
 
         protected override OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (OrderBook)SendCommandToDispatcher<BitFinexOrderBookJSON>(command, baseCurrency, counterCurrency);
+            return (OrderBook)SendCommandToDispatcher<BitFinexOrderBookJSON, OrderBook>(command, baseCurrency, counterCurrency);
         }
 
         protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>>(command, baseCurrency, counterCurrency);
+            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency);
         }
 
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalance)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>>(command, baseCurrency, counterCurrency);
+            return (AccountBalance)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>, AccountBalance>(command, baseCurrency, counterCurrency);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
@@ -115,14 +115,14 @@ namespace BEx
             parameters.Add("type", "exchange limit");
             //parameters.Add("is_hidden", "0");
 
-            return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON>(command, baseCurrency, counterCurrency, parameters);
+            return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON, Order>(command, baseCurrency, counterCurrency, parameters);
 
         }
 
         protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
 
-            return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>>(command, baseCurrency, counterCurrency);
+            return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>, OpenOrders>(command, baseCurrency, counterCurrency);
         }
 
         protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
@@ -131,7 +131,7 @@ namespace BEx
 
             parameters.Add("symbol", baseCurrency.ToString().ToUpper() + counterCurrency.ToString().ToUpper());
 
-            return (UserTransactions)SendCommandToDispatcher<List<BitFinexUserTransactionJSON>>(command, baseCurrency, counterCurrency, parameters);
+            return (UserTransactions)SendCommandToDispatcher<List<BitFinexUserTransactionJSON>, UserTransactions>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
@@ -148,7 +148,7 @@ namespace BEx
             parameters.Add("method", EnumExtensions.GetDescription(toDeposit).ToLower());
             parameters.Add("wallet_name", "exchange");
 
-            return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON>(command, toDeposit, toDeposit, parameters);
+            return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON, DepositAddress>(command, toDeposit, toDeposit, parameters);
         }
 
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
@@ -160,7 +160,7 @@ namespace BEx
             parameters.Add("amount", amount.ToString());
             parameters.Add("address", address);
 
-            return (string)SendCommandToDispatcher<string>(command, toWithdraw, Currency.None, parameters);
+            return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
         }
 
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)

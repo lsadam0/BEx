@@ -10,7 +10,7 @@ using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
-    public class BitStampPendingWithdrawalJSON : ExchangeResponse
+    public class BitStampPendingWithdrawalJSON : ExchangeResponse<PendingWithdrawal>
     {
 
         [JsonProperty("status")]
@@ -32,7 +32,7 @@ namespace BEx.BitStampSupport
         public int Id { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override PendingWithdrawal ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             PendingWithdrawal res = new PendingWithdrawal();
 

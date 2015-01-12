@@ -10,7 +10,7 @@ using BEx.Common;
 
 namespace BEx.BTCeSupport
 {
-    public class BTCeTransactionsJSON : ExchangeResponse
+    public class BTCeTransactionsJSON : ExchangeResponse<Transaction>
     {
         [JsonProperty("date")]
         public int Date { get; set; }
@@ -34,7 +34,7 @@ namespace BEx.BTCeSupport
         public string TradeType { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Transaction res = new Transaction();
 

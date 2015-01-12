@@ -9,7 +9,7 @@ using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
-    public class BitStampOpenOrdersJSON : ExchangeResponse
+    public class BitStampOpenOrdersJSON : ExchangeResponse<APIResult>
     {
 
         [JsonProperty("price")]

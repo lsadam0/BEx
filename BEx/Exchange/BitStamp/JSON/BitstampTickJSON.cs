@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BEx.BitStampSupport
 {
-    public class BitstampTickJSON : ExchangeResponse
+    public class BitstampTickJSON : ExchangeResponse<Tick>
     {
         public string high { get; set; }
         public string last { get; set; }
@@ -18,7 +18,7 @@ namespace BEx.BitStampSupport
         public string ask { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
 

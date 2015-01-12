@@ -34,7 +34,7 @@ using Newtonsoft.Json;
         public string Timestamp { get; set; }
     }
 
-    public class BitFinexOrderBookJSON : ExchangeResponse
+    public class BitFinexOrderBookJSON : ExchangeResponse<OrderBook>
     {
 
         [JsonProperty("bids")]
@@ -44,7 +44,7 @@ using Newtonsoft.Json;
         public Ask[] Asks { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = new OrderBook();
 

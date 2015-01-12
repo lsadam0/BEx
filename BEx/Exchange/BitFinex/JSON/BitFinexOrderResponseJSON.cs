@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitFinexOrderResponseJSON : ExchangeResponse
+    public class BitFinexOrderResponseJSON : ExchangeResponse<Order>
     {
 
         [JsonProperty("id")]
@@ -57,7 +57,7 @@ namespace BEx.BitFinexSupport
         public int OrderId { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Order res = new Order();
 

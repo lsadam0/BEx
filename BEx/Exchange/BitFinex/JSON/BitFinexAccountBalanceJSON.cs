@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitFinexAccountBalanceJSON : ExchangeResponse
+    public class BitFinexAccountBalanceJSON : ExchangeResponse<AccountBalance>
     {
 
         [JsonProperty("type")]
@@ -24,7 +24,7 @@ namespace BEx.BitFinexSupport
         public string Available { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             AccountBalance res = new AccountBalance();
 
@@ -42,6 +42,8 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
+
+        
         /*
         public static AccountBalance ConvertListToStandard(List<BitFinexAccountBalanceJSON> balances, Currency baseCurrency, Currency counterCurrency)
         {

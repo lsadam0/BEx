@@ -10,7 +10,7 @@ using BEx.Common;
 namespace BEx.BitStampSupport
 {
 
-    public class BitstampOrderBookJSON : ExchangeResponse
+    public class BitstampOrderBookJSON : ExchangeResponse<OrderBook>
     {
 
         [JsonProperty("timestamp")]
@@ -22,7 +22,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = new OrderBook();
 

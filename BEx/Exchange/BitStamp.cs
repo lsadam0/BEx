@@ -117,22 +117,22 @@ namespace BEx
 
         protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Tick)SendCommandToDispatcher<BitstampTickJSON>(command, baseCurrency, counterCurrency);
+            return (Tick)SendCommandToDispatcher<BitstampTickJSON, Tick>(command, baseCurrency, counterCurrency);
         }
 
         protected override OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (OrderBook)SendCommandToDispatcher<BitstampOrderBookJSON>(command, baseCurrency, counterCurrency);
+            return (OrderBook)SendCommandToDispatcher<BitstampOrderBookJSON, OrderBook>(command, baseCurrency, counterCurrency);
         }
 
         protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>>(command, baseCurrency, counterCurrency);
+            return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency);
         }
 
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON>(command, baseCurrency, counterCurrency);
+            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalance>(command, baseCurrency, counterCurrency);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
@@ -141,17 +141,17 @@ namespace BEx
             parameters.Add("amount", amount.ToString());
             parameters.Add("price", price.ToString());
 
-            return (Order)SendCommandToDispatcher<BitStampOrderConfirmationJSON>(command, baseCurrency, counterCurrency, parameters);
+            return (Order)SendCommandToDispatcher<BitStampOrderConfirmationJSON, Order>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (OpenOrders)SendCommandToDispatcher<List<BitStampOrderConfirmationJSON>>(command, baseCurrency, counterCurrency);
+            return (OpenOrders)SendCommandToDispatcher<List<BitStampOrderConfirmationJSON>, OpenOrders>(command, baseCurrency, counterCurrency);
         }
 
         protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (UserTransactions)SendCommandToDispatcher<List<BitStampUserTransactionJSON>>(command, baseCurrency, counterCurrency);
+            return (UserTransactions)SendCommandToDispatcher<List<BitStampUserTransactionJSON>, UserTransactions>(command, baseCurrency, counterCurrency);
         }
 
         protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
@@ -160,12 +160,12 @@ namespace BEx
 
             parameters.Add("id", id.ToString());
 
-            return (bool)SendCommandToDispatcher<bool>(command, Currency.BTC, Currency.USD, parameters);
+            return (bool)SendCommandToDispatcher<bool, bool>(command, Currency.BTC, Currency.USD, parameters);
         }
 
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
-            return (DepositAddress)SendCommandToDispatcher<string>(command, Currency.BTC, Currency.USD);
+            return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
         }
 
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
@@ -175,17 +175,17 @@ namespace BEx
             parameters.Add("amount", amount.ToString());
             parameters.Add("address", address);
 
-            return (string)SendCommandToDispatcher<string>(command, toWithdraw, Currency.None, parameters);
+            return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
         }
 
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
         {
-            return (PendingDeposits)SendCommandToDispatcher<List<BitStampPendingDepositJSON>>(command, Currency.BTC, Currency.USD);
+            return (PendingDeposits)SendCommandToDispatcher<List<BitStampPendingDepositJSON>, PendingDeposits>(command, Currency.BTC, Currency.USD);
         }
 
         protected override PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command)
         {
-            return (PendingWithdrawals)SendCommandToDispatcher<List<BitStampPendingWithdrawalJSON>>(command, Currency.BTC, Currency.USD);
+            return (PendingWithdrawals)SendCommandToDispatcher<List<BitStampPendingWithdrawalJSON>, PendingWithdrawals>(command, Currency.BTC, Currency.USD);
         }
 
         #endregion

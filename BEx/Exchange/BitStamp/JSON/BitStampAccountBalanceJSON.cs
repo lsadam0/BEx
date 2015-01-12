@@ -10,7 +10,7 @@ using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
-    public class BitStampAccountBalanceJSON : ExchangeResponse
+    public class BitStampAccountBalanceJSON : ExchangeResponse<AccountBalance>
     {
 
         [JsonProperty("btc_reserved")]
@@ -35,7 +35,7 @@ namespace BEx.BitStampSupport
         public string UsdAvailable { get; set; }
 
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             AccountBalance res = new AccountBalance();
 

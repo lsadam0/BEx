@@ -43,7 +43,7 @@ namespace BEx.BTCeSupport
         public long ServerTime { get; set; }
     }
 
-    public class BTCeTickJSON : ExchangeResponse
+    public class BTCeTickJSON : ExchangeResponse<Tick>
     {
 
         [JsonProperty("ticker")]
@@ -55,7 +55,7 @@ namespace BEx.BTCeSupport
 
         }
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
 

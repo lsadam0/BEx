@@ -24,7 +24,7 @@ namespace BEx.BitStampSupport
         public string amount { get; set; }
     }
     */
-    public class BitstampTransactionJSON : ExchangeResponse
+    public class BitstampTransactionJSON : ExchangeResponse<Transaction>
     {
         [JsonProperty("date")]
         public string date { get; set; }
@@ -38,14 +38,14 @@ namespace BEx.BitStampSupport
         [JsonProperty("amount")]
         public string amount { get; set; }
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Transaction res = new Transaction();
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
             res.TransactionID = Convert.ToInt64(tid);
-
+            
             res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date));
 
             return res;

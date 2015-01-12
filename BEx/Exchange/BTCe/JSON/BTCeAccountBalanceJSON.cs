@@ -84,7 +84,7 @@ namespace BEx.BTCeSupport
         public int ServerTime { get; set; }
     }
 
-    public class BTCeAccountBalanceJSON : ExchangeResponse
+    public class BTCeAccountBalanceJSON : ExchangeResponse<AccountBalance>
     {
 
         [JsonProperty("success")]
@@ -93,7 +93,7 @@ namespace BEx.BTCeSupport
         [JsonProperty("return")]
         public Return Return { get; set; }
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             AccountBalance res = new AccountBalance();
 

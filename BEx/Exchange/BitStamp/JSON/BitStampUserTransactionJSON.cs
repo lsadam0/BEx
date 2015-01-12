@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BEx.BitStampSupport
 {
 
-    public class BitStampUserTransactionJSON : ExchangeResponse
+    public class BitStampUserTransactionJSON : ExchangeResponse<UserTransaction>
     {
 
         [JsonProperty("usd")]
@@ -36,7 +36,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override UserTransaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             UserTransaction res = new UserTransaction();
 

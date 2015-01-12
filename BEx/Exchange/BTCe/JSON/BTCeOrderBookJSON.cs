@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BEx.BTCeSupport
 {
 
-    public class BTCeOrderBookJSON : ExchangeResponse
+    public class BTCeOrderBookJSON : ExchangeResponse <OrderBook>
     {
 
         [JsonProperty("asks")]
@@ -18,7 +18,7 @@ namespace BEx.BTCeSupport
         [JsonProperty("bids")]
         public double[][] Bids { get; set; }
 
-        public override APIResult ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = new OrderBook();
 
