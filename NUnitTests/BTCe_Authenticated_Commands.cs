@@ -28,7 +28,7 @@ namespace NUnitTests
         [Test]
         public void BTCe_GetAccountBalance()
         {
-            AccountBalance o = toTest.GetAccountBalance();
+            AccountBalances o = toTest.GetAccountBalance();
 
             VerifyAccountBalance(o);
 

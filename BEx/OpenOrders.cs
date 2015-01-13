@@ -18,5 +18,10 @@ namespace BEx
         {
             Orders = new List<Order>();
         }
+
+        internal OpenOrders(List<Order> orders) : base()
+        {
+            Orders = orders;
+        }
     }
 }

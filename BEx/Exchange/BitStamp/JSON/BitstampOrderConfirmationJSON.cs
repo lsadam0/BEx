@@ -28,6 +28,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
+      
 
         public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {

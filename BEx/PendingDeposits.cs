@@ -14,9 +14,18 @@ namespace BEx
             set;
         }
 
-        public PendingDeposits() : base()
+        internal PendingDeposits() : base()
         {
             Deposits = new List<PendingDeposit>();
         }
+
+        internal PendingDeposits(List<PendingDeposit> deposits)
+            : base()
+        {
+            Deposits = deposits;
+
+        }
+
+
     }
 }

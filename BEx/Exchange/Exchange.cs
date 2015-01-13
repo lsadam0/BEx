@@ -212,7 +212,7 @@ namespace BEx
         {
             return GetTransactions(Currency.BTC, Currency.USD);
         }
-        
+
         public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             Transactions res = new Transactions();
@@ -227,16 +227,16 @@ namespace BEx
 
         #region Account Balance
 
-        protected abstract AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+        protected abstract AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        public AccountBalance GetAccountBalance()
+        public AccountBalances GetAccountBalance()
         {
             return GetAccountBalance(Currency.BTC, Currency.USD);
         }
 
-        public AccountBalance GetAccountBalance(Currency baseCurrency, Currency counterCurrency)
+        public AccountBalances GetAccountBalance(Currency baseCurrency, Currency counterCurrency)
         {
-            AccountBalance res;
+            AccountBalances res;
 
             res = ExecuteAccountBalanceCommand(APICommandCollection["AccountBalance"], baseCurrency, counterCurrency);
 
@@ -298,7 +298,6 @@ namespace BEx
             OpenOrders res;
 
             res = ExecuteGetOpenOrdersCommand(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
-            //res = (OpenOrders)SendCommandToDispatcher<List<B>>(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
 
             return res;
 
@@ -328,8 +327,8 @@ namespace BEx
         #region Cancel Order
 
         protected abstract bool ExecuteCancelOrderCommand(APICommand command, int id);
-        
-        public  bool CancelOrder(Order toCancel)
+
+        public bool CancelOrder(Order toCancel)
         {
             return CancelOrder(toCancel.ID);
         }
@@ -361,6 +360,8 @@ namespace BEx
 
             res = ExecuteGetDepositAddressCommand(APICommandCollection["DepositAddress"], toDeposit);
 
+            res.DepositCurrency = toDeposit;
+
             return res;
         }
 
@@ -382,7 +383,7 @@ namespace BEx
         #endregion
 
         #region Pending Deposits
-        
+
         protected abstract PendingDeposits ExecutePendingDepositsCommand(APICommand command);
 
         public PendingDeposits GetPendingDeposits()

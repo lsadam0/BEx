@@ -11,9 +11,10 @@ namespace NUnitTests
 {
     [TestFixture]
     [Category("BitFinex.Authenticated")]
-    public class BitFinex_Authenticated_Commands :VerifyExchangeBase
+    public class BitFinex_Authenticated_Commands : VerifyExchangeBase
     {
-        public BitFinex_Authenticated_Commands() : base(typeof(BEx.Bitfinex))
+        public BitFinex_Authenticated_Commands()
+            : base(typeof(BEx.Bitfinex))
         {
             toTest = new Bitfinex();
 
@@ -26,7 +27,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetAccountBalance()
         {
-            AccountBalance a = toTest.GetAccountBalance();
+            AccountBalances a = toTest.GetAccountBalance();
 
             VerifyAccountBalance(a);
 
@@ -40,7 +41,7 @@ namespace NUnitTests
         {
             DepositAddress res = toTest.GetDepositAddress(Currency.BTC);
 
-            
+
             { }
         }
 

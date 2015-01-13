@@ -101,7 +101,7 @@ namespace BEx
                         result = (APIResult)DeserializeObject<J, E>(response.Content, commandReference, baseCurrency, counterCurrency);
                     }
                     else
-                        result = GetValueType<J>(response.Content);
+                        result = GetValueType<J, E>(response.Content);
                 }
                 catch (Exception ex)
                 {
@@ -210,10 +210,28 @@ namespace BEx
             }
         }
 
-        private object GetValueType<J>(string content)
+        private object GetValueType<J, E>(string content)
         {
+     
+
             object deserialized = JsonConvert.DeserializeObject<J>(content);
-            return (J)deserialized;
+
+            if (deserialized.GetType() != typeof(E))
+            {
+               E result = (E)Activator.CreateInstance(typeof(E),
+                                             BindingFlags.NonPublic | BindingFlags.Instance,
+                                             null,
+                                             new object[] { deserialized },
+                                             null); // Culture?
+
+                return result;
+            }
+            else
+            {
+                return deserialized;
+
+            }
+
         }
 
         private APIResult DeserializeObject<J, E>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
@@ -237,7 +255,7 @@ namespace BEx
                 Type entryType = singleConversionMethod.ReturnType;
 
                 MethodInfo generic = conversionMethod.MakeGenericMethod(baseT, entryType);
-                
+
                 dynamic collection = generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
 
 

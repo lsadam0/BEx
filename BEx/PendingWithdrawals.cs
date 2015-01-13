@@ -16,9 +16,14 @@ namespace BEx
             set;
         }
 
-        public PendingWithdrawals() : base()
+        internal PendingWithdrawals() : base()
         {
             Withdrawals = new List<PendingWithdrawal>();
+        }
+
+        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals) : base()
+        {
+            Withdrawals = withdrawals;
         }
 
     }

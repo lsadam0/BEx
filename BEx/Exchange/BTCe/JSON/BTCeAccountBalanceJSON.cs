@@ -97,9 +97,9 @@ namespace BEx.BTCeSupport
         {
             AccountBalance res = new AccountBalance();
 
-
+           
             //this.Return.Funds.
-
+            /*
             PropertyInfo[] properties = this.Return.Funds.GetType().GetProperties();
 
             foreach (PropertyInfo prop in properties)
@@ -109,9 +109,11 @@ namespace BEx.BTCeSupport
                 if (Enum.TryParse<Currency>(prop.Name.ToUpper(), out pCurrency))
                 {
                     res.Balance.Add(pCurrency, Convert.ToDecimal(prop.GetValue(this.Return.Funds)));
+
+                    res.Balances.Add(new AccountBalan)
                 }
 
-            }
+            }*/
 
 
             return res;

@@ -25,5 +25,11 @@ namespace BEx
         {
 
         }
+
+        internal DepositAddress(string address)
+            : base()
+        {
+            Address = address;
+        }
     }
 }

@@ -10,9 +10,6 @@ namespace BEx
     public abstract class ExchangeResponse<T>
     {
         public abstract T ConvertToStandard(Currency baseCurrency, Currency counterCurrency);
-
-        /*public abstract List<R> ConvertCollectionToStandard<C, R>(List<C> responseCollection, Currency baseCurrency, Currency counterCurrency);*/
-        
         
         public static List<R> ConvertListToStandard<C, R>(List<C> responseCollection, Currency baseCurrency, Currency counterCurrency)
         {

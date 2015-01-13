@@ -42,7 +42,7 @@ namespace BEx
             // for other errors
 
             try
-            { 
+            {
                 IDictionary<string, JToken> errors = (JObject)error["error"];
 
                 foreach (KeyValuePair<string, JToken> er in errors)
@@ -50,8 +50,9 @@ namespace BEx
                     res.AppendLine(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Trim());
 
                 }
-            
-            } catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 res.AppendLine(error.ToString());
             }
@@ -71,8 +72,6 @@ namespace BEx
 
             return res;
         }
-        
-
 
         #region Authorization
 
@@ -85,7 +84,6 @@ namespace BEx
                 message = nonce + client_id + api_key
                 signature = hmac.new(API_SECRET, msg=message, digestmod=hashlib.sha256).hexdigest().upper()*/
 
-            //string signature = CreateToken(Nonce + ClientID + APIKey, SecretKey);
 
             long _nonce = Nonce;
 
@@ -130,9 +128,9 @@ namespace BEx
             return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency);
         }
 
-        protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalance>(command, baseCurrency, counterCurrency);
+            return (AccountBalances)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalances>(command, baseCurrency, counterCurrency);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
