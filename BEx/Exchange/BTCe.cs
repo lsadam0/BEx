@@ -8,6 +8,14 @@ using System.Web;
 using RestSharp;
 using BEx.BTCeSupport;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Utilities;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+
 namespace BEx
 {
     public class BTCe : Exchange
@@ -18,14 +26,122 @@ namespace BEx
         /// </summary>
         DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public BTCe()
+        public BTCe(string apiKey, string secretKey)
             : base("BTCe.xml")
         {
+            VerifyCredentials(apiKey, secretKey);
+
             foreach (APICommand command in APICommandCollection.Values)
             {
                 command.CurrencyFormatter += FormatCurrency;
             }
+
+            this.dispatcher.DetermineErrorCondition += DetermineErrorCondition;
         }
+
+        private void VerifyCredentials(string apiKey, string secretKey)
+        {
+            if (string.IsNullOrEmpty(apiKey))
+                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
+            else
+                this.APIKey = apiKey;
+
+            if (string.IsNullOrEmpty(secretKey))
+                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
+            else
+                this.SecretKey = secretKey;
+
+        }
+
+        internal string ExtractMessage(string content)
+        {
+
+            if (!string.IsNullOrEmpty(content))
+            {
+                StringBuilder res = new StringBuilder();
+                // this works for auth errors
+                JObject error = JObject.Parse(content);
+
+                // for other errors
+
+                try
+                {
+                    if (error["error"] is JValue)
+                    {
+                        JValue v = (JValue)error["error"];
+
+                        res.Append(v.Value.ToString());
+                    }
+                    else
+                    {
+                        IDictionary<string, JToken> errors = (JObject)error["error"];
+
+                        foreach (KeyValuePair<string, JToken> er in errors)
+                        {
+                            foreach (JToken token in er.Value.Values())
+                            {
+                                res.Append(((JValue)token).Value.ToString());
+                            }
+
+                            //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    res.Append(error.ToString());
+                }
+
+
+                return res.ToString();//Regex.Replace(res.ToString(), @"\t|\n|\r", "");
+            }
+            else
+                return "The Error response was empty";
+        }
+
+        internal bool IsError(string content)
+        {
+            bool res = false;
+
+            //if (errorId.IsMatch(content))
+            //{
+              //  res = true;
+            //}
+
+            return res;
+        }
+
+        internal APIError DetermineErrorCondition(string message)
+        {
+            if (IsError(message))
+            {
+                APIError error = null;
+
+                string errorMessage = ExtractMessage(message);
+
+                string loweredMessage = errorMessage.ToLower();
+                if (loweredMessage.Contains("check your account balance for details"))
+                {
+                    error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
+                }
+                else if (loweredMessage.Contains("api key not found") || loweredMessage.Contains("invalid signature"))
+                {
+                    error = new APIError(errorMessage, BExErrorCode.Authorization);
+                }
+
+
+                if (error == null)
+                {
+                    error = new APIError(message, BExErrorCode.Unknown);
+                }
+
+                return error;
+            }
+            else return null;
+
+        }
+
 
         /// <summary>
         /// BTCe expects lower case currency abbreviations

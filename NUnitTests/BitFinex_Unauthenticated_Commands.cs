@@ -17,10 +17,8 @@ namespace NUnitTests
 
         public BitFinex_Unauthenticated_Commands() : base(typeof(BEx.Bitfinex))
         {
-            toTest = new Bitfinex();
+            toTest = new Bitfinex(base.APIKey, base.Secret);
 
-            toTest.APIKey = base.APIKey;
-            toTest.SecretKey = base.Secret;
         }
 
         [Test]

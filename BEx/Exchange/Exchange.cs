@@ -145,18 +145,6 @@ namespace BEx
             return res;
         }
 
-        /*
-        protected void VerifyCurrencySupport(APICommand toCheck)
-        {
-            if (toCheck.BaseCurrency != null && toCheck.CounterCurrency != null)
-            {
-                if (!IsCurrencyPairSupported((Currency)toCheck.BaseCurrency, (Currency)toCheck.CounterCurrency))
-                {
-                    throw new NotImplementedException(string.Format(ErrorMessages.UnsupportedCurrencyPair, toCheck.BaseCurrency.ToString(), toCheck.CounterCurrency.ToString(), this.GetType().ToString()));
-                }
-            }
-        }*/
-
         #endregion
 
         #region API Commands

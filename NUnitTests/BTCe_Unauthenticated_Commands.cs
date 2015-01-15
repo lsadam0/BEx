@@ -18,12 +18,7 @@ namespace NUnitTests
 
         public BTCe_Unauthenticated_Commands() : base(typeof(BEx.BTCe))
         {
-
-            toTest = new BTCe();
-
-            toTest.APIKey = base.APIKey;
-            toTest.SecretKey = base.Secret;
-          
+            toTest = new BTCe(base.APIKey, base.Secret);
         }
 
         #region Ticks

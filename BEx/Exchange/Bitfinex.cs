@@ -10,19 +10,127 @@ using RestSharp;
 using BEx.BitFinexSupport;
 using BEx.Common;
 
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Utilities;
+using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+
 namespace BEx
 {
     public class Bitfinex : Exchange
     {
-        public Bitfinex()
+        public Bitfinex(string apiKey, string secret)
             : base("BitFinex.xml")
         {
+            VerifyCredentials(apiKey, secret);
 
+            this.dispatcher.DetermineErrorCondition += DetermineErrorCondition;
+        }
+
+        private void VerifyCredentials(string apiKey, string secretKey)
+        {
+            if (string.IsNullOrEmpty(apiKey))
+                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
+            else
+                this.APIKey = apiKey;
+
+            if (string.IsNullOrEmpty(secretKey))
+                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
+            else
+                this.SecretKey = secretKey;
+
+        }
+
+        internal string ExtractMessage(string content)
+        {
+
+            if (!string.IsNullOrEmpty(content))
+            {
+                StringBuilder res = new StringBuilder();
+                // this works for auth errors
+                JObject error = JObject.Parse(content);
+
+                // for other errors
+
+                try
+                {
+                    if (error["message"] is JValue)
+                    {
+                        JValue v = (JValue)error["message"];
+
+                        res.Append(v.Value.ToString());
+                    }
+                    else
+                    {
+                        IDictionary<string, JToken> errors = (JObject)error["message"];
+
+                        foreach (KeyValuePair<string, JToken> er in errors)
+                        {
+                            foreach (JToken token in er.Value.Values())
+                            {
+                                res.Append(((JValue)token).Value.ToString());
+                            }
+
+                            //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    res.Append(error.ToString());
+                }
+
+
+                return res.ToString();//Regex.Replace(res.ToString(), @"\t|\n|\r", "");
+            }
+            else
+                return "The Error response was empty";
+        }
+
+        internal bool IsError(string content)
+        {
+            bool res = false;
+
+            //if (errorId.IsMatch(content))
+            //{
+            //  res = true;
+            //}
+
+            return res;
+        }
+
+        internal APIError DetermineErrorCondition(string message)
+        {
+            APIError error = null;
+
+            string errorMessage = ExtractMessage(message);
+
+            string loweredMessage = errorMessage.ToLower();
+            if (loweredMessage.Contains("not enough balance"))
+            {
+                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
+            }
+            else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
+            {
+                error = new APIError(errorMessage, BExErrorCode.Authorization);
+            }
+
+            if (error == null)
+            {
+                error = new APIError(message, BExErrorCode.Unknown);
+            }
+
+            return error;
         }
 
         #region Authorization
 
-        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency,  Dictionary<string, string> parameters = null)
+        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
 
             /*POST https://api.bitfinex.com/v1/order/new
@@ -48,7 +156,7 @@ namespace BEx
             StringBuilder payload = new StringBuilder();
 
             payload.Append("{");
-            payload.Append("\"request\": \"" +  command.GetResolvedRelativeURI(baseCurrency, counterCurrency) + "\",");
+            payload.Append("\"request\": \"" + command.GetResolvedRelativeURI(baseCurrency, counterCurrency) + "\",");
             payload.Append("\"nonce\": \"" + Nonce + "\"");
 
             if (parameters != null)
@@ -68,10 +176,10 @@ namespace BEx
 
             using (HMACSHA384 hasher = new HMACSHA384(Encoding.UTF8.GetBytes(SecretKey)))
             {
-               byte[] hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
-               request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
+                byte[] hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
+                request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
             }
-            
+
         }
 
         #endregion
@@ -176,6 +284,6 @@ namespace BEx
 
         #endregion
 
-     
+
     }
 }

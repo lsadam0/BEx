@@ -15,12 +15,10 @@ namespace NUnitTests
     [Category("BTCe.Authenticated")]
     public class BTCe_Authenticated_Commands : VerifyExchangeBase
     {
-        public BTCe_Authenticated_Commands() : base(typeof(BEx.BTCe))
+        public BTCe_Authenticated_Commands()
+            : base(typeof(BEx.BTCe))
         {
-            toTest = new BTCe();
-
-            toTest.APIKey = base.APIKey;
-            toTest.SecretKey = base.Secret;
+            toTest = new BTCe(base.APIKey, base.Secret);
         }
 
         #region AccountBalance
@@ -35,6 +33,6 @@ namespace NUnitTests
         }
 
         #endregion
-        
+
     }
 }

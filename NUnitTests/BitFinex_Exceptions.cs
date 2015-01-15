@@ -12,22 +12,22 @@ using BEx;
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitStamp.Exceptions")]
-    public class BitStamp_Exceptions : VerifyExchangeBase
+    [Category("Bitfinex.Exceptions")]
+    public class Bitfinex_Exceptions : VerifyExchangeBase
     {
-        public BitStamp_Exceptions()
-            : base(typeof(BEx.BitStamp))
+        public Bitfinex_Exceptions()
+            : base(typeof(BEx.Bitfinex))
         {
             toTest = null;
         }
 
         #region Authorization
         [Test]
-        public void BitStamp_MissingAPIKey_ExchangeAuthorizationException()
+        public void Bitfinex_MissingAPIKey_ExchangeAuthorizationException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp("", base.Secret, base.ClientID))
+                using (Bitfinex bt = new Bitfinex("", base.Secret))
                 {
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
@@ -45,11 +45,11 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_IncorrectAPIKey_ExchangeAuthorizationException()
+        public void Bitfinex_IncorrectAPIKey_ExchangeAuthorizationException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp(base.APIKey.Remove(base.APIKey.Length - 1), base.Secret, base.ClientID))
+                using (Bitfinex bt = new Bitfinex(base.APIKey.Remove(base.APIKey.Length - 1), base.Secret))
                 {
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
@@ -68,11 +68,11 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_MissingSecretKey_ExchangeAuthorizationException()
+        public void Bitfinex_MissingSecretKey_ExchangeAuthorizationException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp(base.APIKey, "", base.ClientID))
+                using (Bitfinex bt = new Bitfinex(base.APIKey, ""))
                 {
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
@@ -90,11 +90,11 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_IncorrectSecretKey_ExchangeAuthorizationException()
+        public void Bitfinex_IncorrectSecretKey_ExchangeAuthorizationException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret.Remove(base.Secret.Length - 1), base.ClientID))
+                using (Bitfinex bt = new Bitfinex(base.APIKey, base.Secret.Remove(base.Secret.Length - 1)))
                 {
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
@@ -111,58 +111,15 @@ namespace NUnitTests
             }
         }
 
-        [Test]
-        public void BitStamp_MissingClientID_ExchangeAuthorizationException()
-        {
-            try
-            {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, ""))
-                {
-                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
-                }
-                throw new AssertionException("Expected an exception, but execution was successful");
-
-            }
-            catch (ExchangeAuthorizationException aex)
-            {
-                Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
-            }
-            catch (Exception)
-            {
-                throw new AssertionException("Expected ExchangeAuthorizationException");
-            }
-        }
-
-        [Test]
-        public void BitStamp_IncorrectClientID_ExchangeAuthorizationException()
-        {
-            try
-            {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID.Remove(this.ClientID.Length - 1)))
-                {
-                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
-                }
-                throw new AssertionException("Expected an exception, but execution was successful");
-
-            }
-            catch (ExchangeAuthorizationException aex)
-            {
-                Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
-            }
-            catch (Exception)
-            {
-                throw new AssertionException("Expected ExchangeAuthorizationException");
-            }
-        }
 
         #endregion
 
         [Test]
-        public void BitStamp_CreateSellOrder_InsufficientFundsException()
+        public void Bitfinex_CreateSellOrder_InsufficientFundsException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
+                using (Bitfinex bt = new Bitfinex(base.APIKey, base.Secret))
                 {
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
@@ -180,11 +137,11 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_CreateBuyOrder_InsufficientFundsException()
+        public void Bitfinex_CreateBuyOrder_InsufficientFundsException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
+                using (Bitfinex bt = new Bitfinex(base.APIKey, base.Secret))
                 {
                     Order res = bt.CreateBuyOrder(1200m, 1.00m);
                 }
@@ -201,13 +158,14 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_Withdrawal_Exception()
+        public void Bitfinex_Withdrawal_Exception()
         {
             // invalid amount
             // bad address
             try
             {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
+                
+                using (Bitfinex bt = new Bitfinex(base.APIKey, base.Secret))
                 {
                     object res = bt.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
                 }

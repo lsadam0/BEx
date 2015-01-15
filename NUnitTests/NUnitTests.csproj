@@ -43,10 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitFinex_Authenticated_Commands.cs" />
+    <Compile Include="BitFinex_Exceptions.cs" />
     <Compile Include="BitFinex_Unauthenticated_Commands.cs" />
     <Compile Include="BitStamp_Authenticated_Commands.cs" />
     <Compile Include="BitStamp_Exceptions.cs" />
     <Compile Include="BitStamp_Unauthenticated_Commands.cs" />
+    <Compile Include="BTCe_Exceptions.cs" />
     <Compile Include="BTCe_Unauthenticated_Commands.cs" />
     <Compile Include="BTCe_Authenticated_Commands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
