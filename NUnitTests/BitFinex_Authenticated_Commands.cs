@@ -92,8 +92,6 @@ namespace NUnitTests
             Order o = toTest.CreateBuyOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
 
             VerifyBuyOrder(o);
-
-
         }
 
         [Test]

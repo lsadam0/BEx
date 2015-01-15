@@ -11,24 +11,24 @@ namespace BEx
     //{
     //}
 
-    public class OrderRejectedException : Exception, ISerializable
+    public class InsufficientFundsException : Exception, ISerializable
     {
-        public OrderRejectedException()
+        public InsufficientFundsException()
         {
         }
 
-        public OrderRejectedException(string message)
+        public InsufficientFundsException(string message)
             : base(message)
         {
         }
 
-        public OrderRejectedException(string message, Exception inner)
+        public InsufficientFundsException(string message, Exception inner)
             : base(message, inner)
         {
 
         }
 
-        protected OrderRejectedException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected InsufficientFundsException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
 
         }

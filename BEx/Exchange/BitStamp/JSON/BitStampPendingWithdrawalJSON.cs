@@ -43,25 +43,25 @@ namespace BEx.BitStampSupport
             switch (Status)
             {
                 case "0":
-                    res.Status = WithdrawalStatus.AwaitingProcessing;
+                    res.CurrentStatus = WithdrawalStatus.AwaitingProcessing;
                     break;
                 case "1":
-                    res.Status = WithdrawalStatus.InProcess;
+                    res.CurrentStatus = WithdrawalStatus.InProcess;
                     break;
                 case "2":
-                    res.Status = WithdrawalStatus.Finished;
+                    res.CurrentStatus = WithdrawalStatus.Finished;
                     break;
                 case "3":
-                    res.Status = WithdrawalStatus.Canceled;
+                    res.CurrentStatus = WithdrawalStatus.Canceled;
                     break;
                 case "4":
-                    res.Status = WithdrawalStatus.Failed;
+                    res.CurrentStatus = WithdrawalStatus.Failed;
                     break;
                 case "5":
-                    res.Status = WithdrawalStatus.PendingApproval;
+                    res.CurrentStatus = WithdrawalStatus.PendingApproval;
                     break;
                 default:
-                    res.Status = WithdrawalStatus.Unknown;
+                    res.CurrentStatus = WithdrawalStatus.Unknown;
                     break;
             }
 

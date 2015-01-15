@@ -18,28 +18,19 @@ namespace NUnitTests
         public BitStamp_Exceptions()
             : base(typeof(BEx.BitStamp))
         {
-            toTest = new BitStamp();
-
-            toTest.APIKey = base.APIKey;
-            toTest.SecretKey = base.Secret;
-            toTest.ClientID = base.ClientID;
+            toTest = null;
         }
 
-        #region Authorization 
+        #region Authorization
         [Test]
         public void BitStamp_MissingAPIKey_ExchangeAuthorizationException()
         {
             try
             {
-                using (BitStamp bt = new BitStamp())
+                using (BitStamp bt = new BitStamp("", base.Secret, base.ClientID))
                 {
-                    toTest.APIKey = "";
-                    toTest.SecretKey = base.Secret;
-                    toTest.ClientID = base.ClientID;
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
-
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
-
                 throw new AssertionException("Expected an exception, but execution was successful");
 
             }
@@ -47,7 +38,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
@@ -58,14 +49,10 @@ namespace NUnitTests
         {
             try
             {
-                using (BitStamp bt = new BitStamp())
+                using (BitStamp bt = new BitStamp(base.APIKey.Remove(base.APIKey.Length - 1), base.Secret, base.ClientID))
                 {
-                    toTest.APIKey = base.APIKey.Remove(base.APIKey.Length - 1);
-                    toTest.SecretKey = base.Secret;
-                    toTest.ClientID = base.ClientID;
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
-
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
 
                 throw new AssertionException("Expected an exception, but execution was successful");
 
@@ -74,7 +61,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
@@ -85,15 +72,10 @@ namespace NUnitTests
         {
             try
             {
-                using (BitStamp bt = new BitStamp())
+                using (BitStamp bt = new BitStamp(base.APIKey, "", base.ClientID))
                 {
-                    toTest.APIKey = base.APIKey;
-                    toTest.SecretKey = "";
-                    toTest.ClientID = base.ClientID;
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
-
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
-
                 throw new AssertionException("Expected an exception, but execution was successful");
 
             }
@@ -101,7 +83,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
@@ -112,15 +94,10 @@ namespace NUnitTests
         {
             try
             {
-                using (BitStamp bt = new BitStamp())
+                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret.Remove(base.Secret.Length - 1), base.ClientID))
                 {
-                    toTest.APIKey = base.APIKey;
-                    toTest.SecretKey = base.Secret.Remove(base.Secret.Length - 1);
-                    toTest.ClientID = base.ClientID;
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
-
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
-
                 throw new AssertionException("Expected an exception, but execution was successful");
 
             }
@@ -128,7 +105,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
@@ -139,15 +116,10 @@ namespace NUnitTests
         {
             try
             {
-                using (BitStamp bt = new BitStamp())
+                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, ""))
                 {
-                    toTest.APIKey = base.APIKey;
-                    toTest.SecretKey = base.Secret;
-                    toTest.ClientID = "";
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
-
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
-
                 throw new AssertionException("Expected an exception, but execution was successful");
 
             }
@@ -155,7 +127,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
@@ -166,15 +138,10 @@ namespace NUnitTests
         {
             try
             {
-                using (BitStamp bt = new BitStamp())
+                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID.Remove(this.ClientID.Length - 1)))
                 {
-                    toTest.APIKey = base.APIKey;
-                    toTest.SecretKey = base.Secret;
-                    toTest.ClientID = base.ClientID.Remove(base.ClientID.Length - 1);
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
-
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
-
                 throw new AssertionException("Expected an exception, but execution was successful");
 
             }
@@ -182,7 +149,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(aex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected ExchangeAuthorizationException");
             }
@@ -195,15 +162,17 @@ namespace NUnitTests
         {
             try
             {
-                Order res = toTest.CreateSellOrder(1200m, 99000.00m);
-
+                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
+                {
+                    Order res = bt.CreateSellOrder(1200m, 99000.00m);
+                }
                 throw new AssertionException("Expected an exception, but execution was successful");
             }
-            catch (OrderRejectedException iex)
+            catch (InsufficientFundsException iex)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(iex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected OrderRejectedException");
             }
@@ -215,15 +184,17 @@ namespace NUnitTests
         {
             try
             {
-                Order res = toTest.CreateBuyOrder(1200m, 1.00m);
-
+                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
+                {
+                    Order res = bt.CreateBuyOrder(1200m, 1.00m);
+                }
                 throw new AssertionException("Expected an exception, but execution was successful");
             }
-            catch (OrderRejectedException iex)
+            catch (InsufficientFundsException iex)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(iex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new AssertionException("Expected OrderRejectedException");
             }
@@ -236,20 +207,23 @@ namespace NUnitTests
             // bad address
             try
             {
-                object res = toTest.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
+                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
+                {
+                    object res = bt.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
+                }
                 { }
             }
-                catch (WithdrawalRejectedException wex)
+            catch (WithdrawalRejectedException)
             {
                 { }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 { }
 
             }
         }
 
-        
+
     }
 }

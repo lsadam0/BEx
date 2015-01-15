@@ -22,6 +22,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -77,7 +80,6 @@
     <Compile Include="Exchange\BitFinex\BitFinexTransaction.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexUserTransactionJSON.cs" />
-    <Compile Include="Exchange\BitStamp\BitstampTick.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampErrorJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOpenOrdersJSON.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
     <Compile Include="Exchange\BTCe\JSON\BTCeTransactionsJSON.cs" />
     <Compile Include="APIError.cs" />
+    <Compile Include="Exchange\ErrorCodes.cs" />
     <Compile Include="Exchange\ExchangeResponse.cs" />
     <Compile Include="OpenOrders.cs" />
     <Compile Include="Order.cs" />

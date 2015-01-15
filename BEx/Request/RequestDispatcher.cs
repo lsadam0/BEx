@@ -7,10 +7,8 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
-
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -18,21 +16,20 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
 
 using RestSharp;
-using BEx.BitFinexSupport;
-
-using BEx.BitStampSupport;
 
 namespace BEx
 {
 
     internal delegate bool IsErrorDelegate(string content);
-    internal delegate string ExtractErrorMessageDelegate(string content);
+    //internal delegate string ExtractErrorMessageDelegate(string content);
+    internal delegate APIError DetermineErrorConditionDelegate(string content);
 
     internal class RequestDispatcher
     {
 
         internal IsErrorDelegate IsError;
-        internal ExtractErrorMessageDelegate ExtractErrorMessage;
+        //internal ExtractErrorMessageDelegate ExtractErrorMessage;
+        internal DetermineErrorConditionDelegate DetermineErrorCondition;
 
         private Regex ErrorMessageRegex;
 
@@ -90,7 +87,7 @@ namespace BEx
 
             if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || responseIsError)
             {
-                HandlerErrorResponse(response, request, commandReference, response.ErrorException);
+                return HandlerErrorResponse(response, request, commandReference, response.ErrorException);
             }
             else
             {
@@ -112,14 +109,15 @@ namespace BEx
             return result;
         }
 
+        /*
         private Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner)
         {
             Exception res;
 
-            if (ExtractErrorMessage != null)
-                bareResponse = ExtractErrorMessage(bareResponse);
+            //if (ExtractErrorMessage != null)
+              //  bareResponse = ExtractErrorMessage(bareResponse);
 
-            /* We need a way to ID Auth exceptions vs APIExceptions */
+            
 
             switch (executedCommand.ID)
             {
@@ -140,18 +138,55 @@ namespace BEx
 
             return res;
         }
+        */
 
-        private void HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
+        private void ThrowException<E>(APIError source) where E : Exception
         {
+            E exception = (E)Activator.CreateInstance(typeof(E),
+                                                    BindingFlags.Public | BindingFlags.Instance,
+                                                    null,
+                                                    new object[] { source.Message },
+                                                    null);
 
+            ((Exception)exception).Data.Add("BExError", source);
+
+            throw exception;
+        }
+
+
+        private APIError HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
+        {
+            APIError error = null;
+            if (DetermineErrorCondition != null)
+            {
+                error = DetermineErrorCondition(response.Content);
+            }
+
+            if (error == null)
+            {
+                error = new APIError();
+                error.Message = response.Content;
+            }
+
+            error.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
+
+            if (error.ErrorCode == BExErrorCode.InsufficientFunds)
+                ThrowException<InsufficientFundsException>(error);
+            else if (error.ErrorCode == BExErrorCode.Authorization)
+                ThrowException<ExchangeAuthorizationException>(error);
+
+            return error;
+            /*
             if (response.ErrorException != null)
             {
                 throw response.ErrorException;
             }
             else
-            {
-                #region Old
-                /*
+            {*/
+            #region Old
+
+
+            /*
                 string exceptionMessage = "";
                 switch (response.StatusCode)
                 {
@@ -193,8 +228,8 @@ namespace BEx
                 exceptionMessage += String.Format(ErrorMessages.RESTErrorResponseContent, response.Content);
 
                 */
-                #endregion
-
+            #endregion
+            /*
                 Exception newException = null;
 
                 newException = CreateException(response.Content, response.Content, executedCommand, inner);
@@ -206,23 +241,23 @@ namespace BEx
                 newException.Data.Add("ResponseErrorMessage", response.ErrorMessage ?? "");
                 newException.Data.Add("ResponseHeaders", response.Headers);
 
-                throw newException;
-            }
+                throw newException;*/
+
         }
 
         private object GetValueType<J, E>(string content)
         {
-     
+
 
             object deserialized = JsonConvert.DeserializeObject<J>(content);
 
             if (deserialized.GetType() != typeof(E))
             {
-               E result = (E)Activator.CreateInstance(typeof(E),
-                                             BindingFlags.NonPublic | BindingFlags.Instance,
-                                             null,
-                                             new object[] { deserialized },
-                                             null); // Culture?
+                E result = (E)Activator.CreateInstance(typeof(E),
+                                              BindingFlags.NonPublic | BindingFlags.Instance,
+                                              null,
+                                              new object[] { deserialized },
+                                              null); // Culture?
 
                 return result;
             }

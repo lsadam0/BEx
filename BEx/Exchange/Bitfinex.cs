@@ -137,7 +137,6 @@ namespace BEx
         protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
         {
             throw new NotImplementedException("BitFinex cannot cancel orders");
-            return false;
         }
 
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
@@ -155,12 +154,14 @@ namespace BEx
         {
             throw new NotImplementedException("BTCe cannot execute withdrawals");
 
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            /*Dictionary<string, string> parameters = new Dictionary<string, string>();
 
             parameters.Add("amount", amount.ToString());
             parameters.Add("address", address);
 
             return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
+       
+             */
         }
 
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)

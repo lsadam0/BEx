@@ -218,7 +218,6 @@ namespace BEx
             Transactions res = new Transactions();
 
             res = ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
-            //res = (Transactions)SendCommandToDispatcher<List<J>>(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
 
             return res;
         }

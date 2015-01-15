@@ -29,7 +29,7 @@ namespace BEx
             set;
         }
 
-        public WithdrawalStatus Status
+        public WithdrawalStatus CurrentStatus
         {
             get;
             set;

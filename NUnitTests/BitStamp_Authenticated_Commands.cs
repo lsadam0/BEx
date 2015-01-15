@@ -18,11 +18,8 @@ namespace NUnitTests
 
         public BitStamp_Authenticated_Commands() : base(typeof(BEx.BitStamp))
         {
-            toTest = new BitStamp();
+            toTest = new BitStamp(base.APIKey, base.Secret, base.ClientID);
 
-            toTest.APIKey = base.APIKey;
-            toTest.SecretKey = base.Secret;
-            toTest.ClientID = base.ClientID;
         }
 
         [Test]

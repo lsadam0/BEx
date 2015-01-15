@@ -42,9 +42,9 @@ namespace BEx
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             long _nonce = BTCeNonce;
-            
+
             StringBuilder dataBuilder = new StringBuilder();
-            
+
             string postString = "method=getInfo&nonce=" + _nonce.ToString();
 
             string signature;
@@ -55,7 +55,7 @@ namespace BEx
             }
             // Header
             // Key
-            
+
             request.AddHeader("Key", APIKey);
             // Sign
             request.AddHeader("Sign", signature);
@@ -112,25 +112,21 @@ namespace BEx
         protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             throw new NotImplementedException("BTCe cannot retrieve open orders");
-            return null;
         }
 
         protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             throw new NotImplementedException("BTCe cannot retrieve user transactions");
-            return null;
         }
 
         protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
         {
             throw new NotImplementedException("BTCe cannot cancel orders");
-            return false;
         }
 
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
             throw new NotImplementedException("BTCe cannot retrieve deposit address");
-            return null;
         }
 
 
@@ -138,12 +134,14 @@ namespace BEx
         {
             throw new NotImplementedException("BTCe cannot execute withdrawals");
 
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            /*Dictionary<string, string> parameters = new Dictionary<string, string>();
 
             parameters.Add("amount", amount.ToString());
             parameters.Add("address", address);
 
             return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
+        
+             */
         }
 
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
