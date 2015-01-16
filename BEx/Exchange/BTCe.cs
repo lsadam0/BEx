@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Linq;
 using System.Net;
 
 namespace BEx
@@ -26,12 +27,14 @@ namespace BEx
             VerifyCredentials(apiKey, secretKey);
 
             errorId = new Regex("^{\"success\":0");
+
             foreach (APICommand command in APICommandCollection.Values)
             {
                 command.CurrencyFormatter += FormatCurrency;
             }
 
             this.dispatcher.DetermineErrorCondition += DetermineErrorCondition;
+            this.dispatcher.IsError += IsError;
         }
 
         private void VerifyCredentials(string apiKey, string secretKey)
@@ -116,7 +119,7 @@ namespace BEx
                 string errorMessage = ExtractMessage(message);
 
                 string loweredMessage = errorMessage.ToLower();
-                if (loweredMessage.Contains("check your account balance for details"))
+                if (loweredMessage.Contains("it is not enough"))
                 {
                     error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
                 }
@@ -152,15 +155,80 @@ namespace BEx
         {
             return string.Format("{0}_{1}", baseC.ToString().ToLower(), counterC.ToString().ToLower());
         }
+
         #region Authorization
 
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             long _nonce = BTCeNonce;
 
+            /*
             StringBuilder dataBuilder = new StringBuilder();
 
+            string postString = "method=getInfo&nonce=" + _nonce.ToString();
+
+            string signature;
+            using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
+            {
+                byte[] hashBytes = hasher.ComputeHash(Encoding.ASCII.GetBytes(postString));
+                signature = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+            // Header
+            // Key
+
+            request.AddHeader("Key", APIKey);
+            // Sign
+            request.AddHeader("Sign", signature);
+
+            // Parameters
+            request.AddParameter("method", "getInfo");
+            request.AddParameter("nonce", _nonce.ToString());
+            */
+
+
+            //request.AddParameter("method", command.RelativeURI.Replace("/", "").Trim());
+            request.AddParameter("nonce", _nonce.ToString());
+
+            string pFormat = "{0}={1}";
+            StringBuilder sb = new StringBuilder();
+            //sb.Append("?");
+
+            var argsArray = request.Parameters.Select(x => string.Format(pFormat, x.Name, x.Value.ToString())).ToArray();
+
+            sb.Append(string.Join("&", argsArray));
+
+            string postString = sb.ToString();
+
+            string signature;
+            using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
+            {
+                byte[] hashBytes = hasher.ComputeHash(Encoding.ASCII.GetBytes(postString));
+                signature = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+            // Header
+            // Key
+
+            request.AddHeader("Key", APIKey);
+            // Sign
+            request.AddHeader("Sign", signature);
+
+
+
+            /*
+            StringBuilder dataBuilder = new StringBuilder();
+
+            //Signature. POST-parameters (?nonce=1&param0=val0), 
+            // Method
+            //Nonce
+
+            // pair
+            // type
+            // rate
+            // amount
+
             // pair type rate amount
+            request.Parameters.Clear();
+
             request.AddParameter("method", "Trade");
             request.AddParameter("pair", "btc_usd");
             request.AddParameter("type", "sell");
@@ -168,27 +236,21 @@ namespace BEx
             request.AddParameter("amount", "1");
             request.AddParameter("nonce", _nonce);
 
-            //string postString = "method=getInfo&nonce=" + _nonce.ToString();
 
-            string postString = "?";// = "?method=Trade";
+            StringBuilder sb = new StringBuilder();
+            
+            sb.Append("?");
+            //foreach (Parameter p in request.Parameters)
+            //{
+                //string a = string.Format("{0}={1}", HttpUtility.UrlEncode(p.Name), HttpUtility.UrlEncode(p.Value.ToString()));
+            var argsArray = request.Parameters.Select(x => string.Format("{0}={1}", HttpUtility.UrlEncode(x.Name), HttpUtility.UrlEncode(x.Value.ToString()))).ToArray();
+            
+            sb.Append(string.Join("&", argsArray));
+            //}
+
+            string postString = sb.ToString();
 
             
-            StringBuilder s = new StringBuilder();
-
-    
-
-            foreach (var item in request.Parameters)
-            {
-
-                s.AppendFormat("{0}={1}", item.Name, HttpUtility.UrlEncode(item.Value.ToString()));
-                s.Append("&");
-            }
-            if (s.Length > 0) s.Remove(s.Length - 1, 1);
-
-            postString += s.ToString();
-
-
-            // postString += ("nonce=" + _nonce.ToString());
 
             string signature;
             using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
@@ -205,7 +267,7 @@ namespace BEx
 
             // Parameters
            // request.AddParameter("method", "getInfo");
-            //request.AddParameter("nonce", _nonce.ToString());
+            //request.AddParameter("nonce", _nonce.ToString());*/
         }
 
         private UInt32 BTCeNonce
@@ -237,7 +299,10 @@ namespace BEx
 
         protected override AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalances)SendCommandToDispatcher<BTCeAccountBalanceJSON, AccountBalances>(command, baseCurrency, counterCurrency);
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("method", command.Parameters["method"]);
+
+            return (AccountBalances)SendCommandToDispatcher<BTCeAccountBalanceJSON, AccountBalances>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
@@ -249,6 +314,7 @@ namespace BEx
             parameters.Add("rate", amount.ToString());
             parameters.Add("pair", FormatPair(baseCurrency, counterCurrency));
             parameters.Add("type", command.Parameters["type"]);
+            parameters.Add("method", command.Parameters["method"]);
 
 
             /*        <arg ID="pair" type="parameter" />
@@ -278,7 +344,6 @@ namespace BEx
         {
             throw new NotImplementedException("BTCe cannot retrieve deposit address");
         }
-
 
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
         {

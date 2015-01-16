@@ -98,36 +98,7 @@ namespace BEx
             return result;
         }
 
-        /*
-        private Exception CreateException(string message, string bareResponse, APICommand executedCommand, Exception inner)
-        {
-            Exception res;
-
-            //if (ExtractErrorMessage != null)
-              //  bareResponse = ExtractErrorMessage(bareResponse);
-
-            
-
-            switch (executedCommand.ID)
-            {
-                case ("BuyOrder"):
-                case ("SellOrder"):
-                    res = new OrderRejectedException(bareResponse, inner);
-                    break;
-                case ("Withdraw"):
-                    res = new WithdrawalRejectedException(bareResponse, inner);
-                    break;
-                case ("CancelOrder"):
-                    res = new CancelOrderRejectedException(bareResponse, inner);
-                    break;
-                default:
-                    res = new Exception(message, inner);
-                    break;
-            }
-
-            return res;
-        }
-        */
+  
 
         private void ThrowException<E>(APIError source) where E : Exception
         {

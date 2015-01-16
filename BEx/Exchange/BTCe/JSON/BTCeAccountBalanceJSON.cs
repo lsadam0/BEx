@@ -109,12 +109,13 @@ namespace BEx.BTCeSupport
                 {
                     AccountBalance b = new AccountBalance();
                     b.Balance.Add(pCurrency, Convert.ToDecimal(prop.GetValue(this.Return.Funds)));
+                    balances.Add(b);
                 }
 
             }
 
             res = new AccountBalances(balances);
-
+            
             return res;
         }
         /*

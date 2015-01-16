@@ -134,7 +134,9 @@
       <Method>POST</Method>
       <RelativeURL>getInfo/</RelativeURL>
       <RequiresAuthentication>true</RequiresAuthentication>
-      <args />
+      <args>
+        <arg ID="method" type="parameter">getInfo</arg>
+      </args>
     </Command>
     <Command ID="BuyOrder">
       <Method>POST</Method>
@@ -145,6 +147,7 @@
         <arg ID="type" type="parameter">buy</arg>
         <arg ID="rate" type="parameter" />
         <arg ID="amount" type="parameter" />
+        <arg ID="method" type="parameter">Trade</arg>
       </args>
     </Command>
     <Command ID="SellOrder">
@@ -156,6 +159,7 @@
         <arg ID="type" type="parameter" />
         <arg ID="rate" type="parameter" />
         <arg ID="amount" type="parameter" />
+        <arg ID="method" type="parameter">Trade</arg>
       </args>
     </Command>
   </Commands>
