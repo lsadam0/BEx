@@ -136,5 +136,29 @@
       <RequiresAuthentication>true</RequiresAuthentication>
       <args />
     </Command>
+    <Command ID="BuyOrder">
+      <Method>POST</Method>
+      <RelativeURL>buy/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args>
+        <arg ID="pair" type="parameter" />
+        <arg ID="type" type="parameter">buy</arg>
+        <arg ID="rate" type="parameter" />
+        <arg ID="amount" type="parameter" />
+      </args>
+    </Command>
+    <Command ID="SellOrder">
+      <Method>POST</Method>
+      <RelativeURL>buy/</RelativeURL>
+      <RequiresAuthentication>true</RequiresAuthentication>
+      <args>
+        <arg ID="pair" type="parameter" />
+        <arg ID="type" type="parameter" />
+        <arg ID="rate" type="parameter" />
+        <arg ID="amount" type="parameter" />
+      </args>
+    </Command>
   </Commands>
 </BTCe>
+
+

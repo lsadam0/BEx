@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using BEx.BitStampSupport;
-using BEx.BitFinexSupport;
-using BEx.Common;
 
 namespace BEx
 {

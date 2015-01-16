@@ -1,10 +1,6 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
-
-using RestSharp;
 
 namespace BEx
 {
@@ -24,11 +20,11 @@ namespace BEx
 
             RestRequest result = CreateRequest(command, baseCurrency, counterCurrency);
 
-            if (command.RequiresAuthentication)
-                AuthenticateRequest(result, command, baseCurrency, counterCurrency, parameters);
-
             if (parameters != null && parameters.Count > 0)
                 SetParameters(result, command, baseCurrency, counterCurrency, parameters);
+
+            if (command.RequiresAuthentication)
+                AuthenticateRequest(result, command, baseCurrency, counterCurrency, parameters);
 
             return result;
         }

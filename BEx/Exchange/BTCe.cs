@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
-using System.Web;
-
-using RestSharp;
-using BEx.BTCeSupport;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
+﻿using BEx.BTCeSupport;
 using Newtonsoft.Json.Linq;
+using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Net;
 
 namespace BEx
 {
     public class BTCe : Exchange
     {
 
+        private Regex errorId;
         /// <summary>
         /// Nonce computation
         /// </summary>
@@ -31,6 +25,7 @@ namespace BEx
         {
             VerifyCredentials(apiKey, secretKey);
 
+            errorId = new Regex("^{\"success\":0");
             foreach (APICommand command in APICommandCollection.Values)
             {
                 command.CurrencyFormatter += FormatCurrency;
@@ -104,10 +99,10 @@ namespace BEx
         {
             bool res = false;
 
-            //if (errorId.IsMatch(content))
-            //{
-              //  res = true;
-            //}
+            if (errorId.IsMatch(content))
+            {
+                res = true;
+            }
 
             return res;
         }
@@ -125,7 +120,7 @@ namespace BEx
                 {
                     error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
                 }
-                else if (loweredMessage.Contains("api key not found") || loweredMessage.Contains("invalid signature"))
+                else if (loweredMessage.Contains("invalid sign") || loweredMessage.Contains("invalid signature"))
                 {
                     error = new APIError(errorMessage, BExErrorCode.Authorization);
                 }
@@ -153,6 +148,10 @@ namespace BEx
             return currency.ToLower();
         }
 
+        private string FormatPair(Currency baseC, Currency counterC)
+        {
+            return string.Format("{0}_{1}", baseC.ToString().ToLower(), counterC.ToString().ToLower());
+        }
         #region Authorization
 
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrneyc, Currency counterCurrency, Dictionary<string, string> parameters = null)
@@ -161,7 +160,35 @@ namespace BEx
 
             StringBuilder dataBuilder = new StringBuilder();
 
-            string postString = "method=getInfo&nonce=" + _nonce.ToString();
+            // pair type rate amount
+            request.AddParameter("method", "Trade");
+            request.AddParameter("pair", "btc_usd");
+            request.AddParameter("type", "sell");
+            request.AddParameter("rate", "300");
+            request.AddParameter("amount", "1");
+            request.AddParameter("nonce", _nonce);
+
+            //string postString = "method=getInfo&nonce=" + _nonce.ToString();
+
+            string postString = "?";// = "?method=Trade";
+
+            
+            StringBuilder s = new StringBuilder();
+
+    
+
+            foreach (var item in request.Parameters)
+            {
+
+                s.AppendFormat("{0}={1}", item.Name, HttpUtility.UrlEncode(item.Value.ToString()));
+                s.Append("&");
+            }
+            if (s.Length > 0) s.Remove(s.Length - 1, 1);
+
+            postString += s.ToString();
+
+
+            // postString += ("nonce=" + _nonce.ToString());
 
             string signature;
             using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
@@ -177,8 +204,8 @@ namespace BEx
             request.AddHeader("Sign", signature);
 
             // Parameters
-            request.AddParameter("method", "getInfo");
-            request.AddParameter("nonce", _nonce.ToString());
+           // request.AddParameter("method", "getInfo");
+            //request.AddParameter("nonce", _nonce.ToString());
         }
 
         private UInt32 BTCeNonce
@@ -216,13 +243,20 @@ namespace BEx
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
         {
 
-            throw new NotImplementedException("BTCe cannot create orders");
-            /*
+
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("amount", amount.ToString());
-            parameters.Add("price", amount.ToString());
+            parameters.Add("rate", amount.ToString());
+            parameters.Add("pair", FormatPair(baseCurrency, counterCurrency));
+            parameters.Add("type", command.Parameters["type"]);
 
-            return (Order)SendCommandToDispatcher<BT>(command, baseCurrency, counterCurrency, parameters);*/
+
+            /*        <arg ID="pair" type="parameter" />
+        <arg ID="type" type="parameter" />
+        <arg ID="rate" type="parameter" />
+        <arg ID="amount" type="parameter" />
+             */
+            return (Order)SendCommandToDispatcher<object, Order>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
+﻿using BEx;
 using NUnit.Framework;
-
-using BEx;
+using System;
 
 namespace NUnitTests
 {
@@ -153,7 +146,7 @@ namespace NUnitTests
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(iex.Message));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new AssertionException("Expected OrderRejectedException");
             }

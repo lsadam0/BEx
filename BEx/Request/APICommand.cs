@@ -1,13 +1,7 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.Xml.Linq;
-using System.Xml;
-using System.Text.RegularExpressions;
-
-using RestSharp;
 
 namespace BEx
 {

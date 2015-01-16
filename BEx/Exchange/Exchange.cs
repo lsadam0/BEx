@@ -1,21 +1,7 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Reflection;
-using System.Xml;
 using System.Xml.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using System.Security;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-
-using RestSharp;
-using BEx.BitFinexSupport;
 
 namespace BEx
 {
