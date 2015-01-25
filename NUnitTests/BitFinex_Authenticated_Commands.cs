@@ -28,6 +28,7 @@ namespace NUnitTests
         #endregion
 
         #region Deposit Address
+
         [Test]
         public void BitFinex_GetBTCDepositAddress()
         {
@@ -65,6 +66,7 @@ namespace NUnitTests
 
             VerifyUserTransactions(t);
         }
+
 
         #region Orders
 

@@ -220,6 +220,7 @@ namespace BEx
             return (bool)SendCommandToDispatcher<bool, bool>(command, Currency.BTC, Currency.USD, parameters);
         }
 
+        
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
             return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
@@ -244,7 +245,7 @@ namespace BEx
         {
             return (PendingWithdrawals)SendCommandToDispatcher<List<BitStampPendingWithdrawalJSON>, PendingWithdrawals>(command, Currency.BTC, Currency.USD);
         }
-
+        
         #endregion
     }
 }

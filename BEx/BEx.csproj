@@ -91,10 +91,10 @@
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampUserTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampPendingWithdrawalJSON.cs" />
-    <Compile Include="Exchange\BTCe\JSON\BTCeAccountBalanceJSON.cs" />
-    <Compile Include="Exchange\BTCe\JSON\BTCeOrderBookJSON.cs" />
-    <Compile Include="Exchange\BTCe\JSON\BTCeTickJSON.cs" />
-    <Compile Include="Exchange\BTCe\JSON\BTCeTransactionsJSON.cs" />
+    <Compile Include="Deprecated\BTCe\JSON\BTCeAccountBalanceJSON.cs" />
+    <Compile Include="Deprecated\BTCe\JSON\BTCeOrderBookJSON.cs" />
+    <Compile Include="Deprecated\BTCe\JSON\BTCeTickJSON.cs" />
+    <Compile Include="Deprecated\BTCe\JSON\BTCeTransactionsJSON.cs" />
     <Compile Include="APIError.cs" />
     <Compile Include="Exchange\ErrorCodes.cs" />
     <Compile Include="Exchange\ExchangeResponse.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="PendingWithdrawals.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
-    <Compile Include="Exchange\BTCe.cs" />
+    <Compile Include="Deprecated\BTCe.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Exchange\Exchange.cs" />
     <Compile Include="OrderBook.cs" />
@@ -127,75 +127,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="BTCE.xml">
+    <Content Include="Deprecated\BTCE.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Documentation\BitFinex\Reference\Actions\AccountInfo.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\ActiveCredits.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\ActiveOffers.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\ActiveOrders.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\ActivePositions.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\CancelAllActiveOrders.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\CancelMultipleOrder.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\CancelOffer.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\CancelOrder.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\ClaimPosition.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\MarginInfo.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\NewOffer.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\OfferStatus.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\PastTrades.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\LendBook.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\Lends.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\MultipleNewOrders.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\NewOrder.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\OrderBook.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\OrderStatus.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\ReplaceOrder.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\Stats.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\Symbols.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\Ticker.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\Trades.html" />
-    <Content Include="Documentation\BitFinex\Reference\Actions\WalletBalances.html" />
-    <Content Include="Documentation\BitFinex\Reference\API.htm" />
-    <Content Include="Documentation\BitFinex\Reference\Authentication.html" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\AccountBalance.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Authentication.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\BitcoinDepositAddress.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\BitcoinWithdrawal.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\BuyLimitOrder.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\CancelOrder.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\EURUSDConversion.txt" />
-    <Content Include="Documentation\BitStamp\Reference\HTTP_API_Reference.htm" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\OpenOrders.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\OrderBook.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\SellLimitOrder.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\Ticker.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\Transactions.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\UnconfirmedBitcoinDeposits.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\UserTransactions.txt" />
-    <Content Include="Documentation\BitStamp\Reference\WebSocket.txt" />
-    <Content Include="Documentation\BitStamp\Reference\Actions\WithdrawalRequests.txt" />
-    <Content Include="Documentation\BTCe\Reference\Actions\ActiveOrders.html" />
-    <Content Include="Documentation\BTCe\Reference\Actions\CancelOrder.html" />
-    <Content Include="Documentation\BTCe\Reference\Actions\Depth.txt" />
-    <Content Include="Documentation\BTCe\Reference\Actions\Fee.txt" />
-    <Content Include="Documentation\BTCe\Reference\Actions\GetInfo.txt" />
-    <Content Include="Documentation\BTCe\Reference\Actions\Ticker.txt" />
-    <Content Include="Documentation\BTCe\Reference\Actions\Trade.html" />
-    <Content Include="Documentation\BTCe\Reference\Actions\TradeHistory.html" />
-    <Content Include="Documentation\BTCe\Reference\Actions\Trades.txt" />
-    <Content Include="Documentation\BTCe\Reference\Actions\TransactionHistory.html" />
-    <Content Include="Documentation\BTCe\Reference\API.htm" />
-    <Content Include="Documentation\BTCe\Reference\API.txt" />
-    <Content Include="Documentation\BTCe\Reference\Authentication.txt" />
+    <Content Include="Deprecated\Explanation.txt" />
     <Content Include="NextSteps.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Documentation\Coinbase\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Documentation\Objects.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

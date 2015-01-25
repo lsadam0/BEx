@@ -48,9 +48,6 @@
     <Compile Include="BitStamp_Authenticated_Commands.cs" />
     <Compile Include="BitStamp_Exceptions.cs" />
     <Compile Include="BitStamp_Unauthenticated_Commands.cs" />
-    <Compile Include="BTCe_Exceptions.cs" />
-    <Compile Include="BTCe_Unauthenticated_Commands.cs" />
-    <Compile Include="BTCe_Authenticated_Commands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />
     <Compile Include="VerifyExchangeBase.cs" />

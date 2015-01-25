@@ -1,0 +1,5 @@
+﻿BTCe's API is an embarassing mess.  Their documentation is beyond terrible.  It's not even made clear that there are 3 versions of the API, 
+and different functionality is in different versions.  In spite of having 3 versions, they still don't have the same level of functionality
+as other Bitcoin exchanges.
+
+This is a hobby project, and BTCe is slowing me down.  I'm tired of trying to work around their mess.  I'm dropping support for them.

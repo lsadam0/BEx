@@ -318,6 +318,7 @@ namespace BEx
 
         #endregion
 
+        
         #region Deposit Address
 
         protected abstract DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
@@ -385,7 +386,7 @@ namespace BEx
         }
 
         #endregion
-
+        
         #endregion
 
         protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)

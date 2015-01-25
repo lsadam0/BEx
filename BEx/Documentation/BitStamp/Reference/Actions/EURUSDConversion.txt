@@ -1,7 +1,0 @@
-﻿GET https://www.bitstamp.net/api/eur_usd/Returns 
-
-JSON dictionary:
-buy - buy conversion rate
-sell - sell conversion rate
-
-{"sell": "1.3613", "buy": "1.3725"}

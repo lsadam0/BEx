@@ -150,6 +150,7 @@ namespace NUnitTests
             }
         }
 
+        /*
         [Test]
         public void Bitfinex_Withdrawal_Exception()
         {
@@ -173,6 +174,6 @@ namespace NUnitTests
                 { }
 
             }
-        }
+        }*/
     }
 }

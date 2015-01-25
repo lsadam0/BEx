@@ -1,5 +1,0 @@
-﻿POST https://www.bitstamp.net/api/bitcoin_deposit_address/Params:
-key - API key
-signature - signature
-nonce - nonce
-Returns your bitcoin deposit address.

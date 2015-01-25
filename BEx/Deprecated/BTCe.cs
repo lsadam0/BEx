@@ -12,6 +12,7 @@ using System.Net;
 
 namespace BEx
 {
+    /*
     public class BTCe : Exchange
     {
 
@@ -123,7 +124,9 @@ namespace BEx
                 {
                     error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
                 }
-                else if (loweredMessage.Contains("invalid sign") || loweredMessage.Contains("invalid signature"))
+                else if (loweredMessage.Contains("invalid sign") 
+                        || loweredMessage.Contains("invalid signature")
+                        || loweredMessage.Contains("invalid api key"))
                 {
                     error = new APIError(errorMessage, BExErrorCode.Authorization);
                 }
@@ -162,28 +165,7 @@ namespace BEx
         {
             long _nonce = BTCeNonce;
 
-            /*
-            StringBuilder dataBuilder = new StringBuilder();
-
-            string postString = "method=getInfo&nonce=" + _nonce.ToString();
-
-            string signature;
-            using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
-            {
-                byte[] hashBytes = hasher.ComputeHash(Encoding.ASCII.GetBytes(postString));
-                signature = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
-            // Header
-            // Key
-
-            request.AddHeader("Key", APIKey);
-            // Sign
-            request.AddHeader("Sign", signature);
-
-            // Parameters
-            request.AddParameter("method", "getInfo");
-            request.AddParameter("nonce", _nonce.ToString());
-            */
+           
 
 
             //request.AddParameter("method", command.RelativeURI.Replace("/", "").Trim());
@@ -214,60 +196,7 @@ namespace BEx
 
 
 
-            /*
-            StringBuilder dataBuilder = new StringBuilder();
-
-            //Signature. POST-parameters (?nonce=1&param0=val0), 
-            // Method
-            //Nonce
-
-            // pair
-            // type
-            // rate
-            // amount
-
-            // pair type rate amount
-            request.Parameters.Clear();
-
-            request.AddParameter("method", "Trade");
-            request.AddParameter("pair", "btc_usd");
-            request.AddParameter("type", "sell");
-            request.AddParameter("rate", "300");
-            request.AddParameter("amount", "1");
-            request.AddParameter("nonce", _nonce);
-
-
-            StringBuilder sb = new StringBuilder();
-            
-            sb.Append("?");
-            //foreach (Parameter p in request.Parameters)
-            //{
-                //string a = string.Format("{0}={1}", HttpUtility.UrlEncode(p.Name), HttpUtility.UrlEncode(p.Value.ToString()));
-            var argsArray = request.Parameters.Select(x => string.Format("{0}={1}", HttpUtility.UrlEncode(x.Name), HttpUtility.UrlEncode(x.Value.ToString()))).ToArray();
-            
-            sb.Append(string.Join("&", argsArray));
-            //}
-
-            string postString = sb.ToString();
-
-            
-
-            string signature;
-            using (HMACSHA512 hasher = new HMACSHA512(Encoding.ASCII.GetBytes(SecretKey)))
-            {
-                byte[] hashBytes = hasher.ComputeHash(Encoding.ASCII.GetBytes(postString));
-                signature = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
-            // Header
-            // Key
-
-            request.AddHeader("Key", APIKey);
-            // Sign
-            request.AddHeader("Sign", signature);
-
-            // Parameters
-           // request.AddParameter("method", "getInfo");
-            //request.AddParameter("nonce", _nonce.ToString());*/
+           
         }
 
         private UInt32 BTCeNonce
@@ -317,11 +246,7 @@ namespace BEx
             parameters.Add("method", command.Parameters["method"]);
 
 
-            /*        <arg ID="pair" type="parameter" />
-        <arg ID="type" type="parameter" />
-        <arg ID="rate" type="parameter" />
-        <arg ID="amount" type="parameter" />
-             */
+
             return (Order)SendCommandToDispatcher<object, Order>(command, baseCurrency, counterCurrency, parameters);
         }
 
@@ -340,6 +265,7 @@ namespace BEx
             throw new NotImplementedException("BTCe cannot cancel orders");
         }
 
+        /*
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
             throw new NotImplementedException("BTCe cannot retrieve deposit address");
@@ -349,16 +275,9 @@ namespace BEx
         {
             throw new NotImplementedException("BTCe cannot execute withdrawals");
 
-            /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("address", address);
-
-            return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
-        
-             */
+            
         }
-
+        
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
         {
             throw new NotImplementedException("Get Pending Deposits is not implemented");
@@ -371,4 +290,5 @@ namespace BEx
 
         #endregion
     }
+     */
 }

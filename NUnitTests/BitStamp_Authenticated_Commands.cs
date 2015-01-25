@@ -68,6 +68,7 @@ namespace NUnitTests
             { }
         }
 
+        
         [Test]
         public void BitStamp_GetDepositAddress()
         {
@@ -92,5 +93,6 @@ namespace NUnitTests
 
             Assert.IsNotNull(w);
         }
+         
     }
 }

@@ -4,6 +4,7 @@ using System;
 namespace BEx.BTCeSupport
 {
 
+    /*
     public class Ticker
     {
 
@@ -68,24 +69,6 @@ namespace BEx.BTCeSupport
             return res;
         }
 
-        /*
-        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res = new Tick();
-
-            res.Bid = Convert.ToDecimal(Ticker.Sell);
-            res.Ask = Convert.ToDecimal(Ticker.Buy);
-            res.High = Convert.ToDecimal(Ticker.High);
-            res.Last = Convert.ToDecimal(Ticker.Last);
-            res.Low = Convert.ToDecimal(Ticker.Low);
-            res.Volume = Convert.ToDecimal(Ticker.Vol);
-
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
-
-            
-            return res;
-        }*/
-    }
+    }*/
 
 }

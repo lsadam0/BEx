@@ -234,6 +234,7 @@ namespace BEx
             throw new NotImplementedException("BitFinex cannot cancel orders");
         }
 
+        
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -249,14 +250,6 @@ namespace BEx
         {
             throw new NotImplementedException("BTCe cannot execute withdrawals");
 
-            /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("address", address);
-
-            return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
-       
-             */
         }
 
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
@@ -268,7 +261,7 @@ namespace BEx
         {
             throw new NotImplementedException("Get Pending Withdrawals is not implemented");
         }
-
+        
         #endregion
 
 

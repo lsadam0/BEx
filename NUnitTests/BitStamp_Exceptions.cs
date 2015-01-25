@@ -193,6 +193,7 @@ namespace NUnitTests
             }
         }
 
+        /*
         [Test]
         public void BitStamp_Withdrawal_Exception()
         {
@@ -215,6 +216,6 @@ namespace NUnitTests
                 { }
 
             }
-        }
+        }*/
     }
 }

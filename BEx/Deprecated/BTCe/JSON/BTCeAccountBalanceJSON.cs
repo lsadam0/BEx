@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace BEx.BTCeSupport
 {
+    /*
     public class Funds
     {
 
@@ -118,29 +119,6 @@ namespace BEx.BTCeSupport
             
             return res;
         }
-        /*
-        public AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            AccountBalance res = new AccountBalance();
-
-
-            //this.Return.Funds.
-
-            PropertyInfo[] properties = this.Return.Funds.GetType().GetProperties();
-
-            foreach (PropertyInfo prop in properties)
-            {
-                Currency pCurrency;
-
-                if (Enum.TryParse<Currency>(prop.Name.ToUpper(), out pCurrency))
-                {
-                    res.Balance.Add(pCurrency, Convert.ToDecimal(prop.GetValue(this.Return.Funds)));
-                }
-
-            }
-
-
-            return res;
-        }*/
-    }
+     
+    }*/
 }

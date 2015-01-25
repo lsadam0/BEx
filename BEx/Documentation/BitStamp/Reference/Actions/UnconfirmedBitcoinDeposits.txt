@@ -1,8 +1,0 @@
-﻿POST https://www.bitstamp.net/api/unconfirmed_btc/Params:
-key - API key
-signature - signature
-nonce - nonce
-Returns JSON list of unconfirmed bitcoin transactions. Each transaction is represented as dictionary:
-amount - bitcoin amount
-address - deposit address used
-confirmations - number of confirmations
