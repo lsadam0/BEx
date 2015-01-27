@@ -31,31 +31,36 @@ namespace BEx.BitStampSupport
 
         public override UserTransaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            UserTransaction res = new UserTransaction();
+            if (OrderId != null)
+            {
+                UserTransaction res = new UserTransaction();
 
-            res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
-            res.CounterCurrencyAmount = Convert.ToDecimal(Usd);
-            res.ID = Id;
+                res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
+                res.CounterCurrencyAmount = Convert.ToDecimal(Usd);
+                res.ID = Id;
 
-            //- transaction type (0 - deposit; 1 - withdrawal; 2 - market trade)
+                //- transaction type (0 - deposit; 1 - withdrawal; 2 - market trade)
 
-            if (Type == 0)
-                res.Type = UserTransactionType.Deposit;
-            else if (Type == 1)
-                res.Type = UserTransactionType.Withdrawal;
-            else if (Type == 2)
-                res.Type = UserTransactionType.Trade;
+                if (Type == 0)
+                    res.Type = UserTransactionType.Deposit;
+                else if (Type == 1)
+                    res.Type = UserTransactionType.Withdrawal;
+                else if (Type == 2)
+                    res.Type = UserTransactionType.Trade;
 
-            res.Fee = Convert.ToDecimal(Fee);
+                res.Fee = Convert.ToDecimal(Fee);
 
-            if (OrderId == null)
-                res.OrderID = null;
+                if (OrderId == null)
+                    res.OrderID = null;
+                else
+                    res.OrderID = OrderId;
+
+                res.ExchangeRate = Convert.ToDecimal(BtcUsd);
+
+                return res;
+            }
             else
-                res.OrderID = OrderId;
-
-            res.ExchangeRate = Convert.ToDecimal(BtcUsd);
-
-            return res;
+                return null;
         }
     }
 }

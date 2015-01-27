@@ -41,16 +41,25 @@ namespace BEx.BitFinexSupport
 
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
+            decimal key;
+            decimal value;
 
             for (int x = 0; x < Bids.Length; ++x)
             {
-                //source.Bids[x].
-                res.BidsByPrice.Add(Convert.ToDecimal(Bids[x].Price), Convert.ToDecimal(Bids[x].Amount));
+
+                decimal.TryParse(Bids[x].Price, out key);
+                decimal.TryParse(Bids[x].Amount, out value);
+
+                res.BidsByPrice.Add(key, value);
             }
 
             for (int x = 0; x < Asks.Length; ++x)
             {
-                res.AsksByPrice.Add(Convert.ToDecimal(Asks[x].Price), Convert.ToDecimal(Asks[x].Amount));
+                decimal.TryParse(Asks[x].Price, out key);
+                decimal.TryParse(Asks[x].Amount, out value);
+
+
+                res.AsksByPrice.Add(key, value);
             }
 
             res.TimeStamp = DateTime.Now;

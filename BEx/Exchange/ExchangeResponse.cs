@@ -15,7 +15,11 @@ namespace BEx
 
             foreach (C response in responseCollection)
             {
-                res.Add((R)conversionMethod.Invoke(response, new object[] { baseCurrency, counterCurrency }));
+                R iteration = (R)conversionMethod.Invoke(response, new object[] { baseCurrency, counterCurrency });
+
+                if (iteration != null)
+                    res.Add((R)iteration);
+                // res.Add((R)conversionMethod.Invoke(response, new object[] { baseCurrency, counterCurrency }));
             }
 
             return res;

@@ -10,14 +10,12 @@ namespace BEx
 {
     internal delegate bool IsErrorDelegate(string content);
 
-    //internal delegate string ExtractErrorMessageDelegate(string content);
     internal delegate APIError DetermineErrorConditionDelegate(string content);
 
     internal class RequestDispatcher
     {
         internal IsErrorDelegate IsError;
 
-        //internal ExtractErrorMessageDelegate ExtractErrorMessage;
         internal DetermineErrorConditionDelegate DetermineErrorCondition;
 
         private Regex ErrorMessageRegex;
