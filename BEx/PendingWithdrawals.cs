@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace BEx
 {
     public class PendingWithdrawals : APIResult
@@ -11,15 +10,16 @@ namespace BEx
             set;
         }
 
-        internal PendingWithdrawals() : base()
+        internal PendingWithdrawals()
+            : base()
         {
             Withdrawals = new List<PendingWithdrawal>();
         }
 
-        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals) : base()
+        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals)
+            : base()
         {
             Withdrawals = withdrawals;
         }
-
     }
 }

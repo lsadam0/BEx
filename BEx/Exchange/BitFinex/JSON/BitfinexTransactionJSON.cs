@@ -11,19 +11,18 @@ namespace BEx.BitFinexSupport
 
         [JsonProperty("tid")]
         public int tid { get; set; }
- 
+
         [JsonProperty("price")]
         public string price { get; set; }
- 
+
         [JsonProperty("amount")]
         public string amount { get; set; }
-        
+
         [JsonProperty("exchange")]
         public string exchange { get; set; }
 
         [JsonProperty("type")]
         public string type { get; set; }
-
 
         public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -37,6 +36,7 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
+
         /*
         public Transaction ToTransaction()
         {
@@ -49,7 +49,6 @@ namespace BEx.BitFinexSupport
             res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
 
             return res;
-
         }
 
         public static Transactions ConvertListToStandard(List<BitFinexTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)

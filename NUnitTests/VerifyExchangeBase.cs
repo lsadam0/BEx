@@ -1,18 +1,14 @@
 ﻿using BEx;
 using NUnit.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace NUnitTests
 {
-
-
     public class VerifyExchangeBase
     {
         public Exchange toTest;
-
 
         protected string APIKey
         {
@@ -41,7 +37,6 @@ namespace NUnitTests
         {
             XElement keyFile = XElement.Load(@"C:\_Work\BEx\TestingKeys.xml");
 
-
             XElement exchangeElement = null;
 
             switch (exchangeType.ToString())
@@ -49,13 +44,14 @@ namespace NUnitTests
                 case ("BEx.BitStamp"):
                     exchangeElement = keyFile.Element("BitStamp");
                     break;
+
                 case ("BEx.Bitfinex"):
                     exchangeElement = keyFile.Element("BitFinex");
                     break;
+
                 case ("BEx.BTCe"):
                     exchangeElement = keyFile.Element("BTCe");
                     break;
-
             }
 
             APIKey = exchangeElement.Element("Key").Value;
@@ -63,19 +59,17 @@ namespace NUnitTests
 
             if (exchangeElement.Element("ClientID") != null)
                 ClientID = exchangeElement.Element("ClientID").Value;
-
         }
 
         public static object testVelocityLock = new object();
 
         /// <summary>
-        /// Exchanges ban API access for those that make excessive requests, 
+        /// Exchanges ban API access for those that make excessive requests,
         /// in order to avoid the banhammer let's slow down the pace of testing
         /// so that at most we make one request every 2 seconds.
         /// </summary>
         protected void ThrottleTestVelocity()
         {
-
             lock (testVelocityLock)
             {
                 new System.Threading.ManualResetEvent(false).WaitOne(3000);
@@ -133,12 +127,10 @@ namespace NUnitTests
 
             foreach (Transaction t in toVerify.TransactionsCollection)
             {
-
                 Assert.IsTrue(t.Amount > 0.0m);
                 Assert.IsTrue(t.Price > 0.0m);
                 Assert.IsTrue(t.Timestamp < DateTime.Now);
                 Assert.IsTrue(t.TransactionID > 0);
-
             }
         }
 
@@ -152,21 +144,15 @@ namespace NUnitTests
             Assert.IsTrue(toVerify.Balances.Count > 0);
             Assert.IsTrue(toVerify.Timestamp < DateTime.Now);
 
-
             foreach (AccountBalance balance in toVerify.Balances)
             {
-
                 Assert.IsTrue(balance.Timestamp < DateTime.Now);
-
             }
-
-
         }
 
         protected void VerifyBuyOrder(Order toVerify)
         {
             ThrottleTestVelocity();
-
 
             Assert.IsTrue(toVerify.Type == OrderType.Buy);
             Assert.IsTrue(toVerify.Amount > 0.0m);
@@ -188,7 +174,6 @@ namespace NUnitTests
             Assert.IsTrue(toVerify.Timestamp < DateTime.Now);
 
             Assert.IsNotNull(toVerify);
-
         }
 
         protected void VerifyOpenOrders(OpenOrders toVerify)
@@ -204,9 +189,6 @@ namespace NUnitTests
                 Assert.IsTrue(ord.ID > 0);
                 Assert.IsTrue(ord.Price > 0.0m);
                 Assert.IsTrue(ord.Timestamp < DateTime.Now);
-
-
-
             }
         }
 
@@ -232,13 +214,10 @@ namespace NUnitTests
 
         protected void VerifyDepositAddress(DepositAddress address)
         {
-
             Assert.IsNotNull(address);
 
             Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
             Assert.IsTrue(address.Timestamp < DateTime.Now);
         }
-
-
     }
 }

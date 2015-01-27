@@ -10,15 +10,16 @@ namespace BEx
             set;
         }
 
-        internal Transactions() : base()
+        internal Transactions()
+            : base()
         {
             TransactionsCollection = new List<Transaction>();
         }
 
-        internal Transactions(List<Transaction> transactions) : base()
+        internal Transactions(List<Transaction> transactions)
+            : base()
         {
             TransactionsCollection = transactions;
         }
-
     }
 }

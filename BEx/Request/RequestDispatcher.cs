@@ -8,15 +8,15 @@ using System.Text.RegularExpressions;
 
 namespace BEx
 {
-
     internal delegate bool IsErrorDelegate(string content);
+
     //internal delegate string ExtractErrorMessageDelegate(string content);
     internal delegate APIError DetermineErrorConditionDelegate(string content);
 
     internal class RequestDispatcher
     {
-
         internal IsErrorDelegate IsError;
+
         //internal ExtractErrorMessageDelegate ExtractErrorMessage;
         internal DetermineErrorConditionDelegate DetermineErrorCondition;
 
@@ -47,7 +47,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="J">Intermediate type</typeparam>
         /// <typeparam name="E">Expected return type</typeparam>
@@ -61,12 +61,10 @@ namespace BEx
             IRestResponse response;
             object result = null;
 
-
             if (commandReference.RequiresAuthentication && authenticatedClient != null)
                 response = authenticatedClient.Execute(request);
             else
                 response = apiClient.Execute(request);
-
 
             bool responseIsError = false;
             if (IsError != null)
@@ -76,7 +74,6 @@ namespace BEx
 
             if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || responseIsError)
             {
-
                 return HandlerErrorResponse(response, request, commandReference, response.ErrorException);
             }
             else
@@ -99,8 +96,6 @@ namespace BEx
             return result;
         }
 
-  
-
         private void ThrowException<E>(APIError source) where E : Exception
         {
             E exception = (E)Activator.CreateInstance(typeof(E),
@@ -113,7 +108,6 @@ namespace BEx
 
             throw exception;
         }
-
 
         private APIError HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
         {
@@ -137,79 +131,10 @@ namespace BEx
                 ThrowException<ExchangeAuthorizationException>(error);
 
             return error;
-            /*
-            if (response.ErrorException != null)
-            {
-                throw response.ErrorException;
-            }
-            else
-            {*/
-            #region Old
-
-
-            /*
-                string exceptionMessage = "";
-                switch (response.StatusCode)
-                {
-                    case (HttpStatusCode.BadRequest):
-                        exceptionMessage = String.Format(ErrorMessages.RESTBadRequest, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.Unauthorized):
-                        exceptionMessage = String.Format(ErrorMessages.RESTUnauthorized, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.Forbidden):
-                        exceptionMessage = String.Format(ErrorMessages.RESTForbidden, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.MethodNotAllowed):
-                        exceptionMessage = String.Format(ErrorMessages.RESTMethodNotAllowed, executedCommand.ID, request.Method.ToString());
-                        break;
-                    case (HttpStatusCode.RequestTimeout):
-                        exceptionMessage = String.Format(ErrorMessages.RESTRequestTimeout, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.RequestUriTooLong):
-                        exceptionMessage = String.Format(ErrorMessages.RESTURITooLong, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.InternalServerError):
-                        exceptionMessage = String.Format(ErrorMessages.RESTInternalServerError, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.ServiceUnavailable):
-                        exceptionMessage = String.Format(ErrorMessages.RESTServiceUnavailable, executedCommand.ID);
-                        break;
-                    case (HttpStatusCode.OK):
-                        exceptionMessage = "";
-                        break;
-                    case (HttpStatusCode.NotFound):
-                        exceptionMessage = String.Format(ErrorMessages.RESTInvalidURL, request.Resource, executedCommand.ID);
-                        break;
-                    default:
-                        exceptionMessage = String.Format(ErrorMessages.RESTUnhandledStatus, response.StatusCode.ToString());
-                        break;
-                }
-
-                exceptionMessage += String.Format(ErrorMessages.RESTErrorResponseContent, response.Content);
-
-                */
-            #endregion
-            /*
-                Exception newException = null;
-
-                newException = CreateException(response.Content, response.Content, executedCommand, inner);
-
-                if (newException == null)
-                    newException = new Exception(response.Content, inner);
-
-                newException.Data.Add("ResponseCode", response.StatusCode);
-                newException.Data.Add("ResponseErrorMessage", response.ErrorMessage ?? "");
-                newException.Data.Add("ResponseHeaders", response.Headers);
-
-                throw newException;*/
-
         }
 
         private object GetValueType<J, E>(string content)
         {
-
-
             object deserialized = JsonConvert.DeserializeObject<J>(content);
 
             if (deserialized.GetType() != typeof(E))
@@ -225,9 +150,7 @@ namespace BEx
             else
             {
                 return deserialized;
-
             }
-
         }
 
         private APIResult DeserializeObject<J, E>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
@@ -254,14 +177,11 @@ namespace BEx
 
                 dynamic collection = generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
 
-
                 res = (APIResult)Activator.CreateInstance(typeof(E),
                                                             BindingFlags.NonPublic | BindingFlags.Instance,
                                                             null,
                                                             new object[] { collection },
                                                             null); // Culture?
-
-
             }
             else
                 res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
@@ -279,9 +199,5 @@ namespace BEx
         {
             return typeof(T);
         }
-
-
-
-
     }
 }

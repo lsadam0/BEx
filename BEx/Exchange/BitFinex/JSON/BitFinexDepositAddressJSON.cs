@@ -1,12 +1,9 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace BEx.BitFinexSupport
 {
-
     public class BitFinexDepositAddressJSON : ExchangeResponse<DepositAddress>
     {
-
         [JsonProperty("result")]
         public string Result { get; set; }
 
@@ -29,7 +26,6 @@ namespace BEx.BitFinexSupport
             return res;
         }
 
-        
         /*
         public DepositAddress ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {

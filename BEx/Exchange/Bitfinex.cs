@@ -29,12 +29,10 @@ namespace BEx
                 throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
             else
                 this.SecretKey = secretKey;
-
         }
 
         internal string ExtractMessage(string content)
         {
-
             if (!string.IsNullOrEmpty(content))
             {
                 StringBuilder res = new StringBuilder();
@@ -65,13 +63,11 @@ namespace BEx
                             //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
                         }
                     }
-
                 }
                 catch (Exception)
                 {
                     res.Append(error.ToString());
                 }
-
 
                 return res.ToString();//Regex.Replace(res.ToString(), @"\t|\n|\r", "");
             }
@@ -119,7 +115,6 @@ namespace BEx
 
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
-
             /*POST https://api.bitfinex.com/v1/order/new
                 With a payload of
                 {
@@ -166,10 +161,9 @@ namespace BEx
                 byte[] hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
                 request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
             }
-
         }
 
-        #endregion
+        #endregion Authorization
 
         #region Command Execution
 
@@ -211,12 +205,10 @@ namespace BEx
             //parameters.Add("is_hidden", "0");
 
             return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON, Order>(command, baseCurrency, counterCurrency, parameters);
-
         }
 
         protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-
             return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>, OpenOrders>(command, baseCurrency, counterCurrency);
         }
 
@@ -252,7 +244,6 @@ namespace BEx
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
         {
             throw new NotImplementedException("BitFinx cannot execute withdrawals");
-
         }
 
         protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
@@ -265,8 +256,6 @@ namespace BEx
             throw new NotImplementedException("Get Pending Withdrawals is not implemented");
         }
 
-        #endregion
-
-
+        #endregion Command Execution
     }
 }

@@ -52,10 +52,9 @@ namespace BEx
             set;
         }
 
-        internal Tick() : base()
+        internal Tick()
+            : base()
         {
-
         }
-
     }
 }

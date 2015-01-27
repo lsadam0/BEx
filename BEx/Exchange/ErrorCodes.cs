@@ -1,7 +1,6 @@
-﻿
-namespace BEx
+﻿namespace BEx
 {
-    public enum  BExErrorCode
+    public enum BExErrorCode
     {
         Unknown = 0,
         InsufficientFunds = 1,
@@ -58,6 +57,5 @@ namespace BEx
         ServiceUnavailable = 503,
         GatewayTimeout = 504,
         HttpVersionNotSupported = 505
-
     }
 }

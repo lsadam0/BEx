@@ -1,9 +1,7 @@
-﻿
-namespace BEx
+﻿namespace BEx
 {
     public class DepositAddress : APIResult
     {
-
         public string Address
         {
             get;
@@ -16,9 +14,9 @@ namespace BEx
             set;
         }
 
-        internal DepositAddress() : base()
+        internal DepositAddress()
+            : base()
         {
-
         }
 
         internal DepositAddress(string address)

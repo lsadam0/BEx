@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-
 namespace BEx.BitStampSupport
 {
     public class BitStampPendingDepositJSON : ExchangeResponse<PendingDeposit>
     {
-
         [JsonProperty("amount")]
         public string Amount { get; set; }
 
@@ -15,7 +13,6 @@ namespace BEx.BitStampSupport
 
         [JsonProperty("address")]
         public string Address { get; set; }
-
 
         public override PendingDeposit ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -28,6 +25,7 @@ namespace BEx.BitStampSupport
 
             return res;
         }
+
         /*
         public PendingDeposit ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -53,5 +51,4 @@ namespace BEx.BitStampSupport
             return res;
         }*/
     }
-
 }

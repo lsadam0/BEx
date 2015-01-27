@@ -18,6 +18,7 @@ namespace BEx.BitStampSupport
         public string amount { get; set; }
     }
     */
+
     public class BitstampTransactionJSON : ExchangeResponse<Transaction>
     {
         [JsonProperty("date")]
@@ -39,7 +40,7 @@ namespace BEx.BitStampSupport
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
             res.TransactionID = Convert.ToInt64(tid);
-            
+
             res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date));
 
             return res;
@@ -58,5 +59,4 @@ namespace BEx.BitStampSupport
             return res;
         }*/
     }
-
 }

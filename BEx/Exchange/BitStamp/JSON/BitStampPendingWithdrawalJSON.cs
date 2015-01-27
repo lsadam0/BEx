@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-
 namespace BEx.BitStampSupport
 {
     public class BitStampPendingWithdrawalJSON : ExchangeResponse<PendingWithdrawal>
     {
-
         [JsonProperty("status")]
         public string Status { get; set; }
 
@@ -25,7 +23,6 @@ namespace BEx.BitStampSupport
         [JsonProperty("id")]
         public int Id { get; set; }
 
-
         public override PendingWithdrawal ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             PendingWithdrawal res = new PendingWithdrawal();
@@ -39,21 +36,27 @@ namespace BEx.BitStampSupport
                 case "0":
                     res.CurrentStatus = WithdrawalStatus.AwaitingProcessing;
                     break;
+
                 case "1":
                     res.CurrentStatus = WithdrawalStatus.InProcess;
                     break;
+
                 case "2":
                     res.CurrentStatus = WithdrawalStatus.Finished;
                     break;
+
                 case "3":
                     res.CurrentStatus = WithdrawalStatus.Canceled;
                     break;
+
                 case "4":
                     res.CurrentStatus = WithdrawalStatus.Failed;
                     break;
+
                 case "5":
                     res.CurrentStatus = WithdrawalStatus.PendingApproval;
                     break;
+
                 default:
                     res.CurrentStatus = WithdrawalStatus.Unknown;
                     break;
@@ -69,12 +72,15 @@ namespace BEx.BitStampSupport
                 case 0:
                     res.WithdrawnByMethod = WithdrawalMethod.SEPA;
                     break;
+
                 case 1:
                     res.WithdrawnByMethod = WithdrawalMethod.CryptoCurrency;
                     break;
+
                 case 2:
                     res.WithdrawnByMethod = WithdrawalMethod.WireTransfer;
                     break;
+
                 default:
                     res.WithdrawnByMethod = WithdrawalMethod.Unknown;
                     break;
@@ -87,6 +93,7 @@ namespace BEx.BitStampSupport
 
             return res;
         }
+
         /*
         public PendingWithdrawal ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -101,21 +108,27 @@ namespace BEx.BitStampSupport
                 case "0":
                     res.Status = WithdrawalStatus.AwaitingProcessing;
                     break;
+
                 case "1":
                     res.Status = WithdrawalStatus.InProcess;
                     break;
+
                 case "2":
                     res.Status = WithdrawalStatus.Finished;
                     break;
+
                 case "3":
                     res.Status = WithdrawalStatus.Canceled;
                     break;
+
                 case "4":
                     res.Status = WithdrawalStatus.Failed;
                     break;
+
                 case "5":
                     res.Status = WithdrawalStatus.PendingApproval;
                     break;
+
                 default:
                     res.Status = WithdrawalStatus.Unknown;
                     break;
@@ -131,12 +144,15 @@ namespace BEx.BitStampSupport
                 case 0:
                     res.WithdrawnByMethod = WithdrawalMethod.SEPA;
                     break;
+
                 case 1:
                     res.WithdrawnByMethod = WithdrawalMethod.CryptoCurrency;
                     break;
+
                 case 2:
                     res.WithdrawnByMethod = WithdrawalMethod.WireTransfer;
                     break;
+
                 default:
                     res.WithdrawnByMethod = WithdrawalMethod.Unknown;
                     break;
@@ -153,7 +169,6 @@ namespace BEx.BitStampSupport
         public static PendingWithdrawals ConvertListToStandard(List<BitStampPendingWithdrawalJSON> withdrawals, Currency baseCurrency, Currency counterCurrency)
         {
             PendingWithdrawals res = new PendingWithdrawals();
-
 
             foreach (BitStampPendingWithdrawalJSON withdrawal in withdrawals)
             {

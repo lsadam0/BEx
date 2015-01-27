@@ -1,5 +1,4 @@
-﻿
-using BEx;
+﻿using BEx;
 using NUnit.Framework;
 
 namespace NUnitTests
@@ -8,11 +7,10 @@ namespace NUnitTests
     [Category("BitStamp.Authenticated")]
     public class BitStamp_Authenticated_Commands : VerifyExchangeBase
     {
-
-        public BitStamp_Authenticated_Commands() : base(typeof(BEx.BitStamp))
+        public BitStamp_Authenticated_Commands()
+            : base(typeof(BEx.BitStamp))
         {
             toTest = new BitStamp(base.APIKey, base.Secret, base.ClientID);
-
         }
 
         [Test]
@@ -21,7 +19,6 @@ namespace NUnitTests
             AccountBalances res = toTest.GetAccountBalance();
 
             VerifyAccountBalance(res);
-
         }
 
         [Test]
@@ -64,18 +61,14 @@ namespace NUnitTests
             Order toCancel = orders.Orders[0];
 
             Assert.IsTrue(toTest.CancelOrder(toCancel));
-
-            
         }
 
-        
         [Test]
         public void BitStamp_GetDepositAddress()
         {
             DepositAddress address = toTest.GetDepositAddress();
 
             VerifyDepositAddress(address);
-
         }
 
         [Test]
@@ -84,7 +77,6 @@ namespace NUnitTests
             PendingDeposits d = toTest.GetPendingDeposits();
 
             Assert.IsNotNull(d);
-            
         }
 
         [Test]
@@ -94,6 +86,5 @@ namespace NUnitTests
 
             Assert.IsNotNull(w);
         }
-         
     }
 }

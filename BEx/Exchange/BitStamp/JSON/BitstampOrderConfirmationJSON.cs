@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-
 namespace BEx.BitStampSupport
 {
     public class BitStampOrderConfirmationJSON : ExchangeResponse<Order>
     {
-
         [JsonProperty("price")]
         public string Price { get; set; }
 
@@ -21,8 +19,6 @@ namespace BEx.BitStampSupport
 
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
-
-      
 
         public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -44,6 +40,7 @@ namespace BEx.BitStampSupport
 
             return res;
         }
+
         /*
         public Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {

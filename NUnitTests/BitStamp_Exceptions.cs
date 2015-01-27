@@ -15,6 +15,7 @@ namespace NUnitTests
         }
 
         #region Authorization
+
         [Test]
         public void BitStamp_MissingAPIKey_ExchangeAuthorizationException()
         {
@@ -25,7 +26,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -48,7 +48,6 @@ namespace NUnitTests
                 }
 
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -70,7 +69,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -92,7 +90,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -114,7 +111,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -136,7 +132,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -148,7 +143,7 @@ namespace NUnitTests
             }
         }
 
-        #endregion
+        #endregion Authorization
 
         [Test]
         public void BitStamp_CreateSellOrder_InsufficientFundsException()
@@ -169,7 +164,6 @@ namespace NUnitTests
             {
                 throw new AssertionException("Expected OrderRejectedException");
             }
-
         }
 
         [Test]
@@ -214,7 +208,6 @@ namespace NUnitTests
             catch (Exception)
             {
                 { }
-
             }
         }*/
     }

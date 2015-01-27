@@ -45,7 +45,6 @@ namespace BEx
 
         internal string ExtractMessage(string content)
         {
-
             if (!string.IsNullOrEmpty(content))
             {
                 StringBuilder res = new StringBuilder();
@@ -76,13 +75,11 @@ namespace BEx
                             //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
                         }
                     }
-
                 }
                 catch (Exception)
                 {
                     res.Append(error.ToString());
                 }
-
 
                 return res.ToString();//Regex.Replace(res.ToString(), @"\t|\n|\r", "");
             }
@@ -120,7 +117,6 @@ namespace BEx
                     error = new APIError(errorMessage, BExErrorCode.Authorization);
                 }
 
-
                 if (error == null)
                 {
                     error = new APIError(message, BExErrorCode.Unknown);
@@ -129,20 +125,17 @@ namespace BEx
                 return error;
             }
             else return null;
-
         }
 
         #region Authorization
 
         protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
-
             /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
 
                 Example (Python):
                 message = nonce + client_id + api_key
                 signature = hmac.new(API_SECRET, msg=message, digestmod=hashlib.sha256).hexdigest().upper()*/
-
 
             long _nonce = Nonce;
 
@@ -159,7 +152,6 @@ namespace BEx
             request.AddParameter("key", Uri.EscapeUriString(APIKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
-
         }
 
         public static byte[] SignHMACSHA256(String key, byte[] data)
@@ -168,7 +160,7 @@ namespace BEx
             return hashMaker.ComputeHash(data);
         }
 
-        #endregion
+        #endregion Authorization
 
         #region Command Execution
 
@@ -220,7 +212,6 @@ namespace BEx
             return (bool)SendCommandToDispatcher<bool, bool>(command, Currency.BTC, Currency.USD, parameters);
         }
 
-        
         protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
         {
             return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
@@ -245,7 +236,7 @@ namespace BEx
         {
             return (PendingWithdrawals)SendCommandToDispatcher<List<BitStampPendingWithdrawalJSON>, PendingWithdrawals>(command, Currency.BTC, Currency.USD);
         }
-        
-        #endregion
+
+        #endregion Command Execution
     }
 }

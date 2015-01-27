@@ -5,7 +5,6 @@ namespace BEx.BitFinexSupport
 {
     public class BitfinexTickJSON : ExchangeResponse<Tick>
     {
-
         [JsonProperty("mid")]
         public string Mid { get; set; }
 
@@ -34,7 +33,6 @@ namespace BEx.BitFinexSupport
         {
             Tick res = new Tick();
 
-
             res.Ask = Convert.ToDecimal(Ask);
             res.BaseCurrency = baseCurrency;
             res.Bid = Convert.ToDecimal(Bid);
@@ -46,11 +44,11 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
+
         /*
         public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick();
-
 
             res.Ask = Convert.ToDecimal(Ask);
             res.BaseCurrency = baseCurrency;

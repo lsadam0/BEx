@@ -6,9 +6,9 @@ namespace BEx
     {
         public List<AccountBalance> Balances;
 
-        internal AccountBalances() : base()
+        internal AccountBalances()
+            : base()
         {
-
         }
 
         internal AccountBalances(List<AccountBalance> balances)

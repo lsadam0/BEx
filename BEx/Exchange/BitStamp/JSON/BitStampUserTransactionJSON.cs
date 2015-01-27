@@ -3,10 +3,8 @@ using System;
 
 namespace BEx.BitStampSupport
 {
-
     public class BitStampUserTransactionJSON : ExchangeResponse<UserTransaction>
     {
-
         [JsonProperty("usd")]
         public string Usd { get; set; }
 
@@ -59,7 +57,5 @@ namespace BEx.BitStampSupport
 
             return res;
         }
-
     }
-
 }

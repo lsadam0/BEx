@@ -1,10 +1,8 @@
-﻿
-using BEx;
+﻿using BEx;
 using NUnit.Framework;
 
 namespace NUnitTests
 {
-    
     [TestFixture]
     [Category("BitStamp.Unauthenticated")]
     public class BitStamp_Unauthenticated_Commands : VerifyExchangeBase
@@ -26,7 +24,6 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetOrderBook_BTCUSD()
         {
-
             OrderBook o = toTest.GetOrderBook();
 
             VerifyOrderBook(o);
@@ -35,11 +32,9 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetTransactions_BTCUSD()
         {
-
             Transactions trans = toTest.GetTransactions();
 
             Assert.IsNotNull(trans);
         }
-
     }
 }

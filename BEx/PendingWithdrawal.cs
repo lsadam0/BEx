@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace BEx
 {
     public class PendingWithdrawal : APIResult
@@ -11,7 +10,6 @@ namespace BEx
             set;
         }
 
-        
         public DateTime RequestDate
         {
             get;
@@ -48,9 +46,9 @@ namespace BEx
             set;
         }
 
-        internal PendingWithdrawal() : base()
+        internal PendingWithdrawal()
+            : base()
         {
-
         }
     }
 

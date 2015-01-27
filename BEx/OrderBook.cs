@@ -35,11 +35,11 @@ namespace BEx
             set;
         }
 
-        internal OrderBook() : base()
+        internal OrderBook()
+            : base()
         {
             BidsByPrice = new SortedDictionary<decimal, decimal>();
             AsksByPrice = new SortedDictionary<decimal, decimal>();
         }
-
     }
 }

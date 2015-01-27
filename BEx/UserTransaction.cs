@@ -4,7 +4,6 @@ namespace BEx
 {
     public class UserTransaction : APIResult
     {
-
         public int ID
         {
             get;
@@ -47,12 +46,11 @@ namespace BEx
             set;
         }
 
-        public UserTransaction() : base()
+        public UserTransaction()
+            : base()
         {
-
         }
     }
-
 
     public enum UserTransactionType
     {

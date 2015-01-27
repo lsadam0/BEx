@@ -7,6 +7,7 @@ namespace BEx
     //{
     //}
 
+    [Serializable]
     public class InsufficientFundsException : Exception, ISerializable
     {
         public InsufficientFundsException()
@@ -21,14 +22,14 @@ namespace BEx
         public InsufficientFundsException(string message, Exception inner)
             : base(message, inner)
         {
-
         }
 
-        protected InsufficientFundsException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected InsufficientFundsException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-
         }
     }
+
     /*
     public class NewException : BaseException, ISerializable
 {

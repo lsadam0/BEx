@@ -11,7 +11,6 @@ namespace NUnitTests
             : base(typeof(BEx.Bitfinex))
         {
             toTest = new Bitfinex(base.APIKey, base.Secret);
-
         }
 
         #region Account Balance Tests
@@ -22,10 +21,9 @@ namespace NUnitTests
             AccountBalances a = toTest.GetAccountBalance();
 
             VerifyAccountBalance(a);
-
         }
 
-        #endregion
+        #endregion Account Balance Tests
 
         #region Deposit Address
 
@@ -33,7 +31,6 @@ namespace NUnitTests
         public void BitFinex_GetBTCDepositAddress()
         {
             DepositAddress res = toTest.GetDepositAddress(Currency.BTC);
-
 
             VerifyDepositAddress(res);
         }
@@ -43,7 +40,6 @@ namespace NUnitTests
         {
             DepositAddress res = toTest.GetDepositAddress(Currency.LTC);
 
-
             VerifyDepositAddress(res);
         }
 
@@ -52,32 +48,27 @@ namespace NUnitTests
         {
             DepositAddress res = toTest.GetDepositAddress(Currency.DRK);
 
-
             VerifyDepositAddress(res);
         }
 
-        #endregion
+        #endregion Deposit Address
 
         [Test]
         public void BitFinex_GetUserTransactions()
         {
-
             UserTransactions t = toTest.GetUserTransactions(Currency.BTC, Currency.USD);
 
             VerifyUserTransactions(t);
         }
-
 
         #region Orders
 
         [Test]
         public void BitFinex_CreateSellOrder()
         {
-
             Order o = toTest.CreateSellOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
 
             VerifySellOrder(o);
-
         }
 
         [Test]
@@ -95,7 +86,7 @@ namespace NUnitTests
 
             VerifyOpenOrders(o);
         }
-        #endregion
 
+        #endregion Orders
     }
 }

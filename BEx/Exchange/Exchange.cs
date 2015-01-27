@@ -5,12 +5,12 @@ using System.Xml.Linq;
 
 namespace BEx
 {
-
     public delegate string GetSignature();
 
     public abstract class Exchange : IDisposable
     {
         #region Vars
+
         /// <summary>
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
         /// </summary>
@@ -30,7 +30,6 @@ namespace BEx
 
         public Uri BaseURI
         {
-
             get;
             set;
         }
@@ -52,7 +51,6 @@ namespace BEx
             get;
             set;
         }
-
 
         public string ClientID
         {
@@ -77,7 +75,8 @@ namespace BEx
                 return DateTime.Now.Ticks;
             }
         }
-        #endregion
+
+        #endregion Vars
 
         protected Exchange(string configFile)
         {
@@ -100,6 +99,7 @@ namespace BEx
         }
 
         #region Command Execution
+
         /// <summary>
         /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
         /// </summary>
@@ -121,7 +121,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Command Execution
 
         #region API Commands
 
@@ -144,8 +144,7 @@ namespace BEx
             return res;
         }
 
-
-        #endregion
+        #endregion GetOrderBook
 
         #region GetTick
 
@@ -153,7 +152,6 @@ namespace BEx
 
         public Tick GetTick()
         {
-
             return GetTick(Currency.BTC, Currency.USD);
         }
 
@@ -166,7 +164,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion GetTick
 
         #region GetTransactions
 
@@ -186,7 +184,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion GetTransactions
 
         #region Account Balance
 
@@ -206,7 +204,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Account Balance
 
         #region Buy Limit Order
 
@@ -227,7 +225,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Buy Limit Order
 
         #region Sell Limit Order
 
@@ -245,7 +243,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Sell Limit Order
 
         #region Open Orders
 
@@ -263,9 +261,9 @@ namespace BEx
             res = ExecuteGetOpenOrdersCommand(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
 
             return res;
-
         }
-        #endregion
+
+        #endregion Open Orders
 
         #region User Transactions
 
@@ -285,7 +283,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion User Transactions
 
         #region Cancel Order
 
@@ -306,8 +304,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
-
+        #endregion Cancel Order
 
         #region Deposit Address
 
@@ -329,7 +326,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Deposit Address
 
         #region Withdraw
 
@@ -344,7 +341,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Withdraw
 
         #region Pending Deposits
 
@@ -360,7 +357,7 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Pending Deposits
 
         #region Pending Withdrawals
 
@@ -375,9 +372,9 @@ namespace BEx
             return res;
         }
 
-        #endregion
+        #endregion Pending Withdrawals
 
-        #endregion
+        #endregion API Commands
 
         protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
@@ -389,9 +386,9 @@ namespace BEx
         protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
 
         #region Dispose
+
         public void Dispose()
         {
-
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -400,13 +397,11 @@ namespace BEx
         {
             if (disposing)
             {
-
                 //
             }
         }
 
-
-        #endregion
+        #endregion Dispose
 
         #region Load Exchange from XML
 
@@ -419,7 +414,6 @@ namespace BEx
                 APICommand commandToLoad = new APICommand(command);
 
                 APICommandCollection.Add(commandToLoad.ID, commandToLoad);
-
             }
         }
 
@@ -439,9 +433,6 @@ namespace BEx
             LoadSupportedPairs(configFile);
 
             LoadCommands(configFile);
-
-
-
         }
 
         private void LoadSupportedPairs(XElement configFile)
@@ -473,9 +464,9 @@ namespace BEx
                         SupportedPairs[bs].Add(cs);
                     }
                 }
-
             }
         }
-        #endregion
+
+        #endregion Load Exchange from XML
     }
 }

@@ -1,13 +1,10 @@
 ﻿using System;
 
-
-
 namespace BEx
 {
     [Serializable]
     public class APIError : APIResult
     {
-
         public BExErrorCode ErrorCode
         {
             get;
@@ -29,7 +26,6 @@ namespace BEx
         public APIError()
             : base()
         {
-
         }
 
         public APIError(string message, BExErrorCode code)
@@ -37,7 +33,6 @@ namespace BEx
         {
             Message = message;
             ErrorCode = code;
-
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace BEx
 {
+    [Serializable]
     public class WithdrawalRejectedException : Exception, ISerializable
     {
         public WithdrawalRejectedException()
@@ -17,13 +18,11 @@ namespace BEx
         public WithdrawalRejectedException(string message, Exception inner)
             : base(message, inner)
         {
-
         }
 
         protected WithdrawalRejectedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-
         }
     }
 }

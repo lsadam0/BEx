@@ -1,11 +1,9 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace BEx.BitFinexSupport
 {
     public class BitFinexUserTransactionJSON : ExchangeResponse<UserTransaction>
     {
-
         [JsonProperty("price")]
         public string Price { get; set; }
 
@@ -38,11 +36,9 @@ namespace BEx.BitFinexSupport
             u.Type = UserTransactionType.Trade;
             u.OrderID = Tid;
 
-
             return u;
         }
 
-        
         /*
         public UserTransaction ToUserTransaction()
         {
@@ -52,9 +48,7 @@ namespace BEx.BitFinexSupport
             u.Type = UserTransactionType.Trade;
             u.OrderID = Tid;
 
-
             return u;
-
         }
 
         public static UserTransactions ConvertListToStandard(List<BitFinexUserTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)

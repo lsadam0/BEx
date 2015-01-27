@@ -10,7 +10,8 @@ namespace BEx
             set;
         }
 
-        internal PendingDeposits() : base()
+        internal PendingDeposits()
+            : base()
         {
             Deposits = new List<PendingDeposit>();
         }
@@ -19,9 +20,6 @@ namespace BEx
             : base()
         {
             Deposits = deposits;
-
         }
-
-
     }
 }

@@ -5,16 +5,13 @@ using System.Xml.Linq;
 
 namespace BEx
 {
-
-
     public delegate string CurrencyFormatterDelegate(string currency);
 
     [Serializable]
     public class APICommand
     {
-
         public CurrencyFormatterDelegate CurrencyFormatter;
-        
+
         public string ID
         {
             get;
@@ -41,7 +38,6 @@ namespace BEx
 
         public Dictionary<string, string> Parameters
         {
-
             get;
             set;
         }
@@ -60,10 +56,8 @@ namespace BEx
 
         private string GetCurrencyFormat(string currency)
         {
-
             if (CurrencyFormatter != null)
                 return CurrencyFormatter(currency);
-
             else return currency;
         }
 
@@ -78,7 +72,6 @@ namespace BEx
 
             foreach (XElement c in commandToLoad.Elements())
             {
-
                 if (c.Name == "Method")
                 {
                     if (c.Value == "GET")
@@ -106,9 +99,6 @@ namespace BEx
                 {
                     ReturnsValueType = Convert.ToBoolean(c.Value);
                 }
-
-                
-
             }
 
             ID = commandToLoad.Attribute("ID").Value;
@@ -132,10 +122,6 @@ namespace BEx
                     Parameters.Add(id, defaultValue ?? "");
                 }
             }
-
         }
-
-
-
     }
 }

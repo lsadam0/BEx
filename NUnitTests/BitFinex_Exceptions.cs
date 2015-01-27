@@ -15,6 +15,7 @@ namespace NUnitTests
         }
 
         #region Authorization
+
         [Test]
         public void Bitfinex_MissingAPIKey_ExchangeAuthorizationException()
         {
@@ -25,7 +26,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -48,7 +48,6 @@ namespace NUnitTests
                 }
 
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -70,7 +69,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -92,7 +90,6 @@ namespace NUnitTests
                     Order res = bt.CreateSellOrder(1200m, 99000.00m);
                 }
                 throw new AssertionException("Expected an exception, but execution was successful");
-
             }
             catch (ExchangeAuthorizationException aex)
             {
@@ -104,8 +101,7 @@ namespace NUnitTests
             }
         }
 
-
-        #endregion
+        #endregion Authorization
 
         [Test]
         public void Bitfinex_CreateSellOrder_InsufficientFundsException()
@@ -126,7 +122,6 @@ namespace NUnitTests
             {
                 throw new AssertionException("Expected OrderRejectedException");
             }
-
         }
 
         [Test]
@@ -158,7 +153,6 @@ namespace NUnitTests
             // bad address
             try
             {
-                
                 using (Bitfinex bt = new Bitfinex(base.APIKey, base.Secret))
                 {
                     object res = bt.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
@@ -172,7 +166,6 @@ namespace NUnitTests
             catch (Exception)
             {
                 { }
-
             }
         }*/
     }

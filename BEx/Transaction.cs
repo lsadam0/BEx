@@ -1,11 +1,9 @@
 ﻿using System;
 
-
 namespace BEx
 {
     public class Transaction : APIResult
     {
-
         public DateTime TimeStamp
         {
             get;
@@ -30,11 +28,9 @@ namespace BEx
             set;
         }
 
-        internal Transaction() : base()
+        internal Transaction()
+            : base()
         {
-
         }
-
-
     }
 }

@@ -4,10 +4,8 @@ using System;
 
 namespace BEx.BitStampSupport
 {
-
     public class BitstampOrderBookJSON : ExchangeResponse<OrderBook>
     {
-
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
@@ -24,7 +22,6 @@ namespace BEx.BitStampSupport
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
 
-
             for (int x = 0; x < Bids.Length; ++x)
             {
                 string[] values = Bids[x];
@@ -33,9 +30,7 @@ namespace BEx.BitStampSupport
                 Decimal amount = Convert.ToDecimal(values[1]);
 
                 res.BidsByPrice.Add(price, amount);
-
             }
-
 
             for (int x = 0; x < Asks.Length; ++x)
             {
@@ -45,14 +40,12 @@ namespace BEx.BitStampSupport
                 Decimal amount = Convert.ToDecimal(values[1]);
 
                 res.AsksByPrice.Add(price, amount);
-
-
             }
-
 
             res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp));
             return res;
         }
+
         /*
         public OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -61,7 +54,6 @@ namespace BEx.BitStampSupport
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
 
-
             for (int x = 0; x < Bids.Length; ++x)
             {
                 string[] values = Bids[x];
@@ -70,9 +62,7 @@ namespace BEx.BitStampSupport
                 Decimal amount = Convert.ToDecimal(values[1]);
 
                 res.BidsByPrice.Add(price, amount);
-
             }
-
 
             for (int x = 0; x < Asks.Length; ++x)
             {
@@ -82,17 +72,10 @@ namespace BEx.BitStampSupport
                 Decimal amount = Convert.ToDecimal(values[1]);
 
                 res.AsksByPrice.Add(price, amount);
-
-
             }
-
 
             res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp));
             return res;
-
-
         }*/
     }
-
-
 }

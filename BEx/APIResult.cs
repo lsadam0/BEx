@@ -10,15 +10,9 @@ namespace BEx
             set;
         }
 
-
         internal APIResult()
         {
             Timestamp = DateTime.Now;
-
         }
-
-
-
     }
-
 }

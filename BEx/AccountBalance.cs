@@ -4,14 +4,11 @@ namespace BEx
 {
     public class AccountBalance : APIResult
     {
-
         public Dictionary<Currency, decimal> Available
         {
             get;
             set;
         }
-
-
 
         public Dictionary<Currency, decimal> Balance
         {
@@ -19,14 +16,12 @@ namespace BEx
             set;
         }
 
-        internal AccountBalance() : base()
+        internal AccountBalance()
+            : base()
         {
             Balance = new Dictionary<Currency, decimal>();
             Available = new Dictionary<Currency, decimal>();
             //Reserved = new Dictionary<Currency, decimal>();
-
         }
-
-        
     }
 }

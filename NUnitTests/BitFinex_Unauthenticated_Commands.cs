@@ -3,16 +3,14 @@ using NUnit.Framework;
 
 namespace NUnitTests
 {
-    
     [TestFixture]
     [Category("BitFinex.Unauthenticated")]
     public class BitFinex_Unauthenticated_Commands : VerifyExchangeBase
     {
-
-        public BitFinex_Unauthenticated_Commands() : base(typeof(BEx.Bitfinex))
+        public BitFinex_Unauthenticated_Commands()
+            : base(typeof(BEx.Bitfinex))
         {
             toTest = new Bitfinex(base.APIKey, base.Secret);
-
         }
 
         [Test]
@@ -23,7 +21,6 @@ namespace NUnitTests
 
             Tick t = toTest.GetTick();
 
-            
             VerifyTick(t, baseC, counterC);
         }
 
@@ -70,15 +67,15 @@ namespace NUnitTests
 
             VerifyTick(t, baseC, counterC);
         }
-        
+
         #region OrderBook Tests
+
         [Test]
         public void BitFinex_GetOrderBook_BTCUSD()
         {
             OrderBook o = toTest.GetOrderBook();
 
             VerifyOrderBook(o);
-
         }
 
         [Test]
@@ -97,7 +94,6 @@ namespace NUnitTests
             VerifyOrderBook(o);
         }
 
-
         [Test]
         public void BitFinex_GetOrderBook_LTCBTC()
         {
@@ -105,6 +101,7 @@ namespace NUnitTests
 
             VerifyOrderBook(o);
         }
+
         [Test]
         public void BitFinex_GetOrderBook_LTCUSD()
         {
@@ -113,16 +110,16 @@ namespace NUnitTests
             VerifyOrderBook(o);
         }
 
-        #endregion
-        
+        #endregion OrderBook Tests
+
         #region Transaction Tests
+
         [Test]
         public void BitFinex_GetTransactions_BTCUSD()
         {
             Transactions t = toTest.GetTransactions();
 
             VerifyTransactions(t);
-
         }
 
         [Test]
@@ -132,7 +129,6 @@ namespace NUnitTests
 
             VerifyTransactions(t);
         }
-
 
         [Test]
         public void BitFinex_GetTransactions_DRKUSD()
@@ -158,9 +154,6 @@ namespace NUnitTests
             VerifyTransactions(t);
         }
 
-        #endregion
-
-        
-
+        #endregion Transaction Tests
     }
 }

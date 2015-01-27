@@ -5,7 +5,6 @@ namespace BEx.BitStampSupport
 {
     public class BitStampOpenOrdersJSON : ExchangeResponse<Order>
     {
-
         [JsonProperty("price")]
         public string Price { get; set; }
 
@@ -38,10 +37,8 @@ namespace BEx.BitStampSupport
 
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
-        
+
             return res;
         }
-
     }
 }
-

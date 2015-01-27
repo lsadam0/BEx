@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace BEx
 {
-
     public delegate void GetSignatureDelegate(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
 
     public class RequestFactory
@@ -17,7 +16,6 @@ namespace BEx
 
         public RestRequest GetRequest(APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
-
             RestRequest result = CreateRequest(command, baseCurrency, counterCurrency);
 
             if (parameters != null && parameters.Count > 0)
@@ -55,6 +53,5 @@ namespace BEx
                 request.AddParameter(param.Key, Uri.EscapeUriString(param.Value.ToString()));
             }
         }
-
     }
 }

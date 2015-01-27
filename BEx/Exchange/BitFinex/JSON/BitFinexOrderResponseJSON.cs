@@ -5,7 +5,6 @@ namespace BEx.BitFinexSupport
 {
     public class BitFinexOrderResponseJSON : ExchangeResponse<Order>
     {
-
         [JsonProperty("id")]
         public int Id { get; set; }
 
@@ -51,7 +50,6 @@ namespace BEx.BitFinexSupport
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-
         public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Order res = new Order();
@@ -64,6 +62,5 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
-
-  }
+    }
 }

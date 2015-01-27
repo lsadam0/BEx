@@ -1,17 +1,12 @@
-﻿
-using Newtonsoft.Json;
-
+﻿using Newtonsoft.Json;
 
 namespace BEx.BitStampSupport
 {
-
-    public class BitStampErrorJSON 
+    public class BitStampErrorJSON
     {
-
         [JsonProperty("error")]
         public string Error { get; set; }
 
-        
         public APIError ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             APIError error = new APIError();
@@ -21,5 +16,4 @@ namespace BEx.BitStampSupport
             return error;
         }
     }
-
 }

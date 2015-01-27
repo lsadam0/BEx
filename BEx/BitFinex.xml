@@ -21,7 +21,7 @@
     <Pair>
       <Base>DRK</Base>
       <Counter>BTC</Counter>
-    </Pair>    
+    </Pair>
   </SupportedPairs>
   <Commands>
     <Command ID="Tick">

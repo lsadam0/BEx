@@ -1,7 +1,4 @@
-﻿
-using NUnit.Framework;
-
-
+﻿using NUnit.Framework;
 
 namespace NUnitTests
 {
@@ -11,9 +8,7 @@ namespace NUnitTests
         [Test]
         public void Scratch_Test()
         {
-         //   BEx.BitStamp bts = new BitStamp();
-
-
+            //   BEx.BitStamp bts = new BitStamp();
         }
     }
 }

@@ -5,7 +5,6 @@ namespace BEx.BitFinexSupport
 {
     public class BitFinexAccountBalanceJSON : ExchangeResponse<AccountBalance>
     {
-
         [JsonProperty("type")]
         public string Type { get; set; }
 
@@ -17,7 +16,6 @@ namespace BEx.BitFinexSupport
 
         [JsonProperty("available")]
         public string Available { get; set; }
-
 
         public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
@@ -34,11 +32,9 @@ namespace BEx.BitFinexSupport
                 }
             }
 
-
             return res;
         }
 
-        
         /*
         public static AccountBalance ConvertListToStandard(List<BitFinexAccountBalanceJSON> balances, Currency baseCurrency, Currency counterCurrency)
         {
