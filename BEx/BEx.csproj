@@ -91,10 +91,6 @@
     <Compile Include="Exchange\BitStamp\JSON\BitstampTransactionsJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampUserTransactionJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampPendingWithdrawalJSON.cs" />
-    <Compile Include="Deprecated\BTCe\JSON\BTCeAccountBalanceJSON.cs" />
-    <Compile Include="Deprecated\BTCe\JSON\BTCeOrderBookJSON.cs" />
-    <Compile Include="Deprecated\BTCe\JSON\BTCeTickJSON.cs" />
-    <Compile Include="Deprecated\BTCe\JSON\BTCeTransactionsJSON.cs" />
     <Compile Include="APIError.cs" />
     <Compile Include="Exchange\ErrorCodes.cs" />
     <Compile Include="Exchange\ExchangeResponse.cs" />
@@ -105,7 +101,6 @@
     <Compile Include="PendingWithdrawals.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
-    <Compile Include="Deprecated\BTCe.cs" />
     <Compile Include="Currency.cs" />
     <Compile Include="Exchange\Exchange.cs" />
     <Compile Include="OrderBook.cs" />
@@ -127,11 +122,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Deprecated\BTCE.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Deprecated\Explanation.txt" />
     <Content Include="NextSteps.txt" />
   </ItemGroup>
   <ItemGroup />

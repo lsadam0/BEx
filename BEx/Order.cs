@@ -39,16 +39,14 @@ namespace BEx
             get;
             set;
         }
-        
-        public Order() : base()
+
+        public Order()
+            : base()
         {
             ID = -1;
         }
 
-        protected override bool CheckSuccessConditions()
-        {
-            return (ID > 0);
-        }
+
     }
 
 

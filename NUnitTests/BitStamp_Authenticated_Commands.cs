@@ -27,7 +27,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_CreateBuyOrder()
         {
-            object res = toTest.CreateBuyOrder(100.0m, 100.99m);
+            Order res = toTest.CreateBuyOrder(100.0m, 100.99m);
 
             VerifyBuyOrder(res);
         }
@@ -65,7 +65,7 @@ namespace NUnitTests
 
             Assert.IsTrue(toTest.CancelOrder(toCancel));
 
-            { }
+            
         }
 
         
@@ -74,7 +74,7 @@ namespace NUnitTests
         {
             DepositAddress address = toTest.GetDepositAddress();
 
-            //Assert.IsTrue(!String.IsNullOrEmpty(address));
+            VerifyDepositAddress(address);
 
         }
 
@@ -84,6 +84,7 @@ namespace NUnitTests
             PendingDeposits d = toTest.GetPendingDeposits();
 
             Assert.IsNotNull(d);
+            
         }
 
         [Test]

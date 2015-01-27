@@ -35,7 +35,7 @@ namespace NUnitTests
             DepositAddress res = toTest.GetDepositAddress(Currency.BTC);
 
 
-            { }
+            VerifyDepositAddress(res);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace NUnitTests
             DepositAddress res = toTest.GetDepositAddress(Currency.LTC);
 
 
-            { }
+            VerifyDepositAddress(res);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace NUnitTests
             DepositAddress res = toTest.GetDepositAddress(Currency.DRK);
 
 
-            { }
+            VerifyDepositAddress(res);
         }
 
         #endregion

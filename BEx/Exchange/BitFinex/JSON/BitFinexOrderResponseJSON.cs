@@ -62,11 +62,6 @@ namespace BEx.BitFinexSupport
             res.ID = Id;
             res.Price = Convert.ToDecimal(Price);
 
-            if (IsLive)
-                res.Status = ExecutionStatus.Pending;
-            else
-                res.Status = ExecutionStatus.Failed;
-
             return res;
         }
 

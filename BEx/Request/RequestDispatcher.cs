@@ -76,6 +76,7 @@ namespace BEx
 
             if (response.ErrorException != null || response.StatusCode != HttpStatusCode.OK || responseIsError)
             {
+
                 return HandlerErrorResponse(response, request, commandReference, response.ErrorException);
             }
             else
