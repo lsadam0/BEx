@@ -298,7 +298,7 @@ namespace BEx
         {
             bool res;
 
-            res = ExecuteCancelOrderCommand(APICommandCollection["CancelOrder"], id);
+            res = (bool)ExecuteCancelOrderCommand(APICommandCollection["CancelOrder"], id);
             //res = (bool)SendCommandToDispatcher<B>(APICommandCollection["CancelOrder"], Currency.BTC, Currency.USD);
 
             return res;

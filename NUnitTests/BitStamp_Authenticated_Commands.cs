@@ -24,17 +24,13 @@ namespace NUnitTests
         [Test]
         public void BitStamp_CreateBuyOrder()
         {
-            Order res = toTest.CreateBuyOrder(100.0m, 100.99m);
-
-            VerifyBuyOrder(res);
+            VerifyBuyOrder();
         }
 
         [Test]
         public void BitStamp_CreateSellOrder()
         {
-            Order res = toTest.CreateSellOrder(1000m, 1200.00m);
-
-            VerifySellOrder(res);
+            VerifySellOrder();
         }
 
         [Test]
@@ -53,15 +49,6 @@ namespace NUnitTests
             VerifyUserTransactions(res);
         }
 
-        [Test]
-        public void BitStamp_CancelOrder()
-        {
-            OpenOrders orders = toTest.GetOpenOrders();
-
-            Order toCancel = orders.Orders[0];
-
-            Assert.IsTrue(toTest.CancelOrder(toCancel));
-        }
 
         [Test]
         public void BitStamp_GetDepositAddress()

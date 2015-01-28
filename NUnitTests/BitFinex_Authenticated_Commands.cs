@@ -66,9 +66,25 @@ namespace NUnitTests
         [Test]
         public void BitFinex_CreateSellOrder()
         {
-            Order o = toTest.CreateSellOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
+            Order o = toTest.CreateSellOrder(Currency.BTC, Currency.USD, 0.02m, 10000.00m);
 
-            VerifySellOrder(o);
+            VerifySellOrder();
+
+            OpenOrders open = toTest.GetOpenOrders();
+
+            Assert.IsTrue(open.Orders.Count > 0);
+
+            Assert.IsNotNull(open.Orders.Find(x => x.ID == o.ID));
+
+            bool cancelled = toTest.CancelOrder(o.ID);
+
+            Assert.IsTrue(cancelled);
+
+            open = toTest.GetOpenOrders();
+
+            Assert.IsTrue(open.Orders.Count == 0);
+
+
         }
 
         [Test]
@@ -76,7 +92,7 @@ namespace NUnitTests
         {
             Order o = toTest.CreateBuyOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
 
-            VerifyBuyOrder(o);
+            VerifyBuyOrder();
         }
 
         [Test]

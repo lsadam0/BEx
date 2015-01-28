@@ -3,12 +3,16 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace NUnitTests
 {
     public class VerifyExchangeBase
     {
         public Exchange toTest;
+
+        private object orderLock;
+
 
         protected string APIKey
         {
@@ -30,6 +34,8 @@ namespace NUnitTests
 
         public VerifyExchangeBase(Type exchangeType)
         {
+            orderLock = new object();
+
             GetAPIKeys(exchangeType);
         }
 
@@ -140,34 +146,93 @@ namespace NUnitTests
             Assert.IsTrue(toVerify.Balances != null);
             Assert.IsTrue(toVerify.Balances.Count > 0);
 
+            // Assert.IsTrue(toVerify.Balances[(int)Currency.BTC] > 0m);
+
             //foreach (AccountBalance balance in toVerify.Balances)
             //{
             //  Assert.IsTrue(balance.Timestamp < DateTime.Now);
             //}
         }
 
-        protected void VerifyBuyOrder(Order toVerify)
+        protected void VerifyBuyOrder()
         {
             ThrottleTestVelocity();
 
-            Assert.IsTrue(toVerify.Type == OrderType.Buy);
-            Assert.IsTrue(toVerify.Amount > 0.0m);
-            Assert.IsTrue(toVerify.ID > 0);
-            Assert.IsTrue(toVerify.Price > 0.0m);
+            lock (orderLock)
+            {
 
-            Assert.IsNotNull(toVerify);
+                Debug("Begin Buy Order Test");
+                Order toVerify = toTest.CreateBuyOrder(1m, 5m);
+
+                Assert.IsTrue(toVerify.Type == OrderType.Buy);
+                Assert.IsTrue(toVerify.Amount > 0.0m);
+                Assert.IsTrue(toVerify.ID > 0);
+                Assert.IsTrue(toVerify.Price > 0.0m);
+
+                Assert.IsNotNull(toVerify);
+
+                OpenOrders open = toTest.GetOpenOrders();
+
+                Assert.IsTrue(open.Orders.Count > 0);
+
+                Assert.IsNotNull(open.Orders.Find(x => x.ID == toVerify.ID));
+
+
+                Debug(string.Format("Cancelling Buy Order {0}", toVerify.ID));
+                bool cancelled = toTest.CancelOrder(toVerify.ID);
+
+                Assert.IsTrue(cancelled);
+
+                Debug(string.Format("Cancelled Sell Order {0}", toVerify.ID));
+
+                open = toTest.GetOpenOrders();
+
+                Assert.IsTrue(open.Orders.Count == 0);
+            }
         }
 
-        protected void VerifySellOrder(Order toVerify)
+        private void Debug(string message)
+        {
+            System.Diagnostics.Debug.WriteLine("{0}: {1}", this.GetType().ToString(), message);
+
+        }
+
+        protected void VerifySellOrder()
         {
             ThrottleTestVelocity();
 
-            Assert.IsTrue(toVerify.Type == OrderType.Sell);
-            Assert.IsTrue(toVerify.Amount > 0.0m);
-            Assert.IsTrue(toVerify.ID > 0);
-            Assert.IsTrue(toVerify.Price > 0.0m);
+            lock (orderLock)
+            {
+                Debug("Begin Sell Order");
+                Order toVerify = toTest.CreateSellOrder(0.02m, 10000m);
 
-            Assert.IsNotNull(toVerify);
+                Assert.IsTrue(toVerify.Type == OrderType.Sell);
+                Assert.IsTrue(toVerify.Amount > 0.0m);
+                Assert.IsTrue(toVerify.ID > 0);
+                Assert.IsTrue(toVerify.Price > 0.0m);
+
+                Assert.IsNotNull(toVerify);
+
+                OpenOrders open = toTest.GetOpenOrders();
+
+                Assert.IsTrue(open.Orders.Count > 0);
+
+                Assert.IsNotNull(open.Orders.Find(x => x.ID == toVerify.ID));
+
+
+                Debug(string.Format("Cancelling Sell Order {0}", toVerify.ID));
+                bool cancelled = toTest.CancelOrder(toVerify.ID);
+
+                Assert.IsTrue(cancelled);
+
+                Debug(string.Format("Cancelled Sell Order {0}", toVerify.ID));
+
+                open = toTest.GetOpenOrders();
+
+                Debug("Checking Open Orders");
+                Assert.IsTrue(open.Orders.Count == 0);
+            }
+
         }
 
         protected void VerifyOpenOrders(OpenOrders toVerify)

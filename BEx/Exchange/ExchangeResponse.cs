@@ -19,7 +19,6 @@ namespace BEx
 
                 if (iteration != null)
                     res.Add((R)iteration);
-                // res.Add((R)conversionMethod.Invoke(response, new object[] { baseCurrency, counterCurrency }));
             }
 
             return res;

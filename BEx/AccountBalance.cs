@@ -21,7 +21,6 @@ namespace BEx
         {
             Balance = new Dictionary<Currency, decimal>();
             Available = new Dictionary<Currency, decimal>();
-            //Reserved = new Dictionary<Currency, decimal>();
         }
     }
 }
