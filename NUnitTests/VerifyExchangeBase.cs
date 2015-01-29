@@ -13,6 +13,7 @@ namespace NUnitTests
 
         private object orderLock;
 
+        public static object testVelocityLock = new object();
 
         protected string APIKey
         {
@@ -67,80 +68,109 @@ namespace NUnitTests
                 ClientID = exchangeElement.Element("ClientID").Value;
         }
 
-        public static object testVelocityLock = new object();
+        #region Verification Methods
 
-        /// <summary>
-        /// Exchanges ban API access for those that make excessive requests,
-        /// in order to avoid the banhammer let's slow down the pace of testing
-        /// so that at most we make one request every 2 seconds.
-        /// </summary>
-        protected void ThrottleTestVelocity()
+        protected void VerifyTick()
         {
-            lock (testVelocityLock)
+            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
             {
-                new System.Threading.ManualResetEvent(false).WaitOne(3000);
+                Currency baseCurrency = pairSet.Key;
+
+                foreach (Currency counterCurrency in pairSet.Value)
+                {
+                    ThrottleTestVelocity();
+
+                    Debug(string.Format("Verifying Tick for {0}/{1}", baseCurrency, counterCurrency));
+
+                    Tick toVerify = toTest.GetTick(baseCurrency, counterCurrency);
+
+                    Assert.IsNotNull(toVerify);
+
+                    Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
+                    Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
+                    Assert.IsTrue(toVerify.Ask > 0.0m);
+                    Assert.IsTrue(toVerify.Bid > 0.0m);
+                    Assert.IsTrue(toVerify.Last > 0.0m);
+                    Assert.IsTrue(toVerify.High > 0.0m);
+                    Assert.IsTrue(toVerify.Low > 0.0m);
+                    Assert.IsTrue(toVerify.Volume > 0.0m);
+
+                    Debug(toVerify.ToString());
+                }
             }
         }
 
-        protected void VerifyTick(Tick toVerify, Currency baseC, Currency counterC)
+        protected void VerifyOrderBook()
         {
-            ThrottleTestVelocity();
-
-            Assert.IsNotNull(toVerify);
-
-            Assert.IsTrue(toVerify.BaseCurrency == baseC);
-            Assert.IsTrue(toVerify.CounterCurrency == counterC);
-            Assert.IsTrue(toVerify.Ask > 0.0m);
-            Assert.IsTrue(toVerify.Bid > 0.0m);
-            Assert.IsTrue(toVerify.Last > 0.0m);
-            Assert.IsTrue(toVerify.High > 0.0m);
-            Assert.IsTrue(toVerify.Low > 0.0m);
-            Assert.IsTrue(toVerify.Volume > 0.0m);
-        }
-
-        protected void VerifyOrderBook(OrderBook toVerify)
-        {
-            ThrottleTestVelocity();
-
-            Assert.IsNotNull(toVerify);
-
-            Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
-            Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
-
-            foreach (KeyValuePair<decimal, decimal> order in toVerify.BidsByPrice)
+            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
             {
-                Assert.IsTrue(order.Key >= 0.0m);
-                Assert.IsTrue(order.Value > 0.0m);
-            }
+                Currency baseCurrency = pairSet.Key;
 
-            foreach (KeyValuePair<decimal, decimal> order in toVerify.AsksByPrice)
-            {
-                Assert.IsTrue(order.Key >= 0.0m);
-                Assert.IsTrue(order.Value > 0.0m);
-            }
-        }
+                foreach (Currency counterCurrency in pairSet.Value)
+                {
+                    ThrottleTestVelocity();
 
-        protected void VerifyTransactions(Transactions toVerify)
-        {
-            ThrottleTestVelocity();
+                    Debug(string.Format("Verifying OrderBook for {0}/{1}", baseCurrency, counterCurrency));
 
-            Assert.IsNotNull(toVerify);
+                    OrderBook toVerify = toTest.GetOrderBook(baseCurrency, counterCurrency);
+                    Assert.IsNotNull(toVerify);
 
 
-            Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
+                    Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
+                    Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
+                    Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
+                    Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
 
-            foreach (Transaction t in toVerify.TransactionsCollection)
-            {
-                Assert.IsTrue(t.Amount > 0.0m);
-                Assert.IsTrue(t.Price > 0.0m);
-                Assert.IsTrue(t.TransactionID > 0);
+                    foreach (KeyValuePair<decimal, decimal> order in toVerify.BidsByPrice)
+                    {
+                        Assert.IsTrue(order.Key >= 0.0m);
+                        Assert.IsTrue(order.Value > 0.0m);
+                    }
+
+                    foreach (KeyValuePair<decimal, decimal> order in toVerify.AsksByPrice)
+                    {
+                        Assert.IsTrue(order.Key >= 0.0m);
+                        Assert.IsTrue(order.Value > 0.0m);
+                    }
+
+                    Debug(toVerify.ToString());
+                }
             }
         }
 
-        protected void VerifyAccountBalance(AccountBalances toVerify)
+        protected void VerifyTransactions()
+        {
+            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
+            {
+                Currency baseCurrency = pairSet.Key;
+
+                foreach (Currency counterCurrency in pairSet.Value)
+                {
+
+                    ThrottleTestVelocity();
+
+                    Transactions toVerify = toTest.GetTransactions(baseCurrency, counterCurrency);
+
+                    Assert.IsNotNull(toVerify);
+                   
+
+                    Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
+
+                    foreach (Transaction t in toVerify.TransactionsCollection)
+                    {
+                        Assert.IsTrue(t.Amount > 0.0m);
+                        Assert.IsTrue(t.Price > 0.0m);
+                        Assert.IsTrue(t.TransactionID > 0);
+                    }
+                }
+            }
+        }
+
+        protected void VerifyAccountBalance()
         {
             ThrottleTestVelocity();
 
+            AccountBalances toVerify = toTest.GetAccountBalance();
             Assert.IsNotNull(toVerify);
 
             Assert.IsTrue(toVerify.Balances != null);
@@ -191,12 +221,6 @@ namespace NUnitTests
             }
         }
 
-        private void Debug(string message)
-        {
-            System.Diagnostics.Debug.WriteLine("{0}: {1}", this.GetType().ToString(), message);
-
-        }
-
         protected void VerifySellOrder()
         {
             ThrottleTestVelocity();
@@ -235,8 +259,11 @@ namespace NUnitTests
 
         }
 
-        protected void VerifyOpenOrders(OpenOrders toVerify)
+        protected void VerifyOpenOrders()
         {
+
+            OpenOrders toVerify = toTest.GetOpenOrders();
+
             Assert.IsNotNull(toVerify);
 
             Assert.IsTrue(toVerify.Orders.Count > 0);
@@ -249,8 +276,10 @@ namespace NUnitTests
             }
         }
 
-        protected void VerifyUserTransactions(UserTransactions toVerify)
+        protected void VerifyUserTransactions()
         {
+
+            UserTransactions toVerify = toTest.GetUserTransactions();
             Assert.IsNotNull(toVerify);
             Assert.IsNotNull(toVerify.UserTrans);
             Assert.IsTrue(toVerify.UserTrans.Count > 0);
@@ -267,11 +296,33 @@ namespace NUnitTests
             Assert.IsNotNull(toVerify);
         }
 
-        protected void VerifyDepositAddress(DepositAddress address)
+        protected void VerifyDepositAddress()
         {
+            DepositAddress address = toTest.GetDepositAddress();
+
             Assert.IsNotNull(address);
 
             Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
+        }
+
+        #endregion
+
+        private void Debug(string message)
+        {
+            System.Diagnostics.Debug.WriteLine("{0}: {1}", this.GetType().ToString(), message);
+        }
+
+        /// <summary>
+        /// Exchanges ban API access for those that make excessive requests,
+        /// in order to avoid the banhammer let's slow down the pace of testing
+        /// so that at most we make one request every 2 seconds.
+        /// </summary>
+        private void ThrottleTestVelocity()
+        {
+            lock (testVelocityLock)
+            {
+                new System.Threading.ManualResetEvent(false).WaitOne(2000);
+            }
         }
     }
 }

@@ -52,6 +52,13 @@ namespace BEx
             set;
         }
 
+        public override string ToString()
+        {
+            string output = "{0}/{1} - Bid: {2} - Ask: {3} - High: {4} - Low: {5} - Volume: {6} - Time: {7}";
+
+            return string.Format(output, BaseCurrency, CounterCurrency, Bid, Ask, High, Low, Volume, Timestamp.ToString());
+        }
+
         internal Tick()
             : base()
         {

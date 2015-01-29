@@ -16,9 +16,7 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetAccountBalance()
         {
-            AccountBalances res = toTest.GetAccountBalance();
-
-            VerifyAccountBalance(res);
+            VerifyAccountBalance();
         }
 
         [Test]
@@ -36,26 +34,22 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetOpenOrders()
         {
-            OpenOrders res = toTest.GetOpenOrders();
-
-            VerifyOpenOrders(res);
+            VerifyOpenOrders();
         }
 
         [Test]
         public void BitStamp_GetUserTransactions()
         {
-            UserTransactions res = toTest.GetUserTransactions();
-
-            VerifyUserTransactions(res);
+           
+            VerifyUserTransactions();
         }
 
 
         [Test]
         public void BitStamp_GetDepositAddress()
         {
-            DepositAddress address = toTest.GetDepositAddress();
-
-            VerifyDepositAddress(address);
+            
+            VerifyDepositAddress();
         }
 
         [Test]

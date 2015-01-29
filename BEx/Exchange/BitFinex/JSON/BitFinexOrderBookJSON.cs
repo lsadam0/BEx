@@ -62,7 +62,7 @@ namespace BEx.BitFinexSupport
                 res.AsksByPrice.Add(key, value);
             }
 
-            res.TimeStamp = DateTime.Now;
+           // res.TimeStamp = DateTime.Now;
 
             return res;
         }

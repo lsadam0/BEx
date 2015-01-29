@@ -17,12 +17,6 @@ namespace BEx
             set;
         }
 
-        public DateTime TimeStamp
-        {
-            get;
-            set;
-        }
-
         public SortedDictionary<Decimal, Decimal> BidsByPrice
         {
             get;
@@ -35,6 +29,12 @@ namespace BEx
             set;
         }
 
+        public override string ToString()
+        {
+            string output = "{0}/{1} - Bids: {2} - Asks: {3}";
+
+            return string.Format(output, BaseCurrency, CounterCurrency, BidsByPrice.Count, AsksByPrice.Count);
+        }
         internal OrderBook()
             : base()
         {

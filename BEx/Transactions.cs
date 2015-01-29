@@ -16,6 +16,7 @@ namespace BEx
             TransactionsCollection = new List<Transaction>();
         }
 
+
         internal Transactions(List<Transaction> transactions)
             : base()
         {

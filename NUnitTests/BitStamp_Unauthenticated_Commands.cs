@@ -14,27 +14,23 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_GetTick_BTCUSD()
+        public void BitStamp_GetTick()
         {
-            Tick t = toTest.GetTick();
 
-            VerifyTick(t, Currency.BTC, Currency.USD);
+            VerifyTick();
         }
 
         [Test]
-        public void BitStamp_GetOrderBook_BTCUSD()
+        public void BitStamp_GetOrderBook()
         {
-            OrderBook o = toTest.GetOrderBook();
 
-            VerifyOrderBook(o);
+            VerifyOrderBook();
         }
 
         [Test]
-        public void BitStamp_GetTransactions_BTCUSD()
+        public void BitStamp_GetTransactions()
         {
-            Transactions trans = toTest.GetTransactions();
-
-            Assert.IsNotNull(trans);
+            VerifyTransactions();
         }
     }
 }
