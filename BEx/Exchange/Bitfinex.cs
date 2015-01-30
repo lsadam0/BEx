@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
+using BEx.Common;
+
 namespace BEx
 {
     public class Bitfinex : Exchange
@@ -179,7 +181,13 @@ namespace BEx
 
         protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency);
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            double timeStamp = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1));
+
+            parameters.Add("timestamp", timeStamp.ToString());
+
+            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)

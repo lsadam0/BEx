@@ -178,7 +178,7 @@ namespace BEx
                 res = (APIResult)Activator.CreateInstance(typeof(E),
                                                             BindingFlags.NonPublic | BindingFlags.Instance,
                                                             null,
-                                                            new object[] { collection },
+                                                            new object[] { collection, baseCurrency, counterCurrency },
                                                             null); // Culture?
             }
             else

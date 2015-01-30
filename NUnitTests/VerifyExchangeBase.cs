@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NUnitTests
 {
@@ -109,12 +110,11 @@ namespace NUnitTests
                 foreach (Currency counterCurrency in pairSet.Value)
                 {
                     ThrottleTestVelocity();
-
+                    
                     Debug(string.Format("Verifying OrderBook for {0}/{1}", baseCurrency, counterCurrency));
 
                     OrderBook toVerify = toTest.GetOrderBook(baseCurrency, counterCurrency);
                     Assert.IsNotNull(toVerify);
-
 
                     Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
                     Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
@@ -149,6 +149,8 @@ namespace NUnitTests
 
                     ThrottleTestVelocity();
 
+                    Debug(string.Format("Verifying Transactions for {0}/{1}", baseCurrency, counterCurrency));
+
                     Transactions toVerify = toTest.GetTransactions(baseCurrency, counterCurrency);
 
                     Assert.IsNotNull(toVerify);
@@ -161,7 +163,17 @@ namespace NUnitTests
                         Assert.IsTrue(t.Amount > 0.0m);
                         Assert.IsTrue(t.Price > 0.0m);
                         Assert.IsTrue(t.TransactionID > 0);
+                  
                     }
+
+
+                    DateTime oldest = toVerify.TransactionsCollection.Min(x => x.TimeStamp);
+                    DateTime newest = toVerify.TransactionsCollection.Max(x => x.TimeStamp);
+
+                    int totalMinutes = (newest - oldest).Minutes;
+                    Assert.IsTrue(totalMinutes < 61);
+
+                    Debug(toVerify.ToString());
                 }
             }
         }

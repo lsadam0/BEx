@@ -39,7 +39,7 @@ namespace BEx.BitStampSupport
             balance.Balance.Add(Currency.USD, Convert.ToDecimal(UsdBalance));
             balance.Balance.Add(Currency.BTC, Convert.ToDecimal(BtcBalance));
 
-            res = new AccountBalances(new List<AccountBalance>() { balance });
+            res = new AccountBalances(new List<AccountBalance>() { balance }, baseCurrency, counterCurrency);
 
             return res;
         }

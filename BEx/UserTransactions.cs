@@ -4,6 +4,18 @@ namespace BEx
 {
     public class UserTransactions : APIResult
     {
+        public Currency BaseCurrency
+        {
+            get;
+            set;
+        }
+
+        public Currency CounterCurrency
+        {
+            get;
+            set;
+        }
+
         public List<UserTransaction> UserTrans
         {
             get;
@@ -16,10 +28,12 @@ namespace BEx
             UserTrans = new List<UserTransaction>();
         }
 
-        internal UserTransactions(List<UserTransaction> transactions)
+        internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency)
             : base()
         {
             UserTrans = transactions;
+            BaseCurrency = baseCurrency;
+            CounterCurrency = counterCurrency;
         }
     }
 }

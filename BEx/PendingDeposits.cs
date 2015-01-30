@@ -16,7 +16,7 @@ namespace BEx
             Deposits = new List<PendingDeposit>();
         }
 
-        internal PendingDeposits(List<PendingDeposit> deposits)
+        internal PendingDeposits(List<PendingDeposit> deposits, Currency baseCurrency, Currency counterCurrency)
             : base()
         {
             Deposits = deposits;

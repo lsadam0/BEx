@@ -11,7 +11,7 @@ namespace BEx
         {
         }
 
-        internal AccountBalances(List<AccountBalance> balances)
+        internal AccountBalances(List<AccountBalance> balances, Currency baseCurrency, Currency counterCurrency)
             : base()
         {
             Balances = balances;

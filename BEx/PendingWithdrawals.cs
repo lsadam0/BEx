@@ -16,7 +16,7 @@ namespace BEx
             Withdrawals = new List<PendingWithdrawal>();
         }
 
-        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals)
+        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals, Currency baseCurrency, Currency counterCurrency)
             : base()
         {
             Withdrawals = withdrawals;

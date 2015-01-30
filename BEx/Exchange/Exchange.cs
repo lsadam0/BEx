@@ -129,11 +129,21 @@ namespace BEx
 
         protected abstract OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
+        /// <summary>
+        /// Get the current BTC/USD Order Book.
+        /// </summary>
+        /// <returns></returns>
         public OrderBook GetOrderBook()
         {
             return GetOrderBook(Currency.BTC, Currency.USD);
         }
 
+        /// <summary>
+        /// Get the current Order Book for the specified Currency pair.
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
         public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
         {
             OrderBook res = null;
@@ -150,11 +160,21 @@ namespace BEx
 
         protected abstract Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
+        /// <summary>
+        /// Get the current BTC/USD Tick.
+        /// </summary>
+        /// <returns></returns>
         public Tick GetTick()
         {
             return GetTick(Currency.BTC, Currency.USD);
         }
 
+        /// <summary>
+        /// Get the current Tick for the specified currency pair.
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
         public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = null;
@@ -170,11 +190,21 @@ namespace BEx
 
         protected abstract Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
+        /// <summary>
+        /// Return BTC/USD general Transactions for past hour.
+        /// </summary>
+        /// <returns></returns>
         public Transactions GetTransactions()
         {
             return GetTransactions(Currency.BTC, Currency.USD);
         }
 
+        /// <summary>
+        /// Return general Transactions from the past hour for the specified currency pair.
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
         public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
             Transactions res = new Transactions();

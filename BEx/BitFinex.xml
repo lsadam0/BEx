@@ -49,6 +49,7 @@
       <args>
         <arg ID="base">BTC</arg>
         <arg ID="counter">USD</arg>
+        <arg ID="timestamp" type="parameter"></arg>
       </args>
     </Command>
     <Command ID="AccountBalance">
