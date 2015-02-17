@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+
+using BEx.Common;
 
 namespace BEx.BitFinexSupport
 {
@@ -30,7 +33,7 @@ namespace BEx.BitFinexSupport
 
         public override UserTransaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            UserTransaction u = new UserTransaction();
+            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp)));
 
             u.ID = Tid;
             u.Type = UserTransactionType.Trade;
@@ -39,27 +42,5 @@ namespace BEx.BitFinexSupport
             return u;
         }
 
-        /*
-        public UserTransaction ToUserTransaction()
-        {
-            UserTransaction u = new UserTransaction();
-
-            u.ID = Tid;
-            u.Type = UserTransactionType.Trade;
-            u.OrderID = Tid;
-
-            return u;
-        }
-
-        public static UserTransactions ConvertListToStandard(List<BitFinexUserTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
-        {
-            UserTransactions res = new UserTransactions();
-
-            foreach (BitFinexUserTransactionJSON t in transactions)
-            {
-                res.UserTrans.Add(t.ToUserTransaction());
-            }
-            return res;
-        }*/
     }
 }

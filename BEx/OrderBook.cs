@@ -35,8 +35,10 @@ namespace BEx
 
             return string.Format(output, BaseCurrency, CounterCurrency, BidsByPrice.Count, AsksByPrice.Count);
         }
-        internal OrderBook()
-            : base()
+
+
+        internal OrderBook(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         {
             BidsByPrice = new SortedDictionary<decimal, decimal>();
             AsksByPrice = new SortedDictionary<decimal, decimal>();

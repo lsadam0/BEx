@@ -26,41 +26,15 @@ namespace BEx.BitFinexSupport
 
         public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Transaction res = new Transaction();
+            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)));
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
             res.TransactionID = Convert.ToInt64(tid);
 
-            res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
-
             return res;
         }
 
-        /*
-        public Transaction ToTransaction()
-        {
-            Transaction res = new Transaction();
-
-            res.Amount = Convert.ToDecimal(amount);
-            res.Price = Convert.ToDecimal(price);
-            res.TransactionID = Convert.ToInt64(tid);
-
-            res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
-
-            return res;
-        }
-
-        public static Transactions ConvertListToStandard(List<BitFinexTransactionJSON> transactions, Currency baseCurrency, Currency counterCurrency)
-        {
-            Transactions res = new Transactions();
-
-            foreach (BitFinexTransactionJSON source in transactions)
-            {
-                res.TransactionsCollection.Add(source.ToTransaction());
-            }
-
-            return res;
-        }*/
+       
     }
 }

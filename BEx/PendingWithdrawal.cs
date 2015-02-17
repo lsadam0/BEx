@@ -46,10 +46,10 @@ namespace BEx
             set;
         }
 
-        internal PendingWithdrawal()
-            : base()
-        {
-        }
+
+        internal PendingWithdrawal(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
     }
 
     public enum WithdrawalMethod

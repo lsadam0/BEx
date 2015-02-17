@@ -187,28 +187,6 @@ namespace NUnitTests
             }
         }
 
-        /*
-        [Test]
-        public void BitStamp_Withdrawal_Exception()
-        {
-            // invalid amount
-            // bad address
-            try
-            {
-                using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, base.ClientID))
-                {
-                    object res = bt.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
-                }
-                { }
-            }
-            catch (WithdrawalRejectedException)
-            {
-                { }
-            }
-            catch (Exception)
-            {
-                { }
-            }
-        }*/
+
     }
 }

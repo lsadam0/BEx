@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace BEx.BitFinexSupport
 {
@@ -18,7 +19,7 @@ namespace BEx.BitFinexSupport
 
         public override DepositAddress ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            DepositAddress res = new DepositAddress();
+            DepositAddress res = new DepositAddress(DateTime.Now);
 
             res.Address = Address;
             res.DepositCurrency = baseCurrency;
@@ -26,15 +27,6 @@ namespace BEx.BitFinexSupport
             return res;
         }
 
-        /*
-        public DepositAddress ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            DepositAddress res = new DepositAddress();
-
-            res.Address = Address;
-            res.DepositCurrency = baseCurrency;
-
-            return res;
-        }*/
+     
     }
 }

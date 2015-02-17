@@ -56,12 +56,11 @@ namespace BEx
         {
             string output = "{0}/{1} - Bid: {2} - Ask: {3} - High: {4} - Low: {5} - Volume: {6} - Time: {7}";
 
-            return string.Format(output, BaseCurrency, CounterCurrency, Bid, Ask, High, Low, Volume, Timestamp.ToString());
+            return string.Format(output, BaseCurrency, CounterCurrency, Bid, Ask, High, Low, Volume, ExchangeTimeStamp.ToString());
         }
 
-        internal Tick()
-            : base()
-        {
-        }
+        internal Tick(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
     }
 }

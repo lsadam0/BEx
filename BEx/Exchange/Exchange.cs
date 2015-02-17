@@ -207,7 +207,7 @@ namespace BEx
         /// <returns></returns>
         public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
-            Transactions res = new Transactions();
+            Transactions res = new Transactions(DateTime.Now);
 
             res = ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
 
@@ -358,6 +358,7 @@ namespace BEx
 
         #endregion Deposit Address
 
+        /*
         #region Withdraw
 
         protected abstract object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount);
@@ -372,6 +373,7 @@ namespace BEx
         }
 
         #endregion Withdraw
+
 
         #region Pending Deposits
 
@@ -403,7 +405,7 @@ namespace BEx
         }
 
         #endregion Pending Withdrawals
-
+        */
         #endregion API Commands
 
         protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)

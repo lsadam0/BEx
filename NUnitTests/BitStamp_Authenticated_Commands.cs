@@ -52,20 +52,6 @@ namespace NUnitTests
             VerifyDepositAddress();
         }
 
-        [Test]
-        public void BitStamp_GetPendingDeposits()
-        {
-            PendingDeposits d = toTest.GetPendingDeposits();
-
-            Assert.IsNotNull(d);
-        }
-
-        [Test]
-        public void BitStamp_GetPendingWithdrawals()
-        {
-            PendingWithdrawals w = toTest.GetPendingWithdrawals();
-
-            Assert.IsNotNull(w);
-        }
+        
     }
 }

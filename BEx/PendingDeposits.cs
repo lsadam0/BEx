@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace BEx
 {
@@ -10,14 +11,9 @@ namespace BEx
             set;
         }
 
-        internal PendingDeposits()
-            : base()
-        {
-            Deposits = new List<PendingDeposit>();
-        }
 
         internal PendingDeposits(List<PendingDeposit> deposits, Currency baseCurrency, Currency counterCurrency)
-            : base()
+            : base(DateTime.Now)
         {
             Deposits = deposits;
         }

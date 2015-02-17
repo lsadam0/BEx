@@ -4,7 +4,7 @@ namespace BEx
 {
     public class Transaction : APIResult
     {
-        public DateTime TimeStamp
+        public DateTime CompletedTime
         {
             get;
             set;
@@ -28,9 +28,8 @@ namespace BEx
             set;
         }
 
-        internal Transaction()
-            : base()
-        {
-        }
+        internal Transaction(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
     }
 }

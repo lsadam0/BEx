@@ -12,6 +12,11 @@ namespace BEx.Common
             return dtDateTime;
         }
 
+        public static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
+        {
+            return UnixTimeStampToDateTime(Convert.ToDouble(unixTimeStamp));
+        }
+
         public static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
             return (dateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;

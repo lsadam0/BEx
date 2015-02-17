@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace BEx
 {
@@ -16,8 +17,8 @@ namespace BEx
             set;
         }
 
-        internal AccountBalance()
-            : base()
+        internal AccountBalance(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         {
             Balance = new Dictionary<Currency, decimal>();
             Available = new Dictionary<Currency, decimal>();

@@ -24,12 +24,12 @@ namespace BEx
         }
 
         public APIError()
-            : base()
+            : base(DateTime.Now)
         {
         }
 
         public APIError(string message, BExErrorCode code)
-            : base()
+            : base(DateTime.Now)
         {
             Message = message;
             ErrorCode = code;

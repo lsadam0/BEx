@@ -4,15 +4,24 @@ namespace BEx
 {
     public class APIResult
     {
-        public DateTime Timestamp
+        public DateTime ExchangeTimeStamp
         {
             get;
             set;
         }
 
-        internal APIResult()
+        public DateTime LocalTimeStamp
         {
-            Timestamp = DateTime.Now;
+            get;
+            set;
+        }
+
+
+        internal APIResult(DateTime exchangeTimeStamp)
+        {
+            ExchangeTimeStamp = exchangeTimeStamp;
+            LocalTimeStamp = DateTime.Now;
+
         }
     }
 }

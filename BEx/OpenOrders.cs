@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace BEx
 {
@@ -11,13 +12,13 @@ namespace BEx
         }
 
         internal OpenOrders()
-            : base()
+            : base(DateTime.Now)
         {
             Orders = new List<Order>();
         }
 
-        internal OpenOrders(List<Order> orders)
-            : base()
+        internal OpenOrders(List<Order> orders, Currency baseCurrency, Currency counterCurrency)
+            : base(DateTime.Now)
         {
             Orders = orders;
         }

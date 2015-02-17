@@ -217,6 +217,7 @@ namespace BEx
             return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
         }
 
+        /*
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -227,7 +228,7 @@ namespace BEx
             return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
         }
 
-        protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
+                protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
         {
             return (PendingDeposits)SendCommandToDispatcher<List<BitStampPendingDepositJSON>, PendingDeposits>(command, Currency.BTC, Currency.USD);
         }
@@ -236,6 +237,7 @@ namespace BEx
         {
             return (PendingWithdrawals)SendCommandToDispatcher<List<BitStampPendingWithdrawalJSON>, PendingWithdrawals>(command, Currency.BTC, Currency.USD);
         }
+         */
 
         #endregion Command Execution
     }

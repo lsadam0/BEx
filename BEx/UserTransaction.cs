@@ -46,10 +46,14 @@ namespace BEx
             set;
         }
 
-        public UserTransaction()
-            : base()
+        public DateTime CompletedTime
         {
+            get;
+            set;
         }
+
+        public UserTransaction(DateTime exchangeTimeStamp) : base(exchangeTimeStamp)
+        { }
     }
 
     public enum UserTransactionType

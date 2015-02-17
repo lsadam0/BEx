@@ -31,7 +31,7 @@ namespace BEx.BitStampSupport
         {
             AccountBalances res;
 
-            AccountBalance balance = new AccountBalance();
+            AccountBalance balance = new AccountBalance(DateTime.Now);
 
             balance.Available.Add(Currency.USD, Convert.ToDecimal(UsdAvailable));
             balance.Available.Add(Currency.BTC, Convert.ToDecimal(BtcAvailable));
@@ -44,18 +44,6 @@ namespace BEx.BitStampSupport
             return res;
         }
 
-        /*
-        public AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            AccountBalance res = new AccountBalance();
 
-            res.Available.Add(Currency.USD, Convert.ToDecimal(UsdAvailable));
-            res.Available.Add(Currency.BTC, Convert.ToDecimal(BtcAvailable));
-
-            res.Balance.Add(Currency.USD, Convert.ToDecimal(UsdBalance));
-            res.Balance.Add(Currency.BTC, Convert.ToDecimal(BtcBalance));
-
-            return res;
-        }*/
     }
 }

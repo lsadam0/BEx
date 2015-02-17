@@ -249,6 +249,7 @@ namespace BEx
             return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON, DepositAddress>(command, toDeposit, toDeposit, parameters);
         }
 
+        /*
         protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
         {
             throw new NotImplementedException("BitFinx cannot execute withdrawals");
@@ -263,7 +264,7 @@ namespace BEx
         {
             throw new NotImplementedException("Get Pending Withdrawals is not implemented");
         }
-
+        */
         #endregion Command Execution
     }
 }

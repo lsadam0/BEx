@@ -1,4 +1,5 @@
 ﻿using System;
+using BEx.Common;
 
 namespace BEx.BitStampSupport
 {
@@ -22,8 +23,8 @@ namespace BEx.BitStampSupport
 
         public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Tick res = new Tick();
-
+            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp));
+            
             res.Ask = Convert.ToDecimal(ask);
             res.Bid = Convert.ToDecimal(bid);
             res.High = Convert.ToDecimal(high);
@@ -38,42 +39,6 @@ namespace BEx.BitStampSupport
             return res;
         }
 
-        /*
-
-        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res = new Tick();
-
-            res.Ask = Convert.ToDecimal(ask);
-            res.Bid = Convert.ToDecimal(bid);
-            res.High = Convert.ToDecimal(high);
-            res.Last = Convert.ToDecimal(last);
-            res.Low = Convert.ToDecimal(low);
-
-            res.Volume = Convert.ToDecimal(volume);
-
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
-
-            return res;
-        }
-
-        public BitstampTick ToBitStampTick(Currency baseCurrency, Currency counterCurrency)
-        {
-            BitstampTick res = new BitstampTick();
-
-            res.Ask = Convert.ToDecimal(ask);
-            res.Bid = Convert.ToDecimal(bid);
-            res.High = Convert.ToDecimal(high);
-            res.Last = Convert.ToDecimal(last);
-            res.Low = Convert.ToDecimal(low);
-            res.Volume = Convert.ToDecimal(volume);
-            res.VolumeWeightedAveragePrice = Convert.ToDecimal(vwap);
-
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
-
-            return res;
-        }*/
+        
     }
 }

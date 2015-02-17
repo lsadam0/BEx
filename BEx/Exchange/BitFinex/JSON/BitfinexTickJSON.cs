@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 
+using BEx.Common;
+
 namespace BEx.BitFinexSupport
 {
     public class BitfinexTickJSON : ExchangeResponse<Tick>
@@ -31,7 +33,8 @@ namespace BEx.BitFinexSupport
 
         public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Tick res = new Tick();
+            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp));
+
 
             res.Ask = Convert.ToDecimal(Ask);
             res.BaseCurrency = baseCurrency;
@@ -45,21 +48,5 @@ namespace BEx.BitFinexSupport
             return res;
         }
 
-        /*
-        public Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res = new Tick();
-
-            res.Ask = Convert.ToDecimal(Ask);
-            res.BaseCurrency = baseCurrency;
-            res.Bid = Convert.ToDecimal(Bid);
-            res.CounterCurrency = counterCurrency;
-            res.High = Convert.ToDecimal(High);
-            res.Last = Convert.ToDecimal(LastPrice);
-            res.Low = Convert.ToDecimal(Low);
-            res.Volume = Convert.ToDecimal(Volume);
-
-            return res;
-        }*/
     }
 }

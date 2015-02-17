@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace BEx
 {
@@ -22,14 +24,25 @@ namespace BEx
             set;
         }
 
-        internal UserTransactions()
-            : base()
+        public override string ToString()
         {
-            UserTrans = new List<UserTransaction>();
+            string output = "{0}/{1} - Transactions: {2} - Oldest: {3} - Newest: {4}";
+
+            if (UserTrans.Count > 0)
+            {
+                DateTime oldest = UserTrans.Min(x => x.CompletedTime);
+                DateTime newest = UserTrans.Max(x => x.CompletedTime);
+
+                return string.Format(output, BaseCurrency, CounterCurrency, UserTrans.Count, oldest.ToString(), newest.ToString());
+            }
+            else
+                return "No Transactions in Collection";
         }
 
+
+
         internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency)
-            : base()
+            : base(DateTime.Now)
         {
             UserTrans = transactions;
             BaseCurrency = baseCurrency;

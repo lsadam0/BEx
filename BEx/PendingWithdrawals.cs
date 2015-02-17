@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace BEx
 {
@@ -10,14 +11,10 @@ namespace BEx
             set;
         }
 
-        internal PendingWithdrawals()
-            : base()
-        {
-            Withdrawals = new List<PendingWithdrawal>();
-        }
 
-        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals, Currency baseCurrency, Currency counterCurrency)
-            : base()
+
+        internal PendingWithdrawals(List<PendingWithdrawal> withdrawals, Currency baseCurrency, Currency counterCurrency, DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         {
             Withdrawals = withdrawals;
         }

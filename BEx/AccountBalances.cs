@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace BEx
 {
@@ -6,13 +7,9 @@ namespace BEx
     {
         public List<AccountBalance> Balances;
 
-        internal AccountBalances()
-            : base()
-        {
-        }
-
+   
         internal AccountBalances(List<AccountBalance> balances, Currency baseCurrency, Currency counterCurrency)
-            : base()
+            : base(DateTime.Now)
         {
             Balances = balances;
         }

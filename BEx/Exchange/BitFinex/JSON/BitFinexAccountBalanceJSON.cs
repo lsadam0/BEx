@@ -19,7 +19,7 @@ namespace BEx.BitFinexSupport
 
         public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            AccountBalance res = new AccountBalance();
+            AccountBalance res = new AccountBalance(DateTime.Now);
 
             if (Type == "exchange")
             {
@@ -35,26 +35,6 @@ namespace BEx.BitFinexSupport
             return res;
         }
 
-        /*
-        public static AccountBalance ConvertListToStandard(List<BitFinexAccountBalanceJSON> balances, Currency baseCurrency, Currency counterCurrency)
-        {
-            AccountBalance res = new AccountBalance();
-
-            foreach (BitFinexAccountBalanceJSON balance in balances)
-            {
-                if (balance.Type == "exchange")
-                {
-                    Currency bCurrency;
-
-                    if (Enum.TryParse<Currency>(balance.Currency.ToUpper(), out bCurrency))
-                    {
-                        res.Available.Add(bCurrency, Convert.ToDecimal(balance.Available));
-                        res.Balance.Add(bCurrency, Convert.ToDecimal(balance.Amount));
-                    }
-                }
-            }
-
-            return res;
-        }*/
+      
     }
 }

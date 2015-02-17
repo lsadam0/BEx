@@ -71,6 +71,16 @@ namespace NUnitTests
 
         #region Verification Methods
 
+        protected void VerifyAPIResult(APIResult toVerify)
+        {
+            Assert.IsTrue(toVerify.ExchangeTimeStamp > DateTime.MinValue);
+            Assert.IsTrue(toVerify.ExchangeTimeStamp < DateTime.MaxValue);
+
+            Assert.IsTrue(toVerify.LocalTimeStamp > DateTime.MinValue);
+            Assert.IsTrue(toVerify.LocalTimeStamp < DateTime.MaxValue);
+
+        }
+
         protected void VerifyTick()
         {
             foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
@@ -86,6 +96,7 @@ namespace NUnitTests
                     Tick toVerify = toTest.GetTick(baseCurrency, counterCurrency);
 
                     Assert.IsNotNull(toVerify);
+                    VerifyAPIResult(toVerify);
 
                     Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
                     Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
@@ -110,12 +121,13 @@ namespace NUnitTests
                 foreach (Currency counterCurrency in pairSet.Value)
                 {
                     ThrottleTestVelocity();
-                    
+
                     Debug(string.Format("Verifying OrderBook for {0}/{1}", baseCurrency, counterCurrency));
 
                     OrderBook toVerify = toTest.GetOrderBook(baseCurrency, counterCurrency);
                     Assert.IsNotNull(toVerify);
 
+                    VerifyAPIResult(toVerify);
                     Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
                     Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
                     Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
@@ -154,24 +166,29 @@ namespace NUnitTests
                     Transactions toVerify = toTest.GetTransactions(baseCurrency, counterCurrency);
 
                     Assert.IsNotNull(toVerify);
-                   
+                    VerifyAPIResult(toVerify);
 
-                    Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
+                    if (baseCurrency == Currency.BTC && counterCurrency == Currency.USD)
+                        Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
 
-                    foreach (Transaction t in toVerify.TransactionsCollection)
+                    if (toVerify.TransactionsCollection.Count > 0)
                     {
-                        Assert.IsTrue(t.Amount > 0.0m);
-                        Assert.IsTrue(t.Price > 0.0m);
-                        Assert.IsTrue(t.TransactionID > 0);
-                  
+                        foreach (Transaction t in toVerify.TransactionsCollection)
+                        {
+                            VerifyAPIResult(t);
+                            Assert.IsTrue(t.Amount > 0.0m);
+                            Assert.IsTrue(t.Price > 0.0m);
+                            Assert.IsTrue(t.TransactionID > 0);
+
+                        }
+
+
+                        DateTime oldest = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
+                        DateTime newest = toVerify.TransactionsCollection.Max(x => x.CompletedTime);
+
+                        int totalMinutes = (newest - oldest).Minutes;
+                        Assert.IsTrue(totalMinutes < 61);
                     }
-
-
-                    DateTime oldest = toVerify.TransactionsCollection.Min(x => x.TimeStamp);
-                    DateTime newest = toVerify.TransactionsCollection.Max(x => x.TimeStamp);
-
-                    int totalMinutes = (newest - oldest).Minutes;
-                    Assert.IsTrue(totalMinutes < 61);
 
                     Debug(toVerify.ToString());
                 }
@@ -185,6 +202,7 @@ namespace NUnitTests
             AccountBalances toVerify = toTest.GetAccountBalance();
             Assert.IsNotNull(toVerify);
 
+            VerifyAPIResult(toVerify);
             Assert.IsTrue(toVerify.Balances != null);
             Assert.IsTrue(toVerify.Balances.Count > 0);
 
@@ -206,12 +224,14 @@ namespace NUnitTests
                 Debug("Begin Buy Order Test");
                 Order toVerify = toTest.CreateBuyOrder(1m, 5m);
 
+                Assert.IsNotNull(toVerify);
+                VerifyAPIResult(toVerify);
+
                 Assert.IsTrue(toVerify.Type == OrderType.Buy);
                 Assert.IsTrue(toVerify.Amount > 0.0m);
                 Assert.IsTrue(toVerify.ID > 0);
                 Assert.IsTrue(toVerify.Price > 0.0m);
 
-                Assert.IsNotNull(toVerify);
 
                 OpenOrders open = toTest.GetOpenOrders();
 
@@ -241,13 +261,15 @@ namespace NUnitTests
             {
                 Debug("Begin Sell Order");
                 Order toVerify = toTest.CreateSellOrder(0.02m, 10000m);
+                Assert.IsNotNull(toVerify);
+
 
                 Assert.IsTrue(toVerify.Type == OrderType.Sell);
                 Assert.IsTrue(toVerify.Amount > 0.0m);
                 Assert.IsTrue(toVerify.ID > 0);
                 Assert.IsTrue(toVerify.Price > 0.0m);
 
-                Assert.IsNotNull(toVerify);
+                VerifyAPIResult(toVerify);
 
                 OpenOrders open = toTest.GetOpenOrders();
 
@@ -277,11 +299,13 @@ namespace NUnitTests
             OpenOrders toVerify = toTest.GetOpenOrders();
 
             Assert.IsNotNull(toVerify);
+            VerifyAPIResult(toVerify);
 
             Assert.IsTrue(toVerify.Orders.Count > 0);
 
             foreach (Order ord in toVerify.Orders)
             {
+                VerifyAPIResult(ord);
                 Assert.IsTrue(ord.Amount > 0.0m);
                 Assert.IsTrue(ord.ID > 0);
                 Assert.IsTrue(ord.Price > 0.0m);
@@ -296,22 +320,28 @@ namespace NUnitTests
             Assert.IsNotNull(toVerify.UserTrans);
             Assert.IsTrue(toVerify.UserTrans.Count > 0);
 
+            VerifyAPIResult(toVerify);
+
             foreach (UserTransaction transaction in toVerify.UserTrans)
             {
+                VerifyAPIResult(transaction);
                 // Assert.IsTrue(transaction.BaseCurrencyAmount > 0.0m);
                 // Assert.IsTrue(transaction.CounterCurrencyAmount > 0.0m);
                 // Assert.IsTrue(transaction.ExchangeRate > 0.0m);
                 Assert.IsTrue(transaction.ID > 0);
                 Assert.IsTrue(transaction.OrderID != null);
                 Assert.IsTrue(transaction.OrderID > 0);
+
             }
-            Assert.IsNotNull(toVerify);
+
+            Debug(toVerify.ToString());
         }
 
         protected void VerifyDepositAddress()
         {
             DepositAddress address = toTest.GetDepositAddress();
 
+            VerifyAPIResult(address);
             Assert.IsNotNull(address);
 
             Assert.IsTrue(!string.IsNullOrEmpty(address.Address));

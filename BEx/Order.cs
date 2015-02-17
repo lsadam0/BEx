@@ -41,10 +41,12 @@ namespace BEx
         }
 
         public Order()
-            : base()
+            : base(DateTime.Now)
         {
             ID = -1;
         }
+
+      
     }
 
     public enum OrderType

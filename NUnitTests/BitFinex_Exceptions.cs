@@ -145,28 +145,6 @@ namespace NUnitTests
             }
         }
 
-        /*
-        [Test]
-        public void Bitfinex_Withdrawal_Exception()
-        {
-            // invalid amount
-            // bad address
-            try
-            {
-                using (Bitfinex bt = new Bitfinex(base.APIKey, base.Secret))
-                {
-                    object res = bt.Withdraw(Currency.BTC, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 45665456.01m);
-                }
-                { }
-            }
-            catch (WithdrawalRejectedException)
-            {
-                { }
-            }
-            catch (Exception)
-            {
-                { }
-            }
-        }*/
+        
     }
 }

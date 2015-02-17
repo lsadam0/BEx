@@ -1,4 +1,5 @@
-﻿namespace BEx
+﻿using System;
+namespace BEx
 {
     public class DepositAddress : APIResult
     {
@@ -14,13 +15,12 @@
             set;
         }
 
-        internal DepositAddress()
-            : base()
-        {
-        }
+        internal DepositAddress(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
 
-        internal DepositAddress(string address)
-            : base()
+        internal DepositAddress(string address, DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         {
             Address = address;
         }

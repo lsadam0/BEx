@@ -16,7 +16,7 @@ namespace BEx.BitStampSupport
 
         public override PendingDeposit ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            PendingDeposit res = new PendingDeposit();
+            PendingDeposit res = new PendingDeposit(DateTime.Now);
 
             res.Amount = Convert.ToDecimal(Amount);
             res.Confirmations = Confirmations;
@@ -26,29 +26,6 @@ namespace BEx.BitStampSupport
             return res;
         }
 
-        /*
-        public PendingDeposit ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
-        {
-            PendingDeposit res = new PendingDeposit();
-
-            res.Amount = Convert.ToDecimal(Amount);
-            res.Confirmations = Confirmations;
-            res.Address = Address;
-            res.DepositedCurrency = Currency.BTC;
-
-            return res;
-        }
-
-        public static PendingDeposits ConvertListToStandard(List<BitStampPendingDepositJSON> deposits, Currency baseCurrency, Currency counterCurrency)
-        {
-            PendingDeposits res = new PendingDeposits();
-
-            foreach (BitStampPendingDepositJSON source in deposits)
-            {
-                res.Deposits.Add(source.ConvertToStandard(baseCurrency, counterCurrency));
-            }
-
-            return res;
-        }*/
+   
     }
 }

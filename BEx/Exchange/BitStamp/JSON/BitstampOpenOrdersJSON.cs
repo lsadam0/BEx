@@ -33,7 +33,7 @@ namespace BEx.BitStampSupport
                 res.Type = OrderType.Sell;
 
             res.ID = Id;
-            res.Timestamp = Convert.ToDateTime(Datetime);
+            res.ExchangeTimeStamp = Convert.ToDateTime(Datetime);
 
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;
