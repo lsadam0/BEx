@@ -43,7 +43,5 @@ namespace BEx.BitStampSupport
 
             return res;
         }
-
-
     }
 }

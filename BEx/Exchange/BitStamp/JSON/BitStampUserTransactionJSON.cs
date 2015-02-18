@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-using BEx.Common;
-
 namespace BEx.BitStampSupport
 {
     public class BitStampUserTransactionJSON : ExchangeResponse<UserTransaction>

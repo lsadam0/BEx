@@ -52,7 +52,8 @@ namespace BEx
             set;
         }
 
-        public UserTransaction(DateTime exchangeTimeStamp) : base(exchangeTimeStamp)
+        public UserTransaction(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         { }
     }
 

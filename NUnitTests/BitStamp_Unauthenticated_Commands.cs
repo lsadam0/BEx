@@ -16,14 +16,12 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetTick()
         {
-
             VerifyTick();
         }
 
         [Test]
         public void BitStamp_GetOrderBook()
         {
-
             VerifyOrderBook();
         }
 

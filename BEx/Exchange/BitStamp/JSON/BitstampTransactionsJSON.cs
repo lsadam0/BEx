@@ -4,8 +4,6 @@ using System;
 
 namespace BEx.BitStampSupport
 {
-
-
     public class BitstampTransactionJSON : ExchangeResponse<Transaction>
     {
         [JsonProperty("date")]
@@ -30,6 +28,5 @@ namespace BEx.BitStampSupport
 
             return res;
         }
-
     }
 }

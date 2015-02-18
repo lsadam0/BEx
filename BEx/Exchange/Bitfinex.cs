@@ -1,12 +1,11 @@
 ﻿using BEx.BitFinexSupport;
+using BEx.Common;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-
-using BEx.Common;
 
 namespace BEx
 {
@@ -265,6 +264,7 @@ namespace BEx
             throw new NotImplementedException("Get Pending Withdrawals is not implemented");
         }
         */
+
         #endregion Command Execution
     }
 }

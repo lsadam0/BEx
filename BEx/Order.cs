@@ -45,8 +45,6 @@ namespace BEx
         {
             ID = -1;
         }
-
-      
     }
 
     public enum OrderType

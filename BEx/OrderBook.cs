@@ -36,7 +36,6 @@ namespace BEx
             return string.Format(output, BaseCurrency, CounterCurrency, BidsByPrice.Count, AsksByPrice.Count);
         }
 
-
         internal OrderBook(DateTime exchangeTimeStamp)
             : base(exchangeTimeStamp)
         {

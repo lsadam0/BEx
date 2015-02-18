@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace BEx
 {
@@ -14,11 +14,9 @@ namespace BEx
 
         public Currency CounterCurrency
         {
-
             get;
             set;
         }
-
 
         public List<Transaction> TransactionsCollection
         {
@@ -41,14 +39,13 @@ namespace BEx
                 return "No Transactions in Collection";
         }
 
-
-        internal Transactions(DateTime exchangeTimeStamp) : base(exchangeTimeStamp)
+        internal Transactions(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         {
-
         }
 
-        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency, DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency)
+            : base(DateTime.Now)
         {
             BaseCurrency = baseCurrency;
             CounterCurrency = counterCurrency;

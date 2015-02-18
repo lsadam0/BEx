@@ -2,9 +2,8 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
-using System.Diagnostics;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace NUnitTests
 {
@@ -73,17 +72,18 @@ namespace NUnitTests
 
         protected void VerifyAPIResult(APIResult toVerify)
         {
+            Assert.IsNotNull(toVerify);
+
             Assert.IsTrue(toVerify.ExchangeTimeStamp > DateTime.MinValue);
             Assert.IsTrue(toVerify.ExchangeTimeStamp < DateTime.MaxValue);
 
             Assert.IsTrue(toVerify.LocalTimeStamp > DateTime.MinValue);
             Assert.IsTrue(toVerify.LocalTimeStamp < DateTime.MaxValue);
-
         }
 
         protected void VerifyTick()
         {
-            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
+            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedTradingPairs)
             {
                 Currency baseCurrency = pairSet.Key;
 
@@ -95,7 +95,6 @@ namespace NUnitTests
 
                     Tick toVerify = toTest.GetTick(baseCurrency, counterCurrency);
 
-                    Assert.IsNotNull(toVerify);
                     VerifyAPIResult(toVerify);
 
                     Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
@@ -107,6 +106,7 @@ namespace NUnitTests
                     Assert.IsTrue(toVerify.Low > 0.0m);
                     Assert.IsTrue(toVerify.Volume > 0.0m);
 
+
                     Debug(toVerify.ToString());
                 }
             }
@@ -114,7 +114,7 @@ namespace NUnitTests
 
         protected void VerifyOrderBook()
         {
-            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
+            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedTradingPairs)
             {
                 Currency baseCurrency = pairSet.Key;
 
@@ -125,9 +125,9 @@ namespace NUnitTests
                     Debug(string.Format("Verifying OrderBook for {0}/{1}", baseCurrency, counterCurrency));
 
                     OrderBook toVerify = toTest.GetOrderBook(baseCurrency, counterCurrency);
-                    Assert.IsNotNull(toVerify);
 
                     VerifyAPIResult(toVerify);
+
                     Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
                     Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
                     Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
@@ -152,20 +152,18 @@ namespace NUnitTests
 
         protected void VerifyTransactions()
         {
-            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedPairs)
+            foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in toTest.SupportedTradingPairs)
             {
                 Currency baseCurrency = pairSet.Key;
 
                 foreach (Currency counterCurrency in pairSet.Value)
                 {
-
                     ThrottleTestVelocity();
 
                     Debug(string.Format("Verifying Transactions for {0}/{1}", baseCurrency, counterCurrency));
 
                     Transactions toVerify = toTest.GetTransactions(baseCurrency, counterCurrency);
 
-                    Assert.IsNotNull(toVerify);
                     VerifyAPIResult(toVerify);
 
                     if (baseCurrency == Currency.BTC && counterCurrency == Currency.USD)
@@ -179,9 +177,7 @@ namespace NUnitTests
                             Assert.IsTrue(t.Amount > 0.0m);
                             Assert.IsTrue(t.Price > 0.0m);
                             Assert.IsTrue(t.TransactionID > 0);
-
                         }
-
 
                         DateTime oldest = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
                         DateTime newest = toVerify.TransactionsCollection.Max(x => x.CompletedTime);
@@ -200,18 +196,16 @@ namespace NUnitTests
             ThrottleTestVelocity();
 
             AccountBalances toVerify = toTest.GetAccountBalance();
-            Assert.IsNotNull(toVerify);
 
             VerifyAPIResult(toVerify);
-            Assert.IsTrue(toVerify.Balances != null);
+
             Assert.IsTrue(toVerify.Balances.Count > 0);
 
-            // Assert.IsTrue(toVerify.Balances[(int)Currency.BTC] > 0m);
+            foreach (Currency c in toTest.SupportedCurrencies)
+            {
+                Assert.IsTrue(toVerify.Balances.ContainsKey(c));
+            }
 
-            //foreach (AccountBalance balance in toVerify.Balances)
-            //{
-            //  Assert.IsTrue(balance.Timestamp < DateTime.Now);
-            //}
         }
 
         protected void VerifyBuyOrder()
@@ -220,11 +214,9 @@ namespace NUnitTests
 
             lock (orderLock)
             {
-
                 Debug("Begin Buy Order Test");
                 Order toVerify = toTest.CreateBuyOrder(1m, 5m);
 
-                Assert.IsNotNull(toVerify);
                 VerifyAPIResult(toVerify);
 
                 Assert.IsTrue(toVerify.Type == OrderType.Buy);
@@ -232,13 +224,11 @@ namespace NUnitTests
                 Assert.IsTrue(toVerify.ID > 0);
                 Assert.IsTrue(toVerify.Price > 0.0m);
 
-
                 OpenOrders open = toTest.GetOpenOrders();
 
                 Assert.IsTrue(open.Orders.Count > 0);
 
                 Assert.IsNotNull(open.Orders.Find(x => x.ID == toVerify.ID));
-
 
                 Debug(string.Format("Cancelling Buy Order {0}", toVerify.ID));
                 bool cancelled = toTest.CancelOrder(toVerify.ID);
@@ -261,22 +251,19 @@ namespace NUnitTests
             {
                 Debug("Begin Sell Order");
                 Order toVerify = toTest.CreateSellOrder(0.02m, 10000m);
-                Assert.IsNotNull(toVerify);
 
+                VerifyAPIResult(toVerify);
 
                 Assert.IsTrue(toVerify.Type == OrderType.Sell);
                 Assert.IsTrue(toVerify.Amount > 0.0m);
                 Assert.IsTrue(toVerify.ID > 0);
                 Assert.IsTrue(toVerify.Price > 0.0m);
 
-                VerifyAPIResult(toVerify);
-
                 OpenOrders open = toTest.GetOpenOrders();
 
                 Assert.IsTrue(open.Orders.Count > 0);
 
                 Assert.IsNotNull(open.Orders.Find(x => x.ID == toVerify.ID));
-
 
                 Debug(string.Format("Cancelling Sell Order {0}", toVerify.ID));
                 bool cancelled = toTest.CancelOrder(toVerify.ID);
@@ -290,15 +277,12 @@ namespace NUnitTests
                 Debug("Checking Open Orders");
                 Assert.IsTrue(open.Orders.Count == 0);
             }
-
         }
 
         protected void VerifyOpenOrders()
         {
-
             OpenOrders toVerify = toTest.GetOpenOrders();
 
-            Assert.IsNotNull(toVerify);
             VerifyAPIResult(toVerify);
 
             Assert.IsTrue(toVerify.Orders.Count > 0);
@@ -314,13 +298,12 @@ namespace NUnitTests
 
         protected void VerifyUserTransactions()
         {
-
             UserTransactions toVerify = toTest.GetUserTransactions();
-            Assert.IsNotNull(toVerify);
-            Assert.IsNotNull(toVerify.UserTrans);
-            Assert.IsTrue(toVerify.UserTrans.Count > 0);
 
             VerifyAPIResult(toVerify);
+
+            Assert.IsNotNull(toVerify.UserTrans);
+            Assert.IsTrue(toVerify.UserTrans.Count > 0);
 
             foreach (UserTransaction transaction in toVerify.UserTrans)
             {
@@ -331,7 +314,6 @@ namespace NUnitTests
                 Assert.IsTrue(transaction.ID > 0);
                 Assert.IsTrue(transaction.OrderID != null);
                 Assert.IsTrue(transaction.OrderID > 0);
-
             }
 
             Debug(toVerify.ToString());
@@ -342,16 +324,16 @@ namespace NUnitTests
             DepositAddress address = toTest.GetDepositAddress();
 
             VerifyAPIResult(address);
-            Assert.IsNotNull(address);
 
             Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
         }
 
-        #endregion
+        #endregion Verification Methods
 
         private void Debug(string message)
         {
-            System.Diagnostics.Debug.WriteLine("{0}: {1}", this.GetType().ToString(), message);
+            
+            System.Diagnostics.Debug.WriteLine("{0}: {1}", this.toTest.GetType().ToString(), message);
         }
 
         /// <summary>

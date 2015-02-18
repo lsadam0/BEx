@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BEx
 {
@@ -10,8 +10,6 @@ namespace BEx
             get;
             set;
         }
-
-
 
         internal PendingWithdrawals(List<PendingWithdrawal> withdrawals, Currency baseCurrency, Currency counterCurrency, DateTime exchangeTimeStamp)
             : base(exchangeTimeStamp)

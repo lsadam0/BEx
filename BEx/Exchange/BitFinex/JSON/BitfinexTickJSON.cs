@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using BEx.Common;
+using Newtonsoft.Json;
 using System;
-
-using BEx.Common;
 
 namespace BEx.BitFinexSupport
 {
@@ -35,7 +34,6 @@ namespace BEx.BitFinexSupport
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp));
 
-
             res.Ask = Convert.ToDecimal(Ask);
             res.BaseCurrency = baseCurrency;
             res.Bid = Convert.ToDecimal(Bid);
@@ -47,6 +45,5 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
-
     }
 }

@@ -45,7 +45,5 @@ namespace BEx.BitStampSupport
             //res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp));
             return res;
         }
-
-        
     }
 }

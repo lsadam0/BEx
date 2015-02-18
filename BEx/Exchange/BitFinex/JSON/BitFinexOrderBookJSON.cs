@@ -46,7 +46,6 @@ namespace BEx.BitFinexSupport
 
             for (int x = 0; x < Bids.Length; ++x)
             {
-
                 decimal.TryParse(Bids[x].Price, out key);
                 decimal.TryParse(Bids[x].Amount, out value);
 
@@ -58,15 +57,12 @@ namespace BEx.BitFinexSupport
                 decimal.TryParse(Asks[x].Price, out key);
                 decimal.TryParse(Asks[x].Amount, out value);
 
-
                 res.AsksByPrice.Add(key, value);
             }
 
-           // res.TimeStamp = DateTime.Now;
+            // res.TimeStamp = DateTime.Now;
 
             return res;
         }
-
-    
     }
 }

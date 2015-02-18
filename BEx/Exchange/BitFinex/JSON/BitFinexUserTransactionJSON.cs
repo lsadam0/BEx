@@ -1,7 +1,6 @@
-﻿using System;
+﻿using BEx.Common;
 using Newtonsoft.Json;
-
-using BEx.Common;
+using System;
 
 namespace BEx.BitFinexSupport
 {
@@ -41,6 +40,5 @@ namespace BEx.BitFinexSupport
 
             return u;
         }
-
     }
 }

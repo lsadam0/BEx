@@ -31,14 +31,11 @@ namespace NUnitTests
             VerifyDepositAddress();
         }
 
-
-
         #endregion Deposit Address
 
         [Test]
         public void BitFinex_GetUserTransactions()
         {
-
             VerifyUserTransactions();
         }
 
@@ -64,8 +61,6 @@ namespace NUnitTests
             open = toTest.GetOpenOrders();
 
             Assert.IsTrue(open.Orders.Count == 0);
-
-
         }
 
         [Test]
@@ -79,7 +74,6 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetOpenOrders()
         {
-            
             VerifyOpenOrders();
         }
 

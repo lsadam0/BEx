@@ -40,18 +40,13 @@ namespace NUnitTests
         [Test]
         public void BitStamp_GetUserTransactions()
         {
-           
             VerifyUserTransactions();
         }
-
 
         [Test]
         public void BitStamp_GetDepositAddress()
         {
-            
             VerifyDepositAddress();
         }
-
-        
     }
 }

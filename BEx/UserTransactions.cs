@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BEx
 {
@@ -38,8 +38,6 @@ namespace BEx
             else
                 return "No Transactions in Collection";
         }
-
-
 
         internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency)
             : base(DateTime.Now)

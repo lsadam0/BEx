@@ -46,7 +46,6 @@ namespace BEx
             set;
         }
 
-
         internal PendingWithdrawal(DateTime exchangeTimeStamp)
             : base(exchangeTimeStamp)
         { }

@@ -28,7 +28,6 @@ namespace BEx
             set;
         }
 
-
         internal PendingDeposit(DateTime exchangeTimeStamp)
             : base(exchangeTimeStamp)
         { }

@@ -1,5 +1,5 @@
-﻿using System;
-using BEx.Common;
+﻿using BEx.Common;
+using System;
 
 namespace BEx.BitStampSupport
 {
@@ -24,7 +24,7 @@ namespace BEx.BitStampSupport
         public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp));
-            
+
             res.Ask = Convert.ToDecimal(ask);
             res.Bid = Convert.ToDecimal(bid);
             res.High = Convert.ToDecimal(high);
@@ -38,7 +38,5 @@ namespace BEx.BitStampSupport
 
             return res;
         }
-
-        
     }
 }

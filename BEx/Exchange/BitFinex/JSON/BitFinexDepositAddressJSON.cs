@@ -26,7 +26,5 @@ namespace BEx.BitFinexSupport
 
             return res;
         }
-
-     
     }
 }

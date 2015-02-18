@@ -14,7 +14,9 @@ namespace BEx
         /// <summary>
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
         /// </summary>
-        public Dictionary<Currency, HashSet<Currency>> SupportedPairs;
+        public Dictionary<Currency, HashSet<Currency>> SupportedTradingPairs;
+
+        public HashSet<Currency> SupportedCurrencies;
 
         protected RequestFactory apiRequestFactory
         {
@@ -110,9 +112,9 @@ namespace BEx
         {
             bool res = false;
 
-            if (SupportedPairs.ContainsKey(baseCurrency))
+            if (SupportedTradingPairs.ContainsKey(baseCurrency))
             {
-                if (SupportedPairs[baseCurrency].Contains(counterCurrency))
+                if (SupportedTradingPairs[baseCurrency].Contains(counterCurrency))
                 {
                     res = true;
                 }
@@ -359,6 +361,7 @@ namespace BEx
         #endregion Deposit Address
 
         /*
+
         #region Withdraw
 
         protected abstract object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount);
@@ -373,7 +376,6 @@ namespace BEx
         }
 
         #endregion Withdraw
-
 
         #region Pending Deposits
 
@@ -405,7 +407,9 @@ namespace BEx
         }
 
         #endregion Pending Withdrawals
+
         */
+
         #endregion API Commands
 
         protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
@@ -471,7 +475,8 @@ namespace BEx
         {
             XElement supportedPairs = configFile.Element("SupportedPairs");
 
-            SupportedPairs = new Dictionary<Currency, HashSet<Currency>>();
+            SupportedTradingPairs = new Dictionary<Currency, HashSet<Currency>>();
+            SupportedCurrencies = new HashSet<Currency>();
 
             foreach (XElement pairs in supportedPairs.Elements())
             {
@@ -486,14 +491,20 @@ namespace BEx
                     &&
                 Enum.TryParse<Currency>(c.Value, out cs))
                 {
-                    if (!SupportedPairs.ContainsKey(bs))
+                    if (!SupportedTradingPairs.ContainsKey(bs))
                     {
-                        SupportedPairs.Add(bs, new HashSet<Currency>());
+                        SupportedTradingPairs.Add(bs, new HashSet<Currency>());
                     }
 
-                    if (!SupportedPairs[bs].Contains(cs))
+                    if (!SupportedCurrencies.Contains(bs))
+                        SupportedCurrencies.Add(bs);
+
+                    if (!SupportedCurrencies.Contains(cs))
+                        SupportedCurrencies.Add(cs);
+
+                    if (!SupportedTradingPairs[bs].Contains(cs))
                     {
-                        SupportedPairs[bs].Add(cs);
+                        SupportedTradingPairs[bs].Add(cs);
                     }
                 }
             }

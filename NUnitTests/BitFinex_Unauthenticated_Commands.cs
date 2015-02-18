@@ -19,8 +19,6 @@ namespace NUnitTests
             VerifyTick();
         }
 
-
-
         #region OrderBook Tests
 
         [Test]
@@ -28,7 +26,6 @@ namespace NUnitTests
         {
             VerifyOrderBook();
         }
-
 
         #endregion OrderBook Tests
 
@@ -39,7 +36,6 @@ namespace NUnitTests
         {
             VerifyTransactions();
         }
-
 
         #endregion Transaction Tests
     }
