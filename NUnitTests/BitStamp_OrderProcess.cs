@@ -31,9 +31,7 @@ namespace NUnitTests
 
             AccountBalances current = toTest.GetAccountBalance();
 
-            Decimal btcBalance = 0.0m;
-            Decimal usdBalance = 0.0m;
-
+            
             //   sellOrderBlock.Release(1);
         }
 

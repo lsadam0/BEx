@@ -114,7 +114,7 @@ namespace BEx
 
         #region Authorization
 
-        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        protected internal override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             /*POST https://api.bitfinex.com/v1/order/new
                 With a payload of
@@ -247,23 +247,6 @@ namespace BEx
 
             return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON, DepositAddress>(command, toDeposit, toDeposit, parameters);
         }
-
-        /*
-        protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
-        {
-            throw new NotImplementedException("BitFinx cannot execute withdrawals");
-        }
-
-        protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
-        {
-            throw new NotImplementedException("Get Pending Deposits is not implemented");
-        }
-
-        protected override PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command)
-        {
-            throw new NotImplementedException("Get Pending Withdrawals is not implemented");
-        }
-        */
 
         #endregion Command Execution
     }

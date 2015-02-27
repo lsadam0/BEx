@@ -121,7 +121,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="NextSteps.txt" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

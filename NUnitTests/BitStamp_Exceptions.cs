@@ -18,14 +18,13 @@ namespace NUnitTests
         [Test]
         public void BitStamp_MissingAPIKey_ExchangeAuthorizationException()
         {
-            using (BitStamp bt = new BitStamp("", base.Secret, base.ClientID))
-            {
-                Assert.Throws<ExchangeAuthorizationException>(
-                    delegate
-                    {
-                        bt.CreateSellOrder(1200m, 99000.00m);
-                    });
-            }
+
+            Assert.Throws<ExchangeAuthorizationException>(
+                delegate
+                {
+                    BitStamp bt = new BitStamp("", base.Secret, base.ClientID);
+                });
+
         }
 
         [Test]
@@ -44,14 +43,12 @@ namespace NUnitTests
         [Test]
         public void BitStamp_MissingSecretKey_ExchangeAuthorizationException()
         {
-            using (BitStamp bt = new BitStamp(base.APIKey, "", base.ClientID))
-            {
-                Assert.Throws<ExchangeAuthorizationException>(
-                    delegate
-                    {
-                        bt.CreateSellOrder(1200m, 99000.00m);
-                    });
-            }
+            Assert.Throws<ExchangeAuthorizationException>(
+                delegate
+                {
+                    BitStamp bt = new BitStamp(base.APIKey, "", base.ClientID);
+                });
+
         }
 
         [Test]
@@ -70,14 +67,13 @@ namespace NUnitTests
         [Test]
         public void BitStamp_MissingClientID_ExchangeAuthorizationException()
         {
-            using (BitStamp bt = new BitStamp(base.APIKey, base.Secret, ""))
-            {
-                Assert.Throws<ExchangeAuthorizationException>(
-                    delegate
-                    {
-                        bt.CreateSellOrder(1200m, 99000.00m);
-                    });
-            }
+
+            Assert.Throws<ExchangeAuthorizationException>(
+                delegate
+                {
+                    BitStamp bt = new BitStamp(base.APIKey, base.Secret, "");
+                });
+
         }
 
         [Test]

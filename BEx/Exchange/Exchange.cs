@@ -18,7 +18,7 @@ namespace BEx
 
         public HashSet<Currency> SupportedCurrencies;
 
-        protected RequestFactory apiRequestFactory
+        private RequestFactory apiRequestFactory
         {
             get;
             set;
@@ -42,19 +42,19 @@ namespace BEx
             set;
         }
 
-        public string APIKey
+        internal protected string APIKey
         {
             get;
             set;
         }
 
-        public string SecretKey
+        internal protected string SecretKey
         {
             get;
             set;
         }
 
-        public string ClientID
+        internal protected string ClientID
         {
             get;
             set;
@@ -412,16 +412,18 @@ namespace BEx
 
         #endregion API Commands
 
-        protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        internal protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             RestRequest request = apiRequestFactory.GetRequest(toExecute, baseCurrency, counterCurrency, parameters);
 
             return dispatcher.ExecuteCommand<J, E>(request, toExecute, baseCurrency, counterCurrency);
         }
 
-        protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
+        internal protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
 
         #region Dispose
+
+        private bool disposed = false;
 
         public void Dispose()
         {
@@ -431,9 +433,13 @@ namespace BEx
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposed)
             {
-                //
+                if (disposing)
+                {
+                    apiRequestFactory = null;
+                    dispatcher = null;
+                }
             }
         }
 
@@ -441,7 +447,7 @@ namespace BEx
 
         #region Load Exchange from XML
 
-        protected void LoadCommands(XElement configFile)
+        private void LoadCommands(XElement configFile)
         {
             XElement commands = configFile.Element("Commands");
 
@@ -453,7 +459,7 @@ namespace BEx
             }
         }
 
-        protected void LoadConfigFromXML(string file)
+        private void LoadConfigFromXML(string file)
         {
             APICommandCollection = new Dictionary<string, APICommand>();
 

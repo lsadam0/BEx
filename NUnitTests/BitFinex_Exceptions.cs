@@ -18,14 +18,14 @@ namespace NUnitTests
         [Test]
         public void Bitfinex_MissingAPIKey_ExchangeAuthorizationException()
         {
-            using (Bitfinex bt = new Bitfinex("", base.Secret))
-            {
-                Assert.Throws<ExchangeAuthorizationException>(
-                    delegate
-                    {
-                        bt.CreateSellOrder(1200m, 99000.00m);
-                    });
-            }
+
+
+            Assert.Throws<ExchangeAuthorizationException>(
+                delegate
+                {
+                    Bitfinex bt = new Bitfinex("", base.Secret);
+                });
+
         }
 
         [Test]
@@ -44,14 +44,12 @@ namespace NUnitTests
         [Test]
         public void Bitfinex_MissingSecretKey_ExchangeAuthorizationException()
         {
-            using (Bitfinex bt = new Bitfinex(base.APIKey, ""))
-            {
-                Assert.Throws<ExchangeAuthorizationException>(
-                    delegate
-                    {
-                        bt.CreateSellOrder(1200m, 99000.00m);
-                    });
-            }
+            Assert.Throws<ExchangeAuthorizationException>(
+                delegate
+                {
+                    Bitfinex bt = new Bitfinex(base.APIKey, "");
+                });
+
         }
 
         [Test]

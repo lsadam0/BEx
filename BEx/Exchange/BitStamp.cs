@@ -129,7 +129,7 @@ namespace BEx
 
         #region Authorization
 
-        protected override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        protected internal override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
 
@@ -154,12 +154,13 @@ namespace BEx
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
         }
 
+        /*
         public static byte[] SignHMACSHA256(String key, byte[] data)
         {
             HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
             return hashMaker.ComputeHash(data);
         }
-
+        */
         #endregion Authorization
 
         #region Command Execution
@@ -217,28 +218,7 @@ namespace BEx
             return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
         }
 
-        /*
-        protected override object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("address", address);
-
-            return (string)SendCommandToDispatcher<string, string>(command, toWithdraw, Currency.None, parameters);
-        }
-
-                protected override PendingDeposits ExecutePendingDepositsCommand(APICommand command)
-        {
-            return (PendingDeposits)SendCommandToDispatcher<List<BitStampPendingDepositJSON>, PendingDeposits>(command, Currency.BTC, Currency.USD);
-        }
-
-        protected override PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command)
-        {
-            return (PendingWithdrawals)SendCommandToDispatcher<List<BitStampPendingWithdrawalJSON>, PendingWithdrawals>(command, Currency.BTC, Currency.USD);
-        }
-         */
-
+   
         #endregion Command Execution
     }
 }
