@@ -58,8 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Balance.cs" />
     <Compile Include="AccountBalance.cs" />
-    <Compile Include="AccountBalances.cs" />
     <Compile Include="APIResult.cs" />
     <Compile Include="Common\UnixTime.cs" />
     <Compile Include="DepositAddress.cs" />

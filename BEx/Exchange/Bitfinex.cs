@@ -189,9 +189,9 @@ namespace BEx
             return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency, parameters);
         }
 
-        protected override AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalances)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>, AccountBalances>(command, baseCurrency, counterCurrency);
+            return (AccountBalance)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>, AccountBalance>(command, baseCurrency, counterCurrency);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)

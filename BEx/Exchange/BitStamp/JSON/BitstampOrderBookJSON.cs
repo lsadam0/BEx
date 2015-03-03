@@ -42,7 +42,6 @@ namespace BEx.BitStampSupport
                 res.AsksByPrice.Add(price, amount);
             }
 
-            //res.TimeStamp = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp));
             return res;
         }
     }

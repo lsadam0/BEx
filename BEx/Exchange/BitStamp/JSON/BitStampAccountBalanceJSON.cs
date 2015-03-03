@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.BitStampSupport
 {
-    public class BitStampAccountBalanceJSON : ExchangeResponse<AccountBalances>
+    public class BitStampAccountBalanceJSON : ExchangeResponse<AccountBalance>
     {
         [JsonProperty("btc_reserved")]
         public string BtcReserved { get; set; }
@@ -27,19 +27,23 @@ namespace BEx.BitStampSupport
         [JsonProperty("usd_available")]
         public string UsdAvailable { get; set; }
 
-        public override AccountBalances ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            AccountBalances res;
+            AccountBalance res;
 
-            AccountBalance balance = new AccountBalance(DateTime.Now);
+            Balance btcBalance = new Balance(DateTime.Now);
+            btcBalance.BalanceCurrency = Currency.BTC;
 
-            balance.Available.Add(Currency.USD, Convert.ToDecimal(UsdAvailable));
-            balance.Available.Add(Currency.BTC, Convert.ToDecimal(BtcAvailable));
+            btcBalance.AvailableToTrade = Convert.ToDecimal(BtcAvailable);
+            btcBalance.TotalBalance = Convert.ToDecimal(BtcBalance);
 
-            balance.Balance.Add(Currency.USD, Convert.ToDecimal(UsdBalance));
-            balance.Balance.Add(Currency.BTC, Convert.ToDecimal(BtcBalance));
+            Balance usdBalance = new Balance(DateTime.Now);
 
-            res = new AccountBalances(new List<AccountBalance>() { balance }, baseCurrency, counterCurrency);
+            usdBalance.AvailableToTrade = Convert.ToDecimal(UsdAvailable);
+            usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance);
+            usdBalance.BalanceCurrency = Currency.USD;
+
+            res = new AccountBalance(new List<Balance>() { btcBalance, usdBalance }, baseCurrency, counterCurrency);
 
             return res;
         }

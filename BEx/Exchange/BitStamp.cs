@@ -127,8 +127,6 @@ namespace BEx
             else return null;
         }
 
-        #region Authorization
-
         protected internal override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
@@ -154,15 +152,6 @@ namespace BEx
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
         }
 
-        /*
-        public static byte[] SignHMACSHA256(String key, byte[] data)
-        {
-            HMACSHA256 hashMaker = new HMACSHA256(Encoding.ASCII.GetBytes(key));
-            return hashMaker.ComputeHash(data);
-        }
-        */
-        #endregion Authorization
-
         #region Command Execution
 
         protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
@@ -180,9 +169,9 @@ namespace BEx
             return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency);
         }
 
-        protected override AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
-            return (AccountBalances)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalances>(command, baseCurrency, counterCurrency);
+            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalance>(command, baseCurrency, counterCurrency);
         }
 
         protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
@@ -218,7 +207,7 @@ namespace BEx
             return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
         }
 
-   
+
         #endregion Command Execution
     }
 }

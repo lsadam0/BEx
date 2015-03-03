@@ -5,11 +5,20 @@ using System.Xml.Linq;
 
 namespace BEx
 {
-    public delegate string GetSignature();
+    internal delegate string GetSignature();
 
-    public abstract class Exchange : IDisposable
+    public abstract class Exchange
     {
         #region Vars
+
+        private Dictionary<Currency, decimal> tradingFees = new Dictionary<Currency, decimal>();
+        public decimal CurrentTradingFee(Currency tradeCurrency)
+        {
+            if (!tradingFees.ContainsKey(tradeCurrency))
+                tradingFees[tradeCurrency] = this.GetTradingFee(tradeCurrency);
+
+            return tradingFees[tradeCurrency];
+        }
 
         /// <summary>
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
@@ -31,12 +40,6 @@ namespace BEx
         }
 
         public Uri BaseURI
-        {
-            get;
-            set;
-        }
-
-        public Uri AuthenticatedURI
         {
             get;
             set;
@@ -85,16 +88,10 @@ namespace BEx
             LoadConfigFromXML(configFile);
 
             string apiClient = null;
-            string authenticatedClient = null;
 
             apiClient = BaseURI.ToString();
 
-            if (AuthenticatedURI != null)
-                authenticatedClient = AuthenticatedURI.ToString();
-            else
-                authenticatedClient = null;
-
-            dispatcher = new RequestDispatcher(apiClient, authenticatedClient);
+            dispatcher = new RequestDispatcher(apiClient);
 
             apiRequestFactory = new RequestFactory();
             apiRequestFactory.GetSignature += CreateSignature;
@@ -128,6 +125,15 @@ namespace BEx
         #region API Commands
 
         #region GetOrderBook
+
+        protected decimal ExecuteTradingFeeCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return 0;
+        }
+        private decimal GetTradingFee(Currency feeCurrency)
+        {
+            return ExecuteTradingFeeCommand(APICommandCollection["TradingFee"], feeCurrency, Currency.USD);
+        }
 
         protected abstract OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
@@ -220,18 +226,18 @@ namespace BEx
 
         #region Account Balance
 
-        protected abstract AccountBalances ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+        protected abstract AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        public AccountBalances GetAccountBalance()
+
+        /// <summary>
+        /// Get complete Balance information for your Exchange account
+        /// </summary>
+        /// <returns>AccountBalance</returns>
+        public AccountBalance GetAccountBalance()
         {
-            return GetAccountBalance(Currency.BTC, Currency.USD);
-        }
+            AccountBalance res;
 
-        public AccountBalances GetAccountBalance(Currency baseCurrency, Currency counterCurrency)
-        {
-            AccountBalances res;
-
-            res = ExecuteAccountBalanceCommand(APICommandCollection["AccountBalance"], baseCurrency, counterCurrency);
+            res = ExecuteAccountBalanceCommand(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
 
             return res;
         }
@@ -342,11 +348,20 @@ namespace BEx
 
         protected abstract DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
 
+        /// <summary>
+        /// Get your BTC Deposit Address for the Exchange
+        /// </summary>
+        /// <returns>DepositAddress</returns>
         public DepositAddress GetDepositAddress()
         {
             return GetDepositAddress(Currency.BTC);
         }
 
+        /// <summary>
+        /// Get the Deposit Address for the requested CryptoCurrency
+        /// </summary>
+        /// <param name="toDeposit">CryptoCurrency to deposit</param>
+        /// <returns></returns>
         public DepositAddress GetDepositAddress(Currency toDeposit)
         {
             DepositAddress res;
@@ -360,55 +375,7 @@ namespace BEx
 
         #endregion Deposit Address
 
-        /*
 
-        #region Withdraw
-
-        protected abstract object ExecuteWithdrawCommand(APICommand command, Currency toWithdraw, string address, decimal amount);
-
-        public object Withdraw(Currency toWithdraw, string address, decimal amount)
-        {
-            object res;
-
-            res = ExecuteWithdrawCommand(APICommandCollection["Withdraw"], toWithdraw, address, amount);
-
-            return res;
-        }
-
-        #endregion Withdraw
-
-        #region Pending Deposits
-
-        protected abstract PendingDeposits ExecutePendingDepositsCommand(APICommand command);
-
-        public PendingDeposits GetPendingDeposits()
-        {
-            PendingDeposits res = null;
-
-            res = ExecutePendingDepositsCommand(APICommandCollection["PendingDeposits"]);
-            //res = SendCommandToDispatcher<object>(APICommandCollection["PendingDeposits"], Currency.None, Currency.None);
-
-            return res;
-        }
-
-        #endregion Pending Deposits
-
-        #region Pending Withdrawals
-
-        protected abstract PendingWithdrawals ExecutePendingWithdrawalsCommand(APICommand command);
-
-        public PendingWithdrawals GetPendingWithdrawals()
-        {
-            PendingWithdrawals res = null;
-
-            res = ExecutePendingWithdrawalsCommand(APICommandCollection["PendingWithdrawals"]);
-
-            return res;
-        }
-
-        #endregion Pending Withdrawals
-
-        */
 
         #endregion API Commands
 
@@ -420,30 +387,6 @@ namespace BEx
         }
 
         internal protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
-
-        #region Dispose
-
-        private bool disposed = false;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    apiRequestFactory = null;
-                    dispatcher = null;
-                }
-            }
-        }
-
-        #endregion Dispose
 
         #region Load Exchange from XML
 
@@ -469,8 +412,6 @@ namespace BEx
 
             BaseURI = new Uri(baseUrl);
 
-            if (configFile.Element("AuthenticatedURL") != null)
-                AuthenticatedURI = new Uri(configFile.Element("AuthenticatedURL").Value);
 
             LoadSupportedPairs(configFile);
 

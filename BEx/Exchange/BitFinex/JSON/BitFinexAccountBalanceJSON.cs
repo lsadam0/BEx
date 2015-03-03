@@ -3,7 +3,7 @@ using System;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitFinexAccountBalanceJSON : ExchangeResponse<AccountBalance>
+    internal class BitFinexAccountBalanceJSON : ExchangeResponse<Balance>
     {
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -17,18 +17,21 @@ namespace BEx.BitFinexSupport
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Balance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            AccountBalance res = new AccountBalance(DateTime.Now);
+
+            Balance res = null;
 
             if (Type == "exchange")
             {
+                res = new Balance(DateTime.Now);
                 Currency bCurrency;
 
                 if (Enum.TryParse<Currency>(Currency.ToUpper(), out bCurrency))
                 {
-                    res.Available.Add(bCurrency, Convert.ToDecimal(Available));
-                    res.Balance.Add(bCurrency, Convert.ToDecimal(Amount));
+                    res.BalanceCurrency = bCurrency;
+                    res.AvailableToTrade = Convert.ToDecimal(Available);
+                    res.TotalBalance = Convert.ToDecimal(Amount);
                 }
             }
 

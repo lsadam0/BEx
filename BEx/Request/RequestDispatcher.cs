@@ -1,4 +1,4 @@
-﻿ using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -26,20 +26,11 @@ namespace BEx
             set;
         }
 
-        private RestClient authenticatedClient
-        {
-            get;
-            set;
-        }
-
-        internal RequestDispatcher(string apiUri, string authenticatedUri = null)
+        internal RequestDispatcher(string apiUri)
         {
             apiClient = new RestClient(apiUri);
 
-            if (authenticatedUri != null)
-                authenticatedClient = new RestClient(authenticatedUri);
-            else
-                authenticatedClient = null;
+
 
             ErrorMessageRegex = new Regex("\"error\"");
         }
@@ -59,10 +50,7 @@ namespace BEx
             IRestResponse response;
             object result = null;
 
-            if (commandReference.RequiresAuthentication && authenticatedClient != null)
-                response = authenticatedClient.Execute(request);
-            else
-                response = apiClient.Execute(request);
+            response = apiClient.Execute(request);
 
             bool responseIsError = false;
             if (IsError != null)

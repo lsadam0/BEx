@@ -5,48 +5,47 @@ namespace NUnitTests
 {
     [TestFixture]
     [Category("BitStamp.Authenticated")]
-    public class BitStamp_Authenticated_Commands : VerifyExchangeBase
+    public class BitStamp_Authenticated_Commands : ExchangeVerificationBase
     {
         public BitStamp_Authenticated_Commands()
             : base(typeof(BEx.BitStamp))
         {
-            toTest = new BitStamp(base.APIKey, base.Secret, base.ClientID);
         }
 
         [Test]
         public void BitStamp_GetAccountBalance()
         {
-            VerifyAccountBalance();
+            CommandVerification.VerifyAccountBalance();
         }
 
         [Test]
         public void BitStamp_CreateBuyOrder()
         {
-            VerifyBuyOrder();
+            CommandVerification.VerifyBuyOrder();
         }
 
         [Test]
         public void BitStamp_CreateSellOrder()
         {
-            VerifySellOrder();
+            CommandVerification.VerifySellOrder();
         }
 
         [Test]
         public void BitStamp_GetOpenOrders()
         {
-            VerifyOpenOrders();
+            CommandVerification.VerifyOpenOrders();
         }
 
         [Test]
         public void BitStamp_GetUserTransactions()
         {
-            VerifyUserTransactions();
+            CommandVerification.VerifyUserTransactions();
         }
 
         [Test]
         public void BitStamp_GetDepositAddress()
         {
-            VerifyDepositAddress();
+            CommandVerification.VerifyDepositAddress();
         }
     }
 }

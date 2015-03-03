@@ -5,12 +5,12 @@ namespace NUnitTests
 {
     [TestFixture]
     [Category("BitFinex.Authenticated")]
-    public class BitFinex_Authenticated_Commands : VerifyExchangeBase
+    public class BitFinex_Authenticated_Commands : ExchangeVerificationBase
     {
         public BitFinex_Authenticated_Commands()
             : base(typeof(BEx.Bitfinex))
         {
-            toTest = new Bitfinex(base.APIKey, base.Secret);
+           
         }
 
         #region Account Balance Tests
@@ -18,7 +18,8 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetAccountBalance()
         {
-            VerifyAccountBalance();
+            CommandVerification.VerifyAccountBalance();
+
         }
 
         #endregion Account Balance Tests
@@ -28,7 +29,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetDepositAddress()
         {
-            VerifyDepositAddress();
+            CommandVerification.VerifyDepositAddress();
         }
 
         #endregion Deposit Address
@@ -36,7 +37,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetUserTransactions()
         {
-            VerifyUserTransactions();
+            CommandVerification.VerifyUserTransactions();
         }
 
         #region Orders
@@ -44,37 +45,21 @@ namespace NUnitTests
         [Test]
         public void BitFinex_CreateSellOrder()
         {
-            Order o = toTest.CreateSellOrder(Currency.BTC, Currency.USD, 0.02m, 10000.00m);
-
-            VerifySellOrder();
-
-            OpenOrders open = toTest.GetOpenOrders();
-
-            Assert.IsTrue(open.Orders.Count > 0);
-
-            Assert.IsNotNull(open.Orders.Find(x => x.ID == o.ID));
-
-            bool cancelled = toTest.CancelOrder(o.ID);
-
-            Assert.IsTrue(cancelled);
-
-            open = toTest.GetOpenOrders();
-
-            Assert.IsTrue(open.Orders.Count == 0);
+            CommandVerification.VerifySellOrder();
         }
 
         [Test]
         public void BitFinex_CreateBuyOrder()
         {
-            Order o = toTest.CreateBuyOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
+            Order o = testCandidate.CreateBuyOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
 
-            VerifyBuyOrder();
+            CommandVerification.VerifyBuyOrder();
         }
 
         [Test]
         public void BitFinex_GetOpenOrders()
         {
-            VerifyOpenOrders();
+            CommandVerification.VerifyOpenOrders();
         }
 
         #endregion Orders

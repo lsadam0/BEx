@@ -5,18 +5,17 @@ namespace NUnitTests
 {
     [TestFixture]
     [Category("BitFinex.Unauthenticated")]
-    public class BitFinex_Unauthenticated_Commands : VerifyExchangeBase
+    public class BitFinex_Unauthenticated_Commands : ExchangeVerificationBase
     {
         public BitFinex_Unauthenticated_Commands()
             : base(typeof(BEx.Bitfinex))
         {
-            toTest = new Bitfinex(base.APIKey, base.Secret);
         }
 
         [Test]
         public void BitFinex_GetTick()
         {
-            VerifyTick();
+            CommandVerification.VerifyTick();
         }
 
         #region OrderBook Tests
@@ -24,7 +23,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetOrderBook()
         {
-            VerifyOrderBook();
+            CommandVerification.VerifyOrderBook();
         }
 
         #endregion OrderBook Tests
@@ -34,7 +33,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_GetTransactions()
         {
-            VerifyTransactions();
+            CommandVerification.VerifyTransactions();
         }
 
         #endregion Transaction Tests

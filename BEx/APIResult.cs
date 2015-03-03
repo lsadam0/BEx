@@ -2,10 +2,15 @@
 
 namespace BEx
 {
+    /// <summary>
+    /// Exchange Result Base Class
+    /// </summary>
     public class APIResult
     {
         /// <summary>
-        /// Exchange reported TimeStamp of the action
+        /// Exchange reported TimeStamp of the action.  When the Exchange oes not provide
+        /// a TimeStamp, this value will be eual to LocalTimeStamp.
+        /// 
         /// </summary>
         public DateTime ExchangeTimeStamp
         {
@@ -14,7 +19,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Local Machine TimeStamp of the Action
+        /// Local Machine TimeStamp marking the time at which an APICommand has successfully executed.
         /// </summary>
         public DateTime LocalTimeStamp
         {

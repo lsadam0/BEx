@@ -5,30 +5,29 @@ namespace NUnitTests
 {
     [TestFixture]
     [Category("BitStamp.Unauthenticated")]
-    public class BitStamp_Unauthenticated_Commands : VerifyExchangeBase
+    public class BitStamp_Unauthenticated_Commands : ExchangeVerificationBase
     {
         public BitStamp_Unauthenticated_Commands()
             : base(typeof(BEx.BitStamp))
         {
-            toTest = new BitStamp(base.APIKey, base.Secret, base.ClientID);
         }
 
         [Test]
         public void BitStamp_GetTick()
         {
-            VerifyTick();
+            CommandVerification.VerifyTick();
         }
 
         [Test]
         public void BitStamp_GetOrderBook()
         {
-            VerifyOrderBook();
+            CommandVerification.VerifyOrderBook();
         }
 
         [Test]
         public void BitStamp_GetTransactions()
         {
-            VerifyTransactions();
+            CommandVerification.VerifyTransactions();
         }
     }
 }

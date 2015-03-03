@@ -19,12 +19,7 @@ namespace BEx.BitFinexSupport
 
         public override DepositAddress ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            DepositAddress res = new DepositAddress(DateTime.Now);
-
-            res.Address = Address;
-            res.DepositCurrency = baseCurrency;
-
-            return res;
+            return new DepositAddress(Address, DateTime.Now, baseCurrency);
         }
     }
 }
