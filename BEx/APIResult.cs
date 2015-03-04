@@ -7,10 +7,11 @@ namespace BEx
     /// </summary>
     public class APIResult
     {
-        internal APIResult(DateTime exchangeTimeStamp)
+        internal APIResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
         {
             ExchangeTimeStamp = exchangeTimeStamp;
             LocalTimeStamp = DateTime.Now;
+            SourceExchange = sourceExchange;
         }
 
         /// <summary>
@@ -31,6 +32,15 @@ namespace BEx
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Exchange from which this result was received
+        /// </summary>
+        public ExchangeType SourceExchange
+        {
+            get;
+            private set;
         }
     }
 }

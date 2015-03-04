@@ -3,37 +3,52 @@ using System.Collections.Generic;
 
 namespace BEx
 {
+    /// <summary>
+    /// Open Order Book for the trading Pair
+    /// </summary>
     public class OrderBook : APIResult
     {
-        internal OrderBook(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal OrderBook(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
             BidsByPrice = new SortedDictionary<decimal, decimal>();
             AsksByPrice = new SortedDictionary<decimal, decimal>();
         }
 
+        /// <summary>
+        /// Total Ask Orders sorted and indexed by Price
+        /// </summary>
         public SortedDictionary<Decimal, Decimal> AsksByPrice
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Base Currency
+        /// </summary>
         public Currency BaseCurrency
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Total Bid Orders sorted and indexed by Price
+        /// </summary>
         public SortedDictionary<Decimal, Decimal> BidsByPrice
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Counter Currency
+        /// </summary>
         public Currency CounterCurrency
         {
             get;
-            set;
+            internal set;
         }
 
         public override string ToString()

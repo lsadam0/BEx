@@ -68,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ErrorMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\BExException.cs" />
     <Compile Include="Exceptions\CancelOrderRejectedException.cs" />
     <Compile Include="Exceptions\ExchangeAuthorizationException.cs" />
     <Compile Include="Exceptions\OrderRejectedException.cs" />
@@ -93,11 +94,9 @@
     <Compile Include="APIError.cs" />
     <Compile Include="Exchange\ErrorCodes.cs" />
     <Compile Include="Exchange\ExchangeResponse.cs" />
+    <Compile Include="Exchange\ExchangeType.cs" />
     <Compile Include="OpenOrders.cs" />
     <Compile Include="Order.cs" />
-    <Compile Include="PendingDeposit.cs" />
-    <Compile Include="PendingDeposits.cs" />
-    <Compile Include="PendingWithdrawals.cs" />
     <Compile Include="Request\APICommand.cs" />
     <Compile Include="Exchange\BitStamp.cs" />
     <Compile Include="Currency.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="Transactions.cs" />
     <Compile Include="UserTransaction.cs" />
     <Compile Include="UserTransactions.cs" />
-    <Compile Include="PendingWithdrawal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BitFinex.xml">

@@ -7,8 +7,8 @@ namespace BEx
     /// </summary>
     public class Balance : APIResult
     {
-        internal Balance(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal Balance(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
         }
 

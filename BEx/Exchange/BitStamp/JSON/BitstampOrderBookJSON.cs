@@ -17,7 +17,7 @@ namespace BEx.BitStampSupport
 
         public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderBook res = new OrderBook(UnixTime.UnixTimeStampToDateTime(Timestamp));
+            OrderBook res = new OrderBook(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitStamp);
 
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;

@@ -19,12 +19,11 @@ namespace BEx.BitFinexSupport
 
         public override Balance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-
             Balance res = null;
 
             if (Type == "exchange")
             {
-                res = new Balance(DateTime.Now);
+                res = new Balance(DateTime.Now, ExchangeType.BitFinex);
                 Currency bCurrency;
 
                 if (Enum.TryParse<Currency>(Currency.ToUpper(), out bCurrency))

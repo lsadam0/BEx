@@ -4,9 +4,10 @@ using System.Runtime.Serialization;
 namespace BEx
 {
     [Serializable]
-    public class CancelOrderRejectedException : Exception, ISerializable
+    public class CancelOrderRejectedException : BExException
     {
         public CancelOrderRejectedException()
+            : base()
         {
         }
 

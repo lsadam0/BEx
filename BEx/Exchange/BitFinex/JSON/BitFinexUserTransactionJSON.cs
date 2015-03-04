@@ -32,7 +32,7 @@ namespace BEx.BitFinexSupport
 
         public override UserTransaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp)));
+            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp)), ExchangeType.BitFinex);
 
             u.ID = Tid;
             u.Type = UserTransactionType.Trade;

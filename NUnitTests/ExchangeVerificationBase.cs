@@ -1,13 +1,11 @@
-﻿using System;
+﻿using BEx;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using NUnit.Framework;
-
-using BEx;
+using System.Xml.Linq;
 
 namespace NUnitTests
 {
@@ -34,10 +32,10 @@ namespace NUnitTests
             set;
         }
 
-
         private static object testVelocityLock = new object();
 
         private ExchangeCommandVerification commandVerification = null;
+
         public ExchangeCommandVerification CommandVerification
         {
             get
@@ -52,9 +50,9 @@ namespace NUnitTests
         }
 
         private ExchangeExceptionVerification exceptionVerification = null;
+
         public ExchangeExceptionVerification ExceptionVerification
         {
-
             get
             {
                 if (exceptionVerification == null)
@@ -76,12 +74,10 @@ namespace NUnitTests
                 testCandidate = new Bitfinex(APIKey, Secret);
 
             testCandidateType = exchangeType;
-
         }
 
         protected ExchangeVerificationBase(Exchange candidate)
         {
-
             APIKey = candidate.APIKey;// apiKey;
             Secret = candidate.SecretKey;//secret;
             ClientID = candidate.ClientID;
@@ -93,7 +89,6 @@ namespace NUnitTests
         private void GetAPIKeys(Type exchangeType)
         {
             XElement keyFile = XElement.Load(@"C:\_Work\BEx\TestingKeys.xml");
-
 
             XElement exchangeElement = null;
 
@@ -117,14 +112,10 @@ namespace NUnitTests
 
             if (exchangeElement.Element("ClientID") != null)
                 ClientID = exchangeElement.Element("ClientID").Value;
-
-
         }
-
 
         protected ExchangeVerificationBase()
         {
-
         }
 
         protected void Debug(string message)
@@ -139,11 +130,11 @@ namespace NUnitTests
         /// </summary>
         protected void ThrottleTestVelocity()
         {
+            /*
             lock (testVelocityLock)
             {
                 new System.Threading.ManualResetEvent(false).WaitOne(2000);
-            }
+            }*/
         }
-
     }
 }

@@ -3,6 +3,7 @@ using System;
 
 namespace BEx.BitStampSupport
 {
+    /*
     public class BitStampPendingWithdrawalJSON : ExchangeResponse<PendingWithdrawal>
     {
         [JsonProperty("status")]
@@ -94,4 +95,5 @@ namespace BEx.BitStampSupport
             return res;
         }
     }
+    */
 }

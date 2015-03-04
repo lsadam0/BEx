@@ -32,7 +32,7 @@ namespace BEx.BitFinexSupport
 
         public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp));
+            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 
             res.Ask = Convert.ToDecimal(Ask);
             res.BaseCurrency = baseCurrency;

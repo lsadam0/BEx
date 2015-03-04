@@ -14,7 +14,7 @@ namespace BEx
         private Regex errorId;
 
         public BitStamp(string apiKey, string secretKey, string clientId)
-            : base("Bitstamp.xml")
+            : base("Bitstamp.xml", ExchangeType.BitStamp)
         {
             VerifyCredentials(apiKey, secretKey, clientId);
 
@@ -36,16 +36,16 @@ namespace BEx
                 string loweredMessage = errorMessage.ToLower();
                 if (loweredMessage.Contains("check your account balance for details"))
                 {
-                    error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
+                    error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, this.ExchangeSourceType);
                 }
                 else if (loweredMessage.Contains("api key not found") || loweredMessage.Contains("invalid signature"))
                 {
-                    error = new APIError(errorMessage, BExErrorCode.Authorization);
+                    error = new APIError(errorMessage, BExErrorCode.Authorization, this.ExchangeSourceType);
                 }
 
                 if (error == null)
                 {
-                    error = new APIError(message, BExErrorCode.Unknown);
+                    error = new APIError(message, BExErrorCode.Unknown, this.ExchangeSourceType);
                 }
 
                 return error;

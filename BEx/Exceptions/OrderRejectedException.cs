@@ -3,14 +3,11 @@ using System.Runtime.Serialization;
 
 namespace BEx
 {
-    //class OrderRejectedException
-    //{
-    //}
-
     [Serializable]
-    public class InsufficientFundsException : Exception, ISerializable
+    public class InsufficientFundsException : BExException
     {
         public InsufficientFundsException()
+            : base()
         {
         }
 

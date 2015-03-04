@@ -8,14 +8,14 @@ namespace BEx
     /// </summary>
     public class OpenOrders : APIResult
     {
-        internal OpenOrders()
-            : base(DateTime.Now)
+        internal OpenOrders(ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
             Orders = new Dictionary<int, Order>();
         }
 
-        internal OpenOrders(List<Order> orders, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
+        internal OpenOrders(List<Order> orders, Currency baseCurrency, Currency counterCurrency, ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
             Orders = new Dictionary<int, Order>();
 
@@ -28,7 +28,7 @@ namespace BEx
         public Dictionary<int, Order> Orders
         {
             get;
-            private set;
+            internal set;
         }
     }
 }

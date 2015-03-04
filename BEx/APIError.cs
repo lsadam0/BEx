@@ -5,13 +5,13 @@ namespace BEx
     [Serializable]
     public class APIError : APIResult
     {
-        public APIError()
-            : base(DateTime.Now)
+        public APIError(ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
         }
 
-        public APIError(string message, BExErrorCode code)
-            : base(DateTime.Now)
+        public APIError(string message, BExErrorCode code, ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
             Message = message;
             ErrorCode = code;

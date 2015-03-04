@@ -9,6 +9,12 @@ namespace BEx
 
     public abstract class Exchange
     {
+        public ExchangeType ExchangeSourceType
+        {
+            get;
+            private set;
+        }
+
         public HashSet<Currency> SupportedCurrencies;
 
         /// <summary>
@@ -16,15 +22,17 @@ namespace BEx
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedTradingPairs;
 
-        protected Exchange(string configFile)
+        protected Exchange(string configFile, ExchangeType exchangeSourceType)
         {
+            ExchangeSourceType = exchangeSourceType;
+
             LoadConfigFromXML(configFile);
 
             string apiClient = null;
 
             apiClient = BaseURI.ToString();
 
-            dispatcher = new RequestDispatcher(apiClient);
+            dispatcher = new RequestDispatcher(apiClient, ExchangeSourceType);
 
             apiRequestFactory = new RequestFactory();
             apiRequestFactory.GetSignature += CreateSignature;
@@ -237,11 +245,7 @@ namespace BEx
         /// <returns></returns>
         public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
         {
-            Transactions res = new Transactions(DateTime.Now);
-
-            res = ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
-
-            return res;
+            return ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
         }
 
         public UserTransactions GetUserTransactions()

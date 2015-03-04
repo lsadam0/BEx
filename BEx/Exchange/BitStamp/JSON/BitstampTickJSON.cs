@@ -23,7 +23,7 @@ namespace BEx.BitStampSupport
 
         public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp));
+            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), ExchangeType.BitStamp);
 
             res.Ask = Convert.ToDecimal(ask);
             res.Bid = Convert.ToDecimal(bid);

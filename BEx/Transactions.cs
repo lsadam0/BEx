@@ -6,13 +6,13 @@ namespace BEx
 {
     public class Transactions : APIResult
     {
-        internal Transactions(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal Transactions(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
         }
 
-        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
+        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency, ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
             BaseCurrency = baseCurrency;
             CounterCurrency = counterCurrency;

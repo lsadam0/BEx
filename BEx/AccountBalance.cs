@@ -8,8 +8,8 @@ namespace BEx
     /// </summary>
     public class AccountBalance : APIResult
     {
-        internal AccountBalance(List<Balance> balances, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
+        internal AccountBalance(List<Balance> balances, Currency baseCurrency, Currency counterCurrency, ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
             BalanceByCurrency = new Dictionary<Currency, Balance>();
 

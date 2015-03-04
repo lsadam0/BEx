@@ -9,7 +9,7 @@ namespace BEx.BitStampSupport
 
         public APIError ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            APIError error = new APIError();
+            APIError error = new APIError(ExchangeType.BitStamp);
 
             error.Message = Error;
 

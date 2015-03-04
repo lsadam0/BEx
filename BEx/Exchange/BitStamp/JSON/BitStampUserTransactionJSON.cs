@@ -33,7 +33,7 @@ namespace BEx.BitStampSupport
         {
             if (OrderId != null)
             {
-                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime));
+                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
 
                 res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
                 res.CounterCurrencyAmount = Convert.ToDecimal(Usd);

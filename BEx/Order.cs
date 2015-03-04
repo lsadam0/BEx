@@ -13,8 +13,8 @@ namespace BEx
     /// </summary>
     public class Order : APIResult
     {
-        internal Order(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
         }
 
@@ -51,7 +51,7 @@ namespace BEx
         public int ID
         {
             get;
-            set;
+            internal set;
         }
 
         /// <summary>

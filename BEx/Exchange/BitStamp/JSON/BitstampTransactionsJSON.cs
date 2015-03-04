@@ -20,7 +20,7 @@ namespace BEx.BitStampSupport
 
         public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date)));
+            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date)), ExchangeType.BitStamp);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);

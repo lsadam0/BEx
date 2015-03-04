@@ -11,8 +11,8 @@ namespace BEx
 
     public class UserTransaction : APIResult
     {
-        public UserTransaction(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        public UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         { }
 
         public Decimal BaseCurrencyAmount

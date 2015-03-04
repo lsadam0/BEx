@@ -37,7 +37,7 @@ namespace BEx.BitFinexSupport
 
         public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            OrderBook res = new OrderBook(DateTime.Now);
+            OrderBook res = new OrderBook(DateTime.Now, ExchangeType.BitFinex);
 
             res.BaseCurrency = baseCurrency;
             res.CounterCurrency = counterCurrency;

@@ -17,11 +17,12 @@ namespace BEx
         internal DetermineErrorConditionDelegate DetermineErrorCondition;
         internal IsErrorDelegate IsError;
         private Regex ErrorMessageRegex;
+        private ExchangeType SourceExchangeType;
 
-        internal RequestDispatcher(string apiUri)
+        internal RequestDispatcher(string apiUri, ExchangeType sourceExchange)
         {
             apiClient = new RestClient(apiUri);
-
+            SourceExchangeType = sourceExchange;
             ErrorMessageRegex = new Regex("\"error\"");
         }
 
@@ -105,7 +106,7 @@ namespace BEx
                 res = (APIResult)Activator.CreateInstance(typeof(E),
                                                             BindingFlags.NonPublic | BindingFlags.Instance,
                                                             null,
-                                                            new object[] { collection, baseCurrency, counterCurrency },
+                                                            new object[] { collection, baseCurrency, counterCurrency, SourceExchangeType },
                                                             null); // Culture?
             }
             else
@@ -123,7 +124,7 @@ namespace BEx
                 E result = (E)Activator.CreateInstance(typeof(E),
                                               BindingFlags.NonPublic | BindingFlags.Instance,
                                               null,
-                                              new object[] { deserialized },
+                                              new object[] { deserialized, SourceExchangeType },
                                               null); // Culture?
 
                 return result;
@@ -144,7 +145,7 @@ namespace BEx
 
             if (error == null)
             {
-                error = new APIError();
+                error = new APIError(SourceExchangeType);
                 error.Message = response.Content;
             }
 

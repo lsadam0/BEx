@@ -6,8 +6,8 @@ namespace BEx
 {
     public class UserTransactions : APIResult
     {
-        internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
+        internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency, ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
         {
             UserTrans = transactions;
             BaseCurrency = baseCurrency;

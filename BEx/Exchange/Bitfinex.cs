@@ -12,7 +12,7 @@ namespace BEx
     public class Bitfinex : Exchange
     {
         public Bitfinex(string apiKey, string secret)
-            : base("BitFinex.xml")
+            : base("BitFinex.xml", ExchangeType.BitFinex)
         {
             VerifyCredentials(apiKey, secret);
 
@@ -28,16 +28,16 @@ namespace BEx
             string loweredMessage = errorMessage.ToLower();
             if (loweredMessage.Contains("not enough balance"))
             {
-                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
+                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, this.ExchangeSourceType);
             }
             else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
             {
-                error = new APIError(errorMessage, BExErrorCode.Authorization);
+                error = new APIError(errorMessage, BExErrorCode.Authorization, this.ExchangeSourceType);
             }
 
             if (error == null)
             {
-                error = new APIError(message, BExErrorCode.Unknown);
+                error = new APIError(message, BExErrorCode.Unknown, this.ExchangeSourceType);
             }
 
             return error;

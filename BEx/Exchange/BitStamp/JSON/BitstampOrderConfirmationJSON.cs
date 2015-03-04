@@ -22,7 +22,7 @@ namespace BEx.BitStampSupport
 
         public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Order res = new Order(Convert.ToDateTime(Datetime));
+            Order res = new Order(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
 
             res.Amount = Convert.ToDecimal(Amount);
             res.Price = Convert.ToDecimal(Price);

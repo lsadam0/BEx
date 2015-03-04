@@ -31,19 +31,19 @@ namespace BEx.BitStampSupport
         {
             AccountBalance res;
 
-            Balance btcBalance = new Balance(DateTime.Now);
+            Balance btcBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
             btcBalance.BalanceCurrency = Currency.BTC;
 
             btcBalance.AvailableToTrade = Convert.ToDecimal(BtcAvailable);
             btcBalance.TotalBalance = Convert.ToDecimal(BtcBalance);
 
-            Balance usdBalance = new Balance(DateTime.Now);
+            Balance usdBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
 
             usdBalance.AvailableToTrade = Convert.ToDecimal(UsdAvailable);
             usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance);
             usdBalance.BalanceCurrency = Currency.USD;
 
-            res = new AccountBalance(new List<Balance>() { btcBalance, usdBalance }, baseCurrency, counterCurrency);
+            res = new AccountBalance(new List<Balance>() { btcBalance, usdBalance }, baseCurrency, counterCurrency, ExchangeType.BitStamp);
 
             return res;
         }

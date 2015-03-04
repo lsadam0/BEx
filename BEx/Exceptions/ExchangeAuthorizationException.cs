@@ -4,9 +4,10 @@ using System.Runtime.Serialization;
 namespace BEx
 {
     [Serializable]
-    public class ExchangeAuthorizationException : Exception, ISerializable
+    public class ExchangeAuthorizationException : BExException
     {
         public ExchangeAuthorizationException()
+            : base()
         {
         }
 

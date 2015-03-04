@@ -4,8 +4,8 @@ namespace BEx
 {
     public class Transaction : APIResult
     {
-        internal Transaction(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         { }
 
         public Decimal Amount

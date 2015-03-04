@@ -53,7 +53,7 @@ namespace BEx.BitFinexSupport
 
         public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp));
+            Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 
             res.Amount = Convert.ToDecimal(OriginalAmount);
             res.BaseCurrency = baseCurrency;

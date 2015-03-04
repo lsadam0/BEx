@@ -4,9 +4,10 @@ using System.Runtime.Serialization;
 namespace BEx
 {
     [Serializable]
-    public class WithdrawalRejectedException : Exception, ISerializable
+    public class WithdrawalRejectedException : BExException
     {
         public WithdrawalRejectedException()
+            : base()
         {
         }
 

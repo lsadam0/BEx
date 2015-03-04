@@ -3,6 +3,7 @@ using System;
 
 namespace BEx.BitStampSupport
 {
+    /*
     public class BitStampPendingDepositJSON : ExchangeResponse<PendingDeposit>
     {
         [JsonProperty("amount")]
@@ -25,5 +26,5 @@ namespace BEx.BitStampSupport
 
             return res;
         }
-    }
+    }*/
 }

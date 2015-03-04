@@ -2,58 +2,73 @@
 
 namespace BEx
 {
+    /// <summary>
+    /// Exchange Tick
+    /// </summary>
     public class Tick : APIResult
     {
-        internal Tick(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
+        internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         { }
 
+        /// <summary>
+        /// Ask / Buy Price
+        /// </summary>
         public Decimal Ask
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Base Currency
+        /// </summary>
         public Currency BaseCurrency
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Bid / Sell Price
+        /// </summary>
         public Decimal Bid
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Counter Currency
+        /// </summary>
         public Currency CounterCurrency
         {
             get;
-            set;
+            internal set;
         }
 
         public Decimal High
         {
             get;
-            set;
+            internal set;
         }
 
         public Decimal Last
         {
             get;
-            set;
+            internal set;
         }
 
         public Decimal Low
         {
             get;
-            set;
+            internal set;
         }
 
         public Decimal Volume
         {
             get;
-            set;
+            internal set;
         }
 
         public override string ToString()

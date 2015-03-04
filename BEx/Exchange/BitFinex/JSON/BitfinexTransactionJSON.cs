@@ -26,7 +26,7 @@ namespace BEx.BitFinexSupport
 
         public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)));
+            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)), ExchangeType.BitFinex);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
