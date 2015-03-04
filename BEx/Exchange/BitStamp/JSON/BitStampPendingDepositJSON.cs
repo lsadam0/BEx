@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace BEx.BitStampSupport
+﻿namespace BEx.BitStampSupport
 {
     /*
     public class BitStampPendingDepositJSON : ExchangeResponse<PendingDeposit>

@@ -17,6 +17,7 @@ namespace NUnitTests
         {
             CommandVerification.VerifyAccountBalance();
         }
+
         /*
 
         [Test]
@@ -31,6 +32,7 @@ namespace NUnitTests
             CommandVerification.VerifySellOrder();
         }
         */
+
         [Test]
         public void BitStamp_GetOpenOrders()
         {

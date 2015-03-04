@@ -1,9 +1,7 @@
-﻿using BEx;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NUnitTests
 {
-
     [TestFixture]
     [Category("BitStamp.Exceptions")]
     public class BitStamp_Exceptions : ExchangeVerificationBase
@@ -11,17 +9,12 @@ namespace NUnitTests
         public BitStamp_Exceptions()
             : base(typeof(BEx.BitStamp))
         {
-
         }
-
-      
 
         [Test]
         public void BitStamp_MissingAPIKey_ExchangeAuthorizationException()
         {
-
             base.ExceptionVerification.MissingAPIKey_ExchangeAuthorizationException();
-
         }
 
         [Test]
@@ -45,19 +38,15 @@ namespace NUnitTests
         [Test]
         public void BitStamp_MissingClientID_ExchangeAuthorizationException()
         {
-
             base.ExceptionVerification.MissingClientID_ExchangeAuthorizationException();
-
         }
 
         [Test]
         public void BitStamp_IncorrectClientID_ExchangeAuthorizationException()
         {
             base.ExceptionVerification.IncorrectClientID_ExchangeAuthorizationException();
-            
         }
 
-        
         [Test]
         public void BitStamp_CreateSellOrder_InsufficientFundsException()
         {
@@ -68,7 +57,6 @@ namespace NUnitTests
         public void BitStamp_CreateBuyOrder_InsufficientFundsException()
         {
             base.ExceptionVerification.CreateBuyOrder_InsufficientFundsException();
-
         }
     }
 }

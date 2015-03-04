@@ -10,7 +10,6 @@ namespace NUnitTests
         public BitFinex_Authenticated_Commands()
             : base(typeof(BEx.Bitfinex))
         {
-           
         }
 
         #region Account Balance Tests
@@ -19,7 +18,6 @@ namespace NUnitTests
         public void BitFinex_GetAccountBalance()
         {
             CommandVerification.VerifyAccountBalance();
-
         }
 
         #endregion Account Balance Tests
@@ -43,6 +41,7 @@ namespace NUnitTests
         {
             CommandVerification.VerifyDepositAddress(Currency.DRK);
         }
+
         #endregion Deposit Address
 
         [Test]
@@ -52,6 +51,7 @@ namespace NUnitTests
         }
 
         #region Orders
+
         /*
         [Test]
         public void BitFinex_CreateSellOrder()
@@ -68,6 +68,7 @@ namespace NUnitTests
             CommandVerification.VerifyBuyOrder();
         }
         */
+
         [Test]
         public void BitFinex_GetOpenOrders()
         {

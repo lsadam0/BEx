@@ -1,5 +1,4 @@
-﻿using BEx;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NUnitTests
 {
@@ -15,9 +14,7 @@ namespace NUnitTests
         [Test]
         public void BitFinex_MissingAPIKey_ExchangeAuthorizationException()
         {
-
             base.ExceptionVerification.MissingAPIKey_ExchangeAuthorizationException();
-
         }
 
         [Test]
@@ -48,7 +45,6 @@ namespace NUnitTests
         public void BitFinex_CreateBuyOrder_InsufficientFundsException()
         {
             base.ExceptionVerification.CreateBuyOrder_InsufficientFundsException();
-
         }
     }
 }
