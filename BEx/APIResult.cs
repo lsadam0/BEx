@@ -7,10 +7,16 @@ namespace BEx
     /// </summary>
     public class APIResult
     {
+        internal APIResult(DateTime exchangeTimeStamp)
+        {
+            ExchangeTimeStamp = exchangeTimeStamp;
+            LocalTimeStamp = DateTime.Now;
+        }
+
         /// <summary>
         /// Exchange reported TimeStamp of the action.  When the Exchange oes not provide
         /// a TimeStamp, this value will be eual to LocalTimeStamp.
-        /// 
+        ///
         /// </summary>
         public DateTime ExchangeTimeStamp
         {
@@ -25,12 +31,6 @@ namespace BEx
         {
             get;
             set;
-        }
-
-        internal APIResult(DateTime exchangeTimeStamp)
-        {
-            ExchangeTimeStamp = exchangeTimeStamp;
-            LocalTimeStamp = DateTime.Now;
         }
     }
 }

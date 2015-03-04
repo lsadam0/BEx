@@ -4,35 +4,9 @@ namespace BEx
 {
     public class Tick : APIResult
     {
-        public Decimal High
-        {
-            get;
-            set;
-        }
-
-        public Decimal Last
-        {
-            get;
-            set;
-        }
-
-        public Decimal Bid
-        {
-            get;
-            set;
-        }
-
-        public Decimal Volume
-        {
-            get;
-            set;
-        }
-
-        public Decimal Low
-        {
-            get;
-            set;
-        }
+        internal Tick(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
 
         public Decimal Ask
         {
@@ -46,7 +20,37 @@ namespace BEx
             set;
         }
 
+        public Decimal Bid
+        {
+            get;
+            set;
+        }
+
         public Currency CounterCurrency
+        {
+            get;
+            set;
+        }
+
+        public Decimal High
+        {
+            get;
+            set;
+        }
+
+        public Decimal Last
+        {
+            get;
+            set;
+        }
+
+        public Decimal Low
+        {
+            get;
+            set;
+        }
+
+        public Decimal Volume
         {
             get;
             set;
@@ -58,9 +62,5 @@ namespace BEx
 
             return string.Format(output, BaseCurrency, CounterCurrency, Bid, Ask, High, Low, Volume, ExchangeTimeStamp.ToString());
         }
-
-        internal Tick(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        { }
     }
 }

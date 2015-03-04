@@ -3,15 +3,11 @@ using System.Collections.Generic;
 
 namespace BEx
 {
-
+    /// <summary>
+    /// All open Orders for your Exchange Account
+    /// </summary>
     public class OpenOrders : APIResult
     {
-        public Dictionary<int, Order> Orders
-        {
-            get;
-            private set;
-        }
-
         internal OpenOrders()
             : base(DateTime.Now)
         {
@@ -24,6 +20,15 @@ namespace BEx
             Orders = new Dictionary<int, Order>();
 
             orders.ForEach(x => Orders.Add(x.ID, x));
+        }
+
+        /// <summary>
+        /// Orders by Exchange Order ID
+        /// </summary>
+        public Dictionary<int, Order> Orders
+        {
+            get;
+            private set;
         }
     }
 }

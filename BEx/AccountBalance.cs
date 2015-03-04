@@ -3,12 +3,21 @@ using System.Collections.Generic;
 
 namespace BEx
 {
-
     /// <summary>
     /// Complete Balance information for the source Account
     /// </summary>
     public class AccountBalance : APIResult
     {
+        internal AccountBalance(List<Balance> balances, Currency baseCurrency, Currency counterCurrency)
+            : base(DateTime.Now)
+        {
+            BalanceByCurrency = new Dictionary<Currency, Balance>();
+
+            foreach (Balance balance in balances)
+            {
+                BalanceByCurrency.Add(balance.BalanceCurrency, balance);
+            }
+        }
 
         /// <summary>
         ///  A List of Available and Reserved Balances by Currency.  If a Currency is supported by
@@ -18,18 +27,6 @@ namespace BEx
         {
             get;
             internal set;
-        }
-
-        internal AccountBalance(List<Balance> balances, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
-        {
-
-            BalanceByCurrency = new Dictionary<Currency, Balance>();
-
-            foreach (Balance balance in balances)
-            {
-                BalanceByCurrency.Add(balance.BalanceCurrency, balance);
-            }
         }
     }
 }

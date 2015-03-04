@@ -7,6 +7,23 @@ namespace BEx
     /// </summary>
     public class DepositAddress : APIResult
     {
+        internal DepositAddress(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
+
+        internal DepositAddress(string address)
+            : base(DateTime.Now)
+        {
+            Address = address;
+        }
+
+        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency)
+            : base(exchangeTimeStamp)
+        {
+            Address = address;
+            DepositCurrency = depositCurrency;
+        }
+
         /// <summary>
         /// Deposit Address
         /// </summary>
@@ -23,23 +40,6 @@ namespace BEx
         {
             get;
             internal set;
-        }
-
-
-        internal DepositAddress(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        { }
-
-        internal DepositAddress(string address)
-            : base(DateTime.Now)
-        {
-            Address = address;
-        }
-        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency)
-            : base(exchangeTimeStamp)
-        {
-            Address = address;
-            DepositCurrency = depositCurrency;
         }
     }
 }

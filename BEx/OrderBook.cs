@@ -5,13 +5,20 @@ namespace BEx
 {
     public class OrderBook : APIResult
     {
-        public Currency BaseCurrency
+        internal OrderBook(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        {
+            BidsByPrice = new SortedDictionary<decimal, decimal>();
+            AsksByPrice = new SortedDictionary<decimal, decimal>();
+        }
+
+        public SortedDictionary<Decimal, Decimal> AsksByPrice
         {
             get;
             set;
         }
 
-        public Currency CounterCurrency
+        public Currency BaseCurrency
         {
             get;
             set;
@@ -23,7 +30,7 @@ namespace BEx
             set;
         }
 
-        public SortedDictionary<Decimal, Decimal> AsksByPrice
+        public Currency CounterCurrency
         {
             get;
             set;
@@ -34,13 +41,6 @@ namespace BEx
             string output = "{0}/{1} - Bids: {2} - Asks: {3}";
 
             return string.Format(output, BaseCurrency, CounterCurrency, BidsByPrice.Count, AsksByPrice.Count);
-        }
-
-        internal OrderBook(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        {
-            BidsByPrice = new SortedDictionary<decimal, decimal>();
-            AsksByPrice = new SortedDictionary<decimal, decimal>();
         }
     }
 }

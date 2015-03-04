@@ -4,6 +4,16 @@ namespace BEx
 {
     public class PendingDeposit : APIResult
     {
+        internal PendingDeposit(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
+
+        public string Address
+        {
+            get;
+            set;
+        }
+
         public Decimal Amount
         {
             get;
@@ -16,20 +26,10 @@ namespace BEx
             set;
         }
 
-        public string Address
-        {
-            get;
-            set;
-        }
-
         public Currency DepositedCurrency
         {
             get;
             set;
         }
-
-        internal PendingDeposit(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        { }
     }
 }

@@ -5,6 +5,18 @@ namespace BEx
     [Serializable]
     public class APIError : APIResult
     {
+        public APIError()
+            : base(DateTime.Now)
+        {
+        }
+
+        public APIError(string message, BExErrorCode code)
+            : base(DateTime.Now)
+        {
+            Message = message;
+            ErrorCode = code;
+        }
+
         public BExErrorCode ErrorCode
         {
             get;
@@ -21,18 +33,6 @@ namespace BEx
         {
             get;
             set;
-        }
-
-        public APIError()
-            : base(DateTime.Now)
-        {
-        }
-
-        public APIError(string message, BExErrorCode code)
-            : base(DateTime.Now)
-        {
-            Message = message;
-            ErrorCode = code;
         }
     }
 }

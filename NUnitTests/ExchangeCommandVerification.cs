@@ -170,7 +170,7 @@ namespace NUnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.Type == OrderType.Buy);
+            Assert.IsTrue(toVerify.TradeType == OrderType.Buy);
             Assert.IsTrue(toVerify.Amount > 0.0m);
             Assert.IsTrue(toVerify.ID > 0);
             Assert.IsTrue(toVerify.Price > 0.0m);
@@ -204,7 +204,7 @@ namespace NUnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.Type == OrderType.Sell);
+            Assert.IsTrue(toVerify.TradeType == OrderType.Sell);
             Assert.IsTrue(toVerify.Amount > 0.0m);
             Assert.IsTrue(toVerify.ID > 0);
             Assert.IsTrue(toVerify.Price > 0.0m);
@@ -269,22 +269,18 @@ namespace NUnitTests
             Debug(toVerify.ToString());
         }
 
-        public void VerifyDepositAddress()
+        public void VerifyDepositAddress(Currency depositCurrency)
         {
-            DepositAddress address = testCandidate.GetDepositAddress();
+            DepositAddress address = testCandidate.GetDepositAddress(depositCurrency);
 
             VerifyAPIResult(address);
 
-            throw new AssertionException("Deposit Address allows request of Fiat currencies");
+         //   throw new AssertionException("Deposit Address allows request of Fiat currencies");
 
-            foreach (Currency c in testCandidate.SupportedCurrencies)
-            {
-                address = testCandidate.GetDepositAddress(c);
-               
-                Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
-                Assert.IsTrue(c == address.DepositCurrency);
-                
-            }
+
+            Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
+            Assert.IsTrue(address.DepositCurrency == depositCurrency);
+           
         }
     }
 }

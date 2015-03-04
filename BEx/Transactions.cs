@@ -6,6 +6,19 @@ namespace BEx
 {
     public class Transactions : APIResult
     {
+        internal Transactions(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        {
+        }
+
+        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency)
+            : base(DateTime.Now)
+        {
+            BaseCurrency = baseCurrency;
+            CounterCurrency = counterCurrency;
+            TransactionsCollection = transactions;
+        }
+
         public Currency BaseCurrency
         {
             get;
@@ -37,19 +50,6 @@ namespace BEx
             }
             else
                 return "No Transactions in Collection";
-        }
-
-        internal Transactions(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        {
-        }
-
-        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
-        {
-            BaseCurrency = baseCurrency;
-            CounterCurrency = counterCurrency;
-            TransactionsCollection = transactions;
         }
     }
 }

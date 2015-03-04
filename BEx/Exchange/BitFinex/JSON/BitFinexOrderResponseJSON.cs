@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BEx.Common;
+using Newtonsoft.Json;
 using System;
 
 namespace BEx.BitFinexSupport
@@ -52,7 +53,7 @@ namespace BEx.BitFinexSupport
 
         public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
         {
-            Order res = new Order();
+            Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp));
 
             res.Amount = Convert.ToDecimal(OriginalAmount);
             res.BaseCurrency = baseCurrency;

@@ -9,61 +9,28 @@ namespace BEx
 
     public abstract class Exchange
     {
-        #region Vars
-
-        private Dictionary<Currency, decimal> tradingFees = new Dictionary<Currency, decimal>();
-        public decimal CurrentTradingFee(Currency tradeCurrency)
-        {
-            if (!tradingFees.ContainsKey(tradeCurrency))
-                tradingFees[tradeCurrency] = this.GetTradingFee(tradeCurrency);
-
-            return tradingFees[tradeCurrency];
-        }
+        public HashSet<Currency> SupportedCurrencies;
 
         /// <summary>
         /// Collection of currency pairs supported by the current exchange indexed by the base currency
         /// </summary>
         public Dictionary<Currency, HashSet<Currency>> SupportedTradingPairs;
 
-        public HashSet<Currency> SupportedCurrencies;
-
-        private RequestFactory apiRequestFactory
+        protected Exchange(string configFile)
         {
-            get;
-            set;
-        }
+            LoadConfigFromXML(configFile);
 
-        internal RequestDispatcher dispatcher
-        {
-            get;
-            set;
+            string apiClient = null;
+
+            apiClient = BaseURI.ToString();
+
+            dispatcher = new RequestDispatcher(apiClient);
+
+            apiRequestFactory = new RequestFactory();
+            apiRequestFactory.GetSignature += CreateSignature;
         }
 
         public Uri BaseURI
-        {
-            get;
-            set;
-        }
-
-        internal protected string APIKey
-        {
-            get;
-            set;
-        }
-
-        internal protected string SecretKey
-        {
-            get;
-            set;
-        }
-
-        internal protected string ClientID
-        {
-            get;
-            set;
-        }
-
-        protected Dictionary<string, APICommand> APICommandCollection
         {
             get;
             set;
@@ -81,251 +48,41 @@ namespace BEx
             }
         }
 
-        #endregion Vars
-
-        protected Exchange(string configFile)
+        internal RequestDispatcher dispatcher
         {
-            LoadConfigFromXML(configFile);
-
-            string apiClient = null;
-
-            apiClient = BaseURI.ToString();
-
-            dispatcher = new RequestDispatcher(apiClient);
-
-            apiRequestFactory = new RequestFactory();
-            apiRequestFactory.GetSignature += CreateSignature;
+            get;
+            set;
         }
 
-        #region Command Execution
-
-        /// <summary>
-        /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
-        /// </summary>
-        /// <param name="baseCurrency">Base Currency</param>
-        /// <param name="counterCurrency">Counter Currency</param>
-        /// <returns>True if supported, otherwise false.</returns>
-        public bool IsCurrencyPairSupported(Currency baseCurrency, Currency counterCurrency)
+        protected internal string APIKey
         {
-            bool res = false;
-
-            if (SupportedTradingPairs.ContainsKey(baseCurrency))
-            {
-                if (SupportedTradingPairs[baseCurrency].Contains(counterCurrency))
-                {
-                    res = true;
-                }
-            }
-
-            return res;
+            get;
+            set;
         }
 
-        #endregion Command Execution
-
-        #region API Commands
-
-        #region GetOrderBook
-
-        protected decimal ExecuteTradingFeeCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected internal string ClientID
         {
-            return 0;
-        }
-        private decimal GetTradingFee(Currency feeCurrency)
-        {
-            return ExecuteTradingFeeCommand(APICommandCollection["TradingFee"], feeCurrency, Currency.USD);
+            get;
+            set;
         }
 
-        protected abstract OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
-
-        /// <summary>
-        /// Get the current BTC/USD Order Book.
-        /// </summary>
-        /// <returns></returns>
-        public OrderBook GetOrderBook()
+        protected internal string SecretKey
         {
-            return GetOrderBook(Currency.BTC, Currency.USD);
+            get;
+            set;
         }
 
-        /// <summary>
-        /// Get the current Order Book for the specified Currency pair.
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
+        protected Dictionary<string, APICommand> APICommandCollection
         {
-            OrderBook res = null;
-
-            res = ExecuteOrderBookCommand(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
-            //res = (OrderBook)SendCommandToDispatcher<J>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
-
-            return res;
+            get;
+            set;
         }
 
-        #endregion GetOrderBook
-
-        #region GetTick
-
-        protected abstract Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
-
-        /// <summary>
-        /// Get the current BTC/USD Tick.
-        /// </summary>
-        /// <returns></returns>
-        public Tick GetTick()
+        private RequestFactory apiRequestFactory
         {
-            return GetTick(Currency.BTC, Currency.USD);
+            get;
+            set;
         }
-
-        /// <summary>
-        /// Get the current Tick for the specified currency pair.
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
-        {
-            Tick res = null;
-
-            res = ExecuteTickCommand(APICommandCollection["Tick"], baseCurrency, counterCurrency);
-
-            return res;
-        }
-
-        #endregion GetTick
-
-        #region GetTransactions
-
-        protected abstract Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
-
-        /// <summary>
-        /// Return BTC/USD general Transactions for past hour.
-        /// </summary>
-        /// <returns></returns>
-        public Transactions GetTransactions()
-        {
-            return GetTransactions(Currency.BTC, Currency.USD);
-        }
-
-        /// <summary>
-        /// Return general Transactions from the past hour for the specified currency pair.
-        /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
-        /// <returns></returns>
-        public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
-        {
-            Transactions res = new Transactions(DateTime.Now);
-
-            res = ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
-
-            return res;
-        }
-
-        #endregion GetTransactions
-
-        #region Account Balance
-
-        protected abstract AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
-
-
-        /// <summary>
-        /// Get complete Balance information for your Exchange account
-        /// </summary>
-        /// <returns>AccountBalance</returns>
-        public AccountBalance GetAccountBalance()
-        {
-            AccountBalance res;
-
-            res = ExecuteAccountBalanceCommand(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
-
-            return res;
-        }
-
-        #endregion Account Balance
-
-        #region Buy Limit Order
-
-        protected abstract Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
-
-        public Order CreateBuyOrder(decimal amount, decimal price)
-        {
-            return CreateBuyOrder(Currency.BTC, Currency.USD, amount, price);
-        }
-
-        public Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
-        {
-            Order res;
-
-            res = ExecuteOrderCommand(APICommandCollection["BuyOrder"], baseCurrency, counterCurrency, amount, price);
-            //res = (Order)SendCommandToDispatcher<B>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
-
-            return res;
-        }
-
-        #endregion Buy Limit Order
-
-        #region Sell Limit Order
-
-        public Order CreateSellOrder(decimal amount, decimal price)
-        {
-            return CreateSellOrder(Currency.BTC, Currency.USD, amount, price);
-        }
-
-        public Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
-        {
-            Order res;
-
-            res = ExecuteOrderCommand(APICommandCollection["SellOrder"], baseCurrency, counterCurrency, amount, price);
-
-            return res;
-        }
-
-        #endregion Sell Limit Order
-
-        #region Open Orders
-
-        protected abstract OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
-
-        public OpenOrders GetOpenOrders()
-        {
-            return GetOpenOrders(Currency.BTC, Currency.USD);
-        }
-
-        protected OpenOrders GetOpenOrders(Currency baseCurrency, Currency counterCurrency)
-        {
-            OpenOrders res;
-
-            res = ExecuteGetOpenOrdersCommand(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
-
-            return res;
-        }
-
-        #endregion Open Orders
-
-        #region User Transactions
-
-        protected abstract UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
-
-        public UserTransactions GetUserTransactions()
-        {
-            return GetUserTransactions(Currency.BTC, Currency.USD);
-        }
-
-        public UserTransactions GetUserTransactions(Currency baseCurrency, Currency counterCurrency)
-        {
-            UserTransactions res;
-
-            res = ExecuteGetUserTransactionsCommand(APICommandCollection["UserTransactions"], baseCurrency, counterCurrency);
-
-            return res;
-        }
-
-        #endregion User Transactions
-
-        #region Cancel Order
-
-        protected abstract bool ExecuteCancelOrderCommand(APICommand command, int id);
 
         public bool CancelOrder(Order toCancel)
         {
@@ -342,11 +99,47 @@ namespace BEx
             return res;
         }
 
-        #endregion Cancel Order
+        public Order CreateBuyOrder(decimal amount, decimal price)
+        {
+            return CreateBuyOrder(Currency.BTC, Currency.USD, amount, price);
+        }
 
-        #region Deposit Address
+        public Order CreateBuyOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            Order res;
 
-        protected abstract DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
+            res = ExecuteOrderCommand(APICommandCollection["BuyOrder"], baseCurrency, counterCurrency, amount, price);
+            //res = (Order)SendCommandToDispatcher<B>(APICommandCollection["BuyOrder"], Currency.BTC, Currency.USD);
+
+            return res;
+        }
+
+        public Order CreateSellOrder(decimal amount, decimal price)
+        {
+            return CreateSellOrder(Currency.BTC, Currency.USD, amount, price);
+        }
+
+        public Order CreateSellOrder(Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            Order res;
+
+            res = ExecuteOrderCommand(APICommandCollection["SellOrder"], baseCurrency, counterCurrency, amount, price);
+
+            return res;
+        }
+
+        /// <summary>
+        /// Get complete Balance information for your Exchange account
+        /// </summary>
+        /// <returns>AccountBalance</returns>
+        public AccountBalance GetAccountBalance()
+        {
+            AccountBalance res;
+
+            res = ExecuteAccountBalanceCommand(APICommandCollection["AccountBalance"], Currency.BTC, Currency.USD);
+
+            return res;
+        }
 
         /// <summary>
         /// Get your BTC Deposit Address for the Exchange
@@ -373,22 +166,164 @@ namespace BEx
             return res;
         }
 
-        #endregion Deposit Address
+        public OpenOrders GetOpenOrders()
+        {
+            return GetOpenOrders(Currency.BTC, Currency.USD);
+        }
 
+        /// <summary>
+        /// Get the current BTC/USD Order Book.
+        /// </summary>
+        /// <returns></returns>
+        public OrderBook GetOrderBook()
+        {
+            return GetOrderBook(Currency.BTC, Currency.USD);
+        }
 
+        /// <summary>
+        /// Get the current Order Book for the specified Currency pair.
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
+        public OrderBook GetOrderBook(Currency baseCurrency, Currency counterCurrency)
+        {
+            OrderBook res = null;
 
-        #endregion API Commands
+            res = ExecuteOrderBookCommand(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
+            //res = (OrderBook)SendCommandToDispatcher<J>(APICommandCollection["OrderBook"], baseCurrency, counterCurrency);
 
-        internal protected object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+            return res;
+        }
+
+        /// <summary>
+        /// Get the current BTC/USD Tick.
+        /// </summary>
+        /// <returns></returns>
+        public Tick GetTick()
+        {
+            return GetTick(Currency.BTC, Currency.USD);
+        }
+
+        /// <summary>
+        /// Get the current Tick for the specified currency pair.
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
+        public Tick GetTick(Currency baseCurrency, Currency counterCurrency)
+        {
+            Tick res = null;
+
+            res = ExecuteTickCommand(APICommandCollection["Tick"], baseCurrency, counterCurrency);
+
+            return res;
+        }
+
+        /// <summary>
+        /// Return BTC/USD general Transactions for past hour.
+        /// </summary>
+        /// <returns></returns>
+        public Transactions GetTransactions()
+        {
+            return GetTransactions(Currency.BTC, Currency.USD);
+        }
+
+        /// <summary>
+        /// Return general Transactions from the past hour for the specified currency pair.
+        /// </summary>
+        /// <param name="baseCurrency"></param>
+        /// <param name="counterCurrency"></param>
+        /// <returns></returns>
+        public Transactions GetTransactions(Currency baseCurrency, Currency counterCurrency)
+        {
+            Transactions res = new Transactions(DateTime.Now);
+
+            res = ExecuteTransactionsCommand(APICommandCollection["Transactions"], baseCurrency, counterCurrency);
+
+            return res;
+        }
+
+        public UserTransactions GetUserTransactions()
+        {
+            return GetUserTransactions(Currency.BTC, Currency.USD);
+        }
+
+        public UserTransactions GetUserTransactions(Currency baseCurrency, Currency counterCurrency)
+        {
+            UserTransactions res;
+
+            res = ExecuteGetUserTransactionsCommand(APICommandCollection["UserTransactions"], baseCurrency, counterCurrency);
+
+            return res;
+        }
+
+        /// <summary>
+        /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
+        /// </summary>
+        /// <param name="baseCurrency">Base Currency</param>
+        /// <param name="counterCurrency">Counter Currency</param>
+        /// <returns>True if supported, otherwise false.</returns>
+        public bool IsCurrencyPairSupported(Currency baseCurrency, Currency counterCurrency)
+        {
+            bool res = false;
+
+            if (SupportedTradingPairs.ContainsKey(baseCurrency))
+            {
+                if (SupportedTradingPairs[baseCurrency].Contains(counterCurrency))
+                {
+                    res = true;
+                }
+            }
+
+            return res;
+        }
+
+        protected internal abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
+
+        protected internal object SendCommandToDispatcher<J, E>(APICommand toExecute, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             RestRequest request = apiRequestFactory.GetRequest(toExecute, baseCurrency, counterCurrency, parameters);
 
             return dispatcher.ExecuteCommand<J, E>(request, toExecute, baseCurrency, counterCurrency);
         }
 
-        internal protected abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
+        protected abstract AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
 
-        #region Load Exchange from XML
+        protected abstract bool ExecuteCancelOrderCommand(APICommand command, int id);
+
+        protected abstract DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit);
+
+        protected abstract OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+
+        protected abstract UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+
+        protected abstract OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+
+        protected abstract Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price);
+
+        protected abstract Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+
+        protected decimal ExecuteTradingFeeCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return 0;
+        }
+
+        protected abstract Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency);
+
+        protected OpenOrders GetOpenOrders(Currency baseCurrency, Currency counterCurrency)
+        {
+            OpenOrders res;
+
+            res = ExecuteGetOpenOrdersCommand(APICommandCollection["OpenOrders"], baseCurrency, counterCurrency);
+
+            return res;
+        }
+
+        private decimal GetTradingFee(Currency feeCurrency)
+        {
+            return ExecuteTradingFeeCommand(APICommandCollection["TradingFee"], feeCurrency, Currency.USD);
+        }
 
         private void LoadCommands(XElement configFile)
         {
@@ -411,7 +346,6 @@ namespace BEx
             string baseUrl = configFile.Element("BaseURL").Value;
 
             BaseURI = new Uri(baseUrl);
-
 
             LoadSupportedPairs(configFile);
 
@@ -456,7 +390,5 @@ namespace BEx
                 }
             }
         }
-
-        #endregion Load Exchange from XML
     }
 }

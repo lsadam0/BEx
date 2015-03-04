@@ -8,31 +8,27 @@ using System.Text.RegularExpressions;
 
 namespace BEx
 {
-    internal delegate bool IsErrorDelegate(string content);
-
     internal delegate APIError DetermineErrorConditionDelegate(string content);
+
+    internal delegate bool IsErrorDelegate(string content);
 
     internal class RequestDispatcher
     {
-        internal IsErrorDelegate IsError;
-
         internal DetermineErrorConditionDelegate DetermineErrorCondition;
-
+        internal IsErrorDelegate IsError;
         private Regex ErrorMessageRegex;
-
-        private RestClient apiClient
-        {
-            get;
-            set;
-        }
 
         internal RequestDispatcher(string apiUri)
         {
             apiClient = new RestClient(apiUri);
 
-
-
             ErrorMessageRegex = new Regex("\"error\"");
+        }
+
+        private RestClient apiClient
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -82,63 +78,6 @@ namespace BEx
             return result;
         }
 
-        private void ThrowException<E>(APIError source) where E : Exception
-        {
-            E exception = (E)Activator.CreateInstance(typeof(E),
-                                                    BindingFlags.Public | BindingFlags.Instance,
-                                                    null,
-                                                    new object[] { source.Message },
-                                                    null);
-
-            ((Exception)exception).Data.Add("BExError", source);
-
-            throw exception;
-        }
-
-        private APIError HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
-        {
-            APIError error = null;
-            if (DetermineErrorCondition != null)
-            {
-                error = DetermineErrorCondition(response.Content);
-            }
-
-            if (error == null)
-            {
-                error = new APIError();
-                error.Message = response.Content;
-            }
-
-            error.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
-
-            if (error.ErrorCode == BExErrorCode.InsufficientFunds)
-                ThrowException<InsufficientFundsException>(error);
-            else if (error.ErrorCode == BExErrorCode.Authorization)
-                ThrowException<ExchangeAuthorizationException>(error);
-
-            return error;
-        }
-
-        private object GetValueType<J, E>(string content)
-        {
-            object deserialized = JsonConvert.DeserializeObject<J>(content);
-
-            if (deserialized.GetType() != typeof(E))
-            {
-                E result = (E)Activator.CreateInstance(typeof(E),
-                                              BindingFlags.NonPublic | BindingFlags.Instance,
-                                              null,
-                                              new object[] { deserialized },
-                                              null); // Culture?
-
-                return result;
-            }
-            else
-            {
-                return deserialized;
-            }
-        }
-
         private APIResult DeserializeObject<J, E>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
         {
             APIResult res = default(APIResult);
@@ -175,6 +114,50 @@ namespace BEx
             return res;
         }
 
+        private object GetValueType<J, E>(string content)
+        {
+            object deserialized = JsonConvert.DeserializeObject<J>(content);
+
+            if (deserialized.GetType() != typeof(E))
+            {
+                E result = (E)Activator.CreateInstance(typeof(E),
+                                              BindingFlags.NonPublic | BindingFlags.Instance,
+                                              null,
+                                              new object[] { deserialized },
+                                              null); // Culture?
+
+                return result;
+            }
+            else
+            {
+                return deserialized;
+            }
+        }
+
+        private APIError HandlerErrorResponse(IRestResponse response, RestRequest request, APICommand executedCommand, Exception inner = null)
+        {
+            APIError error = null;
+            if (DetermineErrorCondition != null)
+            {
+                error = DetermineErrorCondition(response.Content);
+            }
+
+            if (error == null)
+            {
+                error = new APIError();
+                error.Message = response.Content;
+            }
+
+            error.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
+
+            if (error.ErrorCode == BExErrorCode.InsufficientFunds)
+                ThrowException<InsufficientFundsException>(error);
+            else if (error.ErrorCode == BExErrorCode.Authorization)
+                ThrowException<ExchangeAuthorizationException>(error);
+
+            return error;
+        }
+
         // Support finding the Type of List<T>
         private Type ListOfWhat(Object list)
         {
@@ -184,6 +167,19 @@ namespace BEx
         private Type ListOfWhat2<T>(IList<T> list)
         {
             return typeof(T);
+        }
+
+        private void ThrowException<E>(APIError source) where E : Exception
+        {
+            E exception = (E)Activator.CreateInstance(typeof(E),
+                                                    BindingFlags.Public | BindingFlags.Instance,
+                                                    null,
+                                                    new object[] { source.Message },
+                                                    null);
+
+            ((Exception)exception).Data.Add("BExError", source);
+
+            throw exception;
         }
     }
 }

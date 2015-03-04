@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace BEx
 {
@@ -8,6 +7,20 @@ namespace BEx
     /// </summary>
     public class Balance : APIResult
     {
+        internal Balance(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        {
+        }
+
+        /// <summary>
+        /// The Un-reserved Available Balance
+        /// </summary>
+        public Decimal AvailableToTrade
+        {
+            get;
+            internal set;
+        }
+
         /// <summary>
         /// Source Currency
         /// </summary>
@@ -24,22 +37,6 @@ namespace BEx
         {
             get;
             internal set;
-
-        }
-
-        /// <summary>
-        /// The Un-reserved Available Balance
-        /// </summary>
-        public Decimal AvailableToTrade
-        {
-            get;
-            internal set;
-        }
-     
-        internal Balance(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        {
-
         }
     }
 }

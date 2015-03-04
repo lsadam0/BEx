@@ -12,54 +12,7 @@ namespace BEx
     {
         public CurrencyFormatterDelegate CurrencyFormatter;
 
-        public string ID
-        {
-            get;
-            set;
-        }
-
-        public Method HttpMethod
-        {
-            get;
-            set;
-        }
-
-        public bool RequiresAuthentication
-        {
-            get;
-            set;
-        }
-
-        public string RelativeURI
-        {
-            get;
-            set;
-        }
-
-        public Dictionary<string, string> Parameters
-        {
-            get;
-            set;
-        }
-
         public bool ReturnsValueType = false;
-
-        public string GetResolvedRelativeURI(Currency baseC, Currency counterC)
-        {
-            string res = RelativeURI;
-
-            res = res.Replace("{BaseCurrency}", GetCurrencyFormat(baseC.ToString()));
-            res = res.Replace("{CounterCurrency}", GetCurrencyFormat(counterC.ToString()));
-
-            return res;
-        }
-
-        private string GetCurrencyFormat(string currency)
-        {
-            if (CurrencyFormatter != null)
-                return CurrencyFormatter(currency);
-            else return currency;
-        }
 
         public APICommand()
         {
@@ -102,6 +55,53 @@ namespace BEx
             }
 
             ID = commandToLoad.Attribute("ID").Value;
+        }
+
+        public Method HttpMethod
+        {
+            get;
+            set;
+        }
+
+        public string ID
+        {
+            get;
+            set;
+        }
+
+        public Dictionary<string, string> Parameters
+        {
+            get;
+            set;
+        }
+
+        public string RelativeURI
+        {
+            get;
+            set;
+        }
+
+        public bool RequiresAuthentication
+        {
+            get;
+            set;
+        }
+
+        public string GetResolvedRelativeURI(Currency baseC, Currency counterC)
+        {
+            string res = RelativeURI;
+
+            res = res.Replace("{BaseCurrency}", GetCurrencyFormat(baseC.ToString()));
+            res = res.Replace("{CounterCurrency}", GetCurrencyFormat(counterC.ToString()));
+
+            return res;
+        }
+
+        private string GetCurrencyFormat(string currency)
+        {
+            if (CurrencyFormatter != null)
+                return CurrencyFormatter(currency);
+            else return currency;
         }
 
         private void LoadArgs(XElement args)

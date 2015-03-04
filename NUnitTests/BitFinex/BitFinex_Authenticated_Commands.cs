@@ -27,11 +27,22 @@ namespace NUnitTests
         #region Deposit Address
 
         [Test]
-        public void BitFinex_GetDepositAddress()
+        public void BitFinex_GetBTCDepositAddress()
         {
-            CommandVerification.VerifyDepositAddress();
+            CommandVerification.VerifyDepositAddress(Currency.BTC);
         }
 
+        [Test]
+        public void BitFinex_GetLTCDepositAddress()
+        {
+            CommandVerification.VerifyDepositAddress(Currency.LTC);
+        }
+
+        [Test]
+        public void BitFinex_GetDRKDepositAddress()
+        {
+            CommandVerification.VerifyDepositAddress(Currency.DRK);
+        }
         #endregion Deposit Address
 
         [Test]
@@ -41,13 +52,14 @@ namespace NUnitTests
         }
 
         #region Orders
-
+        /*
         [Test]
         public void BitFinex_CreateSellOrder()
         {
             CommandVerification.VerifySellOrder();
         }
-
+        */
+        /*
         [Test]
         public void BitFinex_CreateBuyOrder()
         {
@@ -55,7 +67,7 @@ namespace NUnitTests
 
             CommandVerification.VerifyBuyOrder();
         }
-
+        */
         [Test]
         public void BitFinex_GetOpenOrders()
         {

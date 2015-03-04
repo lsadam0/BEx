@@ -2,54 +2,96 @@
 
 namespace BEx
 {
+    public enum OrderType
+    {
+        Buy,
+        Sell
+    }
+
+    /// <summary>
+    /// A Buy or Sell Limit Order for an Exchange
+    /// </summary>
     public class Order : APIResult
     {
-        public Decimal Price
+        internal Order(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
         {
-            get;
-            set;
         }
 
+        /// <summary>
+        /// Currency Amount
+        /// </summary>
         public Decimal Amount
         {
             get;
-            set;
+            internal set;
         }
 
-        public OrderType Type
+        /// <summary>
+        /// Base Currency for the Order
+        /// </summary>
+        public Currency BaseCurrency
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Counter Currency for the Order
+        /// </summary>
+        public Currency CounterCurrency
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Exchange Order ID
+        /// </summary>
         public int ID
         {
             get;
             set;
         }
 
-        public Currency BaseCurrency
+        /// <summary>
+        /// True if this Order has TradeType == Buy
+        /// </summary>
+        public bool IsBuyOrder
+        {
+            get
+            {
+                return (this.TradeType == OrderType.Buy);
+            }
+        }
+
+        /// <summary>
+        /// True if this Order has a TradeType == Sell
+        /// </summary>
+        public bool IsSellOrder
+        {
+            get
+            {
+                return (this.TradeType == OrderType.Sell);
+            }
+        }
+
+        /// <summary>
+        /// Limit Price
+        /// </summary>
+        public Decimal Price
         {
             get;
-            set;
+            internal set;
         }
 
-        public Currency CounterCurrency
+        /// <summary>
+        /// Signifies whether this Order is a Buy or a Sell
+        /// </summary>
+        public OrderType TradeType
         {
             get;
-            set;
+            internal set;
         }
-
-        public Order()
-            : base(DateTime.Now)
-        {
-            ID = -1;
-        }
-    }
-
-    public enum OrderType
-    {
-        Buy,
-        Sell
     }
 }

@@ -19,17 +19,28 @@ namespace BEx
             this.dispatcher.DetermineErrorCondition += DetermineErrorCondition;
         }
 
-        private void VerifyCredentials(string apiKey, string secretKey)
+        internal APIError DetermineErrorCondition(string message)
         {
-            if (string.IsNullOrEmpty(apiKey))
-                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
-            else
-                this.APIKey = apiKey;
+            APIError error = null;
 
-            if (string.IsNullOrEmpty(secretKey))
-                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
-            else
-                this.SecretKey = secretKey;
+            string errorMessage = ExtractMessage(message);
+
+            string loweredMessage = errorMessage.ToLower();
+            if (loweredMessage.Contains("not enough balance"))
+            {
+                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
+            }
+            else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
+            {
+                error = new APIError(errorMessage, BExErrorCode.Authorization);
+            }
+
+            if (error == null)
+            {
+                error = new APIError(message, BExErrorCode.Unknown);
+            }
+
+            return error;
         }
 
         internal string ExtractMessage(string content)
@@ -88,32 +99,6 @@ namespace BEx
             return res;
         }
 
-        internal APIError DetermineErrorCondition(string message)
-        {
-            APIError error = null;
-
-            string errorMessage = ExtractMessage(message);
-
-            string loweredMessage = errorMessage.ToLower();
-            if (loweredMessage.Contains("not enough balance"))
-            {
-                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds);
-            }
-            else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
-            {
-                error = new APIError(errorMessage, BExErrorCode.Authorization);
-            }
-
-            if (error == null)
-            {
-                error = new APIError(message, BExErrorCode.Unknown);
-            }
-
-            return error;
-        }
-
-        #region Authorization
-
         protected internal override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             /*POST https://api.bitfinex.com/v1/order/new
@@ -164,68 +149,9 @@ namespace BEx
             }
         }
 
-        #endregion Authorization
-
-        #region Command Execution
-
-        protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
-        {
-            return (Tick)SendCommandToDispatcher<BitfinexTickJSON, Tick>(command, baseCurrency, counterCurrency);
-        }
-
-        protected override OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
-        {
-            return (OrderBook)SendCommandToDispatcher<BitFinexOrderBookJSON, OrderBook>(command, baseCurrency, counterCurrency);
-        }
-
-        protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            double timeStamp = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1));
-
-            parameters.Add("timestamp", timeStamp.ToString());
-
-            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency, parameters);
-        }
-
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             return (AccountBalance)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>, AccountBalance>(command, baseCurrency, counterCurrency);
-        }
-
-        protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("symbol", baseCurrency.ToString() + counterCurrency.ToString());
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("price", price.ToString());
-            parameters.Add("exchange", "bitfinex");
-
-            if (command.ID == "BuyOrder")
-                parameters.Add("side", "buy");
-            else
-                parameters.Add("side", "sell");
-
-            parameters.Add("type", "exchange limit");
-            //parameters.Add("is_hidden", "0");
-
-            return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON, Order>(command, baseCurrency, counterCurrency, parameters);
-        }
-
-        protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
-        {
-            return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>, OpenOrders>(command, baseCurrency, counterCurrency);
-        }
-
-        protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("symbol", baseCurrency.ToString().ToUpper() + counterCurrency.ToString().ToUpper());
-
-            return (UserTransactions)SendCommandToDispatcher<List<BitFinexUserTransactionJSON>, UserTransactions>(command, baseCurrency, counterCurrency, parameters);
         }
 
         protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
@@ -248,6 +174,72 @@ namespace BEx
             return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON, DepositAddress>(command, toDeposit, toDeposit, parameters);
         }
 
-        #endregion Command Execution
+        protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>, OpenOrders>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            parameters.Add("symbol", baseCurrency.ToString().ToUpper() + counterCurrency.ToString().ToUpper());
+
+            return (UserTransactions)SendCommandToDispatcher<List<BitFinexUserTransactionJSON>, UserTransactions>(command, baseCurrency, counterCurrency, parameters);
+        }
+
+        protected override OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (OrderBook)SendCommandToDispatcher<BitFinexOrderBookJSON, OrderBook>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            parameters.Add("symbol", baseCurrency.ToString() + counterCurrency.ToString());
+            parameters.Add("amount", amount.ToString());
+            parameters.Add("price", price.ToString());
+            parameters.Add("exchange", "bitfinex");
+
+            if (command.ID == "BuyOrder")
+                parameters.Add("side", "buy");
+            else
+                parameters.Add("side", "sell");
+
+            parameters.Add("type", "exchange limit");
+            //parameters.Add("is_hidden", "0");
+
+            return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON, Order>(command, baseCurrency, counterCurrency, parameters);
+        }
+
+        protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            return (Tick)SendCommandToDispatcher<BitfinexTickJSON, Tick>(command, baseCurrency, counterCurrency);
+        }
+
+        protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            double timeStamp = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1));
+
+            parameters.Add("timestamp", timeStamp.ToString());
+
+            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency, parameters);
+        }
+
+        private void VerifyCredentials(string apiKey, string secretKey)
+        {
+            if (string.IsNullOrEmpty(apiKey))
+                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
+            else
+                this.APIKey = apiKey;
+
+            if (string.IsNullOrEmpty(secretKey))
+                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
+            else
+                this.SecretKey = secretKey;
+        }
     }
 }

@@ -2,21 +2,26 @@
 
 namespace BEx
 {
+    public enum UserTransactionType
+    {
+        Deposit,
+        Withdrawal,
+        Trade
+    }
+
     public class UserTransaction : APIResult
     {
-        public int ID
-        {
-            get;
-            set;
-        }
-
-        public UserTransactionType Type
-        {
-            get;
-            set;
-        }
+        public UserTransaction(DateTime exchangeTimeStamp)
+            : base(exchangeTimeStamp)
+        { }
 
         public Decimal BaseCurrencyAmount
+        {
+            get;
+            set;
+        }
+
+        public DateTime CompletedTime
         {
             get;
             set;
@@ -40,27 +45,22 @@ namespace BEx
             set;
         }
 
+        public int ID
+        {
+            get;
+            set;
+        }
+
         public int? OrderID
         {
             get;
             set;
         }
 
-        public DateTime CompletedTime
+        public UserTransactionType Type
         {
             get;
             set;
         }
-
-        public UserTransaction(DateTime exchangeTimeStamp)
-            : base(exchangeTimeStamp)
-        { }
-    }
-
-    public enum UserTransactionType
-    {
-        Deposit,
-        Withdrawal,
-        Trade
     }
 }

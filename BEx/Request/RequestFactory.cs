@@ -27,6 +27,14 @@ namespace BEx
             return result;
         }
 
+        private void AuthenticateRequest(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        {
+            if (GetSignature != null)
+            {
+                GetSignature(request, command, baseCurrency, counterCurrency, parameters);
+            }
+        }
+
         private RestRequest CreateRequest(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             var request = new RestRequest(command.GetResolvedRelativeURI(baseCurrency, counterCurrency), command.HttpMethod);
@@ -35,14 +43,6 @@ namespace BEx
             request.Method = command.HttpMethod;
 
             return request;
-        }
-
-        private void AuthenticateRequest(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
-        {
-            if (GetSignature != null)
-            {
-                GetSignature(request, command, baseCurrency, counterCurrency, parameters);
-            }
         }
 
         private void SetParameters(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters)

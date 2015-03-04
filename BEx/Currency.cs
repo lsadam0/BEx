@@ -4,9 +4,6 @@ using System.Reflection;
 
 namespace BEx
 {
-
-
-
     public enum Currency
     {
         // Crypto
@@ -195,8 +192,6 @@ namespace BEx
         ZAR, //	South Africa Rand
         ZMW, //	Zambia Kwacha
         ZWD, //	Zimbabwe Dollar
-
-
     }
 
     public static class EnumExtensions

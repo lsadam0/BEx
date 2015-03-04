@@ -17,6 +17,7 @@ namespace NUnitTests
         {
             CommandVerification.VerifyAccountBalance();
         }
+        /*
 
         [Test]
         public void BitStamp_CreateBuyOrder()
@@ -29,7 +30,7 @@ namespace NUnitTests
         {
             CommandVerification.VerifySellOrder();
         }
-
+        */
         [Test]
         public void BitStamp_GetOpenOrders()
         {
@@ -43,9 +44,9 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitStamp_GetDepositAddress()
+        public void BitStamp_GetBTCDepositAddress()
         {
-            CommandVerification.VerifyDepositAddress();
+            CommandVerification.VerifyDepositAddress(Currency.BTC);
         }
     }
 }

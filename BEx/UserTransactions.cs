@@ -6,6 +6,14 @@ namespace BEx
 {
     public class UserTransactions : APIResult
     {
+        internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency)
+            : base(DateTime.Now)
+        {
+            UserTrans = transactions;
+            BaseCurrency = baseCurrency;
+            CounterCurrency = counterCurrency;
+        }
+
         public Currency BaseCurrency
         {
             get;
@@ -37,14 +45,6 @@ namespace BEx
             }
             else
                 return "No Transactions in Collection";
-        }
-
-        internal UserTransactions(List<UserTransaction> transactions, Currency baseCurrency, Currency counterCurrency)
-            : base(DateTime.Now)
-        {
-            UserTrans = transactions;
-            BaseCurrency = baseCurrency;
-            CounterCurrency = counterCurrency;
         }
     }
 }
