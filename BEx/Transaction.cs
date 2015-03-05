@@ -2,34 +2,67 @@
 
 namespace BEx
 {
+    /// <summary>
+    /// Individual Transaction
+    /// </summary>
     public class Transaction : APIResult
     {
         internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
         { }
 
+        /// <summary>
+        /// Transaction Amount
+        /// </summary>
         public Decimal Amount
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Transaction Base Currency
+        /// </summary>
+        public Currency BaseCurrency
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Execution Time
+        /// </summary>
         public DateTime CompletedTime
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Transaction Counter Currency
+        /// </summary>
+        public Currency CounterCurrency
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Execution Price
+        /// </summary>
         public Decimal Price
         {
             get;
-            set;
+            internal set;
         }
 
+        /// <summary>
+        /// Exchange assigned identifier
+        /// </summary>
         public long TransactionID
         {
             get;
-            set;
+            internal set;
         }
     }
 }

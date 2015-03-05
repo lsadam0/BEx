@@ -258,18 +258,17 @@ namespace NUnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsNotNull(toVerify.UserTrans);
-            Assert.IsTrue(toVerify.UserTrans.Count > 0);
+            Assert.IsNotNull(toVerify.TransactionsCollection);
+            Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
 
-            foreach (UserTransaction transaction in toVerify.UserTrans)
+            foreach (UserTransaction transaction in toVerify.TransactionsCollection)
             {
                 VerifyAPIResult(transaction);
                 // Assert.IsTrue(transaction.BaseCurrencyAmount > 0.0m);
                 // Assert.IsTrue(transaction.CounterCurrencyAmount > 0.0m);
                 // Assert.IsTrue(transaction.ExchangeRate > 0.0m);
-                Assert.IsTrue(transaction.ID > 0);
-                Assert.IsTrue(transaction.OrderID != null);
-                Assert.IsTrue(transaction.OrderID > 0);
+                Assert.IsTrue(transaction.TransactionId > 0);
+                Assert.IsTrue(transaction.OrderId > 0);
             }
 
             Debug(toVerify.ToString());

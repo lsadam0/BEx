@@ -5,12 +5,12 @@ namespace BEx
     [Serializable]
     public class APIError : APIResult
     {
-        public APIError(ExchangeType sourceExchange)
+        internal APIError(ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
         }
 
-        public APIError(string message, BExErrorCode code, ExchangeType sourceExchange)
+        internal APIError(string message, BExErrorCode code, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
             Message = message;
@@ -20,19 +20,19 @@ namespace BEx
         public BExErrorCode ErrorCode
         {
             get;
-            set;
+            internal set;
         }
 
         public HttpResponseCode HttpStatus
         {
             get;
-            set;
+            internal set;
         }
 
         public string Message
         {
             get;
-            set;
+            internal set;
         }
     }
 }

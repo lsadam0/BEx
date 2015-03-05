@@ -192,6 +192,7 @@ namespace BEx
         ZAR, //	South Africa Rand
         ZMW, //	Zambia Kwacha
         ZWD, //	Zimbabwe Dollar
+        Unknown
     }
 
     public static class EnumExtensions

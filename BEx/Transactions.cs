@@ -22,19 +22,19 @@ namespace BEx
         public Currency BaseCurrency
         {
             get;
-            set;
+            internal set;
         }
 
         public Currency CounterCurrency
         {
             get;
-            set;
+            internal set;
         }
 
         public List<Transaction> TransactionsCollection
         {
             get;
-            set;
+            internal set;
         }
 
         public override string ToString()

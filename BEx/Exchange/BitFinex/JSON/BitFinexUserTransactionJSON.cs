@@ -34,9 +34,14 @@ namespace BEx.BitFinexSupport
         {
             UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp)), ExchangeType.BitFinex);
 
-            u.ID = Tid;
-            u.Type = UserTransactionType.Trade;
-            u.OrderID = Tid;
+            u.TransactionId = Tid;
+            u.OrderId = Tid;
+
+            u.BaseCurrencyAmount = 0;
+            u.CounterCurrencyAmount = 0;
+
+            u.TradeFee = Convert.ToDecimal(FeeAmount);
+            u.TradeFeeCurrency = Currency.Unknown;
 
             return u;
         }
