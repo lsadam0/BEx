@@ -4,22 +4,29 @@ namespace BEx.Common
 {
     internal class UnixTime
     {
-        internal static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+        internal static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
-            // Unix timestamp is seconds past epoch
-            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-            return dtDateTime;
+            // return (dateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
+
+            return (dateTime - epoch.ToLocalTime()).TotalSeconds;
         }
 
-        public static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
+        internal static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
         {
             return UnixTimeStampToDateTime(Convert.ToDouble(unixTimeStamp));
         }
 
-        public static double DateTimeToUnixTimestamp(DateTime dateTime)
+        internal static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
-            return (dateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
+            /*
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+            */
+            return epoch.AddSeconds(unixTimeStamp).ToLocalTime();
         }
     }
 }

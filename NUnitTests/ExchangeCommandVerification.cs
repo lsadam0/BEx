@@ -58,27 +58,7 @@ namespace NUnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.TradeType == OrderType.Buy);
-            Assert.IsTrue(toVerify.Amount > 0.0m);
-            Assert.IsTrue(toVerify.ID > 0);
-            Assert.IsTrue(toVerify.Price > 0.0m);
-
-            OpenOrders open = testCandidate.GetOpenOrders();
-
-            Assert.IsTrue(open.Orders.Count > 0);
-
-            Assert.IsNotNull(open.Orders[toVerify.ID]);//.Find(x => x.ID == toVerify.ID));
-
-            Debug(string.Format("Cancelling Buy Order {0}", toVerify.ID));
-            bool cancelled = testCandidate.CancelOrder(toVerify.ID);
-
-            Assert.IsTrue(cancelled);
-
-            Debug(string.Format("Cancelled Sell Order {0}", toVerify.ID));
-
-            open = testCandidate.GetOpenOrders();
-
-            Assert.IsTrue(open.Orders.Count == 0);
+            VerifyOrder(toVerify, Currency.BTC, Currency.USD, OrderType.Buy);
         }
 
         public void VerifyDepositAddress(Currency depositCurrency)
@@ -86,8 +66,6 @@ namespace NUnitTests
             DepositAddress address = testCandidate.GetDepositAddress(depositCurrency);
 
             VerifyAPIResult(address);
-
-            //   throw new AssertionException("Deposit Address allows request of Fiat currencies");
 
             Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
             Assert.IsTrue(address.DepositCurrency == depositCurrency);
@@ -157,28 +135,7 @@ namespace NUnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.TradeType == OrderType.Sell);
-            Assert.IsTrue(toVerify.Amount > 0.0m);
-            Assert.IsTrue(toVerify.ID > 0);
-            Assert.IsTrue(toVerify.Price > 0.0m);
-
-            OpenOrders open = testCandidate.GetOpenOrders();
-
-            Assert.IsTrue(open.Orders.Count > 0);
-
-            Assert.IsNotNull(open.Orders[toVerify.ID]);
-
-            Debug(string.Format("Cancelling Sell Order {0}", toVerify.ID));
-            bool cancelled = testCandidate.CancelOrder(toVerify.ID);
-
-            Assert.IsTrue(cancelled);
-
-            Debug(string.Format("Cancelled Sell Order {0}", toVerify.ID));
-
-            open = testCandidate.GetOpenOrders();
-
-            Debug("Checking Open Orders");
-            Assert.IsTrue(open.Orders.Count == 0);
+            VerifyOrder(toVerify, Currency.BTC, Currency.USD, OrderType.Sell);
         }
 
         public void VerifyTick()
@@ -272,6 +229,19 @@ namespace NUnitTests
             }
 
             Debug(toVerify.ToString());
+        }
+
+        private void VerifyOrder(Order toVerify, Currency baseCurrency, Currency counterCurrency, OrderType requestedOrderType)
+        {
+            VerifyAPIResult(toVerify);
+
+            Assert.IsTrue(toVerify.Amount > 0);
+            Assert.IsTrue(toVerify.ID > 0);
+            Assert.IsTrue(toVerify.Price > 0);
+            Assert.IsTrue(toVerify.SourceExchange == testCandidate.ExchangeSourceType);
+            Assert.IsTrue(toVerify.BaseCurrency == baseCurrency);
+            Assert.IsTrue(toVerify.CounterCurrency == counterCurrency);
+            Assert.IsTrue(toVerify.TradeType == requestedOrderType);
         }
     }
 }
