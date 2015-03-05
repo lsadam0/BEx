@@ -11,6 +11,7 @@ namespace BEx
         {
             UserTrans = transactions;
             BaseCurrency = baseCurrency;
+
             CounterCurrency = counterCurrency;
         }
 
