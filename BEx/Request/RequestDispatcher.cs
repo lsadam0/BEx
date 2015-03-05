@@ -19,10 +19,10 @@ namespace BEx
         private Regex ErrorMessageRegex;
         private ExchangeType SourceExchangeType;
 
-        internal RequestDispatcher(string apiUri, ExchangeType sourceExchange)
+        internal RequestDispatcher(Exchange sourceExchange)
         {
-            apiClient = new RestClient(apiUri);
-            SourceExchangeType = sourceExchange;
+            apiClient = new RestClient(sourceExchange.BaseURI.ToString());
+            SourceExchangeType = sourceExchange.ExchangeSourceType;
             ErrorMessageRegex = new Regex("\"error\"");
         }
 

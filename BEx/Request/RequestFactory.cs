@@ -14,6 +14,11 @@ namespace BEx
         {
         }
 
+        public RestRequest GetRequest(APICommand command)
+        {
+            return null;
+        }
+
         public RestRequest GetRequest(APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
         {
             RestRequest result = CreateRequest(command, baseCurrency, counterCurrency);

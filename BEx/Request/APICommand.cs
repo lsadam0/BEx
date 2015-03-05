@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace BEx
 {
     [Serializable]
-    internal class APICommand
+    public class APICommand
     {
         public bool ReturnsValueType = false;
 
@@ -51,6 +51,18 @@ namespace BEx
             }
 
             ID = commandToLoad.Attribute("ID").Value;
+        }
+
+        public Currency BaseCurrency
+        {
+            get;
+            set;
+        }
+
+        public Currency CounterCurrency
+        {
+            get;
+            set;
         }
 
         public Method HttpMethod

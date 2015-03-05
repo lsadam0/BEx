@@ -1,5 +1,6 @@
 ﻿using BEx.BitFinexSupport;
 using BEx.Common;
+using BEx.Request;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
@@ -12,11 +13,9 @@ namespace BEx
     public class Bitfinex : Exchange
     {
         public Bitfinex(string apiKey, string secret)
-            : base("BitFinex.xml", ExchangeType.BitFinex)
+            : base(ExchangeType.BitFinex, "https://api.bitfinex.com")
         {
             VerifyCredentials(apiKey, secret);
-
-            this.dispatcher.DetermineErrorCondition += DetermineErrorCondition;
         }
 
         internal APIError DetermineErrorCondition(string message)
@@ -149,6 +148,8 @@ namespace BEx
             }
         }
 
+        #region Commands
+
         protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
         {
             return (AccountBalance)SendCommandToDispatcher<List<BitFinexAccountBalanceJSON>, AccountBalance>(command, baseCurrency, counterCurrency);
@@ -227,6 +228,154 @@ namespace BEx
             parameters.Add("timestamp", timeStamp.ToString());
 
             return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency, parameters);
+        }
+
+        #endregion Commands
+
+        protected override Dictionary<Request.CommandClass, Request.ExchangeCommand> GetCommandCollection()
+        {
+            Dictionary<CommandClass, ExchangeCommand> res = new Dictionary<CommandClass, ExchangeCommand>();
+
+            ExchangeParameter baseCurrency = new ExchangeParameter(ExchangeParameterType.Address, "base", "BTC");
+            ExchangeParameter counterCurrency = new ExchangeParameter(ExchangeParameterType.Address, "counter", "USD");
+
+            ExchangeCommand tick = new ExchangeCommand();
+            tick.HttpMethod = Method.GET;
+            tick.RelativeURI = "/v1/pubticker/{0}{1}";
+            tick.IsAuthenticated = false;
+
+            tick.Parameters.Add(baseCurrency.Name, baseCurrency);
+            tick.Parameters.Add(counterCurrency.Name, counterCurrency);
+            res.Add(tick.Identifier, tick);
+
+            ExchangeCommand orderBook = new ExchangeCommand();
+            orderBook.HttpMethod = Method.GET;
+            orderBook.RelativeURI = "/v1/book/{0}{1}";
+            orderBook.IsAuthenticated = false;
+            orderBook.Parameters.Add(baseCurrency.Name, baseCurrency);
+            orderBook.Parameters.Add(counterCurrency.Name, counterCurrency);
+            res.Add(orderBook.Identifier, orderBook);
+
+            ExchangeCommand transactions = new ExchangeCommand();
+            transactions.HttpMethod = Method.GET;
+            transactions.RelativeURI = "/v1/trades/{0}{1}";
+            transactions.IsAuthenticated = false;
+            transactions.Parameters.Add(baseCurrency.Name, baseCurrency);
+            transactions.Parameters.Add(counterCurrency.Name, counterCurrency);
+
+            ExchangeParameter transactionTimestamp = new ExchangeParameter(ExchangeParameterType.Post, "timestamp");
+            transactions.Parameters.Add(transactionTimestamp.Name, transactionTimestamp);
+
+            res.Add(transactions.Identifier, transactions);
+
+            ExchangeCommand accountBalance = new ExchangeCommand();
+            accountBalance.HttpMethod = Method.POST;
+            accountBalance.RelativeURI = "/v1/balances";
+            accountBalance.IsAuthenticated = true;
+
+            res.Add(accountBalance.Identifier, accountBalance);
+
+            ExchangeCommand depositAddress = new ExchangeCommand();
+            depositAddress.HttpMethod = Method.POST;
+            depositAddress.RelativeURI = "/v1/deposit/new";
+            depositAddress.IsAuthenticated = true;
+
+            ExchangeParameter depCurrency = new ExchangeParameter(ExchangeParameterType.Address, "currency", "BTC");
+            depositAddress.Parameters.Add(depCurrency.Name, depCurrency);
+
+            ExchangeParameter depMethod = new ExchangeParameter(ExchangeParameterType.Address, "method", "bitcoin");
+            depositAddress.Parameters.Add(depMethod.Name, depMethod);
+
+            ExchangeParameter depWallet = new ExchangeParameter(ExchangeParameterType.Address, "wallet_name", "exchange");
+            depositAddress.Parameters.Add(depWallet.Name, depWallet);
+
+            res.Add(depositAddress.Identifier, depositAddress);
+
+            ExchangeCommand userTransactions = new ExchangeCommand();
+            userTransactions.HttpMethod = Method.POST;
+            userTransactions.RelativeURI = "/v1/mytrades";
+            userTransactions.IsAuthenticated = true;
+
+            ExchangeParameter symbolParam = new ExchangeParameter(ExchangeParameterType.Address, "symbol", "BTCUSD");
+            userTransactions.Parameters.Add(symbolParam.Name, symbolParam);
+
+            res.Add(userTransactions.Identifier, userTransactions);
+
+            ExchangeParameter orderSymbol = new ExchangeParameter(ExchangeParameterType.Address, "symbol", "BTCUSD");
+            ExchangeParameter orderAmount = new ExchangeParameter(ExchangeParameterType.Address, "amount");
+            ExchangeParameter orderPrice = new ExchangeParameter(ExchangeParameterType.Address, "price");
+            ExchangeParameter orderExchange = new ExchangeParameter(ExchangeParameterType.Address, "exchange");
+            ExchangeParameter orderType = new ExchangeParameter(ExchangeParameterType.Address, "exchange limit");
+            ExchangeParameter orderHidden = new ExchangeParameter(ExchangeParameterType.Address, "is_hidden");
+
+            ExchangeCommand buy = new ExchangeCommand();
+            buy.HttpMethod = Method.POST;
+            buy.RelativeURI = "/v1/order/new";
+            buy.IsAuthenticated = true;
+
+            buy.Parameters.Add(orderSymbol.Name, orderSymbol);
+            buy.Parameters.Add(orderAmount.Name, orderAmount);
+            buy.Parameters.Add(orderPrice.Name, orderPrice);
+            buy.Parameters.Add(orderExchange.Name, orderExchange);
+
+            ExchangeParameter buyOrderSide = new ExchangeParameter(ExchangeParameterType.Address, "side", "buy");
+            buy.Parameters.Add(buyOrderSide.Name, buyOrderSide);
+
+            buy.Parameters.Add(orderType.Name, orderType);
+            buy.Parameters.Add(orderHidden.Name, orderHidden);
+
+            res.Add(buy.Identifier, buy);
+
+            ExchangeCommand sell = new ExchangeCommand();
+            sell.HttpMethod = Method.POST;
+            sell.RelativeURI = "/v1/order/new";
+            sell.IsAuthenticated = true;
+
+            sell.Parameters.Add(orderSymbol.Name, orderSymbol);
+            sell.Parameters.Add(orderAmount.Name, orderAmount);
+            sell.Parameters.Add(orderPrice.Name, orderPrice);
+            sell.Parameters.Add(orderExchange.Name, orderExchange);
+
+            ExchangeParameter sellOrderSide = new ExchangeParameter(ExchangeParameterType.Address, "side", "sell");
+            sell.Parameters.Add(sellOrderSide.Name, sellOrderSide);
+
+            sell.Parameters.Add(orderType.Name, orderType);
+            sell.Parameters.Add(orderHidden.Name, orderHidden);
+
+            res.Add(sell.Identifier, sell);
+
+            ExchangeCommand openOrders = new ExchangeCommand();
+            openOrders.HttpMethod = Method.POST;
+            openOrders.RelativeURI = "/v1/orders";
+            openOrders.IsAuthenticated = true;
+
+            res.Add(openOrders.Identifier, openOrders);
+
+            ExchangeCommand cancelOrder = new ExchangeCommand();
+            cancelOrder.HttpMethod = Method.POST;
+            cancelOrder.RelativeURI = "/v1/order/cancel";
+            cancelOrder.IsAuthenticated = true;
+
+            ExchangeParameter cancelOrderId = new ExchangeParameter(ExchangeParameterType.Address, "order_id");
+
+            cancelOrder.Parameters.Add(cancelOrderId.Name, cancelOrderId);
+
+            res.Add(cancelOrder.Identifier, cancelOrder);
+
+            return res;
+        }
+
+        protected override HashSet<CurrencyTradingPair> GetSupportedTradingPairs()
+        {
+            HashSet<CurrencyTradingPair> res = new HashSet<CurrencyTradingPair>();
+
+            res.Add(new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            res.Add(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            res.Add(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            res.Add(new CurrencyTradingPair(Currency.DRK, Currency.USD));
+            res.Add(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
+
+            return res;
         }
 
         private void VerifyCredentials(string apiKey, string secretKey)

@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using BEx.Request;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -11,25 +12,19 @@ namespace BEx
     {
         public HashSet<Currency> SupportedCurrencies;
 
-        /// <summary>
-        /// Collection of currency pairs supported by the current exchange indexed by the base currency
-        /// </summary>
-        public Dictionary<Currency, HashSet<Currency>> SupportedTradingPairs;
+        public HashSet<CurrencyTradingPair> SupportedTradingPairs;
 
-        protected Exchange(string configFile, ExchangeType exchangeSourceType)
+        private ExecutionEngine CommandExecutionEngine;
+
+        protected Exchange(ExchangeType exchangeSourceType, string baseUrl)
         {
             ExchangeSourceType = exchangeSourceType;
 
-            LoadConfigFromXML(configFile);
+            BaseURI = new Uri(baseUrl.TrimEnd('/', '\\'));
 
-            string apiClient = null;
+            BuildConfiguration();
 
-            apiClient = BaseURI.ToString();
-
-            dispatcher = new RequestDispatcher(apiClient, ExchangeSourceType);
-
-            apiRequestFactory = new RequestFactory();
-            apiRequestFactory.GetSignature += CreateSignature;
+            CommandExecutionEngine = new ExecutionEngine(this);
         }
 
         public Uri BaseURI
@@ -56,11 +51,7 @@ namespace BEx
             }
         }
 
-        internal RequestDispatcher dispatcher
-        {
-            get;
-            set;
-        }
+        protected internal Dictionary<CommandClass, ExchangeCommand> CommandCollection;
 
         protected internal string APIKey
         {
@@ -80,17 +71,7 @@ namespace BEx
             set;
         }
 
-        protected Dictionary<string, APICommand> APICommandCollection
-        {
-            get;
-            set;
-        }
-
-        private RequestFactory apiRequestFactory
-        {
-            get;
-            set;
-        }
+        #region Commands
 
         public bool CancelOrder(Order toCancel)
         {
@@ -268,19 +249,9 @@ namespace BEx
         /// <param name="baseCurrency">Base Currency</param>
         /// <param name="counterCurrency">Counter Currency</param>
         /// <returns>True if supported, otherwise false.</returns>
-        public bool IsCurrencyPairSupported(Currency baseCurrency, Currency counterCurrency)
+        public bool IsTradingPairSupported(CurrencyTradingPair pair)
         {
-            bool res = false;
-
-            if (SupportedTradingPairs.ContainsKey(baseCurrency))
-            {
-                if (SupportedTradingPairs[baseCurrency].Contains(counterCurrency))
-                {
-                    res = true;
-                }
-            }
-
-            return res;
+            return SupportedTradingPairs.Contains(pair);
         }
 
         protected internal abstract void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
@@ -324,75 +295,26 @@ namespace BEx
             return res;
         }
 
-        private decimal GetTradingFee(Currency feeCurrency)
-        {
-            return ExecuteTradingFeeCommand(APICommandCollection["TradingFee"], feeCurrency, Currency.USD);
-        }
+        #endregion Commands
 
-        private void LoadCommands(XElement configFile)
-        {
-            XElement commands = configFile.Element("Commands");
+        protected abstract HashSet<CurrencyTradingPair> GetSupportedTradingPairs();
 
-            foreach (XElement command in commands.Elements())
+        protected abstract Dictionary<CommandClass, ExchangeCommand> GetCommandCollection();
+
+        private void BuildConfiguration()
+        {
+            SupportedTradingPairs = GetSupportedTradingPairs();
+
+            foreach (CurrencyTradingPair pair in SupportedTradingPairs)
             {
-                APICommand commandToLoad = new APICommand(command);
+                if (!SupportedCurrencies.Contains(pair.BaseCurrency))
+                    SupportedCurrencies.Add(pair.BaseCurrency);
 
-                APICommandCollection.Add(commandToLoad.ID, commandToLoad);
+                if (!SupportedCurrencies.Contains(pair.CounterCurrency))
+                    SupportedCurrencies.Add(pair.CounterCurrency);
             }
-        }
 
-        private void LoadConfigFromXML(string file)
-        {
-            APICommandCollection = new Dictionary<string, APICommand>();
-
-            XElement configFile = XElement.Load(file);
-
-            string baseUrl = configFile.Element("BaseURL").Value;
-
-            BaseURI = new Uri(baseUrl);
-
-            LoadSupportedPairs(configFile);
-
-            LoadCommands(configFile);
-        }
-
-        private void LoadSupportedPairs(XElement configFile)
-        {
-            XElement supportedPairs = configFile.Element("SupportedPairs");
-
-            SupportedTradingPairs = new Dictionary<Currency, HashSet<Currency>>();
-            SupportedCurrencies = new HashSet<Currency>();
-
-            foreach (XElement pairs in supportedPairs.Elements())
-            {
-                XElement b = pairs.Element("Base");
-
-                XElement c = pairs.Element("Counter");
-
-                Currency bs;
-                Currency cs;
-
-                if (Enum.TryParse<Currency>(b.Value, out bs)
-                    &&
-                Enum.TryParse<Currency>(c.Value, out cs))
-                {
-                    if (!SupportedTradingPairs.ContainsKey(bs))
-                    {
-                        SupportedTradingPairs.Add(bs, new HashSet<Currency>());
-                    }
-
-                    if (!SupportedCurrencies.Contains(bs))
-                        SupportedCurrencies.Add(bs);
-
-                    if (!SupportedCurrencies.Contains(cs))
-                        SupportedCurrencies.Add(cs);
-
-                    if (!SupportedTradingPairs[bs].Contains(cs))
-                    {
-                        SupportedTradingPairs[bs].Add(cs);
-                    }
-                }
-            }
+            CommandCollection = GetCommandCollection();
         }
     }
 }
