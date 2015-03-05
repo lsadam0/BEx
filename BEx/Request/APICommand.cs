@@ -5,21 +5,17 @@ using System.Xml.Linq;
 
 namespace BEx
 {
-    public delegate string CurrencyFormatterDelegate(string currency);
-
     [Serializable]
-    public class APICommand
+    internal class APICommand
     {
-        public CurrencyFormatterDelegate CurrencyFormatter;
-
         public bool ReturnsValueType = false;
 
-        public APICommand()
+        internal APICommand()
         {
             Parameters = new Dictionary<string, string>();
         }
 
-        public APICommand(XElement commandToLoad)
+        internal APICommand(XElement commandToLoad)
         {
             Parameters = new Dictionary<string, string>();
 
@@ -60,48 +56,41 @@ namespace BEx
         public Method HttpMethod
         {
             get;
-            set;
+            private set;
         }
 
         public string ID
         {
             get;
-            set;
+            private set;
         }
 
         public Dictionary<string, string> Parameters
         {
             get;
-            set;
+            private set;
         }
 
         public string RelativeURI
         {
             get;
-            set;
+            private set;
         }
 
         public bool RequiresAuthentication
         {
             get;
-            set;
+            private set;
         }
 
         public string GetResolvedRelativeURI(Currency baseC, Currency counterC)
         {
             string res = RelativeURI;
 
-            res = res.Replace("{BaseCurrency}", GetCurrencyFormat(baseC.ToString()));
-            res = res.Replace("{CounterCurrency}", GetCurrencyFormat(counterC.ToString()));
+            res = res.Replace("{BaseCurrency}", baseC.ToString());
+            res = res.Replace("{CounterCurrency}", counterC.ToString());
 
             return res;
-        }
-
-        private string GetCurrencyFormat(string currency)
-        {
-            if (CurrencyFormatter != null)
-                return CurrencyFormatter(currency);
-            else return currency;
         }
 
         private void LoadArgs(XElement args)

@@ -6,11 +6,11 @@ namespace BEx
 {
     public delegate void GetSignatureDelegate(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
 
-    public class RequestFactory
+    internal class RequestFactory
     {
         public GetSignatureDelegate GetSignature;
 
-        public RequestFactory()
+        internal RequestFactory()
         {
         }
 
@@ -47,7 +47,6 @@ namespace BEx
 
         private void SetParameters(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters)
         {
-            // BitStamp
             foreach (KeyValuePair<string, string> param in parameters)
             {
                 request.AddParameter(param.Key, Uri.EscapeUriString(param.Value.ToString()));

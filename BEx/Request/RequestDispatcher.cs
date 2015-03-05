@@ -159,7 +159,6 @@ namespace BEx
             return error;
         }
 
-        // Support finding the Type of List<T>
         private Type ListOfWhat(Object list)
         {
             return ListOfWhat2((dynamic)list);

@@ -9,12 +9,6 @@ namespace BEx
 
     public abstract class Exchange
     {
-        public ExchangeType ExchangeSourceType
-        {
-            get;
-            private set;
-        }
-
         public HashSet<Currency> SupportedCurrencies;
 
         /// <summary>
@@ -42,6 +36,12 @@ namespace BEx
         {
             get;
             set;
+        }
+
+        public ExchangeType ExchangeSourceType
+        {
+            get;
+            private set;
         }
 
         /// <summary>
