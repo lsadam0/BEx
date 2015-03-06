@@ -6,16 +6,26 @@ namespace BEx.Request
 {
     public class ExchangeCommand
     {
-        public ExchangeCommand()
+        public ExchangeCommand(CommandClass identifier,
+                                Method httpMethod,
+                                string relativeUrl,
+                                bool isAuthenticated,
+                                bool returnsValueType = false,
+                                List<ExchangeParameter> parameters = null)
         {
             Parameters = new Dictionary<string, ExchangeParameter>();
             ReturnsValueType = false;
-        }
 
-        public CurrencyTradingPair TradingPair
-        {
-            get;
-            set;
+            HttpMethod = httpMethod;
+            Identifier = identifier;
+            IsAuthenticated = isAuthenticated;
+            RelativeURI = relativeUrl;
+            ReturnsValueType = returnsValueType;
+
+            if (parameters != null)
+            {
+                parameters.ForEach(x => Parameters.Add(x.Name, x));
+            }
         }
 
         /// <summary>
@@ -24,7 +34,7 @@ namespace BEx.Request
         public Method HttpMethod
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -33,7 +43,7 @@ namespace BEx.Request
         public CommandClass Identifier
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -42,7 +52,7 @@ namespace BEx.Request
         public bool IsAuthenticated
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -51,7 +61,7 @@ namespace BEx.Request
         public Dictionary<string, ExchangeParameter> Parameters
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -60,24 +70,18 @@ namespace BEx.Request
         public string RelativeURI
         {
             get;
-            set;
+            private set;
         }
 
-        /// <summary>
-        /// Fully formatted URI cotaining currency pair information
-        /// </summary>
-        public string ResolvedRelativeURI
+        public string GetResolvedRelativeURI(CurrencyTradingPair pair)
         {
-            get
-            {
-                return string.Format(RelativeURI, TradingPair.BaseCurrency.ToString(), TradingPair.CounterCurrency.ToString());
-            }
+            return string.Format(RelativeURI, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());
         }
 
         public bool ReturnsValueType
         {
             get;
-            set;
+            private set;
         }
     }
 }

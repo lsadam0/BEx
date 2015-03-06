@@ -30,14 +30,13 @@ namespace BEx.BitFinexSupport
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-        public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Tick ConvertToStandard(CurrencyTradingPair pair)
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 
+            res.Pair = pair;
             res.Ask = Convert.ToDecimal(Ask);
-            res.BaseCurrency = baseCurrency;
             res.Bid = Convert.ToDecimal(Bid);
-            res.CounterCurrency = counterCurrency;
             res.High = Convert.ToDecimal(High);
             res.Last = Convert.ToDecimal(LastPrice);
             res.Low = Convert.ToDecimal(Low);

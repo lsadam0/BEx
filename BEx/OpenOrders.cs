@@ -14,7 +14,7 @@ namespace BEx
             Orders = new Dictionary<int, Order>();
         }
 
-        internal OpenOrders(List<Order> orders, Currency baseCurrency, Currency counterCurrency, ExchangeType sourceExchange)
+        internal OpenOrders(List<Order> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
             Orders = new Dictionary<int, Order>();

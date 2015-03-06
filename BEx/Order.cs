@@ -28,18 +28,9 @@ namespace BEx
         }
 
         /// <summary>
-        /// Base Currency for the Order
+        /// Currency Pair
         /// </summary>
-        public Currency BaseCurrency
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
-        /// Counter Currency for the Order
-        /// </summary>
-        public Currency CounterCurrency
+        public CurrencyTradingPair Pair
         {
             get;
             internal set;

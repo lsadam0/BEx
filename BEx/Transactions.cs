@@ -11,21 +11,14 @@ namespace BEx
         {
         }
 
-        internal Transactions(List<Transaction> transactions, Currency baseCurrency, Currency counterCurrency, ExchangeType sourceExchange)
+        internal Transactions(List<Transaction> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
-            BaseCurrency = baseCurrency;
-            CounterCurrency = counterCurrency;
+            Pair = pair;
             TransactionsCollection = transactions;
         }
 
-        public Currency BaseCurrency
-        {
-            get;
-            internal set;
-        }
-
-        public Currency CounterCurrency
+        public CurrencyTradingPair Pair
         {
             get;
             internal set;
@@ -39,14 +32,14 @@ namespace BEx
 
         public override string ToString()
         {
-            string output = "{0}/{1} - Transactions: {2} - Oldest: {3} - Newest: {4}";
+            string output = "{0} - Transactions: {1} - Oldest: {2} - Newest: {3}";
 
             if (TransactionsCollection.Count > 0)
             {
                 DateTime oldest = TransactionsCollection.Min(x => x.CompletedTime);
                 DateTime newest = TransactionsCollection.Max(x => x.CompletedTime);
 
-                return string.Format(output, BaseCurrency, CounterCurrency, TransactionsCollection.Count, oldest.ToString(), newest.ToString());
+                return string.Format(output, Pair, TransactionsCollection.Count, oldest.ToString(), newest.ToString());
             }
             else
                 return "No Transactions in Collection";

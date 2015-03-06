@@ -21,7 +21,7 @@ namespace BEx.BitStampSupport
 
         public string ask { get; set; }
 
-        public override Tick ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Tick ConvertToStandard(CurrencyTradingPair pair)
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), ExchangeType.BitStamp);
 
@@ -33,8 +33,7 @@ namespace BEx.BitStampSupport
 
             res.Volume = Convert.ToDecimal(volume);
 
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
+            res.Pair = pair;
 
             return res;
         }

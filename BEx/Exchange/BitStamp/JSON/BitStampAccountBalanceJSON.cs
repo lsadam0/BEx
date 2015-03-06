@@ -27,7 +27,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("usd_available")]
         public string UsdAvailable { get; set; }
 
-        public override AccountBalance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override AccountBalance ConvertToStandard(CurrencyTradingPair pair)
         {
             AccountBalance res;
 
@@ -43,7 +43,7 @@ namespace BEx.BitStampSupport
             usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance);
             usdBalance.BalanceCurrency = Currency.USD;
 
-            res = new AccountBalance(new List<Balance>() { btcBalance, usdBalance }, baseCurrency, counterCurrency, ExchangeType.BitStamp);
+            res = new AccountBalance(new List<Balance>() { btcBalance, usdBalance }, pair, ExchangeType.BitStamp);
 
             return res;
         }

@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace BEx
+namespace BEx.Request
 {
-    public delegate void GetSignatureDelegate(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null);
+    public delegate void GetSignatureDelegate(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null);
 
     internal class RequestFactory
     {
@@ -14,35 +14,35 @@ namespace BEx
         {
         }
 
-        public RestRequest GetRequest(APICommand command)
+        public RestRequest GetRequest(ExchangeCommand command)
         {
             return null;
         }
 
-        public RestRequest GetRequest(APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        public RestRequest GetRequest(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
         {
-            RestRequest result = CreateRequest(command, baseCurrency, counterCurrency);
+            RestRequest result = CreateRequest(command, pair);
 
             if (parameters != null && parameters.Count > 0)
-                SetParameters(result, command, baseCurrency, counterCurrency, parameters);
+                SetParameters(result, command, pair, parameters);
 
-            if (command.RequiresAuthentication)
-                AuthenticateRequest(result, command, baseCurrency, counterCurrency, parameters);
+            if (command.IsAuthenticated)
+                AuthenticateRequest(result, command, pair, parameters);
 
             return result;
         }
 
-        private void AuthenticateRequest(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        private void AuthenticateRequest(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
         {
             if (GetSignature != null)
             {
-                GetSignature(request, command, baseCurrency, counterCurrency, parameters);
+                GetSignature(request, command, pair, parameters);
             }
         }
 
-        private RestRequest CreateRequest(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        private RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            var request = new RestRequest(command.GetResolvedRelativeURI(baseCurrency, counterCurrency), command.HttpMethod);
+            var request = new RestRequest(command.GetResolvedRelativeURI(pair), command.HttpMethod);
 
             request.RequestFormat = DataFormat.Json;
             request.Method = command.HttpMethod;
@@ -50,7 +50,7 @@ namespace BEx
             return request;
         }
 
-        private void SetParameters(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters)
+        private void SetParameters(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters)
         {
             foreach (KeyValuePair<string, string> param in parameters)
             {

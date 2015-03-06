@@ -20,7 +20,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Order ConvertToStandard(CurrencyTradingPair pair)
         {
             Order res = new Order(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
 
@@ -35,8 +35,7 @@ namespace BEx.BitStampSupport
             res.ID = Id;
             res.ExchangeTimeStamp = Convert.ToDateTime(Datetime);
 
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
+            res.Pair = pair;
 
             return res;
         }

@@ -12,7 +12,7 @@
         [JsonProperty("address")]
         public string Address { get; set; }
 
-        public override PendingDeposit ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override PendingDeposit ConvertToStandard(CurrencyTradingPair pair)
         {
             PendingDeposit res = new PendingDeposit(DateTime.Now);
 

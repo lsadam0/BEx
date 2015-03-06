@@ -7,7 +7,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("error")]
         public string Error { get; set; }
 
-        public APIError ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public APIError ConvertToStandard(CurrencyTradingPair pair)
         {
             APIError error = new APIError(ExchangeType.BitStamp);
 

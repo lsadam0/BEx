@@ -35,12 +35,11 @@ namespace BEx.BitFinexSupport
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override OrderBook ConvertToStandard(CurrencyTradingPair pair)
         {
             OrderBook res = new OrderBook(DateTime.Now, ExchangeType.BitFinex);
 
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
+            res.Pair = pair;
             decimal key;
             decimal value;
 

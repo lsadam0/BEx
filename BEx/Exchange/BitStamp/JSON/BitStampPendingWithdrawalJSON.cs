@@ -21,7 +21,7 @@
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        public override PendingWithdrawal ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override PendingWithdrawal ConvertToStandard(CurrencyTradingPair pair)
         {
             PendingWithdrawal res = new PendingWithdrawal(Convert.ToDateTime(Datetime));
 

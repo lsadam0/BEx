@@ -50,225 +50,6 @@ namespace BEx
             else return null;
         }
 
-        protected override HashSet<CurrencyTradingPair> GetSupportedTradingPairs()
-        {
-            HashSet<CurrencyTradingPair> res = new HashSet<CurrencyTradingPair>();
-
-            res.Add(new CurrencyTradingPair(Currency.BTC, Currency.USD));
-
-            return res;
-        }
-
-        protected override Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
-        {
-            Dictionary<CommandClass, ExchangeCommand> res = new Dictionary<CommandClass, ExchangeCommand>();
-            /*<Commands>
-              <Command ID="Tick">
-                <Method>GET</Method>
-                <RelativeURL>ticker/</RelativeURL>
-                <RequiresAuthentication>false</RequiresAuthentication>
-                <args />
-              </Command>
-             */
-
-            ExchangeCommand tick = new ExchangeCommand();
-
-            tick.Identifier = CommandClass.Tick;
-            tick.HttpMethod = Method.GET;
-            tick.RelativeURI = "ticker/";
-            tick.IsAuthenticated = false;
-
-            res.Add(tick.Identifier, tick);
-
-            /*
-             <Command ID="OrderBook">
-               <Method>GET</Method>
-               <RelativeURL>order_book/</RelativeURL>
-               <RequiresAuthentication>false</RequiresAuthentication>
-               <args />
-             </Command>
-             */
-
-            ExchangeCommand orderBook = new ExchangeCommand();
-
-            orderBook.Identifier = CommandClass.OrderBook;
-            orderBook.HttpMethod = Method.GET;
-            orderBook.RelativeURI = "order_book/";
-            orderBook.IsAuthenticated = false;
-
-            res.Add(orderBook.Identifier, orderBook);
-            /*
-             <Command ID="Transactions">
-               <Method>GET</Method>
-               <RelativeURL>transactions/</RelativeURL>
-               <RequiresAuthentication>false</RequiresAuthentication>
-               <args>
-                 <arg ID="time" type="parameter">hour</arg>
-               </args>
-             </Command>
-             */
-
-            ExchangeCommand transactions = new ExchangeCommand();
-
-            transactions.Identifier = CommandClass.Transactions;
-            transactions.HttpMethod = Method.GET;
-            transactions.RelativeURI = "transactions/";
-            transactions.IsAuthenticated = false;
-
-            transactions.Parameters.Add("time", new ExchangeParameter(Request.ExchangeParameterType.Address, "time", "hour"));
-
-            res.Add(transactions.Identifier, transactions);
-
-            /*
-             <Command ID="AccountBalance">
-               <Method>POST</Method>
-               <RelativeURL>balance/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <args />
-             </Command>*/
-
-            ExchangeCommand accountBalance = new ExchangeCommand();
-
-            accountBalance.Identifier = CommandClass.AccountBalance;
-            accountBalance.HttpMethod = Method.POST;
-            accountBalance.RelativeURI = "balance/";
-            accountBalance.IsAuthenticated = true;
-
-            res.Add(accountBalance.Identifier, accountBalance);
-
-            /*
-
-             <Command ID="BuyOrder">
-               <Method>POST</Method>
-               <RelativeURL>buy/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <args>
-                 <arg ID="amount" type="parameter" />
-                 <arg ID="price" type="parameter" />
-               </args>
-             </Command>*/
-
-            ExchangeCommand buyOrder = new ExchangeCommand();
-
-            buyOrder.Identifier = CommandClass.BuyOrder;
-            buyOrder.HttpMethod = Method.POST;
-            buyOrder.RelativeURI = "buy/";
-            buyOrder.IsAuthenticated = true;
-
-            ExchangeParameter buyAmount = new ExchangeParameter(ExchangeParameterType.Post, "amount");
-            buyOrder.Parameters.Add(buyAmount.Name, buyAmount);
-
-            ExchangeParameter buyPrice = new ExchangeParameter(ExchangeParameterType.Post, "price");
-            buyOrder.Parameters.Add(buyPrice.Name, buyPrice);
-
-            res.Add(buyOrder.Identifier, buyOrder);
-
-            /*
-             <Command ID="SellOrder">
-               <Method>POST</Method>
-               <RelativeURL>sell/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <args>
-                 <arg ID="amount" type="parameter" />
-                 <arg ID="price" type="parameter" />
-               </args>
-             </Command>*/
-
-            ExchangeCommand sellOrder = new ExchangeCommand();
-
-            sellOrder.Identifier = CommandClass.SellOrder;
-            sellOrder.HttpMethod = Method.POST;
-            sellOrder.RelativeURI = "sell/";
-            sellOrder.IsAuthenticated = true;
-
-            ExchangeParameter sellAmount = new ExchangeParameter(ExchangeParameterType.Post, "amount");
-            sellOrder.Parameters.Add(sellAmount.Name, sellAmount);
-
-            ExchangeParameter sellPrice = new ExchangeParameter(ExchangeParameterType.Post, "price");
-            sellOrder.Parameters.Add(sellPrice.Name, sellPrice);
-
-            res.Add(sellOrder.Identifier, sellOrder);
-
-            /*
-             <Command ID="OpenOrders">
-               <Method>POST</Method>
-               <RelativeURL>open_orders/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <args />
-             </Command>*/
-
-            ExchangeCommand openOrders = new ExchangeCommand();
-
-            openOrders.Identifier = CommandClass.OpenOrders;
-            openOrders.HttpMethod = Method.POST;
-            openOrders.RelativeURI = "open_orders/";
-            openOrders.IsAuthenticated = true;
-
-            res.Add(openOrders.Identifier, openOrders);
-
-            /*
-             <Command ID="UserTransactions">
-               <Method>POST</Method>
-               <RelativeURL>user_transactions/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <args />
-             </Command>*/
-
-            ExchangeCommand userTransactions = new ExchangeCommand();
-
-            userTransactions.Identifier = CommandClass.UserTransactions;
-            userTransactions.HttpMethod = Method.POST;
-            userTransactions.RelativeURI = "user_transactions/";
-            userTransactions.IsAuthenticated = true;
-
-            res.Add(userTransactions.Identifier, userTransactions);
-
-            /*
-             <Command ID="CancelOrder">
-               <Method>POST</Method>
-               <RelativeURL>cancel_order/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <ReturnsValueType>true</ReturnsValueType>
-               <args>
-                 <arg ID="id" type="parameter"></arg>
-               </args>
-             </Command>*/
-
-            ExchangeCommand cancelOrder = new ExchangeCommand();
-
-            cancelOrder.Identifier = CommandClass.CancelOrder;
-            cancelOrder.HttpMethod = Method.POST;
-            cancelOrder.RelativeURI = "cancel_order/";
-            cancelOrder.IsAuthenticated = true;
-            cancelOrder.ReturnsValueType = true;
-
-            ExchangeParameter cancelOrderId = new ExchangeParameter(ExchangeParameterType.Post, "id");
-            cancelOrder.Parameters.Add(cancelOrderId.Name, cancelOrderId);
-
-            res.Add(cancelOrder.Identifier, cancelOrder);
-
-            /*
-             <Command ID="DepositAddress">
-               <Method>POST</Method>
-               <RelativeURL>bitcoin_deposit_address/</RelativeURL>
-               <RequiresAuthentication>true</RequiresAuthentication>
-               <ReturnsValueType>true</ReturnsValueType>
-               <args />
-             </Command>*/
-
-            ExchangeCommand depositAddress = new ExchangeCommand();
-
-            depositAddress.Identifier = CommandClass.DepositAddress;
-            depositAddress.HttpMethod = Method.POST;
-            depositAddress.RelativeURI = "bitcoin_depost_address/";
-            depositAddress.IsAuthenticated = true;
-            depositAddress.ReturnsValueType = true;
-
-            res.Add(depositAddress.Identifier, depositAddress);
-
-            return res;
-        }
-
         internal string ExtractMessage(string content)
         {
             if (!string.IsNullOrEmpty(content))
@@ -325,7 +106,7 @@ namespace BEx
             return res;
         }
 
-        protected internal override void CreateSignature(RestRequest request, APICommand command, Currency baseCurrency, Currency counterCurrency, Dictionary<string, string> parameters = null)
+        protected internal override void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
         {
             /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
 
@@ -350,59 +131,184 @@ namespace BEx
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
         }
 
-        #region Commands
-
-        protected override AccountBalance ExecuteAccountBalanceCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
         {
-            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalance>(command, baseCurrency, counterCurrency);
+            Dictionary<CommandClass, ExchangeCommand> res = new Dictionary<CommandClass, ExchangeCommand>();
+
+            ExchangeCommand tick = new ExchangeCommand(CommandClass.Tick,
+                                                        Method.GET,
+                                                       "ticker/",
+                                                        false);
+
+            res.Add(tick.Identifier, tick);
+
+            ExchangeCommand orderBook = new ExchangeCommand(
+
+            CommandClass.OrderBook,
+            Method.GET,
+             "order_book/",
+            false);
+
+            List<ExchangeParameter> transactionParams = new List<ExchangeParameter>();
+            transactionParams.Add(new ExchangeParameter(Request.ExchangeParameterType.Address, "time", "hour"));
+
+            ExchangeCommand transactions = new ExchangeCommand(
+         CommandClass.Transactions,
+         Method.GET,
+    "transactions/",
+false, false, transactionParams);
+
+            res.Add(transactions.Identifier, transactions);
+
+            ExchangeCommand accountBalance = new ExchangeCommand(
+
+             CommandClass.AccountBalance,
+             Method.POST,
+             "balance/",
+             true);
+
+            res.Add(accountBalance.Identifier, accountBalance);
+
+            List<ExchangeParameter> buyParams = new List<ExchangeParameter>();
+
+            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount"));
+            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price"));
+
+            ExchangeCommand buyOrder = new ExchangeCommand(
+
+            CommandClass.BuyOrder,
+            Method.POST,
+            "buy/",
+            true,
+            false,
+            buyParams);
+
+            res.Add(buyOrder.Identifier, buyOrder);
+
+            List<ExchangeParameter> sellParams = new List<ExchangeParameter>();
+
+            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount"));
+
+            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price"));
+
+            ExchangeCommand sellOrder = new ExchangeCommand(
+
+            CommandClass.SellOrder,
+            Method.POST,
+            "sell/",
+            true,
+            false,
+            sellParams);
+
+            res.Add(sellOrder.Identifier, sellOrder);
+
+            ExchangeCommand openOrders = new ExchangeCommand(
+
+            CommandClass.OpenOrders,
+            Method.POST,
+            "open_orders/",
+            true);
+            res.Add(openOrders.Identifier, openOrders);
+
+            ExchangeCommand userTransactions = new ExchangeCommand(
+
+            CommandClass.UserTransactions,
+            Method.POST,
+            "user_transactions/",
+            true);
+
+            res.Add(userTransactions.Identifier, userTransactions);
+
+            List<ExchangeParameter> cancelParams = new List<ExchangeParameter>();
+
+            cancelParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "id"));
+
+            ExchangeCommand cancelOrder = new ExchangeCommand(
+
+            CommandClass.CancelOrder,
+            Method.POST,
+            "cancel_order/",
+            true,
+            true,
+            cancelParams);
+
+            res.Add(cancelOrder.Identifier, cancelOrder);
+
+            ExchangeCommand depositAddress = new ExchangeCommand(
+
+            CommandClass.DepositAddress,
+            Method.POST,
+            "bitcoin_depost_address/",
+            true,
+            true);
+
+            res.Add(depositAddress.Identifier, depositAddress);
+
+            return res;
         }
 
-        protected override bool ExecuteCancelOrderCommand(APICommand command, int id)
+        protected override HashSet<CurrencyTradingPair> GetSupportedTradingPairs()
+        {
+            HashSet<CurrencyTradingPair> res = new HashSet<CurrencyTradingPair>();
+
+            res.Add(DefaultPair);
+
+            return res;
+        }
+
+        #region Commands
+
+        protected override AccountBalance ExecuteAccountBalanceCommand(ExchangeCommand command, CurrencyTradingPair pair)
+        {
+            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalance>(command, pair);
+        }
+
+        protected override bool ExecuteCancelOrderCommand(ExchangeCommand command, int id)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
 
             parameters.Add("id", id.ToString());
 
-            return (bool)SendCommandToDispatcher<bool, bool>(command, Currency.BTC, Currency.USD, parameters);
+            return (bool)SendCommandToDispatcher<bool, bool>(command, DefaultPair, parameters);
         }
 
-        protected override DepositAddress ExecuteGetDepositAddressCommand(APICommand command, Currency toDeposit)
+        protected override DepositAddress ExecuteGetDepositAddressCommand(ExchangeCommand command, Currency toDeposit)
         {
-            return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, Currency.BTC, Currency.USD);
+            return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, DefaultPair);
         }
 
-        protected override OpenOrders ExecuteGetOpenOrdersCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override OpenOrders ExecuteGetOpenOrdersCommand(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            return (OpenOrders)SendCommandToDispatcher<List<BitStampOrderConfirmationJSON>, OpenOrders>(command, baseCurrency, counterCurrency);
+            return (OpenOrders)SendCommandToDispatcher<List<BitStampOrderConfirmationJSON>, OpenOrders>(command, pair);
         }
 
-        protected override UserTransactions ExecuteGetUserTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override UserTransactions ExecuteGetUserTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            return (UserTransactions)SendCommandToDispatcher<List<BitStampUserTransactionJSON>, UserTransactions>(command, baseCurrency, counterCurrency);
+            return (UserTransactions)SendCommandToDispatcher<List<BitStampUserTransactionJSON>, UserTransactions>(command, pair);
         }
 
-        protected override OrderBook ExecuteOrderBookCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override OrderBook ExecuteOrderBookCommand(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            return (OrderBook)SendCommandToDispatcher<BitstampOrderBookJSON, OrderBook>(command, baseCurrency, counterCurrency);
+            return (OrderBook)SendCommandToDispatcher<BitstampOrderBookJSON, OrderBook>(command, pair);
         }
 
-        protected override Order ExecuteOrderCommand(APICommand command, Currency baseCurrency, Currency counterCurrency, decimal amount, decimal price)
+        protected override Order ExecuteOrderCommand(ExchangeCommand command, CurrencyTradingPair pair, decimal amount, decimal price)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("amount", amount.ToString());
             parameters.Add("price", price.ToString());
 
-            return (Order)SendCommandToDispatcher<BitStampOrderConfirmationJSON, Order>(command, baseCurrency, counterCurrency, parameters);
+            return (Order)SendCommandToDispatcher<BitStampOrderConfirmationJSON, Order>(command, pair, parameters);
         }
 
-        protected override Tick ExecuteTickCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override Tick ExecuteTickCommand(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            return (Tick)SendCommandToDispatcher<BitstampTickJSON, Tick>(command, baseCurrency, counterCurrency);
+            return (Tick)SendCommandToDispatcher<BitstampTickJSON, Tick>(command, pair);
         }
 
-        protected override Transactions ExecuteTransactionsCommand(APICommand command, Currency baseCurrency, Currency counterCurrency)
+        protected override Transactions ExecuteTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>, Transactions>(command, baseCurrency, counterCurrency);
+            return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>, Transactions>(command, pair);
         }
 
         #endregion Commands

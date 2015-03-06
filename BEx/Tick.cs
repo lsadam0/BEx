@@ -21,15 +21,6 @@ namespace BEx
         }
 
         /// <summary>
-        /// Base Currency
-        /// </summary>
-        public Currency BaseCurrency
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
         /// Highest Buy Price
         /// </summary>
         public Decimal Bid
@@ -39,9 +30,9 @@ namespace BEx
         }
 
         /// <summary>
-        /// Counter Currency
+        /// Trading Pair
         /// </summary>
-        public Currency CounterCurrency
+        public CurrencyTradingPair Pair
         {
             get;
             internal set;
@@ -85,9 +76,9 @@ namespace BEx
 
         public override string ToString()
         {
-            string output = "{0}/{1} - Bid: {2} - Ask: {3} - High: {4} - Low: {5} - Volume: {6} - Time: {7}";
+            string output = "{0} - Bid: {1} - Ask: {2} - High: {3} - Low: {4} - Volume: {5} - Time: {6}";
 
-            return string.Format(output, BaseCurrency, CounterCurrency, Bid, Ask, High, Low, Volume, ExchangeTimeStamp.ToString());
+            return string.Format(output, Pair, Bid, Ask, High, Low, Volume, ExchangeTimeStamp.ToString());
         }
     }
 }

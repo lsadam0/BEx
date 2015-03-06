@@ -21,9 +21,9 @@ namespace BEx
         }
 
         /// <summary>
-        /// Transaction Base Currency
+        /// Trading Pair
         /// </summary>
-        public Currency BaseCurrency
+        public CurrencyTradingPair Pair
         {
             get;
             internal set;
@@ -33,15 +33,6 @@ namespace BEx
         /// Execution Time
         /// </summary>
         public DateTime CompletedTime
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
-        /// Transaction Counter Currency
-        /// </summary>
-        public Currency CounterCurrency
         {
             get;
             internal set;

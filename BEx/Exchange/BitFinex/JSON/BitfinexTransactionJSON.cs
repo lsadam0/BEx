@@ -24,7 +24,7 @@ namespace BEx.BitFinexSupport
         [JsonProperty("type")]
         public string type { get; set; }
 
-        public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Transaction ConvertToStandard(CurrencyTradingPair pair)
         {
             Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)), ExchangeType.BitFinex);
 

@@ -32,7 +32,7 @@ namespace BEx.Request
             errorHandler = new ErrorHandler();
         }
 
-        public APIResult ExecuteCommand(APICommand toExecute)
+        public APIResult ExecuteCommand(ExchangeCommand toExecute)
         {
             APIResult res = null;
 
@@ -41,7 +41,7 @@ namespace BEx.Request
             return res;
         }
 
-        private APIResult ExecutionPipeline(APICommand toExecute)
+        private APIResult ExecutionPipeline(ExchangeCommand toExecute)
         {
             APIResult res = null;
 

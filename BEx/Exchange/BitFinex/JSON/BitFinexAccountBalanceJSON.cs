@@ -17,7 +17,7 @@ namespace BEx.BitFinexSupport
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public override Balance ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Balance ConvertToStandard(CurrencyTradingPair pair)
         {
             Balance res = null;
 

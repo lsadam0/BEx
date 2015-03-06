@@ -51,13 +51,12 @@ namespace BEx.BitFinexSupport
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-        public override Order ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Order ConvertToStandard(CurrencyTradingPair pair)
         {
             Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 
             res.Amount = Convert.ToDecimal(OriginalAmount);
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
+            res.Pair = pair;
             res.ID = Id;
             res.Price = Convert.ToDecimal(Price);
 

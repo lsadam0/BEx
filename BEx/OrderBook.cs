@@ -25,9 +25,9 @@ namespace BEx
         }
 
         /// <summary>
-        /// Base Currency
+        /// Trading Pair
         /// </summary>
-        public Currency BaseCurrency
+        public CurrencyTradingPair Pair
         {
             get;
             internal set;
@@ -42,20 +42,11 @@ namespace BEx
             internal set;
         }
 
-        /// <summary>
-        /// Counter Currency
-        /// </summary>
-        public Currency CounterCurrency
-        {
-            get;
-            internal set;
-        }
-
         public override string ToString()
         {
-            string output = "{0}/{1} - Bids: {2} - Asks: {3}";
+            string output = "{0} - Bids: {1} - Asks: {2}";
 
-            return string.Format(output, BaseCurrency, CounterCurrency, BidsByPrice.Count, AsksByPrice.Count);
+            return string.Format(output, Pair.ToString(), BidsByPrice.Count, AsksByPrice.Count);
         }
     }
 }

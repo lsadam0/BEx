@@ -18,7 +18,7 @@ namespace BEx.BitStampSupport
         [JsonProperty("amount")]
         public string amount { get; set; }
 
-        public override Transaction ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override Transaction ConvertToStandard(CurrencyTradingPair pair)
         {
             Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date)), ExchangeType.BitStamp);
 

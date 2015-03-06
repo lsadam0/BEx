@@ -42,7 +42,7 @@ namespace BEx
         /// <param name="baseCurrency"></param>
         /// <param name="counterCurrency"></param>
         /// <returns></returns>
-        internal object ExecuteCommand<J, E>(RestRequest request, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
+        internal object ExecuteCommand<J, E>(RestRequest request, APICommand commandReference, CurrencyTradingPair pair)
         {
             IRestResponse response;
             object result = null;
@@ -65,7 +65,7 @@ namespace BEx
                 {
                     if (!commandReference.ReturnsValueType)
                     {
-                        result = (APIResult)DeserializeObject<J, E>(response.Content, commandReference, baseCurrency, counterCurrency);
+                        result = (APIResult)DeserializeObject<J, E>(response.Content, commandReference, pair);
                     }
                     else
                         result = GetValueType<J, E>(response.Content);
@@ -79,7 +79,7 @@ namespace BEx
             return result;
         }
 
-        private APIResult DeserializeObject<J, E>(string content, APICommand commandReference, Currency baseCurrency, Currency counterCurrency)
+        private APIResult DeserializeObject<J, E>(string content, APICommand commandReference, CurrencyTradingPair pair)
         {
             APIResult res = default(APIResult);
 
@@ -101,16 +101,16 @@ namespace BEx
 
                 MethodInfo generic = conversionMethod.MakeGenericMethod(baseT, entryType);
 
-                dynamic collection = generic.Invoke(this, new object[] { deserialized, baseCurrency, counterCurrency });
+                dynamic collection = generic.Invoke(this, new object[] { deserialized, pair });
 
                 res = (APIResult)Activator.CreateInstance(typeof(E),
                                                             BindingFlags.NonPublic | BindingFlags.Instance,
                                                             null,
-                                                            new object[] { collection, baseCurrency, counterCurrency, SourceExchangeType },
+                                                            new object[] { collection, pair, SourceExchangeType },
                                                             null); // Culture?
             }
             else
-                res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { baseCurrency, counterCurrency });
+                res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { pair });
 
             return res;
         }

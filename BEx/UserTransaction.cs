@@ -9,6 +9,15 @@ namespace BEx
         { }
 
         /// <summary>
+        /// Trading Pair
+        /// </summary>
+        public CurrencyTradingPair Pair
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
         /// Base currency amount for the transaction
         /// </summary>
         public Decimal BaseCurrencyAmount

@@ -15,12 +15,11 @@ namespace BEx.BitStampSupport
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
 
-        public override OrderBook ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override OrderBook ConvertToStandard(CurrencyTradingPair pair)
         {
             OrderBook res = new OrderBook(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitStamp);
 
-            res.BaseCurrency = baseCurrency;
-            res.CounterCurrency = counterCurrency;
+            res.Pair = pair;
 
             for (int x = 0; x < Bids.Length; ++x)
             {

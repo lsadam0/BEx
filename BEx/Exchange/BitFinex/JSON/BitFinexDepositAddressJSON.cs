@@ -17,9 +17,9 @@ namespace BEx.BitFinexSupport
         [JsonProperty("address")]
         public string Address { get; set; }
 
-        public override DepositAddress ConvertToStandard(Currency baseCurrency, Currency counterCurrency)
+        public override DepositAddress ConvertToStandard(CurrencyTradingPair pair)
         {
-            return new DepositAddress(Address, DateTime.Now, baseCurrency, ExchangeType.BitFinex);
+            return new DepositAddress(Address, DateTime.Now, pair.BaseCurrency, ExchangeType.BitFinex);
         }
     }
 }

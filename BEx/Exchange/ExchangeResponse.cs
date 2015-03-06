@@ -5,9 +5,9 @@ namespace BEx
 {
     public abstract class ExchangeResponse<T>
     {
-        public abstract T ConvertToStandard(Currency baseCurrency, Currency counterCurrency);
+        public abstract T ConvertToStandard(CurrencyTradingPair pair);
 
-        public static List<R> ConvertListToStandard<C, R>(List<C> responseCollection, Currency baseCurrency, Currency counterCurrency)
+        public static List<R> ConvertListToStandard<C, R>(List<C> responseCollection, CurrencyTradingPair pair)
         {
             List<R> res = new List<R>();
 
@@ -15,7 +15,7 @@ namespace BEx
 
             foreach (C response in responseCollection)
             {
-                R iteration = (R)conversionMethod.Invoke(response, new object[] { baseCurrency, counterCurrency });
+                R iteration = (R)conversionMethod.Invoke(response, new object[] { pair });
 
                 if (iteration != null)
                     res.Add((R)iteration);
