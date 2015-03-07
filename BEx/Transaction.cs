@@ -9,7 +9,8 @@ namespace BEx
     {
         internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
-        { }
+        {
+        }
 
         /// <summary>
         /// Transaction Amount

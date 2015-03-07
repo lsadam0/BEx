@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NUnitTests
@@ -138,6 +139,7 @@ namespace NUnitTests
 
         public void VerifyTick()
         {
+            Stopwatch measure = new Stopwatch();
             foreach (CurrencyTradingPair pair in testCandidate.SupportedTradingPairs)
             {
                 {
@@ -145,8 +147,12 @@ namespace NUnitTests
 
                     Debug(string.Format("Verifying Tick for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
 
+                    measure.Reset();
+                    measure.Start();
                     Tick toVerify = testCandidate.GetTick(pair);
+                    measure.Stop();
 
+                    Debug(string.Format("Tick execution time {0}ms", measure.ElapsedMilliseconds.ToString()));
                     VerifyAPIResult(toVerify);
 
                     Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);

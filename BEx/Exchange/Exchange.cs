@@ -202,6 +202,8 @@ namespace BEx
         public OrderBook GetOrderBook(CurrencyTradingPair pair)
         {
             return null;
+            //ExchangeCommand orderBook = CommandCollection[CommandClass.OrderBook];
+
             /*
             OrderBook res = null;
 
@@ -228,17 +230,7 @@ namespace BEx
         /// <returns></returns>
         public Tick GetTick(CurrencyTradingPair pair)
         {
-            return null;
-            //ExchangeCommand command = CommandCollection[CommandClass.Tick];
-
-            /*
-            Tick res = null;
-
-            ExchangeCommand tickCommandReference = CommandCollection[CommandClass.Tick];
-
-            res = BuildTickCommand(CommandCollection[CommandClass.Tick], pair);
-
-            return res;*/
+            return (Tick)CommandExecutionEngine.ExecuteCommand(CommandCollection[CommandClass.Tick], pair);
         }
 
         /// <summary>
@@ -258,7 +250,18 @@ namespace BEx
         /// <returns></returns>
         public Transactions GetTransactions(CurrencyTradingPair pair)
         {
-            return null;
+            ExchangeCommand cmd = CommandCollection[CommandClass.Transactions];
+
+            Dictionary<StandardParameterType, string> param = null;
+            if (cmd.DependentParameters.ContainsKey(StandardParameterType.UnixTimeStamp))
+            {
+                param = new Dictionary<StandardParameterType, string>();
+
+                param.Add(StandardParameterType.UnixTimeStamp, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
+            }
+
+            return (Transactions)CommandExecutionEngine.ExecuteCommand(cmd, pair, param);
+
             // return ExecuteTransactionsCommand(CommandCollection[CommandClass.Transactions], pair);
         }
 
@@ -311,6 +314,7 @@ namespace BEx
         private void BuildConfiguration()
         {
             SupportedTradingPairs = GetSupportedTradingPairs();
+            SupportedCurrencies = new HashSet<Currency>();
 
             foreach (CurrencyTradingPair pair in SupportedTradingPairs)
             {

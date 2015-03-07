@@ -154,6 +154,8 @@ namespace BEx
             ExchangeParameter baseCurrency = new ExchangeParameter(ExchangeParameterType.Address, "base", StandardParameterType.Base, "BTC");
             ExchangeParameter counterCurrency = new ExchangeParameter(ExchangeParameterType.Address, "counter", StandardParameterType.Counter, "USD");
 
+            ExchangeParameter pairParam = new ExchangeParameter(ExchangeParameterType.Address, "pair", StandardParameterType.None);
+
             List<ExchangeParameter> currencyParams = new List<ExchangeParameter>();
             currencyParams.Add(baseCurrency);
             currencyParams.Add(counterCurrency);
@@ -164,7 +166,7 @@ namespace BEx
             false,
             typeof(BitfinexTickJSON),
             false,
-            currencyParams);
+            new List<ExchangeParameter>() { pairParam });
 
             res.Add(tick.Identifier, tick);
 
@@ -182,13 +184,13 @@ namespace BEx
 
             currencyParams.ForEach(x => transactionsParams.Add(x));
 
-            currencyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.None, "needtoset"));
+            transactionsParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.UnixTimeStamp, "needtoset"));
             ExchangeCommand transactions = new ExchangeCommand(
                 CommandClass.Transactions,
             Method.GET,
             "/v1/trades/{0}{1}",
             false,
-            typeof(List<BitFinexUserTransactionJSON>),
+            typeof(List<BitFinexTransactionJSON>),
             false,
             transactionsParams);
 

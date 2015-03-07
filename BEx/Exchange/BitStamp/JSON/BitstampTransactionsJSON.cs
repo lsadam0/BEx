@@ -20,11 +20,14 @@ namespace BEx.BitStampSupport
 
         public override Transaction ConvertToStandard(CurrencyTradingPair pair)
         {
-            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date)), ExchangeType.BitStamp);
+            DateTime time = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date));
+            Transaction res = new Transaction(DateTime.Now, ExchangeType.BitStamp);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
             res.TransactionID = Convert.ToInt64(tid);
+            res.Pair = pair;
+            res.CompletedTime = time;
 
             return res;
         }

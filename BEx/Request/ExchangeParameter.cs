@@ -16,7 +16,9 @@
         Counter,
         Currency,
         CurrencyFullName,
-        Pair
+        Pair,
+        UnixTimeStamp,
+        TimeStamp
     }
 
     public class ExchangeParameter

@@ -15,6 +15,7 @@ namespace BEx.Request
                                 List<ExchangeParameter> parameters = null)
         {
             DefaultParameters = new Dictionary<string, ExchangeParameter>();
+            DependentParameters = new Dictionary<StandardParameterType, ExchangeParameter>();
             ReturnsValueType = false;
 
             HttpMethod = httpMethod;

@@ -26,11 +26,13 @@ namespace BEx.BitFinexSupport
 
         public override Transaction ConvertToStandard(CurrencyTradingPair pair)
         {
-            Transaction res = new Transaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)), ExchangeType.BitFinex);
+            Transaction res = new Transaction(DateTime.Now, ExchangeType.BitFinex);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
             res.TransactionID = Convert.ToInt64(tid);
+            res.CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
+            res.Pair = pair;
 
             return res;
         }

@@ -154,14 +154,13 @@ namespace BEx
             List<ExchangeParameter> transactionParams = new List<ExchangeParameter>();
             transactionParams.Add(new ExchangeParameter(Request.ExchangeParameterType.Address, "time", StandardParameterType.None, "hour"));
 
-            ExchangeCommand transactions = new ExchangeCommand(
-         CommandClass.Transactions,
-         Method.GET,
-    "transactions/",
-false,
-typeof(List<BitstampTransactionJSON>),
-false,
-transactionParams);
+            ExchangeCommand transactions = new ExchangeCommand(CommandClass.Transactions,
+                                                                Method.GET,
+                                                                "transactions/",
+                                                                false,
+                                                                typeof(List<BitstampTransactionJSON>),
+                                                                false,
+                                                                transactionParams);
 
             res.Add(transactions.Identifier, transactions);
 
