@@ -138,7 +138,8 @@ namespace BEx
             ExchangeCommand tick = new ExchangeCommand(CommandClass.Tick,
                                                         Method.GET,
                                                        "ticker/",
-                                                        false);
+                                                        false,
+                                                        typeof(BitstampTickJSON));
 
             res.Add(tick.Identifier, tick);
 
@@ -147,16 +148,20 @@ namespace BEx
             CommandClass.OrderBook,
             Method.GET,
              "order_book/",
-            false);
+            false,
+            typeof(BitstampOrderBookJSON));
 
             List<ExchangeParameter> transactionParams = new List<ExchangeParameter>();
-            transactionParams.Add(new ExchangeParameter(Request.ExchangeParameterType.Address, "time", "hour"));
+            transactionParams.Add(new ExchangeParameter(Request.ExchangeParameterType.Address, "time", StandardParameterType.None, "hour"));
 
             ExchangeCommand transactions = new ExchangeCommand(
          CommandClass.Transactions,
          Method.GET,
     "transactions/",
-false, false, transactionParams);
+false,
+typeof(List<BitstampTransactionJSON>),
+false,
+transactionParams);
 
             res.Add(transactions.Identifier, transactions);
 
@@ -165,14 +170,15 @@ false, false, transactionParams);
              CommandClass.AccountBalance,
              Method.POST,
              "balance/",
-             true);
+             true,
+             typeof(BitStampAccountBalanceJSON));
 
             res.Add(accountBalance.Identifier, accountBalance);
 
             List<ExchangeParameter> buyParams = new List<ExchangeParameter>();
 
-            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount"));
-            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price"));
+            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
+            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
 
             ExchangeCommand buyOrder = new ExchangeCommand(
 
@@ -180,6 +186,7 @@ false, false, transactionParams);
             Method.POST,
             "buy/",
             true,
+            typeof(BitStampOrderConfirmationJSON),
             false,
             buyParams);
 
@@ -187,9 +194,9 @@ false, false, transactionParams);
 
             List<ExchangeParameter> sellParams = new List<ExchangeParameter>();
 
-            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount"));
+            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
 
-            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price"));
+            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
 
             ExchangeCommand sellOrder = new ExchangeCommand(
 
@@ -197,6 +204,7 @@ false, false, transactionParams);
             Method.POST,
             "sell/",
             true,
+            typeof(BitStampOrderConfirmationJSON),
             false,
             sellParams);
 
@@ -207,7 +215,9 @@ false, false, transactionParams);
             CommandClass.OpenOrders,
             Method.POST,
             "open_orders/",
-            true);
+            true,
+            typeof(BitStampOpenOrdersJSON)
+            );
             res.Add(openOrders.Identifier, openOrders);
 
             ExchangeCommand userTransactions = new ExchangeCommand(
@@ -215,13 +225,14 @@ false, false, transactionParams);
             CommandClass.UserTransactions,
             Method.POST,
             "user_transactions/",
-            true);
+            true,
+            typeof(List<BitStampUserTransactionJSON>));
 
             res.Add(userTransactions.Identifier, userTransactions);
 
             List<ExchangeParameter> cancelParams = new List<ExchangeParameter>();
 
-            cancelParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "id"));
+            cancelParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "id", StandardParameterType.Id));
 
             ExchangeCommand cancelOrder = new ExchangeCommand(
 
@@ -229,6 +240,7 @@ false, false, transactionParams);
             Method.POST,
             "cancel_order/",
             true,
+            typeof(bool),
             true,
             cancelParams);
 
@@ -240,6 +252,7 @@ false, false, transactionParams);
             Method.POST,
             "bitcoin_depost_address/",
             true,
+            typeof(string),
             true);
 
             res.Add(depositAddress.Identifier, depositAddress);
@@ -255,63 +268,6 @@ false, false, transactionParams);
 
             return res;
         }
-
-        #region Commands
-
-        protected override AccountBalance ExecuteAccountBalanceCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (AccountBalance)SendCommandToDispatcher<BitStampAccountBalanceJSON, AccountBalance>(command, pair);
-        }
-
-        protected override bool ExecuteCancelOrderCommand(ExchangeCommand command, int id)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("id", id.ToString());
-
-            return (bool)SendCommandToDispatcher<bool, bool>(command, DefaultPair, parameters);
-        }
-
-        protected override DepositAddress ExecuteGetDepositAddressCommand(ExchangeCommand command, Currency toDeposit)
-        {
-            return (DepositAddress)SendCommandToDispatcher<string, DepositAddress>(command, DefaultPair);
-        }
-
-        protected override OpenOrders ExecuteGetOpenOrdersCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (OpenOrders)SendCommandToDispatcher<List<BitStampOrderConfirmationJSON>, OpenOrders>(command, pair);
-        }
-
-        protected override UserTransactions ExecuteGetUserTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (UserTransactions)SendCommandToDispatcher<List<BitStampUserTransactionJSON>, UserTransactions>(command, pair);
-        }
-
-        protected override OrderBook ExecuteOrderBookCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (OrderBook)SendCommandToDispatcher<BitstampOrderBookJSON, OrderBook>(command, pair);
-        }
-
-        protected override Order ExecuteOrderCommand(ExchangeCommand command, CurrencyTradingPair pair, decimal amount, decimal price)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("price", price.ToString());
-
-            return (Order)SendCommandToDispatcher<BitStampOrderConfirmationJSON, Order>(command, pair, parameters);
-        }
-
-        protected override Tick ExecuteTickCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (Tick)SendCommandToDispatcher<BitstampTickJSON, Tick>(command, pair);
-        }
-
-        protected override Transactions ExecuteTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (Transactions)SendCommandToDispatcher<List<BitstampTransactionJSON>, Transactions>(command, pair);
-        }
-
-        #endregion Commands
 
         private void VerifyCredentials(string apiKey, string secretKey, string clientId)
         {

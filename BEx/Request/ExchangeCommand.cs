@@ -10,10 +10,11 @@ namespace BEx.Request
                                 Method httpMethod,
                                 string relativeUrl,
                                 bool isAuthenticated,
+                                Type intermediateType,
                                 bool returnsValueType = false,
                                 List<ExchangeParameter> parameters = null)
         {
-            Parameters = new Dictionary<string, ExchangeParameter>();
+            DefaultParameters = new Dictionary<string, ExchangeParameter>();
             ReturnsValueType = false;
 
             HttpMethod = httpMethod;
@@ -21,11 +22,79 @@ namespace BEx.Request
             IsAuthenticated = isAuthenticated;
             RelativeURI = relativeUrl;
             ReturnsValueType = returnsValueType;
+            IntermediateType = intermediateType;
 
             if (parameters != null)
             {
-                parameters.ForEach(x => Parameters.Add(x.Name, x));
+                foreach (ExchangeParameter param in parameters)
+                {
+                    if (param.StandardParameterIdentifier == StandardParameterType.None)
+                        DefaultParameters.Add(param.ExchangeParameterName, param);
+                    else
+                        DependentParameters.Add(param.StandardParameterIdentifier, param);
+                }
+                //parameters.ForEach(x => DefaultParameters.Add(x.ExchangeParameterName, x));
             }
+
+            SetReturnType();
+        }
+
+        private void SetReturnType()
+        {
+            switch (Identifier)
+            {
+                case CommandClass.AccountBalance:
+                    ReturnType = typeof(AccountBalance);
+                    break;
+
+                case CommandClass.BuyOrder:
+                    ReturnType = typeof(Order);
+                    break;
+
+                case CommandClass.CancelOrder:
+                    ReturnType = typeof(bool);
+                    break;
+
+                case CommandClass.DepositAddress:
+                    ReturnType = typeof(DepositAddress);
+                    break;
+
+                case CommandClass.OpenOrders:
+                    ReturnType = typeof(OpenOrders);
+                    break;
+
+                case CommandClass.OrderBook:
+                    ReturnType = typeof(OrderBook);
+                    break;
+
+                case CommandClass.SellOrder:
+                    ReturnType = typeof(Order);
+                    break;
+
+                case CommandClass.Tick:
+                    ReturnType = typeof(Tick);
+                    break;
+
+                case CommandClass.Transactions:
+                    ReturnType = typeof(Transactions);
+                    break;
+
+                case CommandClass.UserTransactions:
+                    ReturnType = typeof(UserTransactions);
+                    break;
+            }
+        }
+
+        public Type ReturnType
+        {
+            get;
+            set;
+        }
+
+        public Type IntermediateType
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -55,10 +124,16 @@ namespace BEx.Request
             private set;
         }
 
+        public Dictionary<StandardParameterType, ExchangeParameter> DependentParameters
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Command Parameters, including default values
         /// </summary>
-        public Dictionary<string, ExchangeParameter> Parameters
+        public Dictionary<string, ExchangeParameter> DefaultParameters
         {
             get;
             private set;

@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BEx.Request
 {
@@ -27,31 +29,50 @@ namespace BEx.Request
 
             dispatcher = new RequestDispatcher(sourceExchange);
 
-            translator = new ResultTranslation();
+            translator = new ResultTranslation(sourceExchange.ExchangeSourceType);
 
-            errorHandler = new ErrorHandler();
+            errorHandler = new ErrorHandler(sourceExchange.ExchangeSourceType);
         }
 
-        public APIResult ExecuteCommand(ExchangeCommand toExecute)
+        public APIResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)
         {
             APIResult res = null;
 
-            res = ExecutionPipeline(toExecute);
+            res = ExecutionPipeline(toExecute, pair, paramCollection);
 
             return res;
         }
 
-        private APIResult ExecutionPipeline(ExchangeCommand toExecute)
+        private APIResult ExecutionPipeline(ExchangeCommand toExecute,
+                                                CurrencyTradingPair pair,
+                                                Dictionary<StandardParameterType, string> paramCollection = null)
         {
             APIResult res = null;
 
-            // Get Request object from Factory
-            RestRequest request = factory.GetRequest(toExecute);
+            try
+            {
+                // Get Request object from Factory
+                RestRequest request = factory.GetRequest(toExecute, pair, paramCollection);
 
-            //string response = null;
-            // Dispatch the request and get result;
-            // dispatcher.ExecuteCommand<
+                //string response = null;
+                // Dispatch the request and get result;
+                // dispatcher.ExecuteCommand<
+                IRestResponse result = dispatcher.ExecuteCommand(request, toExecute, pair);
 
+                if (result.ErrorException != null
+                    || result.StatusCode != System.Net.HttpStatusCode.OK)
+                    errorHandler.HandleErrorResponse(result, request, result.ErrorException);
+                else
+                {
+                    res = translator.Translate(result.Content,
+                                                    toExecute,
+                                                    pair);
+                }
+            }
+            catch (Exception ex)
+            {
+                errorHandler.HandleException(ex);
+            }
             // Handle Error
             //errorHandler
 

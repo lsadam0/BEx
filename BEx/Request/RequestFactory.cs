@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 namespace BEx.Request
 {
-    public delegate void GetSignatureDelegate(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null);
+    public delegate void GetSignatureDelegate(RestRequest request,
+                                                ExchangeCommand command,
+                                                CurrencyTradingPair pair,
+                                                Dictionary<string, string> parameters = null);
 
     internal class RequestFactory
     {
@@ -14,20 +17,25 @@ namespace BEx.Request
         {
         }
 
+        /*
         public RestRequest GetRequest(ExchangeCommand command)
         {
             return null;
-        }
+        }*/
 
-        public RestRequest GetRequest(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
+        public RestRequest GetRequest(ExchangeCommand command,
+                                        CurrencyTradingPair pair,
+                                        Dictionary<StandardParameterType, string> parameters = null)
         {
             RestRequest result = CreateRequest(command, pair);
 
+            Dictionary<string, string> reconciledParams = new Dictionary<string, string>();
+
             if (parameters != null && parameters.Count > 0)
-                SetParameters(result, command, pair, parameters);
+                reconciledParams = SetParameters(result, command, pair, parameters);
 
             if (command.IsAuthenticated)
-                AuthenticateRequest(result, command, pair, parameters);
+                AuthenticateRequest(result, command, pair, reconciledParams);
 
             return result;
         }
@@ -50,12 +58,29 @@ namespace BEx.Request
             return request;
         }
 
-        private void SetParameters(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters)
+        private Dictionary<string, string> SetParameters(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> parameters)
         {
-            foreach (KeyValuePair<string, string> param in parameters)
+            Dictionary<string, string> reconciled = new Dictionary<string, string>();
+            foreach (KeyValuePair<StandardParameterType, string> param in parameters)
+            {
+                string exchangeParamName = command.DependentParameters[param.Key].ExchangeParameterName;
+
+                request.AddParameter(exchangeParamName, Uri.EscapeUriString(param.Value));
+                reconciled.Add(exchangeParamName, param.Value);
+            }
+
+            foreach (KeyValuePair<string, ExchangeParameter> param in command.DefaultParameters)
+            {
+                request.AddParameter(param.Value.ExchangeParameterName, param.Value.DefaultValue);
+                reconciled.Add(param.Value.ExchangeParameterName, param.Value.DefaultValue);
+            }
+
+            return reconciled;
+
+            /*foreach (KeyValuePair<string, string> param in parameters)
             {
                 request.AddParameter(param.Key, Uri.EscapeUriString(param.Value.ToString()));
-            }
+            }*/
         }
     }
 }

@@ -2,7 +2,6 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace BEx
 {
@@ -10,17 +9,13 @@ namespace BEx
 
     public abstract class Exchange
     {
-        public CurrencyTradingPair DefaultPair
-        {
-            get;
-            set;
-        }
-
         public HashSet<Currency> SupportedCurrencies;
 
         public HashSet<CurrencyTradingPair> SupportedTradingPairs;
 
-        protected internal ExecutionEngine CommandExecutionEngine;
+        internal ExecutionEngine CommandExecutionEngine;
+
+        protected internal Dictionary<CommandClass, ExchangeCommand> CommandCollection;
 
         protected Exchange(ExchangeType exchangeSourceType, string baseUrl)
         {
@@ -36,6 +31,12 @@ namespace BEx
         }
 
         public Uri BaseURI
+        {
+            get;
+            set;
+        }
+
+        public CurrencyTradingPair DefaultPair
         {
             get;
             set;
@@ -58,8 +59,6 @@ namespace BEx
                 return DateTime.Now.Ticks;
             }
         }
-
-        protected internal Dictionary<CommandClass, ExchangeCommand> CommandCollection;
 
         protected internal string APIKey
         {
@@ -88,12 +87,14 @@ namespace BEx
 
         public bool CancelOrder(int id)
         {
+            return false;
+            /*
             bool res;
 
-            res = (bool)ExecuteCancelOrderCommand(CommandCollection[CommandClass.CancelOrder], id);
+            res = (bool)BuildCancelOrderCommand(CommandCollection[CommandClass.CancelOrder], id);
             //res = (bool)SendCommandToDispatcher<B>(CommandCollection["CancelOrder"], defaultPair);
 
-            return res;
+            return res;*/
         }
 
         public Order CreateBuyOrder(decimal amount, decimal price)
@@ -104,6 +105,15 @@ namespace BEx
         public Order CreateBuyOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
             Order res = null;
+
+            ExchangeCommand toExecute = CommandCollection[CommandClass.BuyOrder];
+
+            Dictionary<StandardParameterType, string> setValues = new Dictionary<StandardParameterType, string>();
+
+            setValues.Add(StandardParameterType.Amount, amount.ToString());
+            setValues.Add(StandardParameterType.Price, price.ToString());
+
+            this.CommandExecutionEngine.ExecuteCommand(toExecute, pair, setValues);
 
             // res = ExecuteOrderCommand(CommandCollection["BuyOrder"], baseCurrency, counterCurrency, amount, price);
             //res = (Order)SendCommandToDispatcher<B>(CommandCollection["BuyOrder"], defaultPair);
@@ -118,11 +128,13 @@ namespace BEx
 
         public Order CreateSellOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
+            return null;
+            /*
             Order res;
 
-            res = ExecuteOrderCommand(CommandCollection[CommandClass.SellOrder], pair, amount, price);
+            res = BuildOrderCommand(CommandCollection[CommandClass.SellOrder], pair, amount, price);
 
-            return res;
+            return res;*/
         }
 
         /// <summary>
@@ -131,11 +143,13 @@ namespace BEx
         /// <returns>AccountBalance</returns>
         public AccountBalance GetAccountBalance()
         {
+            return null;
+            /*
             AccountBalance res;
 
-            res = ExecuteAccountBalanceCommand(CommandCollection[CommandClass.AccountBalance], DefaultPair);
+            res = BuildAccountBalanceCommand(CommandCollection[CommandClass.AccountBalance], DefaultPair);
 
-            return res;
+            return res;*/
         }
 
         /// <summary>
@@ -154,13 +168,15 @@ namespace BEx
         /// <returns></returns>
         public DepositAddress GetDepositAddress(Currency toDeposit)
         {
+            return null;
+            /*
             DepositAddress res;
 
-            res = ExecuteGetDepositAddressCommand(CommandCollection[CommandClass.DepositAddress], toDeposit);
+            res = BuildDepositAddressCommand(CommandCollection[CommandClass.DepositAddress], toDeposit);
 
             res.DepositCurrency = toDeposit;
 
-            return res;
+            return res;*/
         }
 
         public OpenOrders GetOpenOrders()
@@ -185,12 +201,14 @@ namespace BEx
         /// <returns></returns>
         public OrderBook GetOrderBook(CurrencyTradingPair pair)
         {
+            return null;
+            /*
             OrderBook res = null;
 
-            res = ExecuteOrderBookCommand(CommandCollection[CommandClass.OrderBook], pair);
+            res = BuildOrderBookCommand(CommandCollection[CommandClass.OrderBook], pair);
             //res = (OrderBook)SendCommandToDispatcher<J>(CommandCollection["OrderBook"], baseCurrency, counterCurrency);
 
-            return res;
+            return res;*/
         }
 
         /// <summary>
@@ -210,13 +228,17 @@ namespace BEx
         /// <returns></returns>
         public Tick GetTick(CurrencyTradingPair pair)
         {
+            return null;
+            //ExchangeCommand command = CommandCollection[CommandClass.Tick];
+
+            /*
             Tick res = null;
 
             ExchangeCommand tickCommandReference = CommandCollection[CommandClass.Tick];
 
-            res = ExecuteTickCommand(CommandCollection[CommandClass.Tick], pair);
+            res = BuildTickCommand(CommandCollection[CommandClass.Tick], pair);
 
-            return res;
+            return res;*/
         }
 
         /// <summary>
@@ -236,7 +258,8 @@ namespace BEx
         /// <returns></returns>
         public Transactions GetTransactions(CurrencyTradingPair pair)
         {
-            return ExecuteTransactionsCommand(CommandCollection[CommandClass.Transactions], pair);
+            return null;
+            // return ExecuteTransactionsCommand(CommandCollection[CommandClass.Transactions], pair);
         }
 
         public UserTransactions GetUserTransactions()
@@ -246,11 +269,13 @@ namespace BEx
 
         public UserTransactions GetUserTransactions(CurrencyTradingPair pair)
         {
+            return null;
+            /*
             UserTransactions res;
 
-            res = ExecuteGetUserTransactionsCommand(CommandCollection[CommandClass.UserTransactions], pair);
+            res = BuildUserTransactionsCommand(CommandCollection[CommandClass.UserTransactions], pair);
 
-            return res;
+            return res;*/
         }
 
         /// <summary>
@@ -266,43 +291,22 @@ namespace BEx
 
         protected internal abstract void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null);
 
-        protected abstract AccountBalance ExecuteAccountBalanceCommand(ExchangeCommand command, CurrencyTradingPair pair);
-
-        protected abstract bool ExecuteCancelOrderCommand(ExchangeCommand command, int id);
-
-        protected abstract DepositAddress ExecuteGetDepositAddressCommand(ExchangeCommand command, Currency toDeposit);
-
-        protected abstract OpenOrders ExecuteGetOpenOrdersCommand(ExchangeCommand command, CurrencyTradingPair pair);
-
-        protected abstract UserTransactions ExecuteGetUserTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair);
-
-        protected abstract OrderBook ExecuteOrderBookCommand(ExchangeCommand command, CurrencyTradingPair pair);
-
-        protected abstract Order ExecuteOrderCommand(ExchangeCommand command, CurrencyTradingPair pair, decimal amount, decimal price);
-
-        protected abstract Tick ExecuteTickCommand(ExchangeCommand command, CurrencyTradingPair pair);
-
-        protected decimal ExecuteTradingFeeCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return 0;
-        }
-
-        protected abstract Transactions ExecuteTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair);
-
         protected OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {
+            return null;
+            /*
             OpenOrders res;
 
-            res = ExecuteGetOpenOrdersCommand(CommandCollection[CommandClass.OrderBook], pair);
+            res = BuildOpenOrdersCommand(CommandCollection[CommandClass.OrderBook], pair);
 
-            return res;
+            return res;*/
         }
 
         #endregion Commands
 
-        protected abstract HashSet<CurrencyTradingPair> GetSupportedTradingPairs();
-
         protected abstract Dictionary<CommandClass, ExchangeCommand> GetCommandCollection();
+
+        protected abstract HashSet<CurrencyTradingPair> GetSupportedTradingPairs();
 
         private void BuildConfiguration()
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BEx.Request
+﻿namespace BEx.Request
 {
     public enum ExchangeParameterType
     {
@@ -11,13 +6,30 @@ namespace BEx.Request
         Post
     }
 
+    public enum StandardParameterType
+    {
+        None,
+        Amount,
+        Id,
+        Price,
+        Base,
+        Counter,
+        Currency,
+        CurrencyFullName,
+        Pair
+    }
+
     public class ExchangeParameter
     {
-        public ExchangeParameter(ExchangeParameterType paramType, string name, string defaultValue = null)
+        public ExchangeParameter(ExchangeParameterType paramType,
+                                    string name,
+                                    StandardParameterType standardType,
+                                    string defaultValue = null)
         {
             ParamType = paramType;
-            Name = name;
+            ExchangeParameterName = name;
             DefaultValue = defaultValue;
+            StandardParameterIdentifier = standardType;
         }
 
         public string DefaultValue
@@ -26,7 +38,19 @@ namespace BEx.Request
             set;
         }
 
-        public string Name
+        /// <summary>
+        /// BEx standard parameter name
+        /// </summary>
+        public StandardParameterType StandardParameterIdentifier
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Exchange specific parameter name
+        /// </summary>
+        public string ExchangeParameterName
         {
             get;
             set;

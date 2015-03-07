@@ -1,5 +1,4 @@
 ﻿using BEx.BitFinexSupport;
-using BEx.Common;
 using BEx.Request;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -148,96 +147,12 @@ namespace BEx
             }
         }
 
-        #region Commands
-
-        protected override AccountBalance ExecuteAccountBalanceCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            base.CommandExecutionEngine.ExecuteCommand(command);
-        }
-
-        protected override bool ExecuteCancelOrderCommand(ExchangeCommand command, int id)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("order_id", id.ToString());
-
-            base.CommandExecutionEngine(command);
-        }
-
-        protected override DepositAddress ExecuteGetDepositAddressCommand(ExchangeCommand command, Currency toDeposit)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("currency", toDeposit.ToString());
-            parameters.Add("method", EnumExtensions.GetDescription(toDeposit).ToLower());
-            parameters.Add("wallet_name", "exchange");
-
-            //  return (DepositAddress)SendCommandToDispatcher<BitFinexDepositAddressJSON, DepositAddress>(command, new CurrencyTradingPair(toDeposit, toDeposit), parameters);
-        }
-
-        protected override OpenOrders ExecuteGetOpenOrdersCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (OpenOrders)SendCommandToDispatcher<List<BitFinexOrderResponseJSON>, OpenOrders>(command, pair);
-        }
-
-        protected override UserTransactions ExecuteGetUserTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("symbol", pair.ToString());
-
-            return (UserTransactions)SendCommandToDispatcher<List<BitFinexUserTransactionJSON>, UserTransactions>(command, pair, parameters);
-        }
-
-        protected override OrderBook ExecuteOrderBookCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (OrderBook)SendCommandToDispatcher<BitFinexOrderBookJSON, OrderBook>(command, pair);
-        }
-
-        protected override Order ExecuteOrderCommand(ExchangeCommand command, CurrencyTradingPair pair, decimal amount, decimal price)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            parameters.Add("symbol", pair.ToString());
-            parameters.Add("amount", amount.ToString());
-            parameters.Add("price", price.ToString());
-            parameters.Add("exchange", "bitfinex");
-
-            if (command.Identifier == CommandClass.BuyOrder)
-                parameters.Add("side", "buy");
-            else
-                parameters.Add("side", "sell");
-
-            parameters.Add("type", "exchange limit");
-            //parameters.Add("is_hidden", "0");
-
-            return (Order)SendCommandToDispatcher<BitFinexOrderResponseJSON, Order>(command, pair, parameters);
-        }
-
-        protected override Tick ExecuteTickCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            return (Tick)SendCommandToDispatcher<BitfinexTickJSON, Tick>(command, pair);
-        }
-
-        protected override Transactions ExecuteTransactionsCommand(ExchangeCommand command, CurrencyTradingPair pair)
-        {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            double timeStamp = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1));
-
-            parameters.Add("timestamp", timeStamp.ToString());
-
-            return (Transactions)SendCommandToDispatcher<List<BitFinexTransactionJSON>, Transactions>(command, pair, parameters);
-        }
-
-        #endregion Commands
-
         protected override Dictionary<Request.CommandClass, Request.ExchangeCommand> GetCommandCollection()
         {
             Dictionary<CommandClass, ExchangeCommand> res = new Dictionary<CommandClass, ExchangeCommand>();
 
-            ExchangeParameter baseCurrency = new ExchangeParameter(ExchangeParameterType.Address, "base", "BTC");
-            ExchangeParameter counterCurrency = new ExchangeParameter(ExchangeParameterType.Address, "counter", "USD");
+            ExchangeParameter baseCurrency = new ExchangeParameter(ExchangeParameterType.Address, "base", StandardParameterType.Base, "BTC");
+            ExchangeParameter counterCurrency = new ExchangeParameter(ExchangeParameterType.Address, "counter", StandardParameterType.Counter, "USD");
 
             List<ExchangeParameter> currencyParams = new List<ExchangeParameter>();
             currencyParams.Add(baseCurrency);
@@ -247,6 +162,7 @@ namespace BEx
             Method.GET,
             "/v1/pubticker/{0}{1}",
             false,
+            typeof(BitfinexTickJSON),
             false,
             currencyParams);
 
@@ -256,6 +172,7 @@ namespace BEx
             Method.GET,
             "/v1/book/{0}{1}",
             false,
+            typeof(BitFinexOrderBookJSON),
             false,
             currencyParams);
 
@@ -265,12 +182,13 @@ namespace BEx
 
             currencyParams.ForEach(x => transactionsParams.Add(x));
 
-            currencyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp"));
+            currencyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.None, "needtoset"));
             ExchangeCommand transactions = new ExchangeCommand(
                 CommandClass.Transactions,
             Method.GET,
             "/v1/trades/{0}{1}",
             false,
+            typeof(List<BitFinexUserTransactionJSON>),
             false,
             transactionsParams);
 
@@ -279,20 +197,22 @@ namespace BEx
             ExchangeCommand accountBalance = new ExchangeCommand(CommandClass.AccountBalance,
             Method.POST,
             "/v1/balances",
-            true);
+            true,
+            typeof(BitFinexAccountBalanceJSON));
 
             res.Add(accountBalance.Identifier, accountBalance);
 
             List<ExchangeParameter> depositParams = new List<ExchangeParameter>();
 
-            depositParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "currency", "BTC"));
-            depositParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "method", "bitcoin"));
-            depositParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "wallet_name", "exchange"));
+            depositParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "currency", StandardParameterType.Currency, "BTC"));
+            depositParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "method", StandardParameterType.CurrencyFullName, "bitcoin"));
+            depositParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "wallet_name", StandardParameterType.None, "exchange"));
 
             ExchangeCommand depositAddress = new ExchangeCommand(CommandClass.DepositAddress,
             Method.POST,
             "/v1/deposit/new",
             true,
+            typeof(BitFinexDepositAddressJSON),
             false,
             depositParams);
 
@@ -300,34 +220,36 @@ namespace BEx
 
             List<ExchangeParameter> userTransParams = new List<ExchangeParameter>();
 
-            userTransParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "symbol", "BTCUSD"));
+            userTransParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "symbol", StandardParameterType.Pair, "BTCUSD"));
 
             ExchangeCommand userTransactions = new ExchangeCommand(CommandClass.UserTransactions,
             Method.POST,
             "/v1/mytrades",
             true,
+            typeof(List<BitFinexUserTransactionJSON>),
             false,
             userTransParams);
 
             res.Add(userTransactions.Identifier, userTransactions);
 
             List<ExchangeParameter> sharedOrderParams = new List<ExchangeParameter>();
-            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "symbol", "BTCUSD"));
-            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount"));
-            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price"));
-            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange"));
-            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange limit"));
-            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden"));
+            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "symbol", StandardParameterType.Pair, "BTCUSD"));
+            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
+            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
+            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"));
+            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"));
+            sharedOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "false"));
 
             List<ExchangeParameter> buyOrderParams = new List<ExchangeParameter>();
 
             sharedOrderParams.ForEach(x => buyOrderParams.Add(x));
 
-            buyOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", "buy"));
+            buyOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "buy"));
             ExchangeCommand buy = new ExchangeCommand(CommandClass.BuyOrder,
             Method.POST,
             "/v1/order/new",
             true,
+            typeof(BitFinexOrderResponseJSON),
             false,
             buyOrderParams);
 
@@ -336,12 +258,13 @@ namespace BEx
             List<ExchangeParameter> sellOrderParams = new List<ExchangeParameter>();
 
             sharedOrderParams.ForEach(x => sellOrderParams.Add(x));
-            sellOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", "sell"));
+            sellOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "sell"));
 
             ExchangeCommand sell = new ExchangeCommand(CommandClass.SellOrder,
             Method.POST,
             "/v1/order/new",
             true,
+            typeof(BitFinexOrderResponseJSON),
             false,
             sellOrderParams);
 
@@ -350,17 +273,19 @@ namespace BEx
             ExchangeCommand openOrders = new ExchangeCommand(CommandClass.OpenOrders,
             Method.POST,
             "/v1/orders",
-            true);
+            true,
+            typeof(List<BitFinexOrderResponseJSON>));
 
             res.Add(openOrders.Identifier, openOrders);
 
             List<ExchangeParameter> cancelOrderParams = new List<ExchangeParameter>();
 
-            cancelOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "order_id"));
+            cancelOrderParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "order_id", StandardParameterType.Id));
             ExchangeCommand cancelOrder = new ExchangeCommand(CommandClass.CancelOrder,
             Method.POST,
             "/v1/order/cancel",
             true,
+            typeof(bool),
             false,
             cancelOrderParams);
 
