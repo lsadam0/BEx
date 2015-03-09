@@ -120,15 +120,6 @@
     <Compile Include="UserTransaction.cs" />
     <Compile Include="UserTransactions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="BitFinex.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Bitstamp.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
