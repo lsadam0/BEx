@@ -30,6 +30,63 @@ namespace BEx
             CommandExecutionEngine = new ExecutionEngine(this);
         }
 
+        protected Dictionary<StandardParameterType, string> PopulateCommandParameters(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values)
+        {
+            if (command.DependentParameters.Count > 0)
+            {
+                var res = new Dictionary<StandardParameterType, string>();
+
+                foreach (KeyValuePair<StandardParameterType, ExchangeParameter> param in command.DependentParameters)
+                {
+                    switch (param.Key)
+                    {
+                        case (StandardParameterType.Amount):
+                            res.Add(param.Key, values[param.Key]);
+                            break;
+
+                        case (StandardParameterType.Base):
+                            res.Add(param.Key, pair.BaseCurrency.ToString());
+                            break;
+
+                        case (StandardParameterType.Counter):
+                            res.Add(param.Key, pair.CounterCurrency.ToString());
+                            break;
+
+                        case (StandardParameterType.Currency):
+                            res.Add(param.Key, pair.BaseCurrency.ToString());
+                            break;
+
+                        case (StandardParameterType.CurrencyFullName):
+                            res.Add(param.Key, pair.BaseCurrency.ToString());
+                            break;
+
+                        case (StandardParameterType.Id):
+                            res.Add(param.Key, values[StandardParameterType.Id]);
+                            break;
+
+                        case (StandardParameterType.Pair):
+                            res.Add(param.Key, pair.ToString());
+                            break;
+
+                        case (StandardParameterType.Price):
+                            res.Add(param.Key, values[param.Key]);
+                            break;
+
+                        case (StandardParameterType.TimeStamp):
+                            throw new NotImplementedException();
+
+                        case (StandardParameterType.UnixTimeStamp):
+                            res.Add(param.Key, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
+                            break;
+                    }
+                }
+
+                return res;
+            }
+
+            return null;
+        }
+
         public Uri BaseURI
         {
             get;
@@ -79,6 +136,20 @@ namespace BEx
         }
 
         #region Commands
+
+        private APIResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
+        {
+            ExchangeCommand command = CommandCollection[commandType];
+
+            if (command.HasDependentParameters)
+            {
+                var paramValues = PopulateCommandParameters(command, pair, values);
+
+                return CommandExecutionEngine.ExecuteCommand(command, pair, paramValues);
+            }
+            else
+                return CommandExecutionEngine.ExecuteCommand(command, pair);
+        }
 
         public bool CancelOrder(Order toCancel)
         {
@@ -143,13 +214,7 @@ namespace BEx
         /// <returns>AccountBalance</returns>
         public AccountBalance GetAccountBalance()
         {
-            return null;
-            /*
-            AccountBalance res;
-
-            res = BuildAccountBalanceCommand(CommandCollection[CommandClass.AccountBalance], DefaultPair);
-
-            return res;*/
+            return (AccountBalance)ExecuteCommand(CommandClass.AccountBalance, DefaultPair);
         }
 
         /// <summary>
@@ -168,15 +233,9 @@ namespace BEx
         /// <returns></returns>
         public DepositAddress GetDepositAddress(Currency toDeposit)
         {
-            return null;
-            /*
-            DepositAddress res;
+            CurrencyTradingPair pair = new CurrencyTradingPair(toDeposit, toDeposit);
 
-            res = BuildDepositAddressCommand(CommandCollection[CommandClass.DepositAddress], toDeposit);
-
-            res.DepositCurrency = toDeposit;
-
-            return res;*/
+            return (DepositAddress)ExecuteCommand(CommandClass.DepositAddress, pair);
         }
 
         public OpenOrders GetOpenOrders()
@@ -201,16 +260,7 @@ namespace BEx
         /// <returns></returns>
         public OrderBook GetOrderBook(CurrencyTradingPair pair)
         {
-            return null;
-            //ExchangeCommand orderBook = CommandCollection[CommandClass.OrderBook];
-
-            /*
-            OrderBook res = null;
-
-            res = BuildOrderBookCommand(CommandCollection[CommandClass.OrderBook], pair);
-            //res = (OrderBook)SendCommandToDispatcher<J>(CommandCollection["OrderBook"], baseCurrency, counterCurrency);
-
-            return res;*/
+            return (OrderBook)ExecuteCommand(CommandClass.OrderBook, pair);
         }
 
         /// <summary>
@@ -230,7 +280,8 @@ namespace BEx
         /// <returns></returns>
         public Tick GetTick(CurrencyTradingPair pair)
         {
-            return (Tick)CommandExecutionEngine.ExecuteCommand(CommandCollection[CommandClass.Tick], pair);
+            return (Tick)ExecuteCommand(CommandClass.Tick, pair);
+            // return (Tick)CommandExecutionEngine.ExecuteCommand(CommandCollection[CommandClass.Tick], pair);
         }
 
         /// <summary>
@@ -250,19 +301,11 @@ namespace BEx
         /// <returns></returns>
         public Transactions GetTransactions(CurrencyTradingPair pair)
         {
-            ExchangeCommand cmd = CommandCollection[CommandClass.Transactions];
+            Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>();
 
-            Dictionary<StandardParameterType, string> param = null;
-            if (cmd.DependentParameters.ContainsKey(StandardParameterType.UnixTimeStamp))
-            {
-                param = new Dictionary<StandardParameterType, string>();
+            values.Add(StandardParameterType.UnixTimeStamp, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
 
-                param.Add(StandardParameterType.UnixTimeStamp, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
-            }
-
-            return (Transactions)CommandExecutionEngine.ExecuteCommand(cmd, pair, param);
-
-            // return ExecuteTransactionsCommand(CommandCollection[CommandClass.Transactions], pair);
+            return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
         }
 
         public UserTransactions GetUserTransactions()
@@ -296,13 +339,7 @@ namespace BEx
 
         protected OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {
-            return null;
-            /*
-            OpenOrders res;
-
-            res = BuildOpenOrdersCommand(CommandCollection[CommandClass.OrderBook], pair);
-
-            return res;*/
+            return (OpenOrders)ExecuteCommand(CommandClass.OpenOrders, pair);
         }
 
         #endregion Commands

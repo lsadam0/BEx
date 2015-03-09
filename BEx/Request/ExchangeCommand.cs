@@ -40,6 +40,14 @@ namespace BEx.Request
             SetReturnType();
         }
 
+        public bool HasDependentParameters
+        {
+            get
+            {
+                return DependentParameters.Count > 0;
+            }
+        }
+
         private void SetReturnType()
         {
             switch (Identifier)

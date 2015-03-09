@@ -16,15 +16,10 @@ namespace BEx.Request
 
         internal APIResult Translate(string source, ExchangeCommand executedCommand, CurrencyTradingPair pair)
         {
-            return DeserializeObject(source, executedCommand, pair);
-        }
-
-        /// <summary>
-        /// boxing
-        /// </summary>
-        public object TranslateValueType(string source, ExchangeCommand executedCommand)
-        {
-            return GetValueType(source, executedCommand);
+            if (executedCommand.ReturnsValueType)
+                return GetValueType(source, executedCommand, pair);
+            else
+                return DeserializeObject(source, executedCommand, pair);
         }
 
         private APIResult DeserializeObject(string content, ExchangeCommand commandReference, CurrencyTradingPair pair)
@@ -63,24 +58,21 @@ namespace BEx.Request
             return res;
         }
 
-        private object GetValueType(string content, ExchangeCommand command)
+        private APIResult GetValueType(string content, ExchangeCommand command, CurrencyTradingPair pair)
         {
+            APIResult res = null;
             object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);//JsonConvert.DeserializeObject<J>(content);
 
             if (deserialized.GetType() != command.ReturnType)
             {
-                object result = Activator.CreateInstance(command.ReturnType,
+                res = (APIResult)Activator.CreateInstance(command.ReturnType,
                                               BindingFlags.NonPublic | BindingFlags.Instance,
                                               null,
-                                              new object[] { deserialized, SourceExchange },
+                                              new object[] { deserialized, SourceExchange, pair },
                                               null); // Culture?
+            }
 
-                return result;
-            }
-            else
-            {
-                return deserialized;
-            }
+            return res;
         }
 
         private Type ListOfWhat(Object list)

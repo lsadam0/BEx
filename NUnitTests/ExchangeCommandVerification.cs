@@ -97,7 +97,7 @@ namespace NUnitTests
                 {
                     ThrottleTestVelocity();
 
-                    Debug(string.Format("Verifying OrderBook for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
+                    Debug(string.Format("Verifying OrderBook for {0}", pair));
 
                     OrderBook toVerify = testCandidate.GetOrderBook(pair);
 

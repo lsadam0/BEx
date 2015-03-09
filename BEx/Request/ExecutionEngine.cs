@@ -49,30 +49,27 @@ namespace BEx.Request
         {
             APIResult res = null;
 
-            try
-            {
-                // Get Request object from Factory
-                RestRequest request = factory.GetRequest(toExecute, pair, paramCollection);
+            //try
+            //{
+            // Get Request object from Factory
+            RestRequest request = factory.GetRequest(toExecute, pair, paramCollection);
 
-                //string response = null;
-                // Dispatch the request and get result;
-                // dispatcher.ExecuteCommand<
-                IRestResponse result = dispatcher.ExecuteCommand(request, toExecute, pair);
+            IRestResponse result = dispatcher.Dispatch(request, toExecute, pair);
 
-                if (result.ErrorException != null
-                    || result.StatusCode != System.Net.HttpStatusCode.OK)
-                    errorHandler.HandleErrorResponse(result, request, result.ErrorException);
-                else
-                {
-                    res = translator.Translate(result.Content,
-                                                    toExecute,
-                                                    pair);
-                }
-            }
-            catch (Exception ex)
+            if (result.ErrorException != null
+                || result.StatusCode != System.Net.HttpStatusCode.OK)
+                errorHandler.HandleErrorResponse(result, request, result.ErrorException);
+            else
             {
-                errorHandler.HandleException(ex);
+                res = translator.Translate(result.Content,
+                                                toExecute,
+                                                pair);
             }
+            //}
+            //catch (Exception ex)
+            //{
+            // errorHandler.HandleException(ex);
+            //}
             // Handle Error
             //errorHandler
 

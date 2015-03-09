@@ -200,7 +200,7 @@ namespace BEx
             Method.POST,
             "/v1/balances",
             true,
-            typeof(BitFinexAccountBalanceJSON));
+            typeof(List<BitFinexAccountBalanceJSON>));
 
             res.Add(accountBalance.Identifier, accountBalance);
 

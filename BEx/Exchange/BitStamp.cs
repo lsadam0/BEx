@@ -151,6 +151,8 @@ namespace BEx
             false,
             typeof(BitstampOrderBookJSON));
 
+            res.Add(orderBook.Identifier, orderBook);
+
             List<ExchangeParameter> transactionParams = new List<ExchangeParameter>();
             transactionParams.Add(new ExchangeParameter(Request.ExchangeParameterType.Address, "time", StandardParameterType.None, "hour"));
 
@@ -215,7 +217,7 @@ namespace BEx
             Method.POST,
             "open_orders/",
             true,
-            typeof(BitStampOpenOrdersJSON)
+            typeof(List<BitStampOpenOrdersJSON>)
             );
             res.Add(openOrders.Identifier, openOrders);
 
@@ -249,7 +251,7 @@ namespace BEx
 
             CommandClass.DepositAddress,
             Method.POST,
-            "bitcoin_depost_address/",
+            "bitcoin_deposit_address/",
             true,
             typeof(string),
             true);
