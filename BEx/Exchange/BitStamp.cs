@@ -15,7 +15,7 @@ namespace BEx
         private Regex errorId;
 
         public BitStamp(string apiKey, string secretKey, string clientId)
-            : base(ExchangeType.BitStamp, "https://www.bitstamp.net/api/")
+            : base(ExchangeType.BitStamp, "https://www.bitstamp.net/api/", new BitStampCommandFactory())
         {
             VerifyCredentials(apiKey, secretKey, clientId);
 
@@ -129,136 +129,6 @@ namespace BEx
             request.AddParameter("key", Uri.EscapeUriString(APIKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
-        }
-
-        protected override Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
-        {
-            Dictionary<CommandClass, ExchangeCommand> res = new Dictionary<CommandClass, ExchangeCommand>();
-
-            ExchangeCommand tick = new ExchangeCommand(CommandClass.Tick,
-                                                        Method.GET,
-                                                       "ticker/",
-                                                        false,
-                                                        typeof(BitstampTickJSON));
-
-            res.Add(tick.Identifier, tick);
-
-            ExchangeCommand orderBook = new ExchangeCommand(
-
-            CommandClass.OrderBook,
-            Method.GET,
-             "order_book/",
-            false,
-            typeof(BitstampOrderBookJSON));
-
-            res.Add(orderBook.Identifier, orderBook);
-
-            List<ExchangeParameter> transactionParams = new List<ExchangeParameter>();
-            transactionParams.Add(new ExchangeParameter(Request.ExchangeParameterType.Address, "time", StandardParameterType.None, "hour"));
-
-            ExchangeCommand transactions = new ExchangeCommand(CommandClass.Transactions,
-                                                                Method.GET,
-                                                                "transactions/",
-                                                                false,
-                                                                typeof(List<BitstampTransactionJSON>),
-                                                                false,
-                                                                transactionParams);
-
-            res.Add(transactions.Identifier, transactions);
-
-            ExchangeCommand accountBalance = new ExchangeCommand(
-
-             CommandClass.AccountBalance,
-             Method.POST,
-             "balance/",
-             true,
-             typeof(BitStampAccountBalanceJSON));
-
-            res.Add(accountBalance.Identifier, accountBalance);
-
-            List<ExchangeParameter> buyParams = new List<ExchangeParameter>();
-
-            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
-            buyParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
-
-            ExchangeCommand buyOrder = new ExchangeCommand(
-
-            CommandClass.BuyOrder,
-            Method.POST,
-            "buy/",
-            true,
-            typeof(BitStampOrderConfirmationJSON),
-            false,
-            buyParams);
-
-            res.Add(buyOrder.Identifier, buyOrder);
-
-            List<ExchangeParameter> sellParams = new List<ExchangeParameter>();
-
-            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
-
-            sellParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
-
-            ExchangeCommand sellOrder = new ExchangeCommand(
-
-            CommandClass.SellOrder,
-            Method.POST,
-            "sell/",
-            true,
-            typeof(BitStampOrderConfirmationJSON),
-            false,
-            sellParams);
-
-            res.Add(sellOrder.Identifier, sellOrder);
-
-            ExchangeCommand openOrders = new ExchangeCommand(
-
-            CommandClass.OpenOrders,
-            Method.POST,
-            "open_orders/",
-            true,
-            typeof(List<BitStampOpenOrdersJSON>)
-            );
-            res.Add(openOrders.Identifier, openOrders);
-
-            ExchangeCommand userTransactions = new ExchangeCommand(
-
-            CommandClass.UserTransactions,
-            Method.POST,
-            "user_transactions/",
-            true,
-            typeof(List<BitStampUserTransactionJSON>));
-
-            res.Add(userTransactions.Identifier, userTransactions);
-
-            List<ExchangeParameter> cancelParams = new List<ExchangeParameter>();
-
-            cancelParams.Add(new ExchangeParameter(ExchangeParameterType.Post, "id", StandardParameterType.Id));
-
-            ExchangeCommand cancelOrder = new ExchangeCommand(
-
-            CommandClass.CancelOrder,
-            Method.POST,
-            "cancel_order/",
-            true,
-            typeof(bool),
-            true,
-            cancelParams);
-
-            res.Add(cancelOrder.Identifier, cancelOrder);
-
-            ExchangeCommand depositAddress = new ExchangeCommand(
-
-            CommandClass.DepositAddress,
-            Method.POST,
-            "bitcoin_deposit_address/",
-            true,
-            typeof(string),
-            true);
-
-            res.Add(depositAddress.Identifier, depositAddress);
-
-            return res;
         }
 
         protected override HashSet<CurrencyTradingPair> GetSupportedTradingPairs()

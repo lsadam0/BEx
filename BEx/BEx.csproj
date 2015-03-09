@@ -76,12 +76,14 @@
     <Compile Include="Exceptions\WithdrawalRejectedException.cs" />
     <Compile Include="Exchange\Bitfinex.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexAccountBalanceJSON.cs" />
+    <Compile Include="Exchange\BitFinex\BitFinexCommandFactory.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexDepositAddressJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderBookJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexOrderResponseJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexUserTransactionJSON.cs" />
+    <Compile Include="Exchange\BitStamp\BitStampCommandFactory.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampErrorJSON.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitstampOpenOrdersJSON.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Exchange\ErrorCodes.cs" />
     <Compile Include="Exchange\ExchangeResponse.cs" />
     <Compile Include="Exchange\ExchangeType.cs" />
+    <Compile Include="Exchange\IExchangeCommandFactory.cs" />
     <Compile Include="OpenOrders.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Exchange\BitStamp.cs" />

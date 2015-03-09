@@ -17,9 +17,11 @@ namespace BEx
 
         protected internal Dictionary<CommandClass, ExchangeCommand> CommandCollection;
 
-        protected Exchange(ExchangeType exchangeSourceType, string baseUrl)
+        protected Exchange(ExchangeType exchangeSourceType, string baseUrl, IExchangeCommandFactory commandFactory)
         {
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
+
+            CommandCollection = commandFactory.GetCommandCollection();
 
             ExchangeSourceType = exchangeSourceType;
 
@@ -38,47 +40,62 @@ namespace BEx
 
                 foreach (KeyValuePair<StandardParameterType, ExchangeParameter> param in command.DependentParameters)
                 {
+                    string value = "";
                     switch (param.Key)
                     {
                         case (StandardParameterType.Amount):
-                            res.Add(param.Key, values[param.Key]);
+                            //res.Add(param.Key, values[param.Key]);
+                            value = values[param.Key];
                             break;
 
                         case (StandardParameterType.Base):
-                            res.Add(param.Key, pair.BaseCurrency.ToString());
+                            //res.Add(param.Key, pair.BaseCurrency.ToString());
+                            value = pair.BaseCurrency.ToString();
                             break;
 
                         case (StandardParameterType.Counter):
-                            res.Add(param.Key, pair.CounterCurrency.ToString());
+                            //res.Add(param.Key, pair.CounterCurrency.ToString());
+                            value = pair.CounterCurrency.ToString();
                             break;
 
                         case (StandardParameterType.Currency):
-                            res.Add(param.Key, pair.BaseCurrency.ToString());
+                            // res.Add(param.Key, pair.BaseCurrency.ToString());
+                            value = pair.BaseCurrency.ToString();
                             break;
 
                         case (StandardParameterType.CurrencyFullName):
-                            res.Add(param.Key, pair.BaseCurrency.ToString());
+                            //res.Add(param.Key, pair.BaseCurrency.ToString());
+                            value = pair.BaseCurrency.GetDescription();
                             break;
 
                         case (StandardParameterType.Id):
-                            res.Add(param.Key, values[StandardParameterType.Id]);
+                            //res.Add(param.Key, values[StandardParameterType.Id]);
+                            value = values[StandardParameterType.Id];
                             break;
 
                         case (StandardParameterType.Pair):
-                            res.Add(param.Key, pair.ToString());
+                            //res.Add(param.Key, pair.ToString());
+                            value = pair.ToString();
                             break;
 
                         case (StandardParameterType.Price):
-                            res.Add(param.Key, values[param.Key]);
+                            //res.Add(param.Key, values[param.Key]);
+                            value = values[param.Key];
                             break;
 
                         case (StandardParameterType.TimeStamp):
                             throw new NotImplementedException();
 
                         case (StandardParameterType.UnixTimeStamp):
-                            res.Add(param.Key, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
+                            //res.Add(param.Key, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
+                            value = Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString();
                             break;
                     }
+
+                    if (param.Value.IsLowerCase)
+                        res.Add(param.Key, value.ToLower());
+                    else
+                        res.Add(param.Key, value);
                 }
 
                 return res;
@@ -315,13 +332,7 @@ namespace BEx
 
         public UserTransactions GetUserTransactions(CurrencyTradingPair pair)
         {
-            return null;
-            /*
-            UserTransactions res;
-
-            res = BuildUserTransactionsCommand(CommandCollection[CommandClass.UserTransactions], pair);
-
-            return res;*/
+            return (UserTransactions)ExecuteCommand(CommandClass.UserTransactions, pair);
         }
 
         /// <summary>
@@ -344,8 +355,6 @@ namespace BEx
 
         #endregion Commands
 
-        protected abstract Dictionary<CommandClass, ExchangeCommand> GetCommandCollection();
-
         protected abstract HashSet<CurrencyTradingPair> GetSupportedTradingPairs();
 
         private void BuildConfiguration()
@@ -361,8 +370,6 @@ namespace BEx
                 if (!SupportedCurrencies.Contains(pair.CounterCurrency))
                     SupportedCurrencies.Add(pair.CounterCurrency);
             }
-
-            CommandCollection = GetCommandCollection();
         }
     }
 }

@@ -6,11 +6,11 @@ namespace BEx.Common
     {
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-        internal static double DateTimeToUnixTimestamp(DateTime dateTime)
+        internal static long DateTimeToUnixTimestamp(DateTime dateTime)
         {
             // return (dateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
 
-            return (dateTime - epoch.ToLocalTime()).TotalSeconds;
+            return Convert.ToInt64((dateTime - epoch.ToLocalTime()).TotalSeconds);
         }
 
         internal static DateTime UnixTimeStampToDateTime(string unixTimeStamp)

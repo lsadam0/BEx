@@ -24,6 +24,7 @@ namespace BEx.Request
             RelativeURI = relativeUrl;
             ReturnsValueType = returnsValueType;
             IntermediateType = intermediateType;
+            LowerCaseURLParams = false;
 
             if (parameters != null)
             {
@@ -46,6 +47,12 @@ namespace BEx.Request
             {
                 return DependentParameters.Count > 0;
             }
+        }
+
+        public bool LowerCaseURLParams
+        {
+            get;
+            set;
         }
 
         private void SetReturnType()
@@ -159,7 +166,10 @@ namespace BEx.Request
 
         public string GetResolvedRelativeURI(CurrencyTradingPair pair)
         {
-            return string.Format(RelativeURI, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());
+            if (LowerCaseURLParams)
+                return string.Format(RelativeURI, pair.BaseCurrency.ToString().ToLower(), pair.CounterCurrency.ToString().ToLower());
+            else
+                return string.Format(RelativeURI, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());
         }
 
         public bool ReturnsValueType

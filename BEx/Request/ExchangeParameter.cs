@@ -32,6 +32,13 @@
             ExchangeParameterName = name;
             DefaultValue = defaultValue;
             StandardParameterIdentifier = standardType;
+            IsLowerCase = false;
+        }
+
+        public bool IsLowerCase
+        {
+            get;
+            set;
         }
 
         public string DefaultValue

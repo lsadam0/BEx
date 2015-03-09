@@ -175,7 +175,7 @@ namespace NUnitTests
             {
                 ThrottleTestVelocity();
 
-                Debug(string.Format("Verifying Transactions for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
+                Debug(string.Format("Verifying Transactions for {0}", pair.ToString()));
 
                 Transactions toVerify = testCandidate.GetTransactions(pair);
 
