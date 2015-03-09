@@ -17,12 +17,6 @@ namespace BEx.Request
         {
         }
 
-        /*
-        public RestRequest GetRequest(ExchangeCommand command)
-        {
-            return null;
-        }*/
-
         public RestRequest GetRequest(ExchangeCommand command,
                                         CurrencyTradingPair pair,
                                         Dictionary<StandardParameterType, string> parameters = null)
@@ -76,11 +70,6 @@ namespace BEx.Request
             }
 
             return reconciled;
-
-            /*foreach (KeyValuePair<string, string> param in parameters)
-            {
-                request.AddParameter(param.Key, Uri.EscapeUriString(param.Value.ToString()));
-            }*/
         }
     }
 }

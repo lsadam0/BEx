@@ -52,23 +52,6 @@ namespace NUnitTests
 
         #region Orders
 
-        /*
-        [Test]
-        public void BitFinex_CreateSellOrder()
-        {
-            CommandVerification.VerifySellOrder();
-        }
-        */
-        /*
-        [Test]
-        public void BitFinex_CreateBuyOrder()
-        {
-            Order o = testCandidate.CreateBuyOrder(Currency.BTC, Currency.USD, 0.01m, 456.00m);
-
-            CommandVerification.VerifyBuyOrder();
-        }
-        */
-
         [Test]
         public void BitFinex_GetOpenOrders()
         {

@@ -7,16 +7,6 @@ namespace BEx
     /// </summary>
     public class DepositAddress : APIResult
     {
-        internal DepositAddress(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
-        { }
-
-        internal DepositAddress(string address, ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
-        {
-            Address = address;
-        }
-
         internal DepositAddress(string address, ExchangeType sourceExchange, CurrencyTradingPair pair)
             : base(DateTime.Now, sourceExchange)
         {

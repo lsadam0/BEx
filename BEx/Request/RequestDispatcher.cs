@@ -1,6 +1,5 @@
 ﻿using BEx.Request;
 using RestSharp;
-using System.Text.RegularExpressions;
 
 namespace BEx
 {

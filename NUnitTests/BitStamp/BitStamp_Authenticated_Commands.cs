@@ -18,21 +18,6 @@ namespace NUnitTests
             CommandVerification.VerifyAccountBalance();
         }
 
-        /*
-
-        [Test]
-        public void BitStamp_CreateBuyOrder()
-        {
-            CommandVerification.VerifyBuyOrder();
-        }
-
-        [Test]
-        public void BitStamp_CreateSellOrder()
-        {
-            CommandVerification.VerifySellOrder();
-        }
-        */
-
         [Test]
         public void BitStamp_GetOpenOrders()
         {

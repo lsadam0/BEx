@@ -6,11 +6,6 @@ namespace BEx
 {
     public class Transactions : APIResult
     {
-        internal Transactions(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
-        {
-        }
-
         internal Transactions(List<Transaction> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {

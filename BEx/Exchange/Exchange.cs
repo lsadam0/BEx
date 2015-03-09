@@ -176,13 +176,6 @@ namespace BEx
         public bool CancelOrder(int id)
         {
             return false;
-            /*
-            bool res;
-
-            res = (bool)BuildCancelOrderCommand(CommandCollection[CommandClass.CancelOrder], id);
-            //res = (bool)SendCommandToDispatcher<B>(CommandCollection["CancelOrder"], defaultPair);
-
-            return res;*/
         }
 
         public Order CreateBuyOrder(decimal amount, decimal price)
@@ -217,12 +210,6 @@ namespace BEx
         public Order CreateSellOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
             return null;
-            /*
-            Order res;
-
-            res = BuildOrderCommand(CommandCollection[CommandClass.SellOrder], pair, amount, price);
-
-            return res;*/
         }
 
         /// <summary>

@@ -8,12 +8,6 @@ namespace BEx
     /// </summary>
     public class OpenOrders : APIResult
     {
-        internal OpenOrders(ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
-        {
-            Orders = new Dictionary<int, Order>();
-        }
-
         internal OpenOrders(List<Order> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
