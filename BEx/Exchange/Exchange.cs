@@ -2,6 +2,7 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace BEx
 {
@@ -88,7 +89,7 @@ namespace BEx
 
                         case (StandardParameterType.UnixTimeStamp):
                             //res.Add(param.Key, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
-                            value = Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString();
+                            value = Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString();
                             break;
                     }
 
@@ -122,6 +123,8 @@ namespace BEx
             private set;
         }
 
+        private long _nonce = DateTime.Now.Ticks;
+
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -130,7 +133,7 @@ namespace BEx
         {
             get
             {
-                return DateTime.Now.Ticks;
+                return Interlocked.Increment(ref _nonce);
             }
         }
 
@@ -307,7 +310,7 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>();
 
-            values.Add(StandardParameterType.UnixTimeStamp, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
+            values.Add(StandardParameterType.UnixTimeStamp, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToString());
 
             return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
         }
