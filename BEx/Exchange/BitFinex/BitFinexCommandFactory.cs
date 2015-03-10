@@ -43,7 +43,7 @@ namespace BEx.BitFinexSupport
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"));
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "false"));
+            // param.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "0"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "buy"));
 
             var buyOrder = new ExchangeCommand(CommandClass.BuyOrder,
@@ -67,7 +67,7 @@ namespace BEx.BitFinexSupport
                                                                 Method.POST,
                                                                 "/v1/order/cancel",
                                                                 true,
-                                                                typeof(bool),
+                                                                typeof(Confirmation),
                                                                 false,
                                                                 param);
 
@@ -131,7 +131,7 @@ namespace BEx.BitFinexSupport
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"));
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "false"));
+            //param.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "0"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "sell"));
 
             var sell = new ExchangeCommand(CommandClass.SellOrder,

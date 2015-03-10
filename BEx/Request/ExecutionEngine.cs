@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System;
 using System.Collections.Generic;
 
 namespace BEx.Request
@@ -27,6 +28,9 @@ namespace BEx.Request
             translator = new ResultTranslation(sourceExchange.ExchangeSourceType);
 
             errorHandler = new ErrorHandler(sourceExchange.ExchangeSourceType);
+
+            errorHandler.IsExchangeError += sourceExchange.IsError;
+            errorHandler.DetermineErrorCondition += sourceExchange.DetermineErrorCondition;
         }
 
         public APIResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)
@@ -44,31 +48,25 @@ namespace BEx.Request
         {
             APIResult res = null;
 
-            //try
-            //{
-            // Get Request object from Factory
             RestRequest request = factory.GetRequest(toExecute, pair, paramCollection);
 
             IRestResponse result = dispatcher.Dispatch(request, toExecute, pair);
 
-            if (result.ErrorException != null
-                || result.StatusCode != System.Net.HttpStatusCode.OK)
-                errorHandler.HandleErrorResponse(result, request, result.ErrorException);
+            if (errorHandler.IsResponseError(result))
+                errorHandler.HandleErrorResponse(result, request);
             else
             {
-                res = translator.Translate(result.Content,
-                                                toExecute,
-                                                pair);
+                try
+                {
+                    res = translator.Translate(result.Content,
+                                                    toExecute,
+                                                    pair);
+                }
+                catch (Exception ex)
+                {
+                    errorHandler.HandleErrorResponse(result, request, ex);
+                }
             }
-            //}
-            //catch (Exception ex)
-            //{
-            // errorHandler.HandleException(ex);
-            //}
-            // Handle Error
-            //errorHandler
-
-            //translator.Translate<
 
             return res;
         }

@@ -17,7 +17,7 @@ namespace BEx
             VerifyCredentials(apiKey, secret);
         }
 
-        internal APIError DetermineErrorCondition(string message)
+        protected internal override APIError DetermineErrorCondition(string message)
         {
             APIError error = null;
 
@@ -85,7 +85,7 @@ namespace BEx
                 return "The Error response was empty";
         }
 
-        internal bool IsError(string content)
+        protected internal override bool IsError(string content)
         {
             bool res = false;
 

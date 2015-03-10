@@ -63,7 +63,7 @@ namespace BEx.BitStampSupport
                                                                 Method.POST,
                                                                 "cancel_order/",
                                                                 true,
-                                                                typeof(bool),
+                                                                typeof(Confirmation),
                                                                 true,
                                                                 param);
 

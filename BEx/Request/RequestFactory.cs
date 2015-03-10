@@ -23,13 +23,17 @@ namespace BEx.Request
         {
             RestRequest result = CreateRequest(command, pair);
 
-            Dictionary<string, string> reconciledParams = new Dictionary<string, string>();
+            parameters = PopulateCommandParameters(command, pair, parameters);
 
-            if (parameters != null && parameters.Count > 0)
-                reconciledParams = SetParameters(result, command, pair, parameters);
+            Dictionary<string, string> finalParameters;
+
+            if (parameters.Count > 0)
+                finalParameters = SetParameters(result, command, pair, parameters);
+            else
+                finalParameters = new Dictionary<string, string>();
 
             if (command.IsAuthenticated)
-                AuthenticateRequest(result, command, pair, reconciledParams);
+                AuthenticateRequest(result, command, pair, finalParameters);
 
             return result;
         }
@@ -70,6 +74,76 @@ namespace BEx.Request
             }
 
             return reconciled;
+        }
+
+        private Dictionary<StandardParameterType, string> PopulateCommandParameters(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values)
+        {
+            var res = new Dictionary<StandardParameterType, string>();
+
+            if (command.DependentParameters.Count > 0)
+            {
+                foreach (KeyValuePair<StandardParameterType, ExchangeParameter> param in command.DependentParameters)
+                {
+                    string value = "";
+                    switch (param.Key)
+                    {
+                        case (StandardParameterType.Amount):
+                            //res.Add(param.Key, values[param.Key]);
+                            value = values[param.Key];
+                            break;
+
+                        case (StandardParameterType.Base):
+                            //res.Add(param.Key, pair.BaseCurrency.ToString());
+                            value = pair.BaseCurrency.ToString();
+                            break;
+
+                        case (StandardParameterType.Counter):
+                            //res.Add(param.Key, pair.CounterCurrency.ToString());
+                            value = pair.CounterCurrency.ToString();
+                            break;
+
+                        case (StandardParameterType.Currency):
+                            // res.Add(param.Key, pair.BaseCurrency.ToString());
+                            value = pair.BaseCurrency.ToString();
+                            break;
+
+                        case (StandardParameterType.CurrencyFullName):
+                            //res.Add(param.Key, pair.BaseCurrency.ToString());
+                            value = pair.BaseCurrency.GetDescription();
+                            break;
+
+                        case (StandardParameterType.Id):
+                            //res.Add(param.Key, values[StandardParameterType.Id]);
+                            value = values[StandardParameterType.Id];
+                            break;
+
+                        case (StandardParameterType.Pair):
+                            //res.Add(param.Key, pair.ToString());
+                            value = pair.ToString();
+                            break;
+
+                        case (StandardParameterType.Price):
+                            //res.Add(param.Key, values[param.Key]);
+                            value = values[param.Key];
+                            break;
+
+                        case (StandardParameterType.TimeStamp):
+                            throw new NotImplementedException();
+
+                        case (StandardParameterType.UnixTimeStamp):
+                            //res.Add(param.Key, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
+                            value = Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString();
+                            break;
+                    }
+
+                    if (param.Value.IsLowerCase)
+                        res.Add(param.Key, value.ToLower());
+                    else
+                        res.Add(param.Key, value);
+                }
+            }
+
+            return res;
         }
     }
 }

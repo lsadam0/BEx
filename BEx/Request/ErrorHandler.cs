@@ -9,18 +9,23 @@ namespace BEx.Request
         private ExchangeType SourceExchangeType;
 
         public DetermineErrorConditionDelegate DetermineErrorCondition;
-        public IsErrorDelegate IsError;
+        public IsErrorDelegate IsExchangeError;
+
+        public bool IsResponseError(IRestResponse response)
+        {
+            return (response == null
+                || response.ErrorException != null
+                || response.StatusCode != System.Net.HttpStatusCode.OK
+                || IsExchangeError(response.Content)
+                );
+        }
 
         internal ErrorHandler(ExchangeType sourceExchange)
         {
             SourceExchangeType = sourceExchange;
         }
 
-        public void HandleException(Exception ex)
-        {
-        }
-
-        public APIError HandleErrorResponse(IRestResponse response, RestRequest request, Exception inner = null)
+        public APIError HandleErrorResponse(IRestResponse response, RestRequest request, Exception ex = null)
         {
             APIError error = null;
             if (DetermineErrorCondition != null)

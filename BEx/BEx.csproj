@@ -63,6 +63,7 @@
     <Compile Include="AccountBalance.cs" />
     <Compile Include="APIResult.cs" />
     <Compile Include="Common\UnixTime.cs" />
+    <Compile Include="Confirmation.cs" />
     <Compile Include="CurrencyTradingPair.cs" />
     <Compile Include="DepositAddress.cs" />
     <Compile Include="ErrorMessages.Designer.cs">
