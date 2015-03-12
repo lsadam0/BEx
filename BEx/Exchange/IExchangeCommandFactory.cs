@@ -4,6 +4,8 @@ namespace BEx.Request
 {
     public interface IExchangeCommandFactory
     {
+        ExchangeCommand GetCommand(CommandClass commandType);
+
         Dictionary<CommandClass, ExchangeCommand> GetCommandCollection();
 
         ExchangeCommand BuildAccountBalanceCommand();

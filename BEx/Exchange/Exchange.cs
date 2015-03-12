@@ -10,47 +10,42 @@ namespace BEx
 
     public abstract class Exchange
     {
-        public HashSet<Currency> SupportedCurrencies
+        public IList<CurrencyTradingPair> SupportedTradingPairs
         {
-            get;
-            private set;
+            get
+            {
+                return Configuration.SupportedPairs;
+            }
         }
 
-        public HashSet<CurrencyTradingPair> SupportedTradingPairs
+        public HashSet<Currency> SupportedCurrencies
         {
-            get;
-            private set;
+            get
+            {
+                return Configuration.SupportedCurrencies;
+            }
         }
+
+        protected internal IExchangeConfiguration Configuration;
+
+        internal IExchangeCommandFactory Commands;
 
         internal ExecutionEngine CommandExecutionEngine;
 
-        private Dictionary<CommandClass, ExchangeCommand> CommandCollection;
-
-        protected Exchange(ExchangeType exchangeSourceType, string baseUrl, IExchangeCommandFactory commandFactory)
+        public Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands)
         {
-            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
-
-            CommandCollection = commandFactory.GetCommandCollection();
-
-            ExchangeSourceType = exchangeSourceType;
-
-            BaseURI = new Uri(baseUrl.TrimEnd('/', '\\'));
-
-            BuildConfiguration();
+            Configuration = configuration;
+            Commands = commands;
 
             CommandExecutionEngine = new ExecutionEngine(this);
         }
 
-        public Uri BaseURI
-        {
-            get;
-            set;
-        }
-
         public CurrencyTradingPair DefaultPair
         {
-            get;
-            private set;
+            get
+            {
+                return Configuration.DefaultPair;
+            }
         }
 
         public ExchangeType ExchangeSourceType
@@ -95,7 +90,7 @@ namespace BEx
 
         private APIResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
         {
-            ExchangeCommand command = CommandCollection[commandType];
+            ExchangeCommand command = Commands.GetCommand(commandType);
 
             if (command.HasDependentParameters)
             {
@@ -266,7 +261,7 @@ namespace BEx
         /// <returns>True if supported, otherwise false.</returns>
         public bool IsTradingPairSupported(CurrencyTradingPair pair)
         {
-            return SupportedTradingPairs.Contains(pair);
+            return Configuration.SupportedPairs.Contains(pair);
         }
 
         protected internal abstract void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null);
@@ -278,25 +273,8 @@ namespace BEx
 
         #endregion Commands
 
-        protected abstract HashSet<CurrencyTradingPair> GetSupportedTradingPairs();
-
         protected internal abstract bool IsError(string content);
 
         protected internal abstract APIError DetermineErrorCondition(string message);
-
-        private void BuildConfiguration()
-        {
-            SupportedTradingPairs = GetSupportedTradingPairs();
-            SupportedCurrencies = new HashSet<Currency>();
-
-            foreach (CurrencyTradingPair pair in SupportedTradingPairs)
-            {
-                if (!SupportedCurrencies.Contains(pair.BaseCurrency))
-                    SupportedCurrencies.Add(pair.BaseCurrency);
-
-                if (!SupportedCurrencies.Contains(pair.CounterCurrency))
-                    SupportedCurrencies.Add(pair.CounterCurrency);
-            }
-        }
     }
 }

@@ -56,16 +56,12 @@ namespace BEx.Request
                 errorHandler.HandleErrorResponse(result, request);
             else
             {
-                try
-                {
-                    res = translator.Translate(result.Content,
-                                                    toExecute,
-                                                    pair);
-                }
-                catch (Exception ex)
-                {
-                    errorHandler.HandleErrorResponse(result, request, ex);
-                }
+                res = translator.Translate(result.Content,
+                                                toExecute,
+                                                pair);
+
+                //
+                //  errorHandler.HandleErrorResponse(result, request);
             }
 
             return res;

@@ -6,9 +6,9 @@ namespace BEx.Common
     {
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-        internal static long DateTimeToUnixTimestamp(DateTime dateTime)
+        internal static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
-            return Convert.ToInt64((dateTime - epoch.ToLocalTime()).TotalSeconds);
+            return Convert.ToDouble((dateTime - epoch.ToLocalTime()).TotalSeconds);
         }
 
         internal static DateTime UnixTimeStampToDateTime(string unixTimeStamp)

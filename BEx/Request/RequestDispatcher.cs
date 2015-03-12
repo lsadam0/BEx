@@ -16,7 +16,7 @@ namespace BEx
 
         internal RequestDispatcher(Exchange sourceExchange)
         {
-            apiClient = new RestClient(sourceExchange.BaseURI.ToString());
+            apiClient = new RestClient(sourceExchange.Configuration.Url);
             SourceExchangeType = sourceExchange.ExchangeSourceType;
         }
 

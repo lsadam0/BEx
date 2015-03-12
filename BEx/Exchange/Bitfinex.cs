@@ -11,8 +11,18 @@ namespace BEx
 {
     public class Bitfinex : Exchange
     {
+        public Bitfinex()
+            : base(new BitFinexConfiguration(), new BitFinexCommandFactory())
+        {
+        }
+
+        public Bitfinex(BitFinexConfiguration configuration)
+            : base(configuration, new BitFinexCommandFactory())
+        {
+        }
+
         public Bitfinex(string apiKey, string secret)
-            : base(ExchangeType.BitFinex, "https://api.bitfinex.com", new BitFinexCommandFactory())
+            : base(new BitFinexConfiguration(apiKey, secret), new BitFinexCommandFactory())
         {
             VerifyCredentials(apiKey, secret);
         }
@@ -140,24 +150,12 @@ namespace BEx
 
             request.AddHeader("X-BFX-PAYLOAD", payload64);
 
+            //Any public static (Shared in Visual Basic) members of this type are thread safe
             using (HMACSHA384 hasher = new HMACSHA384(Encoding.UTF8.GetBytes(SecretKey)))
             {
                 byte[] hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
                 request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
             }
-        }
-
-        protected override HashSet<CurrencyTradingPair> GetSupportedTradingPairs()
-        {
-            HashSet<CurrencyTradingPair> res = new HashSet<CurrencyTradingPair>();
-
-            res.Add(DefaultPair);
-            res.Add(new CurrencyTradingPair(Currency.LTC, Currency.USD));
-            res.Add(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
-            res.Add(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-            res.Add(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
-
-            return res;
         }
 
         private void VerifyCredentials(string apiKey, string secretKey)

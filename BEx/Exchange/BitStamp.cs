@@ -14,8 +14,18 @@ namespace BEx
     {
         private Regex errorId;
 
+        public BitStamp()
+            : base(new BitStampConfiguration(), new BitStampCommandFactory())
+        {
+        }
+
+        public BitStamp(BitStampConfiguration configuration)
+            : base(configuration, new BitStampCommandFactory())
+        {
+        }
+
         public BitStamp(string apiKey, string secretKey, string clientId)
-            : base(ExchangeType.BitStamp, "https://www.bitstamp.net/api/", new BitStampCommandFactory())
+            : base(new BitStampConfiguration(apiKey, clientId, secretKey), new BitStampCommandFactory())
         {
             VerifyCredentials(apiKey, secretKey, clientId);
 
@@ -120,6 +130,7 @@ namespace BEx
 
             string signature = "";//ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
 
+            //Any public static (Shared in Visual Basic) members of this type are thread safe
             using (HMACSHA256 hasher = new HMACSHA256(Encoding.ASCII.GetBytes(SecretKey)))
             {
                 byte[] dta = Encoding.ASCII.GetBytes(msg);
@@ -129,15 +140,6 @@ namespace BEx
             request.AddParameter("key", Uri.EscapeUriString(APIKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
-        }
-
-        protected override HashSet<CurrencyTradingPair> GetSupportedTradingPairs()
-        {
-            HashSet<CurrencyTradingPair> res = new HashSet<CurrencyTradingPair>();
-
-            res.Add(DefaultPair);
-
-            return res;
         }
 
         private void VerifyCredentials(string apiKey, string secretKey, string clientId)

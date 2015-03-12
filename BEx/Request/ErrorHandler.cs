@@ -16,7 +16,6 @@ namespace BEx.Request
             return (response == null
                 || response.ErrorException != null
                 || response.StatusCode != System.Net.HttpStatusCode.OK
-                || IsExchangeError(response.Content)
                 );
         }
 

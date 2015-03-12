@@ -4,24 +4,13 @@ using System.Collections.Generic;
 
 namespace BEx.BitFinexSupport
 {
-    public class BitFinexCommandFactory : IExchangeCommandFactory
+    internal class BitFinexCommandFactory : IExchangeCommandFactory
     {
-        public Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
+        private Dictionary<CommandClass, ExchangeCommand> collection;
+
+        public BitFinexCommandFactory()
         {
-            var res = new Dictionary<CommandClass, ExchangeCommand>();
-
-            res.Add(CommandClass.AccountBalance, BuildAccountBalanceCommand());
-            res.Add(CommandClass.BuyOrder, BuildBuyOrderCommand());
-            res.Add(CommandClass.CancelOrder, BuildCancelOrderCommand());
-            res.Add(CommandClass.DepositAddress, BuildDepositAddressCommand());
-            res.Add(CommandClass.OpenOrders, BuildOpenOrdersCommand());
-            res.Add(CommandClass.OrderBook, BuildOrderBookCommand());
-            res.Add(CommandClass.SellOrder, BuildSellOrderCommand());
-            res.Add(CommandClass.Tick, BuildTickCommand());
-            res.Add(CommandClass.Transactions, BuildTransactionsCommand());
-            res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
-
-            return res;
+            collection = GetCommandCollection();
         }
 
         public ExchangeCommand BuildAccountBalanceCommand()
@@ -43,7 +32,6 @@ namespace BEx.BitFinexSupport
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"));
-            // param.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "0"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "buy"));
 
             var buyOrder = new ExchangeCommand(CommandClass.BuyOrder,
@@ -131,7 +119,6 @@ namespace BEx.BitFinexSupport
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"));
-            //param.Add(new ExchangeParameter(ExchangeParameterType.Post, "is_hidden", StandardParameterType.None, "0"));
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "sell"));
 
             var sell = new ExchangeCommand(CommandClass.SellOrder,
@@ -203,6 +190,29 @@ namespace BEx.BitFinexSupport
                                                         param);
 
             return userTransactions;
+        }
+
+        public ExchangeCommand GetCommand(CommandClass commandType)
+        {
+            return collection[commandType];
+        }
+
+        public Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
+        {
+            var res = new Dictionary<CommandClass, ExchangeCommand>();
+
+            res.Add(CommandClass.AccountBalance, BuildAccountBalanceCommand());
+            res.Add(CommandClass.BuyOrder, BuildBuyOrderCommand());
+            res.Add(CommandClass.CancelOrder, BuildCancelOrderCommand());
+            res.Add(CommandClass.DepositAddress, BuildDepositAddressCommand());
+            res.Add(CommandClass.OpenOrders, BuildOpenOrdersCommand());
+            res.Add(CommandClass.OrderBook, BuildOrderBookCommand());
+            res.Add(CommandClass.SellOrder, BuildSellOrderCommand());
+            res.Add(CommandClass.Tick, BuildTickCommand());
+            res.Add(CommandClass.Transactions, BuildTransactionsCommand());
+            res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
+
+            return res;
         }
     }
 }

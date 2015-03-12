@@ -6,22 +6,11 @@ namespace BEx.BitStampSupport
 {
     internal class BitStampCommandFactory : IExchangeCommandFactory
     {
-        public Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
+        private Dictionary<CommandClass, ExchangeCommand> collection;
+
+        public BitStampCommandFactory()
         {
-            var res = new Dictionary<CommandClass, ExchangeCommand>();
-
-            res.Add(CommandClass.AccountBalance, BuildAccountBalanceCommand());
-            res.Add(CommandClass.BuyOrder, BuildBuyOrderCommand());
-            res.Add(CommandClass.CancelOrder, BuildCancelOrderCommand());
-            res.Add(CommandClass.DepositAddress, BuildDepositAddressCommand());
-            res.Add(CommandClass.OpenOrders, BuildOpenOrdersCommand());
-            res.Add(CommandClass.OrderBook, BuildOrderBookCommand());
-            res.Add(CommandClass.SellOrder, BuildSellOrderCommand());
-            res.Add(CommandClass.Tick, BuildTickCommand());
-            res.Add(CommandClass.Transactions, BuildTransactionsCommand());
-            res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
-
-            return res;
+            collection = GetCommandCollection();
         }
 
         public ExchangeCommand BuildAccountBalanceCommand()
@@ -160,6 +149,29 @@ namespace BEx.BitStampSupport
                                                         typeof(List<BitStampUserTransactionJSON>));
 
             return userTransactions;
+        }
+
+        public ExchangeCommand GetCommand(CommandClass commandType)
+        {
+            return collection[commandType];
+        }
+
+        public Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
+        {
+            var res = new Dictionary<CommandClass, ExchangeCommand>();
+
+            res.Add(CommandClass.AccountBalance, BuildAccountBalanceCommand());
+            res.Add(CommandClass.BuyOrder, BuildBuyOrderCommand());
+            res.Add(CommandClass.CancelOrder, BuildCancelOrderCommand());
+            res.Add(CommandClass.DepositAddress, BuildDepositAddressCommand());
+            res.Add(CommandClass.OpenOrders, BuildOpenOrdersCommand());
+            res.Add(CommandClass.OrderBook, BuildOrderBookCommand());
+            res.Add(CommandClass.SellOrder, BuildSellOrderCommand());
+            res.Add(CommandClass.Tick, BuildTickCommand());
+            res.Add(CommandClass.Transactions, BuildTransactionsCommand());
+            res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
+
+            return res;
         }
     }
 }
