@@ -3,35 +3,16 @@ using BEx.ExchangeSupport;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace BEx
 {
     public abstract class Exchange
     {
-        internal IAuthenticator Authenticator;
+        protected internal IAuthenticator Authenticator;
 
-        public IList<CurrencyTradingPair> SupportedTradingPairs
-        {
-            get
-            {
-                return Configuration.SupportedPairs;
-            }
-        }
-
-        public HashSet<Currency> SupportedCurrencies
-        {
-            get
-            {
-                return Configuration.SupportedCurrencies;
-            }
-        }
-
+        protected internal IExchangeCommandFactory Commands;
         protected internal IExchangeConfiguration Configuration;
-
-        internal IExchangeCommandFactory Commands;
-
-        internal ExecutionEngine CommandExecutionEngine;
+        private ExecutionEngine CommandExecutionEngine;
 
         public Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
         {
@@ -56,34 +37,20 @@ namespace BEx
             protected set;
         }
 
-        protected internal string APIKey
+        public HashSet<Currency> SupportedCurrencies
         {
-            get;
-            set;
-        }
-
-        protected internal string ClientID
-        {
-            get;
-            set;
-        }
-
-        protected internal string SecretKey
-        {
-            get;
-            set;
-        }
-
-        private APIResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
-        {
-            ExchangeCommand command = Commands.GetCommand(commandType);
-
-            if (command.HasDependentParameters)
+            get
             {
-                return CommandExecutionEngine.ExecuteCommand(command, pair, values);
+                return Configuration.SupportedCurrencies;
             }
-            else
-                return CommandExecutionEngine.ExecuteCommand(command, pair);
+        }
+
+        public IList<CurrencyTradingPair> SupportedTradingPairs
+        {
+            get
+            {
+                return Configuration.SupportedPairs;
+            }
         }
 
         public Confirmation CancelOrder(Order toCancel)
@@ -250,17 +217,25 @@ namespace BEx
             return Configuration.SupportedPairs.Contains(pair);
         }
 
-        /*
-        protected internal abstract void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null);
-        */
+        protected internal abstract APIError DetermineErrorCondition(string message);
+
+        protected internal abstract bool IsError(string content);
 
         protected OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {
             return (OpenOrders)ExecuteCommand(CommandClass.OpenOrders, pair);
         }
 
-        protected internal abstract bool IsError(string content);
+        private APIResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
+        {
+            ExchangeCommand command = Commands.GetCommand(commandType);
 
-        protected internal abstract APIError DetermineErrorCondition(string message);
+            if (command.HasDependentParameters)
+            {
+                return CommandExecutionEngine.ExecuteCommand(command, pair, values);
+            }
+            else
+                return CommandExecutionEngine.ExecuteCommand(command, pair);
+        }
     }
 }

@@ -73,9 +73,9 @@ namespace NUnitTests
 
         protected ExchangeVerificationBase(Exchange candidate)
         {
-            APIKey = candidate.APIKey;// apiKey;
-            Secret = candidate.SecretKey;//secret;
-            ClientID = candidate.ClientID;
+            APIKey = candidate.Configuration.ApiKey;// apiKey;
+            Secret = candidate.Configuration.SecretKey;//secret;
+            ClientID = candidate.Configuration.ClientId;
 
             testCandidate = candidate;
             testCandidateType = candidate.GetType();

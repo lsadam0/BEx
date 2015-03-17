@@ -1,5 +1,4 @@
-﻿using BEx.CommandProcessing;
-using RestSharp;
+﻿using RestSharp;
 
 namespace BEx.CommandProcessing
 {

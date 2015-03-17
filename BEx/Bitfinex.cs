@@ -1,11 +1,7 @@
-﻿using BEx.CommandProcessing;
-using BEx.ExchangeSupport;
-using BEx.ExchangeSupport.BitfinexSupport;
+﻿using BEx.ExchangeSupport.BitfinexSupport;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace BEx
@@ -115,13 +111,9 @@ namespace BEx
         {
             if (string.IsNullOrEmpty(apiKey))
                 throw new ExchangeAuthorizationException("Invalid APIKey specified.");
-            else
-                this.APIKey = apiKey;
 
             if (string.IsNullOrEmpty(secretKey))
                 throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
-            else
-                this.SecretKey = secretKey;
         }
     }
 }
