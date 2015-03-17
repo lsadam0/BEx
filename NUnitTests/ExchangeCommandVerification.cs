@@ -199,7 +199,9 @@ namespace NUnitTests
             VerifyAPIResult(toVerify);
 
             Assert.IsNotNull(toVerify.TransactionsCollection);
-            Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
+
+            if (pair == testCandidate.DefaultPair)
+                Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
 
             foreach (UserTransaction transaction in toVerify.TransactionsCollection)
             {

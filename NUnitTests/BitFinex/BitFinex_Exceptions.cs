@@ -3,7 +3,7 @@
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("Bitfinex.Exceptions")]
+    [Category("Bitfinex")]
     public class Bitfinex_Exceptions : ExchangeVerificationBase
     {
         public Bitfinex_Exceptions()

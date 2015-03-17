@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitFinex.UnauthenticatedCommands")]
+    [Category("Bitfinex")]
     public class BitFinex_Unauthenticated_Commands : ExchangeVerificationBase
     {
         public BitFinex_Unauthenticated_Commands()

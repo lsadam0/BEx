@@ -3,7 +3,7 @@
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitStamp.Exceptions")]
+    [Category("BitStamp")]
     public class BitStamp_Exceptions : ExchangeVerificationBase
     {
         public BitStamp_Exceptions()
