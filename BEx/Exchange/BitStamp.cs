@@ -15,22 +15,22 @@ namespace BEx
         private Regex errorId;
 
         public BitStamp()
-            : base(new BitStampConfiguration(), new BitStampCommandFactory())
+            : base(new BitStampConfiguration(), new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
-            ExchangeSourceType = ExchangeType.BitStamp;
+            Authenticator = new BitStampAuthenticator(Configuration);
         }
 
         public BitStamp(BitStampConfiguration configuration)
-            : base(configuration, new BitStampCommandFactory())
+            : base(configuration, new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
-            ExchangeSourceType = ExchangeType.BitStamp;
+            Authenticator = new BitStampAuthenticator(Configuration);
         }
 
         public BitStamp(string apiKey, string secretKey, string clientId)
-            : base(new BitStampConfiguration(apiKey, clientId, secretKey), new BitStampCommandFactory())
+            : base(new BitStampConfiguration(apiKey, clientId, secretKey), new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
-            ExchangeSourceType = ExchangeType.BitStamp;
             VerifyCredentials(apiKey, secretKey, clientId);
+            Authenticator = new BitStampAuthenticator(Configuration);
 
             errorId = new Regex("^{\"error\":");// \"API key not found\"}");
         }
@@ -119,31 +119,36 @@ namespace BEx
             return res;
         }
 
+        /*
         protected internal override void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
         {
-            /*Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
+            Signature is a HMAC-SHA256 encoded message containing: nonce, client ID and API key. The HMAC-SHA256 code must be generated using a secret key that was generated with your API key. This code must be converted to it's hexadecimal representation (64 uppercase characters).
 
                 Example (Python):
                 message = nonce + client_id + api_key
-                signature = hmac.new(API_SECRET, msg=message, digestmod=hashlib.sha256).hexdigest().upper()*/
+                signature = hmac.new(API_SECRET, msg=message, digestmod=hashlib.sha256).hexdigest().upper()
 
-            long _nonce = Nonce;
+            private long _nonce = Configuration.Nonce;
 
-            string msg = string.Format("{0}{1}{2}", _nonce, ClientID, APIKey);
+            private string msg = string.Format("{0}{1}{2}", _nonce, ClientID, APIKey);
 
-            string signature = "";//ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
+            private string signature = "";//ByteArrayToString(SignHMACSHA256(SecretKey, StringToByteArray(msg))).ToUpper();
 
             //Any public static (Shared in Visual Basic) members of this type are thread safe
-            using (HMACSHA256 hasher = new HMACSHA256(Encoding.ASCII.GetBytes(SecretKey)))
+            using (private HMACSHA256 hasher = new HMACSHA256(Encoding.ASCII.GetBytes(SecretKey)))
+
             {
-                byte[] dta = Encoding.ASCII.GetBytes(msg);
-                signature = BitConverter.ToString(hasher.ComputeHash(dta)).Replace("-", "").ToUpper();
+                private byte[] dta = Encoding.ASCII.GetBytes(msg);
+
+                signature = BitConverter.ToString(hasher.ComputeHash(dta)).private Replace("-", "").private ToUpper();
             }
 
             request.AddParameter("key", Uri.EscapeUriString(APIKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));
             request.AddParameter("nonce", Uri.EscapeUriString(_nonce.ToString()));
         }
+
+        */
 
         private void VerifyCredentials(string apiKey, string secretKey, string clientId)
         {

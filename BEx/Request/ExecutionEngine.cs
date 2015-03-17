@@ -20,7 +20,7 @@ namespace BEx.Request
             sourceExchange = targetExchange;
 
             factory = new RequestFactory();
-            factory.GetSignature += sourceExchange.CreateSignature;
+            // factory.GetSignature += sourceExchange.CreateSignature;
 
             dispatcher = new RequestDispatcher(sourceExchange);
 

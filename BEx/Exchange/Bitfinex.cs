@@ -12,22 +12,22 @@ namespace BEx
     public sealed class Bitfinex : Exchange
     {
         public Bitfinex()
-            : base(new BitFinexConfiguration(), new BitFinexCommandFactory())
+            : base(new BitFinexConfiguration(), new BitFinexCommandFactory(), ExchangeType.BitFinex)
         {
-            ExchangeSourceType = ExchangeType.BitFinex;
+            Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
 
         public Bitfinex(BitFinexConfiguration configuration)
-            : base(configuration, new BitFinexCommandFactory())
+            : base(configuration, new BitFinexCommandFactory(), ExchangeType.BitFinex)
         {
-            ExchangeSourceType = ExchangeType.BitFinex;
+            Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
 
         public Bitfinex(string apiKey, string secret)
-            : base(new BitFinexConfiguration(apiKey, secret), new BitFinexCommandFactory())
+            : base(new BitFinexConfiguration(apiKey, secret), new BitFinexCommandFactory(), ExchangeType.BitFinex)
         {
-            ExchangeSourceType = ExchangeType.BitFinex;
             VerifyCredentials(apiKey, secret);
+            Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
 
         protected internal override APIError DetermineErrorCondition(string message)
@@ -110,9 +110,10 @@ namespace BEx
             return res;
         }
 
+        /*
         protected internal override void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
         {
-            /*POST https://api.bitfinex.com/v1/order/new
+            POST https://api.bitfinex.com/v1/order/new
                 With a payload of
                 {
                 "request": "/v1/order/new",
@@ -129,18 +130,18 @@ namespace BEx
                 These are encoded as HTTP headers named:
                 X-BFX-APIKEY
                 X-BFX-PAYLOAD
-                X-BFX-SIGNATURE*/
+                X-BFX-SIGNATURE
             request.AddHeader("X-BFX-APIKEY", APIKey);
 
-            StringBuilder payload = new StringBuilder();
+            private StringBuilder payload = new StringBuilder();
 
             payload.Append("{");
             payload.Append("\"request\": \"" + command.GetResolvedRelativeURI(pair) + "\",");
-            payload.Append("\"nonce\": \"" + Nonce + "\"");
+            payload.Append("\"nonce\": \"" + Configuration.Nonce + "\"");
 
             if (parameters != null)
             {
-                foreach (KeyValuePair<string, string> kvPair in parameters)
+                foreach (private KeyValuePair<string, string> kvPair in parameters)
                 {
                     payload.Append(",");
                     payload.Append("\"" + kvPair.Key + "\": \"" + kvPair.Value + "\"");
@@ -156,10 +157,12 @@ namespace BEx
             //Any public static (Shared in Visual Basic) members of this type are thread safe
             using (HMACSHA384 hasher = new HMACSHA384(Encoding.UTF8.GetBytes(SecretKey)))
             {
-                byte[] hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
+                byte[] internal hashBytes = hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
+
                 request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
             }
         }
+        */
 
         private void VerifyCredentials(string apiKey, string secretKey)
         {

@@ -1,5 +1,7 @@
 ﻿using BEx.Request;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace BEx.BitStampSupport
 {
@@ -45,6 +47,20 @@ namespace BEx.BitStampSupport
         {
             get;
             set;
+        }
+
+        private long _nonce = DateTime.Now.Ticks;
+
+        /// <summary>
+        /// Consecutively increasing action counter
+        /// </summary>
+        /// <value>0</value>
+        public long Nonce
+        {
+            get
+            {
+                return Interlocked.Increment(ref _nonce);
+            }
         }
 
         private void Initialize(string url = null)

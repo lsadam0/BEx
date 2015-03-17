@@ -77,6 +77,7 @@
     <Compile Include="Exceptions\OrderRejectedException.cs" />
     <Compile Include="Exceptions\WithdrawalRejectedException.cs" />
     <Compile Include="Exchange\Bitfinex.cs" />
+    <Compile Include="Exchange\BitfinexAuthenticator.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexConfiguration.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexAccountBalanceJSON.cs" />
     <Compile Include="Exchange\BitFinex\BitFinexCommandFactory.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTickJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitfinexTransactionJSON.cs" />
     <Compile Include="Exchange\BitFinex\JSON\BitFinexUserTransactionJSON.cs" />
+    <Compile Include="Exchange\BitStampAuthenticator.cs" />
     <Compile Include="Exchange\BitStamp\BitStampCommandFactory.cs" />
     <Compile Include="Exchange\BitStamp\BitStampConfiguration.cs" />
     <Compile Include="Exchange\BitStamp\JSON\BitStampAccountBalanceJSON.cs" />

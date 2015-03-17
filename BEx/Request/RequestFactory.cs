@@ -32,8 +32,11 @@ namespace BEx.Request
             else
                 finalParameters = new Dictionary<string, string>();
 
+            /*
             if (command.IsAuthenticated)
+            {
                 AuthenticateRequest(result, command, pair, finalParameters);
+            }*/
 
             return result;
         }

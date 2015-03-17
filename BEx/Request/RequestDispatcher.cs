@@ -9,18 +9,14 @@ namespace BEx
 
     internal class RequestDispatcher
     {
+        private Exchange SourceExchange;
+
         internal DetermineErrorConditionDelegate DetermineErrorCondition;
         internal IsErrorDelegate IsError;
 
         internal RequestDispatcher(Exchange sourceExchange)
         {
-            apiClient = new RestClient(sourceExchange.Configuration.Url);
-        }
-
-        private RestClient apiClient
-        {
-            get;
-            set;
+            SourceExchange = sourceExchange;
         }
 
         /// <summary>
@@ -35,7 +31,12 @@ namespace BEx
         /// <returns></returns>
         internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference, CurrencyTradingPair pair)
         {
-            return apiClient.Execute(request);
+            var client = new RestClient(SourceExchange.Configuration.Url);
+
+            if (commandReference.IsAuthenticated)
+                client.Authenticator = SourceExchange.Authenticator;
+
+            return client.Execute(request);
         }
     }
 }

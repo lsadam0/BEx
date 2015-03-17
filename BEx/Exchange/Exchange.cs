@@ -10,6 +10,8 @@ namespace BEx
 
     public abstract class Exchange
     {
+        internal IAuthenticator Authenticator;
+
         public IList<CurrencyTradingPair> SupportedTradingPairs
         {
             get
@@ -32,8 +34,9 @@ namespace BEx
 
         internal ExecutionEngine CommandExecutionEngine;
 
-        public Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands)
+        public Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
         {
+            ExchangeSourceType = sourceType;
             Configuration = configuration;
             Commands = commands;
 
@@ -52,20 +55,6 @@ namespace BEx
         {
             get;
             protected set;
-        }
-
-        private long _nonce = DateTime.Now.Ticks;
-
-        /// <summary>
-        /// Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
-        public long Nonce
-        {
-            get
-            {
-                return Interlocked.Increment(ref _nonce);
-            }
         }
 
         protected internal string APIKey
@@ -262,7 +251,9 @@ namespace BEx
             return Configuration.SupportedPairs.Contains(pair);
         }
 
+        /*
         protected internal abstract void CreateSignature(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null);
+        */
 
         protected OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {

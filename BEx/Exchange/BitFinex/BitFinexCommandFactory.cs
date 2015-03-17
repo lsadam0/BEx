@@ -67,7 +67,7 @@ namespace BEx.BitFinexSupport
             var param = new List<ExchangeParameter>();
 
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "currency", StandardParameterType.Currency, "BTC"));
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "method", StandardParameterType.CurrencyFullName, "bitcoin"));
+            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "method", StandardParameterType.CurrencyFullName, "bitcoin") { IsLowerCase = true });
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "wallet_name", StandardParameterType.None, "exchange"));
 
             var depositAddress = new ExchangeCommand(CommandClass.DepositAddress,

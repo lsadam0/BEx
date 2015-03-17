@@ -40,6 +40,11 @@ namespace BEx.Request
             set;
         }
 
+        long Nonce
+        {
+            get;
+        }
+
         string Url
         {
             get;
