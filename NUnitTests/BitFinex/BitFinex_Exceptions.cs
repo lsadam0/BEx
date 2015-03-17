@@ -12,37 +12,37 @@ namespace NUnitTests
         }
 
         [Test]
-        public void BitFinex_MissingAPIKey_ExchangeAuthorizationException()
+        public void Constructor_MissingAPIKey_ExchangeAuthorizationException()
         {
             base.ExceptionVerification.MissingAPIKey_ExchangeAuthorizationException();
         }
 
         [Test]
-        public void BitFinex_IncorrectAPIKey_ExchangeAuthorizationException()
+        public void AuthenticatedCommand_IncorrectAPIKey_ExchangeAuthorizationException()
         {
             base.ExceptionVerification.IncorrectAPIKey_ExchangeAuthorizationException();
         }
 
         [Test]
-        public void BitFinex_MissingSecretKey_ExchangeAuthorizationException()
+        public void Constructor_MissingSecretKey_ExchangeAuthorizationException()
         {
             base.ExceptionVerification.MissingSecretKey_ExchangeAuthorizationException();
         }
 
         [Test]
-        public void BitFinex_IncorrectSecretKey_ExchangeAuthorizationException()
+        public void AuthenticatedCommand_IncorrectSecretKey_ExchangeAuthorizationException()
         {
             base.ExceptionVerification.IncorrectSecretKey_ExchangeAuthorizationException();
         }
 
         [Test]
-        public void BitFinex_CreateSellOrder_InsufficientFundsException()
+        public void CreateSellOrder_InsufficientFunds_InsufficientFundsException()
         {
             base.ExceptionVerification.CreateSellOrder_InsufficientFundsException();
         }
 
         [Test]
-        public void BitFinex_CreateBuyOrder_InsufficientFundsException()
+        public void CreateBuyOrder_InsufficientFunds_InsufficientFundsException()
         {
             base.ExceptionVerification.CreateBuyOrder_InsufficientFundsException();
         }

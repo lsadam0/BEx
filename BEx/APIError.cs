@@ -3,7 +3,7 @@
 namespace BEx
 {
     [Serializable]
-    public class APIError : APIResult
+    public sealed class APIError : APIResult
     {
         internal APIError(ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)

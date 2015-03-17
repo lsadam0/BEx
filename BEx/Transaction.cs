@@ -5,7 +5,7 @@ namespace BEx
     /// <summary>
     /// Individual Transaction
     /// </summary>
-    public class Transaction : APIResult
+    public sealed class Transaction : APIResult
     {
         internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)

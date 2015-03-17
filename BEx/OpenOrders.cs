@@ -6,7 +6,7 @@ namespace BEx
     /// <summary>
     /// All open Orders for your Exchange Account
     /// </summary>
-    public class OpenOrders : APIResult
+    public sealed class OpenOrders : APIResult
     {
         internal OpenOrders(List<Order> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)

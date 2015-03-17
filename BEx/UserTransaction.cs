@@ -2,7 +2,7 @@
 
 namespace BEx
 {
-    public class UserTransaction : APIResult
+    public sealed class UserTransaction : APIResult
     {
         internal UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)

@@ -11,7 +11,7 @@ namespace BEx
     /// <summary>
     /// A Buy or Sell Limit Order for an Exchange
     /// </summary>
-    public class Order : APIResult
+    public sealed class Order : APIResult
     {
         internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)

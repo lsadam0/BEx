@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// Your transactions for the previous hour
     /// </summary>
-    public class UserTransactions : APIResult
+    public sealed class UserTransactions : APIResult
     {
         internal UserTransactions(List<UserTransaction> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)

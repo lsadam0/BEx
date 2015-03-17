@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BEx
 {
-    public class Transactions : APIResult
+    public sealed class Transactions : APIResult
     {
         internal Transactions(List<Transaction> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)

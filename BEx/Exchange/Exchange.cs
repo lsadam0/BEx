@@ -51,7 +51,7 @@ namespace BEx
         public ExchangeType ExchangeSourceType
         {
             get;
-            private set;
+            protected set;
         }
 
         private long _nonce = DateTime.Now.Ticks;
@@ -85,8 +85,6 @@ namespace BEx
             get;
             set;
         }
-
-        #region Commands
 
         private APIResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
         {
@@ -270,8 +268,6 @@ namespace BEx
         {
             return (OpenOrders)ExecuteCommand(CommandClass.OpenOrders, pair);
         }
-
-        #endregion Commands
 
         protected internal abstract bool IsError(string content);
 

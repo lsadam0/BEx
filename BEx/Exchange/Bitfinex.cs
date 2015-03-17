@@ -9,21 +9,24 @@ using System.Text;
 
 namespace BEx
 {
-    public class Bitfinex : Exchange
+    public sealed class Bitfinex : Exchange
     {
         public Bitfinex()
             : base(new BitFinexConfiguration(), new BitFinexCommandFactory())
         {
+            ExchangeSourceType = ExchangeType.BitFinex;
         }
 
         public Bitfinex(BitFinexConfiguration configuration)
             : base(configuration, new BitFinexCommandFactory())
         {
+            ExchangeSourceType = ExchangeType.BitFinex;
         }
 
         public Bitfinex(string apiKey, string secret)
             : base(new BitFinexConfiguration(apiKey, secret), new BitFinexCommandFactory())
         {
+            ExchangeSourceType = ExchangeType.BitFinex;
             VerifyCredentials(apiKey, secret);
         }
 
@@ -36,16 +39,16 @@ namespace BEx
             string loweredMessage = errorMessage.ToLower();
             if (loweredMessage.Contains("not enough balance"))
             {
-                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, this.ExchangeSourceType);
+                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitFinex);
             }
             else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
             {
-                error = new APIError(errorMessage, BExErrorCode.Authorization, this.ExchangeSourceType);
+                error = new APIError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitFinex);
             }
 
             if (error == null)
             {
-                error = new APIError(message, BExErrorCode.Unknown, this.ExchangeSourceType);
+                error = new APIError(message, BExErrorCode.Unknown, ExchangeType.BitFinex);
             }
 
             return error;

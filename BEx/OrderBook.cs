@@ -6,7 +6,7 @@ namespace BEx
     /// <summary>
     /// Open Order Book for the trading Pair
     /// </summary>
-    public class OrderBook : APIResult
+    public sealed class OrderBook : APIResult
     {
         internal OrderBook(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)

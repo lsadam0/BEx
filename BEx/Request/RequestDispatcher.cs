@@ -12,12 +12,9 @@ namespace BEx
         internal DetermineErrorConditionDelegate DetermineErrorCondition;
         internal IsErrorDelegate IsError;
 
-        private ExchangeType SourceExchangeType;
-
         internal RequestDispatcher(Exchange sourceExchange)
         {
             apiClient = new RestClient(sourceExchange.Configuration.Url);
-            SourceExchangeType = sourceExchange.ExchangeSourceType;
         }
 
         private RestClient apiClient

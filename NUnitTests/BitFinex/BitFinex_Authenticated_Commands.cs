@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitFinex.Authenticated")]
+    [Category("BitFinex.AuthenticatedCommands")]
     public class BitFinex_Authenticated_Commands : ExchangeVerificationBase
     {
         public BitFinex_Authenticated_Commands()
@@ -12,52 +12,64 @@ namespace NUnitTests
         {
         }
 
-        #region Account Balance Tests
-
         [Test]
-        public void BitFinex_GetAccountBalance()
+        public void GetAccountBalance_Success()
         {
             CommandVerification.VerifyAccountBalance();
         }
 
-        #endregion Account Balance Tests
-
-        #region Deposit Address
-
         [Test]
-        public void BitFinex_GetBTCDepositAddress()
+        public void GetDepositAddress_BTC_Success()
         {
             CommandVerification.VerifyDepositAddress(Currency.BTC);
         }
 
         [Test]
-        public void BitFinex_GetLTCDepositAddress()
+        public void GetDepositAddress_LTC_Success()
         {
             CommandVerification.VerifyDepositAddress(Currency.LTC);
         }
 
         [Test]
-        public void BitFinex_GetDRKDepositAddress()
+        public void GetDepositAddress_DRK_Success()
         {
             CommandVerification.VerifyDepositAddress(Currency.DRK);
         }
 
-        #endregion Deposit Address
-
         [Test]
-        public void BitFinex_GetUserTransactions()
+        public void GetUserTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions();
+            CommandVerification.VerifyUserTransactions(testCandidate.DefaultPair);
         }
 
-        #region Orders
+        [Test]
+        public void GetUserTransactions_DRKBTC_Success()
+        {
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.BTC });
+        }
 
         [Test]
-        public void BitFinex_GetOpenOrders()
+        public void GetUserTransactions_DRKUSD_Success()
+        {
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.USD });
+        }
+
+        [Test]
+        public void GetUserTransactions_LTCBTC_Success()
+        {
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.BTC });
+        }
+
+        [Test]
+        public void GetUserTransactions_LTCUSD_Success()
+        {
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.USD });
+        }
+
+        [Test]
+        public void GetOpenOrders_Success()
         {
             CommandVerification.VerifyOpenOrders();
         }
-
-        #endregion Orders
     }
 }

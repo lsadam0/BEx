@@ -3,30 +3,30 @@
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitStamp.Unauthenticated")]
-    public class BitStamp_Unauthenticated_Commands : ExchangeVerificationBase
+    [Category("BitStamp.UnauthenticatedCommands")]
+    public class BitStampUnauthenticatedCommands : ExchangeVerificationBase
     {
-        public BitStamp_Unauthenticated_Commands()
+        public BitStampUnauthenticatedCommands()
             : base(typeof(BEx.BitStamp))
         {
         }
 
         [Test]
-        public void BitStamp_GetTick()
+        public void GetTick_BTCUSD_Success()
         {
-            CommandVerification.VerifyTick();
+            CommandVerification.VerifyTick(testCandidate.DefaultPair);
         }
 
         [Test]
-        public void BitStamp_GetOrderBook()
+        public void GetOrderBook_BTCUSD_Success()
         {
-            CommandVerification.VerifyOrderBook();
+            CommandVerification.VerifyOrderBook(testCandidate.DefaultPair);
         }
 
         [Test]
-        public void BitStamp_GetTransactions()
+        public void GetTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions();
+            CommandVerification.VerifyTransactions(testCandidate.DefaultPair);
         }
     }
 }

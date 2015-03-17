@@ -10,23 +10,26 @@ using System.Text.RegularExpressions;
 
 namespace BEx
 {
-    public class BitStamp : Exchange
+    public sealed class BitStamp : Exchange
     {
         private Regex errorId;
 
         public BitStamp()
             : base(new BitStampConfiguration(), new BitStampCommandFactory())
         {
+            ExchangeSourceType = ExchangeType.BitStamp;
         }
 
         public BitStamp(BitStampConfiguration configuration)
             : base(configuration, new BitStampCommandFactory())
         {
+            ExchangeSourceType = ExchangeType.BitStamp;
         }
 
         public BitStamp(string apiKey, string secretKey, string clientId)
             : base(new BitStampConfiguration(apiKey, clientId, secretKey), new BitStampCommandFactory())
         {
+            ExchangeSourceType = ExchangeType.BitStamp;
             VerifyCredentials(apiKey, secretKey, clientId);
 
             errorId = new Regex("^{\"error\":");// \"API key not found\"}");
@@ -43,16 +46,16 @@ namespace BEx
                 string loweredMessage = errorMessage.ToLower();
                 if (loweredMessage.Contains("check your account balance for details"))
                 {
-                    error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, this.ExchangeSourceType);
+                    error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitStamp);
                 }
                 else if (loweredMessage.Contains("api key not found") || loweredMessage.Contains("invalid signature"))
                 {
-                    error = new APIError(errorMessage, BExErrorCode.Authorization, this.ExchangeSourceType);
+                    error = new APIError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitStamp);
                 }
 
                 if (error == null)
                 {
-                    error = new APIError(message, BExErrorCode.Unknown, this.ExchangeSourceType);
+                    error = new APIError(message, BExErrorCode.Unknown, ExchangeType.BitStamp);
                 }
 
                 return error;

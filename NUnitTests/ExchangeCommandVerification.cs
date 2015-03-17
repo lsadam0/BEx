@@ -89,40 +89,34 @@ namespace NUnitTests
             }
         }
 
-        public void VerifyOrderBook()
+        public void VerifyOrderBook(CurrencyTradingPair pair)
         {
-            // foreach (KeyValuePair<Currency, HashSet<Currency>> pairSet in testCandidate.SupportedTradingPairs)
-            foreach (CurrencyTradingPair pair in testCandidate.SupportedTradingPairs)
+            ThrottleTestVelocity();
+
+            Debug(string.Format("Verifying OrderBook for {0}", pair));
+
+            OrderBook toVerify = testCandidate.GetOrderBook(pair);
+
+            VerifyAPIResult(toVerify);
+
+            Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
+            Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
+            Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
+            Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
+
+            foreach (KeyValuePair<decimal, decimal> order in toVerify.BidsByPrice)
             {
-                {
-                    ThrottleTestVelocity();
-
-                    Debug(string.Format("Verifying OrderBook for {0}", pair));
-
-                    OrderBook toVerify = testCandidate.GetOrderBook(pair);
-
-                    VerifyAPIResult(toVerify);
-
-                    Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
-                    Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
-                    Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
-                    Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
-
-                    foreach (KeyValuePair<decimal, decimal> order in toVerify.BidsByPrice)
-                    {
-                        Assert.IsTrue(order.Key >= 0.0m);
-                        Assert.IsTrue(order.Value > 0.0m);
-                    }
-
-                    foreach (KeyValuePair<decimal, decimal> order in toVerify.AsksByPrice)
-                    {
-                        Assert.IsTrue(order.Key >= 0.0m);
-                        Assert.IsTrue(order.Value > 0.0m);
-                    }
-
-                    Debug(toVerify.ToString());
-                }
+                Assert.IsTrue(order.Key >= 0.0m);
+                Assert.IsTrue(order.Value > 0.0m);
             }
+
+            foreach (KeyValuePair<decimal, decimal> order in toVerify.AsksByPrice)
+            {
+                Assert.IsTrue(order.Key >= 0.0m);
+                Assert.IsTrue(order.Value > 0.0m);
+            }
+
+            Debug(toVerify.ToString());
         }
 
         public void VerifySellOrder()
@@ -137,77 +131,70 @@ namespace NUnitTests
             VerifyOrder(toVerify, testCandidate.DefaultPair, OrderType.Sell);
         }
 
-        public void VerifyTick()
+        public void VerifyTick(CurrencyTradingPair pair)
         {
             Stopwatch measure = new Stopwatch();
-            foreach (CurrencyTradingPair pair in testCandidate.SupportedTradingPairs)
-            {
-                {
-                    ThrottleTestVelocity();
 
-                    Debug(string.Format("Verifying Tick for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
+            ThrottleTestVelocity();
 
-                    measure.Reset();
-                    measure.Start();
-                    Tick toVerify = testCandidate.GetTick(pair);
-                    measure.Stop();
+            Debug(string.Format("Verifying Tick for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
 
-                    Debug(string.Format("Tick execution time {0}ms", measure.ElapsedMilliseconds.ToString()));
-                    VerifyAPIResult(toVerify);
+            measure.Reset();
+            measure.Start();
+            Tick toVerify = testCandidate.GetTick(pair);
+            measure.Stop();
 
-                    Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
-                    Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
-                    Assert.IsTrue(toVerify.Ask > 0.0m);
-                    Assert.IsTrue(toVerify.Bid > 0.0m);
-                    Assert.IsTrue(toVerify.Last > 0.0m);
-                    Assert.IsTrue(toVerify.High > 0.0m);
-                    Assert.IsTrue(toVerify.Low > 0.0m);
-                    Assert.IsTrue(toVerify.Volume > 0.0m);
+            Debug(string.Format("Tick execution time {0}ms", measure.ElapsedMilliseconds.ToString()));
+            VerifyAPIResult(toVerify);
 
-                    Debug(toVerify.ToString());
-                }
-            }
+            Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
+            Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
+            Assert.IsTrue(toVerify.Ask > 0.0m);
+            Assert.IsTrue(toVerify.Bid > 0.0m);
+            Assert.IsTrue(toVerify.Last > 0.0m);
+            Assert.IsTrue(toVerify.High > 0.0m);
+            Assert.IsTrue(toVerify.Low > 0.0m);
+            Assert.IsTrue(toVerify.Volume > 0.0m);
+
+            Debug(toVerify.ToString());
         }
 
-        public void VerifyTransactions()
+        public void VerifyTransactions(CurrencyTradingPair pair)
         {
-            foreach (CurrencyTradingPair pair in testCandidate.SupportedTradingPairs)
+            ThrottleTestVelocity();
+
+            Debug(string.Format("Verifying Transactions for {0}", pair.ToString()));
+
+            Transactions toVerify = testCandidate.GetTransactions(pair);
+
+            VerifyAPIResult(toVerify);
+
+            if (pair.BaseCurrency == Currency.BTC && pair.CounterCurrency == Currency.USD)
+                Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
+
+            if (toVerify.TransactionsCollection.Count > 0)
             {
-                ThrottleTestVelocity();
-
-                Debug(string.Format("Verifying Transactions for {0}", pair.ToString()));
-
-                Transactions toVerify = testCandidate.GetTransactions(pair);
-
-                VerifyAPIResult(toVerify);
-
-                if (pair.BaseCurrency == Currency.BTC && pair.CounterCurrency == Currency.USD)
-                    Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
-
-                if (toVerify.TransactionsCollection.Count > 0)
+                foreach (Transaction t in toVerify.TransactionsCollection)
                 {
-                    foreach (Transaction t in toVerify.TransactionsCollection)
-                    {
-                        VerifyAPIResult(t);
-                        Assert.IsTrue(t.Amount > 0.0m);
-                        Assert.IsTrue(t.Price > 0.0m);
-                        Assert.IsTrue(t.TransactionID > 0);
-                    }
-
-                    DateTime oldest = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
-                    DateTime newest = toVerify.TransactionsCollection.Max(x => x.CompletedTime);
-
-                    int totalMinutes = (newest - oldest).Minutes;
-                    Assert.IsTrue(totalMinutes < 61);
+                    VerifyAPIResult(t);
+                    Assert.IsTrue(t.Amount > 0.0m);
+                    Assert.IsTrue(t.Price > 0.0m);
+                    Assert.IsTrue(t.TransactionID > 0);
                 }
 
-                Debug(toVerify.ToString());
+                DateTime oldest = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
+                DateTime newest = toVerify.TransactionsCollection.Max(x => x.CompletedTime);
+
+                int totalMinutes = (newest - oldest).Minutes;
+                Assert.IsTrue(totalMinutes < 61);
             }
+
+            Debug(toVerify.ToString());
         }
 
-        public void VerifyUserTransactions()
+        public void VerifyUserTransactions(CurrencyTradingPair pair)
         {
-            UserTransactions toVerify = testCandidate.GetUserTransactions();
+            UserTransactions toVerify = testCandidate.GetUserTransactions(pair);
 
             VerifyAPIResult(toVerify);
 

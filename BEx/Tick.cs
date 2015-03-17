@@ -5,7 +5,7 @@ namespace BEx
     /// <summary>
     /// Exchange Tick
     /// </summary>
-    public class Tick : APIResult
+    public sealed class Tick : APIResult
     {
         internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
