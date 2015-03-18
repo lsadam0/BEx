@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExchangeSupport\IExchangeResponse.cs" />
     <Compile Include="Response\Balance.cs" />
     <Compile Include="Response\AccountBalance.cs" />
     <Compile Include="Response\APIResult.cs" />

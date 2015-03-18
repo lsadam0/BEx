@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitStamp")]
+    [Category("BitStamp.AuthenticatedCommands")]
     public class BitStamp_Authenticated_Commands : ExchangeVerificationBase
     {
         public BitStamp_Authenticated_Commands()

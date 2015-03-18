@@ -4,15 +4,8 @@ using System.Collections.Generic;
 
 namespace BEx.CommandProcessing
 {
-    public delegate void GetSignatureDelegate(RestRequest request,
-                                                ExchangeCommand command,
-                                                CurrencyTradingPair pair,
-                                                Dictionary<string, string> parameters = null);
-
     internal class RequestFactory
     {
-        public GetSignatureDelegate GetSignature;
-
         internal RequestFactory()
         {
         }
@@ -32,21 +25,7 @@ namespace BEx.CommandProcessing
             else
                 finalParameters = new Dictionary<string, string>();
 
-            /*
-            if (command.IsAuthenticated)
-            {
-                AuthenticateRequest(result, command, pair, finalParameters);
-            }*/
-
             return result;
-        }
-
-        private void AuthenticateRequest(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<string, string> parameters = null)
-        {
-            if (GetSignature != null)
-            {
-                GetSignature(request, command, pair, parameters);
-            }
         }
 
         private RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)

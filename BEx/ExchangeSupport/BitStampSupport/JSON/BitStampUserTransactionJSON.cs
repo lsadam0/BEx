@@ -3,7 +3,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitStampUserTransactionJSON : ExchangeResponse<UserTransaction>
+    internal class BitStampUserTransactionJSON : IExchangeResponse//ExchangeResponse<UserTransaction>
     {
         [JsonProperty("usd")]
         public string Usd { get; set; }
@@ -29,7 +29,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public override UserTransaction ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             if (OrderId != null && Type == 2)
             {
@@ -48,5 +48,26 @@ namespace BEx.ExchangeSupport.BitStampSupport
             else
                 return null;
         }
+
+        /*
+        public override UserTransaction ConvertToStandard(CurrencyTradingPair pair)
+        {
+            if (OrderId != null && Type == 2)
+            {
+                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
+
+                res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
+                res.CounterCurrencyAmount = Convert.ToDecimal(Usd);
+                res.TransactionId = Id;
+
+                res.TradeFee = Convert.ToDecimal(Fee);
+                res.OrderId = (int)OrderId;
+                res.TradeFeeCurrency = Currency.Unknown;
+
+                return res;
+            }
+            else
+                return null;
+        }*/
     }
 }

@@ -4,7 +4,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
-    internal class BitFinexOrderResponseJSON : ExchangeResponse<Order>
+    internal class BitFinexOrderResponseJSON : IExchangeResponse
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -51,7 +51,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-        public override Order ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 

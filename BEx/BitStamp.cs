@@ -14,19 +14,11 @@ namespace BEx
         public BitStamp()
             : base(new BitStampConfiguration(), new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
-            Authenticator = new BitStampAuthenticator(Configuration);
-        }
-
-        public BitStamp(BitStampConfiguration configuration)
-            : base(configuration, new BitStampCommandFactory(), ExchangeType.BitStamp)
-        {
-            Authenticator = new BitStampAuthenticator(Configuration);
         }
 
         public BitStamp(string apiKey, string secretKey, string clientId)
             : base(new BitStampConfiguration(apiKey, clientId, secretKey), new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
-            VerifyCredentials(apiKey, secretKey, clientId);
             Authenticator = new BitStampAuthenticator(Configuration);
 
             errorId = new Regex("^{\"error\":");// \"API key not found\"}");
@@ -114,18 +106,6 @@ namespace BEx
             }
 
             return res;
-        }
-
-        private void VerifyCredentials(string apiKey, string secretKey, string clientId)
-        {
-            if (string.IsNullOrEmpty(apiKey))
-                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
-
-            if (string.IsNullOrEmpty(secretKey))
-                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
-
-            if (string.IsNullOrEmpty(clientId))
-                throw new ExchangeAuthorizationException("Invalid ClientId specified.");
         }
     }
 }

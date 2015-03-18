@@ -3,7 +3,7 @@
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("BitStamp")]
+    [Category("BitStamp.UnauthenticatedCommands")]
     public class BitStampUnauthenticatedCommands : ExchangeVerificationBase
     {
         public BitStampUnauthenticatedCommands()

@@ -4,7 +4,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitstampOrderBookJSON : ExchangeResponse<OrderBook>
+    internal class BitstampOrderBookJSON : IExchangeResponse
     {
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
@@ -15,7 +15,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
 
-        public override OrderBook ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             OrderBook res = new OrderBook(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitStamp);
 

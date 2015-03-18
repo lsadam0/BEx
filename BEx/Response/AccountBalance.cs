@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BEx.ExchangeSupport;
+using System;
 using System.Collections.Generic;
 
 namespace BEx
@@ -12,10 +13,20 @@ namespace BEx
             : base(DateTime.Now, sourceExchange)
         {
             BalanceByCurrency = new Dictionary<Currency, Balance>();
+            balances.ForEach(x => BalanceByCurrency.Add(x.BalanceCurrency, x));
+        }
 
-            foreach (Balance balance in balances)
+        internal AccountBalance(IEnumerable<IExchangeResponse> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
+            : base(DateTime.Now, sourceExchange)
+        {
+            BalanceByCurrency = new Dictionary<Currency, Balance>();
+
+            foreach (IExchangeResponse balance in balances)
             {
-                BalanceByCurrency.Add(balance.BalanceCurrency, balance);
+                Balance converted = balance.ConvertToStandard(pair) as Balance;
+
+                if (converted != null)
+                    BalanceByCurrency.Add(converted.BalanceCurrency, converted);
             }
         }
 

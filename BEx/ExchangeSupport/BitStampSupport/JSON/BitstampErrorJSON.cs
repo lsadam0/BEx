@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using BEx.ExchangeSupport;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitStampErrorJSON
+    internal class BitStampErrorJSON : IExchangeResponse
     {
         [JsonProperty("error")]
         public string Error { get; set; }
 
-        public APIError ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             APIError error = new APIError(ExchangeType.BitStamp);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitStampAccountBalanceJSON : ExchangeResponse<AccountBalance>
+    internal class BitStampAccountBalanceJSON : IExchangeResponse
     {
         [JsonProperty("btc_reserved")]
         public string BtcReserved { get; set; }
@@ -27,7 +27,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("usd_available")]
         public string UsdAvailable { get; set; }
 
-        public override AccountBalance ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             AccountBalance res;
 
@@ -43,7 +43,11 @@ namespace BEx.ExchangeSupport.BitStampSupport
             usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance);
             usdBalance.BalanceCurrency = Currency.USD;
 
-            res = new AccountBalance(new List<Balance>() { btcBalance, usdBalance }, pair, ExchangeType.BitStamp);
+            List<Balance> balances = new List<Balance>();
+            balances.Add(btcBalance);
+            balances.Add(usdBalance);
+
+            res = new AccountBalance(balances, pair, ExchangeType.BitStamp);
 
             return res;
         }

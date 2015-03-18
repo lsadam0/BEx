@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BEx.ExchangeSupport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,11 +10,19 @@ namespace BEx
     /// </summary>
     public sealed class UserTransactions : APIResult
     {
-        internal UserTransactions(List<UserTransaction> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
+        internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
-            TransactionsCollection = transactions;
+            TransactionsCollection = new List<UserTransaction>();
             this.Pair = pair;
+
+            foreach (IExchangeResponse transaction in transactions)
+            {
+                UserTransaction converted = transaction.ConvertToStandard(pair) as UserTransaction;
+
+                if (converted != null)
+                    TransactionsCollection.Add(converted);
+            }
         }
 
         /// <summary>

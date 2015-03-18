@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NUnitTests
 {
     [TestFixture]
-    [Category("Bitfinex")]
+    [Category("Bitfinex.AuthenticatedCommands")]
     public class BitFinex_Authenticated_Commands : ExchangeVerificationBase
     {
         public BitFinex_Authenticated_Commands()

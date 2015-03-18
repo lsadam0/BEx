@@ -11,19 +11,11 @@ namespace BEx
         public Bitfinex()
             : base(new BitfinexConfiguration(), new BitfinexCommandFactory(), ExchangeType.BitFinex)
         {
-            Authenticator = new BitfinexAuthenticator(base.Configuration);
-        }
-
-        public Bitfinex(BitfinexConfiguration configuration)
-            : base(configuration, new BitfinexCommandFactory(), ExchangeType.BitFinex)
-        {
-            Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
 
         public Bitfinex(string apiKey, string secret)
             : base(new BitfinexConfiguration(apiKey, secret), new BitfinexCommandFactory(), ExchangeType.BitFinex)
         {
-            VerifyCredentials(apiKey, secret);
             Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
 
@@ -105,15 +97,6 @@ namespace BEx
             //}
 
             return res;
-        }
-
-        private void VerifyCredentials(string apiKey, string secretKey)
-        {
-            if (string.IsNullOrEmpty(apiKey))
-                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
-
-            if (string.IsNullOrEmpty(secretKey))
-                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
         }
     }
 }

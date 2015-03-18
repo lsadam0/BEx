@@ -3,7 +3,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitstampTickJSON : ExchangeResponse<Tick>
+    internal class BitstampTickJSON : IExchangeResponse
     {
         public string high { get; set; }
 
@@ -21,7 +21,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public string ask { get; set; }
 
-        public override Tick ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), ExchangeType.BitStamp);
 

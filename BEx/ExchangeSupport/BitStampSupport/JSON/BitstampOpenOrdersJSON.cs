@@ -3,7 +3,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitStampOpenOrdersJSON : ExchangeResponse<Order>
+    internal class BitStampOpenOrdersJSON : IExchangeResponse
     {
         [JsonProperty("price")]
         public string Price { get; set; }
@@ -20,7 +20,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public override Order ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Order res = new Order(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
 

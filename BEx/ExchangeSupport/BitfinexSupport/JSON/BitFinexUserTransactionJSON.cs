@@ -4,7 +4,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
-    internal class BitFinexUserTransactionJSON : ExchangeResponse<UserTransaction>
+    internal class BitFinexUserTransactionJSON : IExchangeResponse
     {
         [JsonProperty("price")]
         public string Price { get; set; }
@@ -30,7 +30,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("tid")]
         public int Tid { get; set; }
 
-        public override UserTransaction ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp)), ExchangeType.BitFinex);
 

@@ -4,7 +4,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
-    internal class BitfinexTickJSON : ExchangeResponse<Tick>
+    internal class BitfinexTickJSON : IExchangeResponse
     {
         [JsonProperty("mid")]
         public string Mid { get; set; }
@@ -30,7 +30,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-        public override Tick ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 

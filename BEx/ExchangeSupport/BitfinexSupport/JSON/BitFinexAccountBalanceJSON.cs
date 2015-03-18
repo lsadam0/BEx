@@ -3,7 +3,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
-    internal class BitFinexAccountBalanceJSON : ExchangeResponse<Balance>
+    internal class BitFinexAccountBalanceJSON : IExchangeResponse
     {
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -17,7 +17,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public override Balance ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Balance res = null;
 

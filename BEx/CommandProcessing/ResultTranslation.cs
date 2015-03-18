@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BEx.ExchangeSupport;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -9,9 +10,9 @@ namespace BEx.CommandProcessing
     {
         private ExchangeType SourceExchange;
 
-        internal ResultTranslation(ExchangeType sourceExchange)
+        internal ResultTranslation(Exchange source)
         {
-            SourceExchange = sourceExchange;
+            SourceExchange = source.ExchangeSourceType;
         }
 
         internal APIResult Translate(string source, ExchangeCommand executedCommand, CurrencyTradingPair pair)
@@ -26,34 +27,22 @@ namespace BEx.CommandProcessing
         {
             APIResult res = default(APIResult);
 
-            dynamic deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);//JsonConvert.DeserializeObject<J>(content);
-
-            MethodInfo conversionMethod = deserialized.GetType().GetMethod("ConvertToStandard");
-
-            if (conversionMethod == null)
+            if (commandReference.ReturnsCollection)
             {
-                // Json Type
-                Type baseT = ListOfWhat(deserialized);
-
-                // Get Method from ExchangeResponse
-                conversionMethod = baseT.BaseType.GetMethod("ConvertListToStandard");
-
-                MethodInfo singleConversionMethod = baseT.GetMethod("ConvertToStandard");
-
-                Type entryType = singleConversionMethod.ReturnType;
-
-                MethodInfo generic = conversionMethod.MakeGenericMethod(baseT, entryType);
-
-                dynamic collection = generic.Invoke(this, new object[] { deserialized, pair });
+                IEnumerable<IExchangeResponse> responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IEnumerable<IExchangeResponse>;
 
                 res = (APIResult)Activator.CreateInstance(commandReference.ReturnType,
-                                                            BindingFlags.NonPublic | BindingFlags.Instance,
-                                                            null,
-                                                            new object[] { collection, pair, SourceExchange },
-                                                            null); // Culture?
+                                              BindingFlags.NonPublic | BindingFlags.Instance,
+                                              null,
+                                              new object[] { responseCollection, pair, SourceExchange },
+                                              null);
             }
             else
-                res = (APIResult)conversionMethod.Invoke(deserialized, new object[] { pair });
+            {
+                IExchangeResponse deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse;
+
+                res = deserialized.ConvertToStandard(pair);
+            }
 
             return res;
         }
@@ -61,7 +50,7 @@ namespace BEx.CommandProcessing
         private APIResult GetValueType(string content, ExchangeCommand command, CurrencyTradingPair pair)
         {
             APIResult res = null;
-            object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);//JsonConvert.DeserializeObject<J>(content);
+            object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);
 
             if (deserialized.GetType() != command.ReturnType)
             {
@@ -69,20 +58,10 @@ namespace BEx.CommandProcessing
                                               BindingFlags.NonPublic | BindingFlags.Instance,
                                               null,
                                               new object[] { deserialized, SourceExchange, pair },
-                                              null); // Culture?
+                                              null);
             }
 
             return res;
-        }
-
-        private Type ListOfWhat(Object list)
-        {
-            return ListOfWhat2((dynamic)list);
-        }
-
-        private Type ListOfWhat2<T>(IList<T> list)
-        {
-            return typeof(T);
         }
     }
 }

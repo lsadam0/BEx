@@ -9,6 +9,8 @@ namespace BEx.ExchangeSupport
 
         Dictionary<CommandClass, ExchangeCommand> GetCommandCollection();
 
+        IList<ExchangeCommand> GetCommands();
+
         ExchangeCommand BuildAccountBalanceCommand();
 
         ExchangeCommand BuildBuyOrderCommand();

@@ -4,7 +4,7 @@ using System;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitstampTransactionJSON : ExchangeResponse<Transaction>
+    internal class BitstampTransactionJSON : IExchangeResponse//ExchangeResponse<Transaction>
     {
         [JsonProperty("date")]
         public string date { get; set; }
@@ -18,7 +18,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("amount")]
         public string amount { get; set; }
 
-        public override Transaction ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             DateTime time = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date));
             Transaction res = new Transaction(DateTime.Now, ExchangeType.BitStamp);

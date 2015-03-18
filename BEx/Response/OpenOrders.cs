@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BEx.ExchangeSupport;
+using System;
 using System.Collections.Generic;
 
 namespace BEx
@@ -8,12 +9,17 @@ namespace BEx
     /// </summary>
     public sealed class OpenOrders : APIResult
     {
-        internal OpenOrders(List<Order> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
+        internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
             Orders = new Dictionary<int, Order>();
 
-            orders.ForEach(x => Orders.Add(x.ID, x));
+            foreach (IExchangeResponse order in orders)
+            {
+                Order converted = order.ConvertToStandard(pair) as Order;
+                Orders.Add(converted.ID, converted);
+            }
+            //orders.ForEach(x => Orders.Add(x.ID, x));
         }
 
         /// <summary>

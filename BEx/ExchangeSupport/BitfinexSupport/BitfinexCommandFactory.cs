@@ -1,6 +1,7 @@
 ﻿using BEx.CommandProcessing;
 using RestSharp;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
@@ -213,6 +214,11 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
 
             return res;
+        }
+
+        public IList<ExchangeCommand> GetCommands()
+        {
+            return collection.Values.ToList();
         }
     }
 }

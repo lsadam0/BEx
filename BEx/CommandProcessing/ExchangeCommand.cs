@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace BEx.CommandProcessing
@@ -18,6 +19,11 @@ namespace BEx.CommandProcessing
             DependentParameters = new Dictionary<StandardParameterType, ExchangeParameter>();
             ReturnsValueType = false;
 
+            if (intermediateType.IsGenericType)
+                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
+            else
+                ReturnsCollection = false;
+
             HttpMethod = httpMethod;
             Identifier = identifier;
             IsAuthenticated = isAuthenticated;
@@ -35,10 +41,15 @@ namespace BEx.CommandProcessing
                     else
                         DependentParameters.Add(param.StandardParameterIdentifier, param);
                 }
-                //parameters.ForEach(x => DefaultParameters.Add(x.ExchangeParameterName, x));
             }
 
             SetReturnType();
+        }
+
+        public bool ReturnsCollection
+        {
+            get;
+            private set;
         }
 
         public bool HasDependentParameters

@@ -1,12 +1,13 @@
 ﻿using BEx.CommandProcessing;
 using RestSharp;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
     internal class BitStampCommandFactory : IExchangeCommandFactory
     {
-        private Dictionary<CommandClass, ExchangeCommand> collection;
+        internal Dictionary<CommandClass, ExchangeCommand> collection;
 
         public BitStampCommandFactory()
         {
@@ -172,6 +173,11 @@ namespace BEx.ExchangeSupport.BitStampSupport
             res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
 
             return res;
+        }
+
+        public IList<ExchangeCommand> GetCommands()
+        {
+            return collection.Values.ToList();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         public string Timestamp { get; set; }
     }
 
-    internal class BitFinexOrderBookJSON : ExchangeResponse<OrderBook>
+    internal class BitFinexOrderBookJSON : IExchangeResponse
     {
         [JsonProperty("bids")]
         public Bid[] Bids { get; set; }
@@ -35,7 +35,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public override OrderBook ConvertToStandard(CurrencyTradingPair pair)
+        public APIResult ConvertToStandard(CurrencyTradingPair pair)
         {
             OrderBook res = new OrderBook(DateTime.Now, ExchangeType.BitFinex);
 

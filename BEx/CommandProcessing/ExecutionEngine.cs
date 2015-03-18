@@ -24,7 +24,7 @@ namespace BEx.CommandProcessing
 
             dispatcher = new RequestDispatcher(sourceExchange);
 
-            translator = new ResultTranslation(sourceExchange.ExchangeSourceType);
+            translator = new ResultTranslation(sourceExchange);
 
             errorHandler = new ErrorHandler(sourceExchange.ExchangeSourceType);
 
@@ -58,9 +58,6 @@ namespace BEx.CommandProcessing
                 res = translator.Translate(result.Content,
                                                 toExecute,
                                                 pair);
-
-                //
-                //  errorHandler.HandleErrorResponse(result, request);
             }
 
             return res;

@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace BEx.CommandProcessing
 {
+    internal delegate APIError DetermineErrorConditionDelegate(string content);
+
+    internal delegate bool IsErrorDelegate(string content);
+
     internal class ErrorHandler
     {
         private ExchangeType SourceExchangeType;
