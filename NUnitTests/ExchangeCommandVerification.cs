@@ -16,8 +16,6 @@ namespace NUnitTests
 
         public void VerifyAccountBalance()
         {
-            ThrottleTestVelocity();
-
             AccountBalance toVerify = testCandidate.GetAccountBalance();
 
             VerifyAPIResult(toVerify);
@@ -52,8 +50,6 @@ namespace NUnitTests
 
         public void VerifyBuyOrder()
         {
-            ThrottleTestVelocity();
-
             Debug("Begin Buy Order Test");
             Order toVerify = testCandidate.CreateBuyOrder(1m, 5m);
 
@@ -91,8 +87,6 @@ namespace NUnitTests
 
         public void VerifyOrderBook(CurrencyTradingPair pair)
         {
-            ThrottleTestVelocity();
-
             Debug(string.Format("Verifying OrderBook for {0}", pair));
 
             OrderBook toVerify = testCandidate.GetOrderBook(pair);
@@ -121,8 +115,6 @@ namespace NUnitTests
 
         public void VerifySellOrder()
         {
-            ThrottleTestVelocity();
-
             Debug("Begin Sell Order");
             Order toVerify = testCandidate.CreateSellOrder(0.02m, 10000m);
 
@@ -134,8 +126,6 @@ namespace NUnitTests
         public void VerifyTick(CurrencyTradingPair pair)
         {
             Stopwatch measure = new Stopwatch();
-
-            ThrottleTestVelocity();
 
             Debug(string.Format("Verifying Tick for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
 
@@ -161,8 +151,6 @@ namespace NUnitTests
 
         public void VerifyTransactions(CurrencyTradingPair pair)
         {
-            ThrottleTestVelocity();
-
             Debug(string.Format("Verifying Transactions for {0}", pair.ToString()));
 
             Transactions toVerify = testCandidate.GetTransactions(pair);

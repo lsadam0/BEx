@@ -117,19 +117,5 @@ namespace NUnitTests
         {
             System.Diagnostics.Debug.WriteLine("{0}: {1}", testCandidateType.ToString(), message);
         }
-
-        /// <summary>
-        /// Exchanges ban API access for those that make excessive requests,
-        /// in order to avoid the banhammer let's slow down the pace of testing
-        /// so that at most we make one request every 2 seconds.
-        /// </summary>
-        protected void ThrottleTestVelocity()
-        {
-            /*
-            lock (testVelocityLock)
-            {
-                new System.Threading.ManualResetEvent(false).WaitOne(2000);
-            }*/
-        }
     }
 }
