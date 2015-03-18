@@ -35,7 +35,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             OrderBook res = new OrderBook(DateTime.Now, ExchangeType.BitFinex);
 

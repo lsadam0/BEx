@@ -10,20 +10,9 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         public static HMACSHA384 Hasher;
         private IExchangeConfiguration Configuration;
 
-        private void Validate()
-        {
-            if (string.IsNullOrEmpty(Configuration.ApiKey))
-                throw new ExchangeAuthorizationException("Invalid APIKey specified.");
-
-            if (string.IsNullOrEmpty(Configuration.SecretKey))
-                throw new ExchangeAuthorizationException("Invalid SecretKey specified.");
-        }
-
         public BitfinexAuthenticator(IExchangeConfiguration configuration)
         {
             Configuration = configuration;
-
-            Validate();
 
             Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(Configuration.SecretKey));
         }

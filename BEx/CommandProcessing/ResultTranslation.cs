@@ -15,7 +15,7 @@ namespace BEx.CommandProcessing
             SourceExchange = source.ExchangeSourceType;
         }
 
-        internal APIResult Translate(string source, ExchangeCommand executedCommand, CurrencyTradingPair pair)
+        internal ApiResult Translate(string source, ExchangeCommand executedCommand, CurrencyTradingPair pair)
         {
             if (executedCommand.ReturnsValueType)
                 return GetValueType(source, executedCommand, pair);
@@ -23,15 +23,15 @@ namespace BEx.CommandProcessing
                 return DeserializeObject(source, executedCommand, pair);
         }
 
-        private APIResult DeserializeObject(string content, ExchangeCommand commandReference, CurrencyTradingPair pair)
+        private ApiResult DeserializeObject(string content, ExchangeCommand commandReference, CurrencyTradingPair pair)
         {
-            APIResult res = default(APIResult);
+            ApiResult res = default(ApiResult);
 
             if (commandReference.ReturnsCollection)
             {
                 IEnumerable<IExchangeResponse> responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IEnumerable<IExchangeResponse>;
 
-                res = (APIResult)Activator.CreateInstance(commandReference.ReturnType,
+                res = (ApiResult)Activator.CreateInstance(commandReference.ReturnType,
                                               BindingFlags.NonPublic | BindingFlags.Instance,
                                               null,
                                               new object[] { responseCollection, pair, SourceExchange },
@@ -47,14 +47,14 @@ namespace BEx.CommandProcessing
             return res;
         }
 
-        private APIResult GetValueType(string content, ExchangeCommand command, CurrencyTradingPair pair)
+        private ApiResult GetValueType(string content, ExchangeCommand command, CurrencyTradingPair pair)
         {
-            APIResult res = null;
+            ApiResult res = null;
             object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);
 
             if (deserialized.GetType() != command.ReturnType)
             {
-                res = (APIResult)Activator.CreateInstance(command.ReturnType,
+                res = (ApiResult)Activator.CreateInstance(command.ReturnType,
                                               BindingFlags.NonPublic | BindingFlags.Instance,
                                               null,
                                               new object[] { deserialized, SourceExchange, pair },

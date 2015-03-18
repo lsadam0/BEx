@@ -2,7 +2,7 @@
 
 namespace BEx
 {
-    public sealed class Confirmation : APIResult
+    public sealed class Confirmation : ApiResult
     {
         public Confirmation(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)

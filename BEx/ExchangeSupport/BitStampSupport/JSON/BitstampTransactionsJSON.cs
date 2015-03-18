@@ -18,14 +18,14 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("amount")]
         public string amount { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             DateTime time = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date));
             Transaction res = new Transaction(DateTime.Now, ExchangeType.BitStamp);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
-            res.TransactionID = Convert.ToInt64(tid);
+            res.TransactionId = Convert.ToInt64(tid);
             res.Pair = pair;
             res.CompletedTime = time;
 

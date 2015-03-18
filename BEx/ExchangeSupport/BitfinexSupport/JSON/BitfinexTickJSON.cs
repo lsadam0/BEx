@@ -30,7 +30,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 

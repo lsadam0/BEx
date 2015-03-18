@@ -64,14 +64,14 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         private void Initialize(string url = null)
         {
-            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
+            DefaultPair = new CurrencyTradingPair(Currency.Btc, Currency.Usd);
 
             SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
 
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.LTC, Currency.USD));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
 
             SupportedCurrencies = new HashSet<Currency>();
 

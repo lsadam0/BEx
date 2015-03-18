@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace BEx.CommandProcessing
 {
-    internal delegate APIError DetermineErrorConditionDelegate(string content);
+    internal delegate ApiError DetermineErrorConditionDelegate(string content);
 
     internal delegate bool IsErrorDelegate(string content);
 
@@ -28,9 +28,9 @@ namespace BEx.CommandProcessing
             SourceExchangeType = sourceExchange;
         }
 
-        public APIError HandleErrorResponse(IRestResponse response, RestRequest request, Exception ex = null)
+        public ApiError HandleErrorResponse(IRestResponse response, RestRequest request, Exception ex = null)
         {
-            APIError error = null;
+            ApiError error = null;
             if (DetermineErrorCondition != null)
             {
                 error = DetermineErrorCondition(response.Content);
@@ -38,7 +38,7 @@ namespace BEx.CommandProcessing
 
             if (error == null)
             {
-                error = new APIError(SourceExchangeType);
+                error = new ApiError(SourceExchangeType);
                 error.Message = response.Content;
             }
 
@@ -52,7 +52,7 @@ namespace BEx.CommandProcessing
             return error;
         }
 
-        public void ThrowException<E>(APIError source) where E : Exception
+        public void ThrowException<E>(ApiError source) where E : Exception
         {
             E exception = (E)Activator.CreateInstance(typeof(E),
                                                     BindingFlags.Public | BindingFlags.Instance,

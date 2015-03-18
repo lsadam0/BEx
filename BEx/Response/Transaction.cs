@@ -5,7 +5,7 @@ namespace BEx
     /// <summary>
     /// Individual Transaction
     /// </summary>
-    public sealed class Transaction : APIResult
+    public sealed class Transaction : ApiResult
     {
         internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
@@ -51,7 +51,7 @@ namespace BEx
         /// <summary>
         /// Exchange assigned identifier
         /// </summary>
-        public long TransactionID
+        public long TransactionId
         {
             get;
             internal set;

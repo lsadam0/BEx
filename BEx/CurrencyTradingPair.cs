@@ -32,10 +32,5 @@ namespace BEx
         {
             return !(x == y);
         }
-
-        public override string ToString()
-        {
-            return string.Format("{0}{1}", BaseCurrency.ToString(), CounterCurrency.ToString());
-        }
     }
 }

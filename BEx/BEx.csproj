@@ -25,6 +25,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,6 +65,7 @@
   <ItemGroup>
     <Compile Include="CommandProcessing\RateLimiter.cs" />
     <Compile Include="ExchangeSupport\IExchangeResponse.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Response\Balance.cs" />
     <Compile Include="Response\AccountBalance.cs" />
     <Compile Include="Response\APIResult.cs" />

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace BEx
@@ -19,25 +20,25 @@ namespace BEx
             Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
 
-        protected internal override APIError DetermineErrorCondition(string message)
+        protected internal override ApiError DetermineErrorCondition(string message)
         {
-            APIError error = null;
+            ApiError error = null;
 
             string errorMessage = ExtractMessage(message);
 
-            string loweredMessage = errorMessage.ToLower();
+            string loweredMessage = errorMessage.ToLower(CultureInfo.CurrentCulture);
             if (loweredMessage.Contains("not enough balance"))
             {
-                error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitFinex);
+                error = new ApiError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitFinex);
             }
             else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
             {
-                error = new APIError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitFinex);
+                error = new ApiError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitFinex);
             }
 
             if (error == null)
             {
-                error = new APIError(message, BExErrorCode.Unknown, ExchangeType.BitFinex);
+                error = new ApiError(message, BExErrorCode.Unknown, ExchangeType.BitFinex);
             }
 
             return error;
@@ -53,32 +54,25 @@ namespace BEx
 
                 // for other errors
 
-                try
+                if (error["message"] is JValue)
                 {
-                    if (error["message"] is JValue)
-                    {
-                        JValue v = (JValue)error["message"];
+                    JValue v = (JValue)error["message"];
 
-                        res.Append(v.Value.ToString());
-                    }
-                    else
-                    {
-                        IDictionary<string, JToken> errors = (JObject)error["message"];
-
-                        foreach (KeyValuePair<string, JToken> er in errors)
-                        {
-                            foreach (JToken token in er.Value.Values())
-                            {
-                                res.Append(((JValue)token).Value.ToString());
-                            }
-
-                            //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
-                        }
-                    }
+                    res.Append(v.Value.ToString());
                 }
-                catch (Exception)
+                else
                 {
-                    res.Append(error.ToString());
+                    IDictionary<string, JToken> errors = (JObject)error["message"];
+
+                    foreach (KeyValuePair<string, JToken> er in errors)
+                    {
+                        foreach (JToken token in er.Value.Values())
+                        {
+                            res.Append(((JValue)token).Value.ToString());
+                        }
+
+                        //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
+                    }
                 }
 
                 return res.ToString();//Regex.Replace(res.ToString(), @"\t|\n|\r", "");

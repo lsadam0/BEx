@@ -24,13 +24,13 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("type")]
         public string type { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Transaction res = new Transaction(DateTime.Now, ExchangeType.BitFinex);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);
-            res.TransactionID = Convert.ToInt64(tid);
+            res.TransactionId = Convert.ToInt64(tid);
             res.CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
             res.Pair = pair;
 

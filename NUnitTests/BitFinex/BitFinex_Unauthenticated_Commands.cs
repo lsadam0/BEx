@@ -15,31 +15,31 @@ namespace NUnitTests
         [Test]
         public void GetTick_BTCUSD_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.BTC, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.Btc, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetTick_LTCUSD_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetTick_LTCBTC_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetTick_DRKUSD_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetTick_DRKBTC_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyTick(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Btc });
         }
 
         [Test]
@@ -51,55 +51,55 @@ namespace NUnitTests
         [Test]
         public void GetOrderBook_LTCUSD_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetOrderBook_DRKUSD_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetOrderBook_DRKBTC_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetOrderBook_LTCBTC_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.BTC, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Btc, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetTransactions_DRKBTC_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetTransactions_DRKUSD_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Usd });
         }
     }
 }

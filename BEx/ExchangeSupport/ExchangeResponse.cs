@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace BEx
 {
-    public abstract class ExchangeResponse<T> where T : APIResult
+    public abstract class ExchangeResponse<T> where T : ApiResult
     {
         public abstract T ConvertToStandard(CurrencyTradingPair pair);
 

@@ -51,13 +51,13 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
 
             res.Amount = Convert.ToDecimal(OriginalAmount);
             res.Pair = pair;
-            res.ID = Id;
+            res.Id = Id;
             res.Price = Convert.ToDecimal(Price);
 
             return res;

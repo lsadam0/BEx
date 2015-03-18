@@ -14,7 +14,7 @@ namespace BEx.CommandProcessing
             _throttler = new RateLimiter(SourceExchange.ExchangeSourceType);
         }
 
-        internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference, CurrencyTradingPair pair)
+        internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference)
         {
             var client = new RestClient(SourceExchange.Configuration.Url);
 

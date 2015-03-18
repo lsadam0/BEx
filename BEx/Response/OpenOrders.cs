@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// All open Orders for your Exchange Account
     /// </summary>
-    public sealed class OpenOrders : APIResult
+    public sealed class OpenOrders : ApiResult
     {
         internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
@@ -17,7 +17,7 @@ namespace BEx
             foreach (IExchangeResponse order in orders)
             {
                 Order converted = order.ConvertToStandard(pair) as Order;
-                Orders.Add(converted.ID, converted);
+                Orders.Add(converted.Id, converted);
             }
             //orders.ForEach(x => Orders.Add(x.ID, x));
         }

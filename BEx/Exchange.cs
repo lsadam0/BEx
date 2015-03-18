@@ -8,12 +8,6 @@ namespace BEx
 {
     public abstract class Exchange
     {
-        protected internal IAuthenticator Authenticator;
-
-        protected internal IExchangeCommandFactory Commands;
-        protected internal IExchangeConfiguration Configuration;
-        private ExecutionEngine CommandExecutionEngine;
-
         public Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
         {
             ExchangeSourceType = sourceType;
@@ -53,9 +47,33 @@ namespace BEx
             }
         }
 
+        protected internal IAuthenticator Authenticator
+        {
+            get;
+            set;
+        }
+
+        protected internal IExchangeCommandFactory Commands
+        {
+            get;
+            private set;
+        }
+
+        protected internal IExchangeConfiguration Configuration
+        {
+            get;
+            private set;
+        }
+
+        private ExecutionEngine CommandExecutionEngine
+        {
+            get;
+            set;
+        }
+
         public Confirmation CancelOrder(Order toCancel)
         {
-            return CancelOrder(toCancel.ID);
+            return CancelOrder(toCancel.Id);
         }
 
         public Confirmation CancelOrder(int id)
@@ -111,7 +129,7 @@ namespace BEx
         /// <returns>DepositAddress</returns>
         public DepositAddress GetDepositAddress()
         {
-            return GetDepositAddress(Currency.BTC);
+            return GetDepositAddress(Currency.Btc);
         }
 
         /// <summary>
@@ -217,7 +235,7 @@ namespace BEx
             return Configuration.SupportedPairs.Contains(pair);
         }
 
-        protected internal abstract APIError DetermineErrorCondition(string message);
+        protected internal abstract ApiError DetermineErrorCondition(string message);
 
         protected internal abstract bool IsError(string content);
 
@@ -226,7 +244,7 @@ namespace BEx
             return (OpenOrders)ExecuteCommand(CommandClass.OpenOrders, pair);
         }
 
-        private APIResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
+        private ApiResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values = null)
         {
             ExchangeCommand command = Commands.GetCommand(commandType);
 

@@ -29,7 +29,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             if (OrderId != null && Type == 2)
             {

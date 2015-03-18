@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// Complete Balance information for the source Account
     /// </summary>
-    public sealed class AccountBalance : APIResult
+    public sealed class AccountBalance : ApiResult
     {
         internal AccountBalance(List<Balance> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)

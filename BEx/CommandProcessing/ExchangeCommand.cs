@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace BEx.CommandProcessing
 {
@@ -12,7 +13,7 @@ namespace BEx.CommandProcessing
                                 bool isAuthenticated,
                                 Type intermediateType,
                                 bool returnsValueType = false,
-                                List<ExchangeParameter> parameters = null)
+                                IList<ExchangeParameter> parameters = null)
         {
             DefaultParameters = new Dictionary<string, ExchangeParameter>();
             DependentParameters = new Dictionary<StandardParameterType, ExchangeParameter>();

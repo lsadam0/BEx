@@ -2,6 +2,6 @@
 {
     internal interface IExchangeResponse
     {
-        APIResult ConvertToStandard(CurrencyTradingPair pair);
+        ApiResult ConvertToStandard(CurrencyTradingPair pair);
     }
 }

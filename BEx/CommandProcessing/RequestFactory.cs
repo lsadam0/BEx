@@ -18,13 +18,6 @@ namespace BEx.CommandProcessing
 
             parameters = PopulateCommandParameters(command, pair, parameters);
 
-            Dictionary<string, string> finalParameters;
-
-            if (parameters.Count > 0)
-                finalParameters = SetParameters(result, command, pair, parameters);
-            else
-                finalParameters = new Dictionary<string, string>();
-
             return result;
         }
 
@@ -36,26 +29,6 @@ namespace BEx.CommandProcessing
             request.Method = command.HttpMethod;
 
             return request;
-        }
-
-        private Dictionary<string, string> SetParameters(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> parameters)
-        {
-            Dictionary<string, string> reconciled = new Dictionary<string, string>();
-            foreach (KeyValuePair<StandardParameterType, string> param in parameters)
-            {
-                string exchangeParamName = command.DependentParameters[param.Key].ExchangeParameterName;
-
-                request.AddParameter(exchangeParamName, Uri.EscapeUriString(param.Value));
-                reconciled.Add(exchangeParamName, param.Value);
-            }
-
-            foreach (KeyValuePair<string, ExchangeParameter> param in command.DefaultParameters)
-            {
-                request.AddParameter(param.Value.ExchangeParameterName, param.Value.DefaultValue);
-                reconciled.Add(param.Value.ExchangeParameterName, param.Value.DefaultValue);
-            }
-
-            return reconciled;
         }
 
         private Dictionary<StandardParameterType, string> PopulateCommandParameters(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values)
@@ -70,42 +43,34 @@ namespace BEx.CommandProcessing
                     switch (param.Key)
                     {
                         case (StandardParameterType.Amount):
-                            //res.Add(param.Key, values[param.Key]);
                             value = values[param.Key];
                             break;
 
                         case (StandardParameterType.Base):
-                            //res.Add(param.Key, pair.BaseCurrency.ToString());
                             value = pair.BaseCurrency.ToString();
                             break;
 
                         case (StandardParameterType.Counter):
-                            //res.Add(param.Key, pair.CounterCurrency.ToString());
                             value = pair.CounterCurrency.ToString();
                             break;
 
                         case (StandardParameterType.Currency):
-                            // res.Add(param.Key, pair.BaseCurrency.ToString());
                             value = pair.BaseCurrency.ToString();
                             break;
 
                         case (StandardParameterType.CurrencyFullName):
-                            //res.Add(param.Key, pair.BaseCurrency.ToString());
                             value = pair.BaseCurrency.GetDescription();
                             break;
 
                         case (StandardParameterType.Id):
-                            //res.Add(param.Key, values[StandardParameterType.Id]);
                             value = values[StandardParameterType.Id];
                             break;
 
                         case (StandardParameterType.Pair):
-                            //res.Add(param.Key, pair.ToString());
                             value = pair.ToString();
                             break;
 
                         case (StandardParameterType.Price):
-                            //res.Add(param.Key, values[param.Key]);
                             value = values[param.Key];
                             break;
 
@@ -113,7 +78,6 @@ namespace BEx.CommandProcessing
                             throw new NotImplementedException();
 
                         case (StandardParameterType.UnixTimeStamp):
-                            //res.Add(param.Key, Common.UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-1)).ToString());
                             value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString();
                             break;
                     }

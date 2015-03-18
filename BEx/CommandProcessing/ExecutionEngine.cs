@@ -32,24 +32,24 @@ namespace BEx.CommandProcessing
             errorHandler.DetermineErrorCondition += sourceExchange.DetermineErrorCondition;
         }
 
-        public APIResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)
+        public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)
         {
-            APIResult res = null;
+            ApiResult res = null;
 
             res = ExecutionPipeline(toExecute, pair, paramCollection);
 
             return res;
         }
 
-        private APIResult ExecutionPipeline(ExchangeCommand toExecute,
+        private ApiResult ExecutionPipeline(ExchangeCommand toExecute,
                                                 CurrencyTradingPair pair,
                                                 Dictionary<StandardParameterType, string> paramCollection = null)
         {
-            APIResult res = null;
+            ApiResult res = null;
 
             RestRequest request = factory.GetRequest(toExecute, pair, paramCollection);
 
-            IRestResponse result = dispatcher.Dispatch(request, toExecute, pair);
+            IRestResponse result = dispatcher.Dispatch(request, toExecute);
 
             if (errorHandler.IsResponseError(result))
                 errorHandler.HandleErrorResponse(result, request);

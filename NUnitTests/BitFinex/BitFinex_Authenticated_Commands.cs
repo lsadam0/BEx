@@ -21,19 +21,19 @@ namespace NUnitTests
         [Test]
         public void GetDepositAddress_BTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.BTC);
+            CommandVerification.VerifyDepositAddress(Currency.Btc);
         }
 
         [Test]
         public void GetDepositAddress_LTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.LTC);
+            CommandVerification.VerifyDepositAddress(Currency.Ltc);
         }
 
         [Test]
         public void GetDepositAddress_DRK_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.DRK);
+            CommandVerification.VerifyDepositAddress(Currency.Drk);
         }
 
         [Test]
@@ -45,25 +45,25 @@ namespace NUnitTests
         [Test]
         public void GetUserTransactions_DRKBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetUserTransactions_DRKUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.DRK, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Usd });
         }
 
         [Test]
         public void GetUserTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.BTC });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Btc });
         }
 
         [Test]
         public void GetUserTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.LTC, CounterCurrency = Currency.USD });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Usd });
         }
 
         [Test]

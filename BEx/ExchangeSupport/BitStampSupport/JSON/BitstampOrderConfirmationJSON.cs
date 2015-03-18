@@ -20,7 +20,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("type")]
         public int Type { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Order res = new Order(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
 
@@ -32,8 +32,8 @@ namespace BEx.ExchangeSupport.BitStampSupport
             else
                 res.TradeType = OrderType.Sell;
 
-            res.ID = Id;
-            res.ExchangeTimeStamp = Convert.ToDateTime(Datetime);
+            res.Id = Id;
+            res.ExchangeTimestamp = Convert.ToDateTime(Datetime);
 
             res.Pair = pair;
 

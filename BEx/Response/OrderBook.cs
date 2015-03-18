@@ -6,7 +6,7 @@ namespace BEx
     /// <summary>
     /// Open Order Book for the trading Pair
     /// </summary>
-    public sealed class OrderBook : APIResult
+    public sealed class OrderBook : ApiResult
     {
         internal OrderBook(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
@@ -40,13 +40,6 @@ namespace BEx
         {
             get;
             internal set;
-        }
-
-        public override string ToString()
-        {
-            string output = "{0} - Bids: {1} - Asks: {2}";
-
-            return string.Format(output, Pair.ToString(), BidsByPrice.Count, AsksByPrice.Count);
         }
     }
 }

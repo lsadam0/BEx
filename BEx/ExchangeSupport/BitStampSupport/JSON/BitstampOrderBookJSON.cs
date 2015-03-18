@@ -15,7 +15,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             OrderBook res = new OrderBook(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitStamp);
 

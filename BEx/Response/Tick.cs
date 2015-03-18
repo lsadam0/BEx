@@ -5,7 +5,7 @@ namespace BEx
     /// <summary>
     /// Exchange Tick
     /// </summary>
-    public sealed class Tick : APIResult
+    public sealed class Tick : ApiResult
     {
         internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
@@ -72,13 +72,6 @@ namespace BEx
         {
             get;
             internal set;
-        }
-
-        public override string ToString()
-        {
-            string output = "{0} - Bid: {1} - Ask: {2} - High: {3} - Low: {4} - Volume: {5} - Time: {6}";
-
-            return string.Format(output, Pair, Bid, Ask, High, Low, Volume, ExchangeTimeStamp.ToString());
         }
     }
 }

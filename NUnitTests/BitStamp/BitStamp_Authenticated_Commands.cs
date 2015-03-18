@@ -33,7 +33,7 @@ namespace NUnitTests
         [Test]
         public void GetDepositAddress_BTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.BTC);
+            CommandVerification.VerifyDepositAddress(Currency.Btc);
         }
     }
 }

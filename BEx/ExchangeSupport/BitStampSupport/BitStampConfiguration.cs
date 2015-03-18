@@ -62,9 +62,9 @@ namespace BEx.ExchangeSupport.BitStampSupport
             }
         }
 
-        private void Initialize(string url = null)
+        private void Initialize(string url)
         {
-            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
+            DefaultPair = new CurrencyTradingPair(Currency.Btc, Currency.Usd);
 
             SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
 
@@ -81,10 +81,19 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         internal BitStampConfiguration()
         {
-            Initialize();
+            Initialize(null);
         }
 
-        public BitStampConfiguration(string apiKey, string clientId, string secretKey, string url = null)
+        public BitStampConfiguration(string apiKey, string clientId, string secretKey)
+        {
+            ApiKey = apiKey;
+            ClientId = clientId;
+            SecretKey = secretKey;
+
+            Initialize(null);
+        }
+
+        public BitStampConfiguration(string apiKey, string clientId, string secretKey, string url)
         {
             ApiKey = apiKey;
             ClientId = clientId;

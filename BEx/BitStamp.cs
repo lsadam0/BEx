@@ -24,27 +24,27 @@ namespace BEx
             errorId = new Regex("^{\"error\":");// \"API key not found\"}");
         }
 
-        protected internal override APIError DetermineErrorCondition(string message)
+        protected internal override ApiError DetermineErrorCondition(string message)
         {
             if (IsError(message))
             {
-                APIError error = null;
+                ApiError error = null;
 
                 string errorMessage = ExtractMessage(message);
 
                 string loweredMessage = errorMessage.ToLower();
                 if (loweredMessage.Contains("check your account balance for details"))
                 {
-                    error = new APIError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitStamp);
+                    error = new ApiError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitStamp);
                 }
                 else if (loweredMessage.Contains("api key not found") || loweredMessage.Contains("invalid signature"))
                 {
-                    error = new APIError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitStamp);
+                    error = new ApiError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitStamp);
                 }
 
                 if (error == null)
                 {
-                    error = new APIError(message, BExErrorCode.Unknown, ExchangeType.BitStamp);
+                    error = new ApiError(message, BExErrorCode.Unknown, ExchangeType.BitStamp);
                 }
 
                 return error;

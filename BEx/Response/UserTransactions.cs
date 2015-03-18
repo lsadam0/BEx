@@ -8,7 +8,7 @@ namespace BEx
     /// <summary>
     /// Your transactions for the previous hour
     /// </summary>
-    public sealed class UserTransactions : APIResult
+    public sealed class UserTransactions : ApiResult
     {
         internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
@@ -37,25 +37,10 @@ namespace BEx
         /// <summary>
         /// Your Transactions for the previous hour
         /// </summary>
-        public List<UserTransaction> TransactionsCollection
+        public IList<UserTransaction> TransactionsCollection
         {
             get;
             internal set;
-        }
-
-        public override string ToString()
-        {
-            string output = "{0} - Transactions: {1} - Oldest: {2} - Newest: {3}";
-
-            if (TransactionsCollection.Count > 0)
-            {
-                DateTime oldest = TransactionsCollection.Min(x => x.CompletedTime);
-                DateTime newest = TransactionsCollection.Max(x => x.CompletedTime);
-
-                return string.Format(output, Pair, TransactionsCollection.Count, oldest.ToString(), newest.ToString());
-            }
-            else
-                return "No Transactions in Collection";
         }
     }
 }

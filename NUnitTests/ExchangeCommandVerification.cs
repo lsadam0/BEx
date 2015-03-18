@@ -22,7 +22,7 @@ namespace NUnitTests
 
             Assert.IsTrue(toVerify.BalanceByCurrency.Count > 0);
 
-            Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(Currency.BTC));
+            Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(Currency.Btc));
 
             foreach (Currency c in testCandidate.SupportedCurrencies)
             {
@@ -36,16 +36,16 @@ namespace NUnitTests
             }
         }
 
-        public void VerifyAPIResult(APIResult toVerify)
+        public void VerifyAPIResult(ApiResult toVerify)
         {
             Assert.IsNotNull(toVerify);
             Assert.IsTrue(toVerify.SourceExchange == base.testCandidate.ExchangeSourceType);
 
-            Assert.IsTrue(toVerify.ExchangeTimeStamp > DateTime.MinValue);
-            Assert.IsTrue(toVerify.ExchangeTimeStamp < DateTime.MaxValue);
+            Assert.IsTrue(toVerify.ExchangeTimestamp > DateTime.MinValue);
+            Assert.IsTrue(toVerify.ExchangeTimestamp < DateTime.MaxValue);
 
-            Assert.IsTrue(toVerify.LocalTimeStamp > DateTime.MinValue);
-            Assert.IsTrue(toVerify.LocalTimeStamp < DateTime.MaxValue);
+            Assert.IsTrue(toVerify.LocalTimestamp > DateTime.MinValue);
+            Assert.IsTrue(toVerify.LocalTimestamp < DateTime.MaxValue);
         }
 
         public void VerifyBuyOrder()
@@ -80,7 +80,7 @@ namespace NUnitTests
             {
                 VerifyAPIResult(ord.Value);
                 Assert.IsTrue(ord.Value.Amount > 0.0m);
-                Assert.IsTrue(ord.Value.ID > 0);
+                Assert.IsTrue(ord.Value.Id > 0);
                 Assert.IsTrue(ord.Value.Price > 0.0m);
             }
         }
@@ -157,7 +157,7 @@ namespace NUnitTests
 
             VerifyAPIResult(toVerify);
 
-            if (pair.BaseCurrency == Currency.BTC && pair.CounterCurrency == Currency.USD)
+            if (pair.BaseCurrency == Currency.Btc && pair.CounterCurrency == Currency.Usd)
                 Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
 
             if (toVerify.TransactionsCollection.Count > 0)
@@ -167,7 +167,7 @@ namespace NUnitTests
                     VerifyAPIResult(t);
                     Assert.IsTrue(t.Amount > 0.0m);
                     Assert.IsTrue(t.Price > 0.0m);
-                    Assert.IsTrue(t.TransactionID > 0);
+                    Assert.IsTrue(t.TransactionId > 0);
                 }
 
                 DateTime oldest = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
@@ -209,7 +209,7 @@ namespace NUnitTests
             VerifyAPIResult(toVerify);
 
             Assert.IsTrue(toVerify.Amount > 0);
-            Assert.IsTrue(toVerify.ID > 0);
+            Assert.IsTrue(toVerify.Id > 0);
             Assert.IsTrue(toVerify.Price > 0);
             Assert.IsTrue(toVerify.SourceExchange == testCandidate.ExchangeSourceType);
             Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);

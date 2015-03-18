@@ -17,7 +17,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public APIResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
             Balance res = null;
 
