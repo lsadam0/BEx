@@ -3,6 +3,6 @@
     public enum ExchangeType
     {
         BitStamp,
-        BitFinex
+        Bitfinex
     }
 }

@@ -37,7 +37,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            OrderBook res = new OrderBook(DateTime.Now, ExchangeType.BitFinex);
+            OrderBook res = new OrderBook(DateTime.Now, ExchangeType.Bitfinex);
 
             res.Pair = pair;
             decimal key;

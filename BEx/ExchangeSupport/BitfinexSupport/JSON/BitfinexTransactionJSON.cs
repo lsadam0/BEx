@@ -26,7 +26,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            Transaction res = new Transaction(DateTime.Now, ExchangeType.BitFinex);
+            Transaction res = new Transaction(DateTime.Now, ExchangeType.Bitfinex);
 
             res.Amount = Convert.ToDecimal(amount);
             res.Price = Convert.ToDecimal(price);

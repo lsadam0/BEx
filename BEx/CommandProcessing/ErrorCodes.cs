@@ -56,6 +56,7 @@
         BadGateway = 502,
         ServiceUnavailable = 503,
         GatewayTimeout = 504,
-        HttpVersionNotSupported = 505
+        HttpVersionNotSupported = 505,
+        Unknown = 0
     }
 }

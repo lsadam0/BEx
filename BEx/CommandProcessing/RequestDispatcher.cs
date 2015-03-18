@@ -16,7 +16,7 @@ namespace BEx.CommandProcessing
 
         internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference)
         {
-            var client = new RestClient(SourceExchange.Configuration.Url);
+            var client = new RestClient(SourceExchange.Configuration.BaseUri);
 
             IRestResponse response;
 

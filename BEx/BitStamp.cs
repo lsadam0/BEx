@@ -52,7 +52,7 @@ namespace BEx
             else return null;
         }
 
-        internal string ExtractMessage(string content)
+        internal static string ExtractMessage(string content)
         {
             if (!string.IsNullOrEmpty(content))
             {
@@ -62,32 +62,25 @@ namespace BEx
 
                 // for other errors
 
-                try
+                if (error["error"] is JValue)
                 {
-                    if (error["error"] is JValue)
-                    {
-                        JValue v = (JValue)error["error"];
+                    JValue v = (JValue)error["error"];
 
-                        res.Append(v.Value.ToString());
-                    }
-                    else
-                    {
-                        IDictionary<string, JToken> errors = (JObject)error["error"];
-
-                        foreach (KeyValuePair<string, JToken> er in errors)
-                        {
-                            foreach (JToken token in er.Value.Values())
-                            {
-                                res.Append(((JValue)token).Value.ToString());
-                            }
-
-                            //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
-                        }
-                    }
+                    res.Append(v.Value.ToString());
                 }
-                catch (Exception)
+                else
                 {
-                    res.Append(error.ToString());
+                    IDictionary<string, JToken> errors = (JObject)error["error"];
+
+                    foreach (KeyValuePair<string, JToken> er in errors)
+                    {
+                        foreach (JToken token in er.Value.Values())
+                        {
+                            res.Append(((JValue)token).Value.ToString());
+                        }
+
+                        //res.Append(er.Value.ToString().Replace("{\"error\":", "").Replace("{\"__all__\": [\"", "").Replace("\"]}}", "").Replace("[", "").Replace("]", "").Replace("\"", "").Trim());
+                    }
                 }
 
                 return res.ToString();//Regex.Replace(res.ToString(), @"\t|\n|\r", "");

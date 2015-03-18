@@ -45,25 +45,25 @@ namespace NUnitTests
         [Test]
         public void GetUserTransactions_DRKBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Btc });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
         }
 
         [Test]
         public void GetUserTransactions_DRKUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Drk, CounterCurrency = Currency.Usd });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
         }
 
         [Test]
         public void GetUserTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Btc });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
         }
 
         [Test]
         public void GetUserTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair() { BaseCurrency = Currency.Ltc, CounterCurrency = Currency.Usd });
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
         }
 
         [Test]

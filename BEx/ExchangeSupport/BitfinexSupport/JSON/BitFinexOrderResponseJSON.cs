@@ -53,7 +53,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
+            Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex);
 
             res.Amount = Convert.ToDecimal(OriginalAmount);
             res.Pair = pair;

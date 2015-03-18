@@ -52,7 +52,7 @@ namespace BEx.CommandProcessing
             return error;
         }
 
-        public void ThrowException<E>(ApiError source) where E : Exception
+        public static void ThrowException<E>(ApiError source) where E : Exception
         {
             E exception = (E)Activator.CreateInstance(typeof(E),
                                                     BindingFlags.Public | BindingFlags.Instance,

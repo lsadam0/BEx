@@ -153,7 +153,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         {
             var param = new List<ExchangeParameter>();
 
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.UnixTimeStamp, "needtoset"));
+            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.UnixTimestamp, "needtoset"));
 
             ExchangeParameter baseTrans = new ExchangeParameter(ExchangeParameterType.Address, "base", StandardParameterType.Base, "BTC");
             baseTrans.IsLowerCase = true;

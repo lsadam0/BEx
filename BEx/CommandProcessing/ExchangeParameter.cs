@@ -17,16 +17,28 @@
         Currency,
         CurrencyFullName,
         Pair,
-        UnixTimeStamp,
-        TimeStamp
+        UnixTimestamp,
+        Timestamp
     }
 
     public class ExchangeParameter
     {
         public ExchangeParameter(ExchangeParameterType paramType,
+                                   string name,
+                                   StandardParameterType standardType
+                                   )
+        {
+            ParamType = paramType;
+            ExchangeParameterName = name;
+            DefaultValue = null;
+            StandardParameterIdentifier = standardType;
+            IsLowerCase = false;
+        }
+
+        public ExchangeParameter(ExchangeParameterType paramType,
                                     string name,
                                     StandardParameterType standardType,
-                                    string defaultValue = null)
+                                    string defaultValue)
         {
             ParamType = paramType;
             ExchangeParameterName = name;
@@ -35,22 +47,7 @@
             IsLowerCase = false;
         }
 
-        public bool IsLowerCase
-        {
-            get;
-            set;
-        }
-
         public string DefaultValue
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// BEx standard parameter name
-        /// </summary>
-        public StandardParameterType StandardParameterIdentifier
         {
             get;
             set;
@@ -65,7 +62,22 @@
             set;
         }
 
+        public bool IsLowerCase
+        {
+            get;
+            set;
+        }
+
         public ExchangeParameterType ParamType
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// BEx standard parameter name
+        /// </summary>
+        public StandardParameterType StandardParameterIdentifier
         {
             get;
             set;

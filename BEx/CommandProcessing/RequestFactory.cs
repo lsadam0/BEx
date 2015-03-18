@@ -10,7 +10,7 @@ namespace BEx.CommandProcessing
         {
         }
 
-        public RestRequest GetRequest(ExchangeCommand command,
+        public static RestRequest GetRequest(ExchangeCommand command,
                                         CurrencyTradingPair pair,
                                         Dictionary<StandardParameterType, string> parameters = null)
         {
@@ -21,9 +21,9 @@ namespace BEx.CommandProcessing
             return result;
         }
 
-        private RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)
+        private static RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            var request = new RestRequest(command.GetResolvedRelativeURI(pair), command.HttpMethod);
+            var request = new RestRequest(command.GetResolvedRelativeUri(pair), command.HttpMethod);
 
             request.RequestFormat = DataFormat.Json;
             request.Method = command.HttpMethod;
@@ -31,7 +31,7 @@ namespace BEx.CommandProcessing
             return request;
         }
 
-        private Dictionary<StandardParameterType, string> PopulateCommandParameters(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values)
+        private static Dictionary<StandardParameterType, string> PopulateCommandParameters(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values)
         {
             var res = new Dictionary<StandardParameterType, string>();
 
@@ -74,10 +74,10 @@ namespace BEx.CommandProcessing
                             value = values[param.Key];
                             break;
 
-                        case (StandardParameterType.TimeStamp):
+                        case (StandardParameterType.Timestamp):
                             throw new NotImplementedException();
 
-                        case (StandardParameterType.UnixTimeStamp):
+                        case (StandardParameterType.UnixTimestamp):
                             value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString();
                             break;
                     }

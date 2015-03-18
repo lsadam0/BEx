@@ -107,7 +107,6 @@
     <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitStampUserTransactionJSON.cs" />
     <Compile Include="APIError.cs" />
     <Compile Include="CommandProcessing\ErrorCodes.cs" />
-    <Compile Include="ExchangeSupport\ExchangeResponse.cs" />
     <Compile Include="ExchangeSupport\ExchangeType.cs" />
     <Compile Include="ExchangeSupport\IExchangeCommandFactory.cs" />
     <Compile Include="ExchangeSupport\IExchangeConfiguration.cs" />

@@ -7,7 +7,7 @@ namespace BEx.CommandProcessing
     {
         private Exchange sourceExchange;
 
-        private RequestFactory factory;
+        //private RequestFactory factory;
 
         private RequestDispatcher dispatcher;
 
@@ -19,7 +19,7 @@ namespace BEx.CommandProcessing
         {
             sourceExchange = targetExchange;
 
-            factory = new RequestFactory();
+            //factory = new RequestFactory();
             // factory.GetSignature += sourceExchange.CreateSignature;
 
             dispatcher = new RequestDispatcher(sourceExchange);
@@ -47,7 +47,7 @@ namespace BEx.CommandProcessing
         {
             ApiResult res = null;
 
-            RestRequest request = factory.GetRequest(toExecute, pair, paramCollection);
+            RestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             IRestResponse result = dispatcher.Dispatch(request, toExecute);
 

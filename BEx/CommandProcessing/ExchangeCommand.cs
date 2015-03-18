@@ -27,7 +27,7 @@ namespace BEx.CommandProcessing
             HttpMethod = httpMethod;
             Identifier = identifier;
             IsAuthenticated = isAuthenticated;
-            RelativeURI = relativeUrl;
+            RelativeUri = relativeUrl;
             ReturnsValueType = returnsValueType;
             IntermediateType = intermediateType;
             LowerCaseURLParams = false;
@@ -154,7 +154,7 @@ namespace BEx.CommandProcessing
         public Dictionary<StandardParameterType, ExchangeParameter> DependentParameters
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -169,18 +169,18 @@ namespace BEx.CommandProcessing
         /// <summary>
         /// Exchange URL endpoint relative to the base address
         /// </summary>
-        public string RelativeURI
+        public string RelativeUri
         {
             get;
             private set;
         }
 
-        public string GetResolvedRelativeURI(CurrencyTradingPair pair)
+        public string GetResolvedRelativeUri(CurrencyTradingPair pair)
         {
             if (LowerCaseURLParams)
-                return string.Format(RelativeURI, pair.BaseCurrency.ToString().ToLower(), pair.CounterCurrency.ToString().ToLower());
+                return string.Format(RelativeUri, pair.BaseCurrency.ToString().ToLower(), pair.CounterCurrency.ToString().ToLower());
             else
-                return string.Format(RelativeURI, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());
+                return string.Format(RelativeUri, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());
         }
 
         public bool ReturnsValueType

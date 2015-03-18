@@ -21,7 +21,7 @@ namespace BEx
         {
         }
 
-        public ExchangeAuthorizationException(SerializationInfo info, StreamingContext context)
+        protected ExchangeAuthorizationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

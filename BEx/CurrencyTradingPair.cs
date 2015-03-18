@@ -4,10 +4,20 @@ namespace BEx
 {
     public struct CurrencyTradingPair
     {
-        public Currency BaseCurrency;
-        public Currency CounterCurrency;
+        public Currency BaseCurrency
+        {
+            get;
+            private set;
+        }
+
+        public Currency CounterCurrency
+        {
+            get;
+            private set;
+        }
 
         public CurrencyTradingPair(Currency pairBase, Currency pairCounter)
+            : this()
         {
             BaseCurrency = pairBase;
             CounterCurrency = pairCounter;

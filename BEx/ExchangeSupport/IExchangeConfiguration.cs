@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BEx.ExchangeSupport
 {
@@ -7,37 +8,31 @@ namespace BEx.ExchangeSupport
         string ApiKey
         {
             get;
-            set;
         }
 
         string ClientId
         {
             get;
-            set;
         }
 
         CurrencyTradingPair DefaultPair
         {
             get;
-            set;
         }
 
         string SecretKey
         {
             get;
-            set;
         }
 
         IList<CurrencyTradingPair> SupportedPairs
         {
             get;
-            set;
         }
 
         HashSet<Currency> SupportedCurrencies
         {
             get;
-            set;
         }
 
         long Nonce
@@ -45,10 +40,9 @@ namespace BEx.ExchangeSupport
             get;
         }
 
-        string Url
+        Uri BaseUri
         {
             get;
-            set;
         }
     }
 }

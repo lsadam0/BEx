@@ -32,7 +32,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitFinex);
+            Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex);
 
             res.Pair = pair;
             res.Ask = Convert.ToDecimal(Ask);

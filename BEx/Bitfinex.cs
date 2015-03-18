@@ -10,12 +10,12 @@ namespace BEx
     public sealed class Bitfinex : Exchange
     {
         public Bitfinex()
-            : base(new BitfinexConfiguration(), new BitfinexCommandFactory(), ExchangeType.BitFinex)
+            : base(new BitfinexConfiguration(), new BitfinexCommandFactory(), ExchangeType.Bitfinex)
         {
         }
 
         public Bitfinex(string apiKey, string secret)
-            : base(new BitfinexConfiguration(apiKey, secret), new BitfinexCommandFactory(), ExchangeType.BitFinex)
+            : base(new BitfinexConfiguration(apiKey, secret), new BitfinexCommandFactory(), ExchangeType.Bitfinex)
         {
             Authenticator = new BitfinexAuthenticator(base.Configuration);
         }
@@ -29,22 +29,22 @@ namespace BEx
             string loweredMessage = errorMessage.ToLower(CultureInfo.CurrentCulture);
             if (loweredMessage.Contains("not enough balance"))
             {
-                error = new ApiError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.BitFinex);
+                error = new ApiError(errorMessage, BExErrorCode.InsufficientFunds, ExchangeType.Bitfinex);
             }
             else if (loweredMessage.Contains("the given x-bfx-apikey") || loweredMessage.Contains("invalid x-bfx-signature"))
             {
-                error = new ApiError(errorMessage, BExErrorCode.Authorization, ExchangeType.BitFinex);
+                error = new ApiError(errorMessage, BExErrorCode.Authorization, ExchangeType.Bitfinex);
             }
 
             if (error == null)
             {
-                error = new ApiError(message, BExErrorCode.Unknown, ExchangeType.BitFinex);
+                error = new ApiError(message, BExErrorCode.Unknown, ExchangeType.Bitfinex);
             }
 
             return error;
         }
 
-        internal string ExtractMessage(string content)
+        internal static string ExtractMessage(string content)
         {
             if (!string.IsNullOrEmpty(content))
             {

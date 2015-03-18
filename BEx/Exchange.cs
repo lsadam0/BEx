@@ -8,7 +8,7 @@ namespace BEx
 {
     public abstract class Exchange
     {
-        public Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
+        protected Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
         {
             ExchangeSourceType = sourceType;
             Configuration = configuration;
@@ -73,6 +73,9 @@ namespace BEx
 
         public Confirmation CancelOrder(Order toCancel)
         {
+            if (toCancel == null)
+                throw new ArgumentNullException("toCancel");
+
             return CancelOrder(toCancel.Id);
         }
 
@@ -209,7 +212,7 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>();
 
-            values.Add(StandardParameterType.UnixTimeStamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToString());
+            values.Add(StandardParameterType.UnixTimestamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToString());
 
             return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
         }

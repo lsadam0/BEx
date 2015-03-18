@@ -9,43 +9,43 @@ namespace BEx.ExchangeSupport.BitStampSupport
         public string ApiKey
         {
             get;
-            set;
+            private set;
         }
 
         public string ClientId
         {
             get;
-            set;
+            private set;
         }
 
         public CurrencyTradingPair DefaultPair
         {
             get;
-            set;
+            private set;
         }
 
         public string SecretKey
         {
             get;
-            set;
+            private set;
         }
 
         public IList<CurrencyTradingPair> SupportedPairs
         {
             get;
-            set;
+            private set;
         }
 
         public HashSet<Currency> SupportedCurrencies
         {
             get;
-            set;
+            private set;
         }
 
-        public string Url
+        public Uri BaseUri
         {
             get;
-            set;
+            private set;
         }
 
         private long _nonce = DateTime.Now.Ticks;
@@ -74,9 +74,9 @@ namespace BEx.ExchangeSupport.BitStampSupport
             SupportedCurrencies.Add(DefaultPair.CounterCurrency);
 
             if (string.IsNullOrWhiteSpace(url))
-                Url = "https://www.bitstamp.net/api";
+                BaseUri = new Uri("https://www.bitstamp.net/api");
             else
-                Url = url.TrimEnd('/', '\\');
+                BaseUri = new Uri(url);
         }
 
         internal BitStampConfiguration()

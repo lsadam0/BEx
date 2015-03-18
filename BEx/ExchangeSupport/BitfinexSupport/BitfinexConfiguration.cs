@@ -9,43 +9,43 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         public string ApiKey
         {
             get;
-            set;
+            private set;
         }
 
         public string ClientId
         {
             get;
-            set;
+            private set;
         }
 
         public CurrencyTradingPair DefaultPair
         {
             get;
-            set;
+            private set;
         }
 
         public string SecretKey
         {
             get;
-            set;
+            private set;
         }
 
         public IList<CurrencyTradingPair> SupportedPairs
         {
             get;
-            set;
+            private set;
         }
 
         public HashSet<Currency> SupportedCurrencies
         {
             get;
-            set;
+            private set;
         }
 
-        public string Url
+        public Uri BaseUri
         {
             get;
-            set;
+            private set;
         }
 
         private long _nonce = DateTime.Now.Ticks;
@@ -62,7 +62,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             }
         }
 
-        private void Initialize(string url = null)
+        private void Initialize(string url)
         {
             DefaultPair = new CurrencyTradingPair(Currency.Btc, Currency.Usd);
 
@@ -85,14 +85,14 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             }
 
             if (string.IsNullOrWhiteSpace(url))
-                Url = "https://api.bitfinex.com";
+                BaseUri = new Uri("https://api.bitfinex.com");
             else
-                Url = url.TrimEnd('/', '\\');
+                BaseUri = new Uri(url);
         }
 
         internal BitfinexConfiguration()
         {
-            Initialize();
+            Initialize(null);
         }
 
         public BitfinexConfiguration(string apiKey, string secretKey, string url = null)

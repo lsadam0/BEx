@@ -19,7 +19,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            return new DepositAddress(Address, DateTime.Now, pair.BaseCurrency, ExchangeType.BitFinex);
+            return new DepositAddress(Address, DateTime.Now, pair.BaseCurrency, ExchangeType.Bitfinex);
         }
     }
 }
