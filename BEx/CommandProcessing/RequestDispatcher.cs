@@ -1,9 +1,4 @@
-﻿using BEx;
-using BEx.ExchangeSupport;
-using JackLeitch.RateGate;
-using RestSharp;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RestSharp;
 
 namespace BEx.CommandProcessing
 {
@@ -11,12 +6,12 @@ namespace BEx.CommandProcessing
     {
         private Exchange SourceExchange;
 
-        private RequestThrottler _throttler;
+        private RateLimiter _throttler;
 
         internal RequestDispatcher(Exchange sourceExchange)
         {
             SourceExchange = sourceExchange;
-            _throttler = new RequestThrottler(SourceExchange.ExchangeSourceType);
+            _throttler = new RateLimiter(SourceExchange.ExchangeSourceType);
         }
 
         internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference, CurrencyTradingPair pair)
@@ -44,35 +39,6 @@ namespace BEx.CommandProcessing
             }
 
             return response;
-        }
-    }
-
-    internal class RequestThrottler
-    {
-        private static Dictionary<ExchangeType, RateGate> gates = new Dictionary<ExchangeType, RateGate>();
-        private static object locker = new object();
-
-        private ExchangeType _sourceExchange;
-
-        public RequestThrottler(ExchangeType sourceExchange)
-        {
-            if (!gates.ContainsKey(sourceExchange))
-            {
-                lock (locker)
-                {
-                    if (!gates.ContainsKey(sourceExchange))
-                    {
-                        gates.Add(sourceExchange, new RateGate(600, new System.TimeSpan(0, 10, 0)));
-                    }
-                }
-            }
-
-            _sourceExchange = sourceExchange;
-        }
-
-        public void Throttle()
-        {
-            gates[_sourceExchange].WaitToProceed();
         }
     }
 }

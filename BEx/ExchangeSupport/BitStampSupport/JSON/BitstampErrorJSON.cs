@@ -1,5 +1,4 @@
-﻿using BEx.ExchangeSupport;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
