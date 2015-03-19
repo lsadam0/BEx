@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BEx.CommandProcessing
 {
@@ -18,7 +19,22 @@ namespace BEx.CommandProcessing
 
             parameters = PopulateCommandParameters(command, pair, parameters);
 
+            SetParameters(result, command, pair, parameters);
             return result;
+        }
+
+        private static void SetParameters(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> parameters)
+        {
+            foreach (KeyValuePair<StandardParameterType, string> param in parameters)
+            {
+                string exchangeParamName = command.DependentParameters[param.Key].ExchangeParameterName;
+                request.AddParameter(exchangeParamName, Uri.EscapeUriString(param.Value));
+            }
+
+            foreach (KeyValuePair<string, ExchangeParameter> param in command.DefaultParameters)
+            {
+                request.AddParameter(param.Value.ExchangeParameterName, param.Value.DefaultValue);
+            }
         }
 
         private static RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)
@@ -78,12 +94,12 @@ namespace BEx.CommandProcessing
                             throw new NotImplementedException();
 
                         case (StandardParameterType.UnixTimestamp):
-                            value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString();
+                            value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString(CultureInfo.InvariantCulture);
                             break;
                     }
 
-                    if (param.Value.IsLowerCase)
-                        res.Add(param.Key, value.ToLower());
+                    if (param.Value.IsLowercase)
+                        res.Add(param.Key, value.ToLowerInvariant());
                     else
                         res.Add(param.Key, value);
                 }

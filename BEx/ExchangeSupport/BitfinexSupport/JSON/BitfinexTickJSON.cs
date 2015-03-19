@@ -1,6 +1,7 @@
 ﻿using BEx.CommandProcessing;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
@@ -35,12 +36,12 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex);
 
             res.Pair = pair;
-            res.Ask = Convert.ToDecimal(Ask);
-            res.Bid = Convert.ToDecimal(Bid);
-            res.High = Convert.ToDecimal(High);
-            res.Last = Convert.ToDecimal(LastPrice);
-            res.Low = Convert.ToDecimal(Low);
-            res.Volume = Convert.ToDecimal(Volume);
+            res.Ask = Convert.ToDecimal(Ask, CultureInfo.InvariantCulture);
+            res.Bid = Convert.ToDecimal(Bid, CultureInfo.InvariantCulture);
+            res.High = Convert.ToDecimal(High, CultureInfo.InvariantCulture);
+            res.Last = Convert.ToDecimal(LastPrice, CultureInfo.InvariantCulture);
+            res.Low = Convert.ToDecimal(Low, CultureInfo.InvariantCulture);
+            res.Volume = Convert.ToDecimal(Volume, CultureInfo.InvariantCulture);
 
             return res;
         }

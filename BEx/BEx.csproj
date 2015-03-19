@@ -68,7 +68,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Response\Balance.cs" />
     <Compile Include="Response\AccountBalance.cs" />
-    <Compile Include="Response\APIResult.cs" />
+    <Compile Include="Response\ApiResult.cs" />
     <Compile Include="CommandProcessing\UnixTime.cs" />
     <Compile Include="Response\Confirmation.cs" />
     <Compile Include="CurrencyTradingPair.cs" />

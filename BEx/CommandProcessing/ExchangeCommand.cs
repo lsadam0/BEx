@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace BEx.CommandProcessing
 {
@@ -11,13 +12,25 @@ namespace BEx.CommandProcessing
                                 Method httpMethod,
                                 string relativeUrl,
                                 bool isAuthenticated,
-                                Type intermediateType,
-                                bool returnsValueType = false,
-                                IList<ExchangeParameter> parameters = null)
+                                Type intermediateType)
+            : this(identifier, httpMethod, relativeUrl, isAuthenticated, intermediateType, null)
         {
+        }
+
+        public ExchangeCommand(CommandClass identifier,
+                                Method httpMethod,
+                                string relativeUrl,
+                                bool isAuthenticated,
+                                Type intermediateType,
+                                IList<ExchangeParameter> parameters)
+        {
+            if (intermediateType == null)
+                throw new ArgumentNullException("intermediateType");
+
             DefaultParameters = new Dictionary<string, ExchangeParameter>();
             DependentParameters = new Dictionary<StandardParameterType, ExchangeParameter>();
-            ReturnsValueType = false;
+
+            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
 
             if (intermediateType.IsGenericType)
                 ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
@@ -28,9 +41,9 @@ namespace BEx.CommandProcessing
             Identifier = identifier;
             IsAuthenticated = isAuthenticated;
             RelativeUri = relativeUrl;
-            ReturnsValueType = returnsValueType;
+
             IntermediateType = intermediateType;
-            LowerCaseURLParams = false;
+            LowercaseUrlParameters = false;
 
             if (parameters != null)
             {
@@ -60,7 +73,7 @@ namespace BEx.CommandProcessing
             }
         }
 
-        public bool LowerCaseURLParams
+        public bool LowercaseUrlParameters
         {
             get;
             set;
@@ -177,7 +190,7 @@ namespace BEx.CommandProcessing
 
         public string GetResolvedRelativeUri(CurrencyTradingPair pair)
         {
-            if (LowerCaseURLParams)
+            if (LowercaseUrlParameters)
                 return string.Format(RelativeUri, pair.BaseCurrency.ToString().ToLower(), pair.CounterCurrency.ToString().ToLower());
             else
                 return string.Format(RelativeUri, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());

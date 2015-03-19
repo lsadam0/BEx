@@ -9,11 +9,13 @@ namespace BEx
     /// </summary>
     public sealed class AccountBalance : ApiResult
     {
-        internal AccountBalance(List<Balance> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
+        internal AccountBalance(IEnumerable<Balance> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
             BalanceByCurrency = new Dictionary<Currency, Balance>();
-            balances.ForEach(x => BalanceByCurrency.Add(x.BalanceCurrency, x));
+
+            foreach (Balance toAdd in balances)
+                BalanceByCurrency.Add(toAdd.BalanceCurrency, toAdd);
         }
 
         internal AccountBalance(IEnumerable<IExchangeResponse> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
@@ -34,7 +36,7 @@ namespace BEx
         ///  A List of Available and Reserved Balances by Currency.  If a Currency is supported by
         /// the Exchange, but is absent from the Balance collection, then a 0 balance should be assumed.
         /// </summary>
-        public Dictionary<Currency, Balance> BalanceByCurrency
+        public IDictionary<Currency, Balance> BalanceByCurrency
         {
             get;
             internal set;

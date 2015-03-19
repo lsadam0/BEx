@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -22,10 +23,10 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            Order res = new Order(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
+            Order res = new Order(Convert.ToDateTime(Datetime, CultureInfo.InvariantCulture), ExchangeType.BitStamp);
 
-            res.Amount = Convert.ToDecimal(Amount);
-            res.Price = Convert.ToDecimal(Price);
+            res.Amount = Convert.ToDecimal(Amount, CultureInfo.InvariantCulture);
+            res.Price = Convert.ToDecimal(Price, CultureInfo.InvariantCulture);
 
             if (Type == 0)
                 res.TradeType = OrderType.Buy;
@@ -33,7 +34,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
                 res.TradeType = OrderType.Sell;
 
             res.Id = Id;
-            res.ExchangeTimestamp = Convert.ToDateTime(Datetime);
+            res.ExchangeTimestamp = Convert.ToDateTime(Datetime, CultureInfo.InvariantCulture);
 
             res.Pair = pair;
 

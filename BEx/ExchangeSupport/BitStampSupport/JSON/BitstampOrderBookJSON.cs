@@ -1,6 +1,7 @@
 ﻿using BEx.CommandProcessing;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -25,8 +26,8 @@ namespace BEx.ExchangeSupport.BitStampSupport
             {
                 string[] values = Bids[x];
 
-                Decimal price = Convert.ToDecimal(values[0]);
-                Decimal amount = Convert.ToDecimal(values[1]);
+                Decimal price = Convert.ToDecimal(values[0], CultureInfo.InvariantCulture);
+                Decimal amount = Convert.ToDecimal(values[1], CultureInfo.InvariantCulture);
 
                 res.BidsByPrice.Add(price, amount);
             }
@@ -35,8 +36,8 @@ namespace BEx.ExchangeSupport.BitStampSupport
             {
                 string[] values = Asks[x];
 
-                Decimal price = Convert.ToDecimal(values[0]);
-                Decimal amount = Convert.ToDecimal(values[1]);
+                Decimal price = Convert.ToDecimal(values[0], CultureInfo.InvariantCulture);
+                Decimal amount = Convert.ToDecimal(values[1], CultureInfo.InvariantCulture);
 
                 res.AsksByPrice.Add(price, amount);
             }

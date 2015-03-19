@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -45,10 +46,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             StringBuilder payload = new StringBuilder();
 
             payload.Append("{");
-
-            //payload.Append("\"request\": \"" + command.GetResolvedRelativeURI(pair) + "\",");
             payload.Append("\"request\": \"" + request.Resource + "\",");
-
             payload.Append("\"nonce\": \"" + currentNonce + "\"");
 
             if (request.Parameters.Count > 0)
@@ -59,15 +57,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                     payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
                 }
             }
-            /*
-            if (parameters != null)
-            {
-                foreach (KeyValuePair<string, string> kvPair in parameters)
-                {
-                    payload.Append(",");
-                    payload.Append("\"" + kvPair.Key + "\": \"" + kvPair.Value + "\"");
-                }
-            }*/
 
             payload.Append("}");
 
@@ -75,10 +64,8 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             request.AddHeader("X-BFX-PAYLOAD", payload64);
 
-            //Any public static (Shared in Visual Basic) members of this type are thread safe
-
             byte[] hashBytes = Hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
-            request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLower());
+            request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant());
         }
     }
 }

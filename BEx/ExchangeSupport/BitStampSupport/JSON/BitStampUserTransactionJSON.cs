@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -33,13 +34,13 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             if (OrderId != null && Type == 2)
             {
-                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
+                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime, CultureInfo.InvariantCulture), ExchangeType.BitStamp);
 
-                res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
-                res.CounterCurrencyAmount = Convert.ToDecimal(Usd);
+                res.BaseCurrencyAmount = Convert.ToDecimal(Btc, CultureInfo.InvariantCulture);
+                res.CounterCurrencyAmount = Convert.ToDecimal(Usd, CultureInfo.InvariantCulture);
                 res.TransactionId = Id;
 
-                res.TradeFee = Convert.ToDecimal(Fee);
+                res.TradeFee = Convert.ToDecimal(Fee, CultureInfo.InvariantCulture);
                 res.OrderId = (int)OrderId;
                 res.TradeFeeCurrency = Currency.Unknown;
 

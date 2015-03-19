@@ -1,6 +1,7 @@
 ﻿using BEx.CommandProcessing;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
@@ -32,7 +33,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp)), ExchangeType.Bitfinex);
+            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp, CultureInfo.InvariantCulture)), ExchangeType.Bitfinex);
 
             u.TransactionId = Tid;
             u.OrderId = Tid;
@@ -40,7 +41,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             u.BaseCurrencyAmount = 0;
             u.CounterCurrencyAmount = 0;
 
-            u.TradeFee = Convert.ToDecimal(FeeAmount);
+            u.TradeFee = Convert.ToDecimal(FeeAmount, CultureInfo.InvariantCulture);
             u.TradeFeeCurrency = Currency.Unknown;
 
             return u;

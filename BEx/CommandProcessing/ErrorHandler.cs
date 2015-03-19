@@ -19,8 +19,7 @@ namespace BEx.CommandProcessing
         {
             return (response == null
                 || response.ErrorException != null
-                || response.StatusCode != System.Net.HttpStatusCode.OK
-                || IsExchangeError(response.Content));
+                || response.StatusCode != System.Net.HttpStatusCode.OK);
         }
 
         internal ErrorHandler(ExchangeType sourceExchange)

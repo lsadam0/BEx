@@ -4,8 +4,8 @@ namespace BEx
 {
     public sealed class Confirmation : ApiResult
     {
-        public Confirmation(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        public Confirmation(DateTime exchangeTimestamp, ExchangeType sourceExchange)
+            : base(exchangeTimestamp, sourceExchange)
         { }
 
         public bool IsConfirmed

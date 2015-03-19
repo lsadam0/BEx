@@ -3,6 +3,7 @@ using BEx.ExchangeSupport;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BEx
 {
@@ -82,7 +83,7 @@ namespace BEx
         public Confirmation CancelOrder(int id)
         {
             Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
-            param.Add(StandardParameterType.Id, id.ToString());
+            param.Add(StandardParameterType.Id, id.ToString(CultureInfo.InvariantCulture));
 
             return (Confirmation)ExecuteCommand(CommandClass.CancelOrder, DefaultPair, param);
         }
@@ -96,8 +97,8 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
 
-            param.Add(StandardParameterType.Amount, amount.ToString());
-            param.Add(StandardParameterType.Price, price.ToString());
+            param.Add(StandardParameterType.Amount, amount.ToString(CultureInfo.InvariantCulture));
+            param.Add(StandardParameterType.Price, price.ToString(CultureInfo.InvariantCulture));
 
             return (Order)ExecuteCommand(CommandClass.BuyOrder, pair, param);
         }
@@ -111,8 +112,8 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
 
-            param.Add(StandardParameterType.Amount, amount.ToString());
-            param.Add(StandardParameterType.Price, price.ToString());
+            param.Add(StandardParameterType.Amount, amount.ToString(CultureInfo.InvariantCulture));
+            param.Add(StandardParameterType.Price, price.ToString(CultureInfo.InvariantCulture));
 
             return (Order)ExecuteCommand(CommandClass.SellOrder, pair, param);
         }
@@ -212,7 +213,7 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>();
 
-            values.Add(StandardParameterType.UnixTimestamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToString());
+            values.Add(StandardParameterType.UnixTimestamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToString(CultureInfo.InvariantCulture));
 
             return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
         }
@@ -237,10 +238,6 @@ namespace BEx
         {
             return Configuration.SupportedPairs.Contains(pair);
         }
-
-        protected internal abstract ApiError DetermineErrorCondition(string message);
-
-        protected internal abstract bool IsError(string content);
 
         protected OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {

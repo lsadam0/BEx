@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
@@ -26,11 +27,11 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                 res = new Balance(DateTime.Now, ExchangeType.Bitfinex);
                 Currency bCurrency;
 
-                if (Enum.TryParse<Currency>(Currency.ToUpper(), out bCurrency))
+                if (Enum.TryParse<Currency>(Currency.ToUpper(CultureInfo.InvariantCulture), out bCurrency))
                 {
                     res.BalanceCurrency = bCurrency;
-                    res.AvailableToTrade = Convert.ToDecimal(Available);
-                    res.TotalBalance = Convert.ToDecimal(Amount);
+                    res.AvailableToTrade = Convert.ToDecimal(Available, CultureInfo.InvariantCulture);
+                    res.TotalBalance = Convert.ToDecimal(Amount, CultureInfo.InvariantCulture);
                 }
             }
 

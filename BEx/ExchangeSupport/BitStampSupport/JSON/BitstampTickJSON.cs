@@ -1,5 +1,6 @@
 ﻿using BEx.CommandProcessing;
 using System;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -25,13 +26,13 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), ExchangeType.BitStamp);
 
-            res.Ask = Convert.ToDecimal(ask);
-            res.Bid = Convert.ToDecimal(bid);
-            res.High = Convert.ToDecimal(high);
-            res.Last = Convert.ToDecimal(last);
-            res.Low = Convert.ToDecimal(low);
+            res.Ask = Convert.ToDecimal(ask, CultureInfo.InvariantCulture);
+            res.Bid = Convert.ToDecimal(bid, CultureInfo.InvariantCulture);
+            res.High = Convert.ToDecimal(high, CultureInfo.InvariantCulture);
+            res.Last = Convert.ToDecimal(last, CultureInfo.InvariantCulture);
+            res.Low = Convert.ToDecimal(low, CultureInfo.InvariantCulture);
 
-            res.Volume = Convert.ToDecimal(volume);
+            res.Volume = Convert.ToDecimal(volume, CultureInfo.InvariantCulture);
 
             res.Pair = pair;
 

@@ -23,28 +23,28 @@
 
     public class ExchangeParameter
     {
-        public ExchangeParameter(ExchangeParameterType paramType,
+        public ExchangeParameter(ExchangeParameterType parameterType,
                                    string name,
                                    StandardParameterType standardType
                                    )
         {
-            ParamType = paramType;
+            ParameterType = parameterType;
             ExchangeParameterName = name;
             DefaultValue = null;
             StandardParameterIdentifier = standardType;
-            IsLowerCase = false;
+            IsLowercase = false;
         }
 
-        public ExchangeParameter(ExchangeParameterType paramType,
+        public ExchangeParameter(ExchangeParameterType parameterType,
                                     string name,
                                     StandardParameterType standardType,
                                     string defaultValue)
         {
-            ParamType = paramType;
+            ParameterType = parameterType;
             ExchangeParameterName = name;
             DefaultValue = defaultValue;
             StandardParameterIdentifier = standardType;
-            IsLowerCase = false;
+            IsLowercase = false;
         }
 
         public string DefaultValue
@@ -62,13 +62,13 @@
             set;
         }
 
-        public bool IsLowerCase
+        public bool IsLowercase
         {
             get;
             set;
         }
 
-        public ExchangeParameterType ParamType
+        public ExchangeParameterType ParameterType
         {
             get;
             set;

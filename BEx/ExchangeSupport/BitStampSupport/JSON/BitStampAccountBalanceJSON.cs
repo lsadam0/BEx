@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -34,13 +35,13 @@ namespace BEx.ExchangeSupport.BitStampSupport
             Balance btcBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
             btcBalance.BalanceCurrency = Currency.Btc;
 
-            btcBalance.AvailableToTrade = Convert.ToDecimal(BtcAvailable);
-            btcBalance.TotalBalance = Convert.ToDecimal(BtcBalance);
+            btcBalance.AvailableToTrade = Convert.ToDecimal(BtcAvailable, CultureInfo.InvariantCulture);
+            btcBalance.TotalBalance = Convert.ToDecimal(BtcBalance, CultureInfo.InvariantCulture);
 
             Balance usdBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
 
-            usdBalance.AvailableToTrade = Convert.ToDecimal(UsdAvailable);
-            usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance);
+            usdBalance.AvailableToTrade = Convert.ToDecimal(UsdAvailable, CultureInfo.InvariantCulture);
+            usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance, CultureInfo.InvariantCulture);
             usdBalance.BalanceCurrency = Currency.Usd;
 
             List<Balance> balances = new List<Balance>();

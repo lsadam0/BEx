@@ -19,13 +19,12 @@ namespace BEx
                 Order converted = order.ConvertToStandard(pair) as Order;
                 Orders.Add(converted.Id, converted);
             }
-            //orders.ForEach(x => Orders.Add(x.ID, x));
         }
 
         /// <summary>
         /// Orders by Exchange Order ID
         /// </summary>
-        public Dictionary<int, Order> Orders
+        public IDictionary<int, Order> Orders
         {
             get;
             internal set;

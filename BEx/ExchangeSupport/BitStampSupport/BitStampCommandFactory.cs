@@ -37,7 +37,6 @@ namespace BEx.ExchangeSupport.BitStampSupport
                                                    "buy/",
                                                    true,
                                                    typeof(BitStampOrderConfirmationJSON),
-                                                   false,
                                                    param);
 
             return buyOrder;
@@ -54,7 +53,6 @@ namespace BEx.ExchangeSupport.BitStampSupport
                                                                 "cancel_order/",
                                                                 true,
                                                                 typeof(Confirmation),
-                                                                true,
                                                                 param);
 
             return cancelOrder;
@@ -66,8 +64,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
                                                       Method.POST,
                                                       "bitcoin_deposit_address/",
                                                       true,
-                                                      typeof(string),
-                                                      true);
+                                                      typeof(string));
 
             return depositAddress;
         }
@@ -108,7 +105,6 @@ namespace BEx.ExchangeSupport.BitStampSupport
                                                     "sell/",
                                                     true,
                                                     typeof(BitStampOrderConfirmationJSON),
-                                                    false,
                                                     param);
 
             return sellOrder;
@@ -135,7 +131,6 @@ namespace BEx.ExchangeSupport.BitStampSupport
                                                                 "transactions/",
                                                                 false,
                                                                 typeof(List<BitstampTransactionJSON>),
-                                                                false,
                                                                 param);
 
             return transactions;

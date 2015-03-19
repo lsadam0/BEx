@@ -40,7 +40,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                 "/v1/order/new",
                                                 true,
                                                 typeof(BitFinexOrderResponseJSON),
-                                                false,
                                                 param);
 
             return buyOrder;
@@ -57,7 +56,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                                 "/v1/order/cancel",
                                                                 true,
                                                                 typeof(Confirmation),
-                                                                false,
                                                                 param);
 
             return cancelOrder;
@@ -68,7 +66,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             var param = new List<ExchangeParameter>();
 
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "currency", StandardParameterType.Currency, "BTC"));
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "method", StandardParameterType.CurrencyFullName, "bitcoin") { IsLowerCase = true });
+            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "method", StandardParameterType.CurrencyFullName, "bitcoin") { IsLowercase = true });
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "wallet_name", StandardParameterType.None, "exchange"));
 
             var depositAddress = new ExchangeCommand(CommandClass.DepositAddress,
@@ -76,7 +74,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                          "/v1/deposit/new",
                                                          true,
                                                          typeof(BitFinexDepositAddressJSON),
-                                                         false,
                                                          param);
 
             return depositAddress;
@@ -105,7 +102,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                  "/v1/book/{0}{1}",
                                                  false,
                                                  typeof(BitFinexOrderBookJSON),
-                                                 false,
                                                  param);
 
             return orderBook;
@@ -127,7 +123,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                "/v1/order/new",
                                                true,
                                                typeof(BitFinexOrderResponseJSON),
-                                               false,
                                                param);
 
             return sell;
@@ -144,7 +139,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                             "/v1/pubticker/{0}{1}",
                                             false,
                                             typeof(BitfinexTickJSON),
-                                            false,
                                             param);
             return tick;
         }
@@ -156,11 +150,11 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             param.Add(new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.UnixTimestamp, "needtoset"));
 
             ExchangeParameter baseTrans = new ExchangeParameter(ExchangeParameterType.Address, "base", StandardParameterType.Base, "BTC");
-            baseTrans.IsLowerCase = true;
+            baseTrans.IsLowercase = true;
             param.Add(baseTrans);
 
             ExchangeParameter counterTrans = new ExchangeParameter(ExchangeParameterType.Address, "counter", StandardParameterType.Counter, "USD");
-            counterTrans.IsLowerCase = true;
+            counterTrans.IsLowercase = true;
             param.Add(counterTrans);
 
             var transactions = new ExchangeCommand(CommandClass.Transactions,
@@ -168,10 +162,9 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                         "/v1/trades/{0}{1}",
                                                         false,
                                                         typeof(List<BitFinexTransactionJSON>),
-                                                        false,
                                                         param);
 
-            transactions.LowerCaseURLParams = true;
+            transactions.LowercaseUrlParameters = true;
 
             return transactions;
         }
@@ -187,7 +180,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                                                         "/v1/mytrades",
                                                         true,
                                                         typeof(List<BitFinexUserTransactionJSON>),
-                                                        false,
                                                         param);
 
             return userTransactions;
