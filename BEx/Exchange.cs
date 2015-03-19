@@ -83,7 +83,7 @@ namespace BEx
         public Confirmation CancelOrder(int id)
         {
             Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
-            param.Add(StandardParameterType.Id, id.ToString(CultureInfo.InvariantCulture));
+            param.Add(StandardParameterType.Id, id.ToStringInvariant());
 
             return (Confirmation)ExecuteCommand(CommandClass.CancelOrder, DefaultPair, param);
         }
@@ -97,8 +97,8 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
 
-            param.Add(StandardParameterType.Amount, amount.ToString(CultureInfo.InvariantCulture));
-            param.Add(StandardParameterType.Price, price.ToString(CultureInfo.InvariantCulture));
+            param.Add(StandardParameterType.Amount, amount.ToStringInvariant());
+            param.Add(StandardParameterType.Price, price.ToStringInvariant());
 
             return (Order)ExecuteCommand(CommandClass.BuyOrder, pair, param);
         }
@@ -112,8 +112,8 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
 
-            param.Add(StandardParameterType.Amount, amount.ToString(CultureInfo.InvariantCulture));
-            param.Add(StandardParameterType.Price, price.ToString(CultureInfo.InvariantCulture));
+            param.Add(StandardParameterType.Amount, amount.ToStringInvariant());
+            param.Add(StandardParameterType.Price, price.ToStringInvariant());
 
             return (Order)ExecuteCommand(CommandClass.SellOrder, pair, param);
         }
@@ -133,7 +133,7 @@ namespace BEx
         /// <returns>DepositAddress</returns>
         public DepositAddress GetDepositAddress()
         {
-            return GetDepositAddress(Currency.Btc);
+            return GetDepositAddress(Currency.BTC);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace BEx
         {
             Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>();
 
-            values.Add(StandardParameterType.UnixTimestamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToString(CultureInfo.InvariantCulture));
+            values.Add(StandardParameterType.UnixTimestamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToStringInvariant());
 
             return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
         }

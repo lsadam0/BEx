@@ -1,5 +1,6 @@
 ﻿using BEx.CommandProcessing;
 using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             var accountBalance = new ExchangeCommand(CommandClass.AccountBalance,
                                                      Method.POST,
-                                                    "balance/",
+                                                     new Uri("balance/", UriKind.Relative),
                                                      true,
                                                      typeof(BitStampAccountBalanceJSON));
 
@@ -34,7 +35,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
             var buyOrder = new ExchangeCommand(CommandClass.BuyOrder,
                                                    Method.POST,
-                                                   "buy/",
+                                                   new Uri("buy/", UriKind.Relative),
                                                    true,
                                                    typeof(BitStampOrderConfirmationJSON),
                                                    param);
@@ -50,7 +51,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
             var cancelOrder = new ExchangeCommand(CommandClass.CancelOrder,
                                                                 Method.POST,
-                                                                "cancel_order/",
+                                                                new Uri("cancel_order/", UriKind.Relative),
                                                                 true,
                                                                 typeof(Confirmation),
                                                                 param);
@@ -62,7 +63,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             var depositAddress = new ExchangeCommand(CommandClass.DepositAddress,
                                                       Method.POST,
-                                                      "bitcoin_deposit_address/",
+                                                      new Uri("bitcoin_deposit_address/", UriKind.Relative),
                                                       true,
                                                       typeof(string));
 
@@ -73,7 +74,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             var openOrders = new ExchangeCommand(CommandClass.OpenOrders,
                                                     Method.POST,
-                                                    "open_orders/",
+                                                    new Uri("open_orders/", UriKind.Relative),
                                                     true,
                                                     typeof(List<BitStampOpenOrdersJSON>)
                                                     );
@@ -85,7 +86,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             var orderBook = new ExchangeCommand(CommandClass.OrderBook,
                                                                  Method.GET,
-                                                                 "order_book/",
+                                                                 new Uri("order_book/", UriKind.Relative),
                                                                  false,
                                                                  typeof(BitstampOrderBookJSON));
 
@@ -102,7 +103,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
             var sellOrder = new ExchangeCommand(CommandClass.SellOrder,
                                                     Method.POST,
-                                                    "sell/",
+                                                    new Uri("sell/", UriKind.Relative),
                                                     true,
                                                     typeof(BitStampOrderConfirmationJSON),
                                                     param);
@@ -114,7 +115,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             var tick = new ExchangeCommand(CommandClass.Tick,
                                                       Method.GET,
-                                                     "ticker/",
+                                                      new Uri("ticker/", UriKind.Relative),
                                                       false,
                                                       typeof(BitstampTickJSON));
             return tick;
@@ -128,7 +129,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
             var transactions = new ExchangeCommand(CommandClass.Transactions,
                                                                 Method.GET,
-                                                                "transactions/",
+                                                                new Uri("transactions/", UriKind.Relative),
                                                                 false,
                                                                 typeof(List<BitstampTransactionJSON>),
                                                                 param);
@@ -140,7 +141,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             var userTransactions = new ExchangeCommand(CommandClass.UserTransactions,
                                                         Method.POST,
-                                                        "user_transactions/",
+                                                        new Uri("user_transactions/", UriKind.Relative),
                                                         true,
                                                         typeof(List<BitStampUserTransactionJSON>));
 

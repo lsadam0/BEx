@@ -30,7 +30,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
             request.AddParameter("key", Uri.EscapeUriString(Configuration.ApiKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));
-            request.AddParameter("nonce", Uri.EscapeUriString(currentNonce.ToString(CultureInfo.InvariantCulture)));
+            request.AddParameter("nonce", Uri.EscapeUriString(currentNonce.ToStringInvariant()));
         }
     }
 }

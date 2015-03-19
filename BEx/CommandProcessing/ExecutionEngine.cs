@@ -11,7 +11,7 @@ namespace BEx.CommandProcessing
 
         private ResultTranslation translator;
 
-        private ErrorHandler errorHandler;
+        //  private ErrorHandler errorHandler;
 
         internal ExecutionEngine(Exchange targetExchange)
         {
@@ -21,7 +21,7 @@ namespace BEx.CommandProcessing
 
             translator = new ResultTranslation(sourceExchange);
 
-            errorHandler = new ErrorHandler(sourceExchange.ExchangeSourceType);
+            //    errorHandler = new ErrorHandler(sourceExchange.ExchangeSourceType);
         }
 
         public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)

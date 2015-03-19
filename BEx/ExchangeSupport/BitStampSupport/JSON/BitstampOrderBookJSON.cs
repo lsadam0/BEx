@@ -26,8 +26,8 @@ namespace BEx.ExchangeSupport.BitStampSupport
             {
                 string[] values = Bids[x];
 
-                Decimal price = Convert.ToDecimal(values[0], CultureInfo.InvariantCulture);
-                Decimal amount = Convert.ToDecimal(values[1], CultureInfo.InvariantCulture);
+                Decimal price = Conversion.ToDecimalInvariant(values[0]);
+                Decimal amount = Conversion.ToDecimalInvariant(values[1]);
 
                 res.BidsByPrice.Add(price, amount);
             }
@@ -36,8 +36,8 @@ namespace BEx.ExchangeSupport.BitStampSupport
             {
                 string[] values = Asks[x];
 
-                Decimal price = Convert.ToDecimal(values[0], CultureInfo.InvariantCulture);
-                Decimal amount = Convert.ToDecimal(values[1], CultureInfo.InvariantCulture);
+                Decimal price = Conversion.ToDecimalInvariant(values[0]);
+                Decimal amount = Conversion.ToDecimalInvariant(values[1]);
 
                 res.AsksByPrice.Add(price, amount);
             }

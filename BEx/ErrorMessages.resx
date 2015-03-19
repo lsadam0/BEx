@@ -121,7 +121,7 @@
     <value>Executed command {0}, but the server replied that the request was bad (HTTP 400).</value>
   </data>
   <data name="RESTExecuteException" xml:space="preserve">
-    <value>An error occured while executing the API Command {0}.  </value>
+    <value>An error occurred while executing the API Command {0}.  </value>
   </data>
   <data name="RESTForbidden" xml:space="preserve">
     <value>Executed command {0}, but the server replied that the action is forbidden (HTTP 403).</value>

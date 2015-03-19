@@ -4,42 +4,77 @@ using System.Reflection;
 
 namespace BEx
 {
+    /// <summary>
+    /// Crypto & Fiat Currencies
+    /// </summary>
     public enum Currency
     {
-        // Crypto
-        None,
-
         [Description("BitCoin")]
-        Btc, // BitCoin
+        BTC,
 
         [Description("LiteCoin")]
-        Ltc, // LiteCoin
+        LTC,
 
         [Description("NameCoin")]
-        Nmc, // NameCoin
+        NMC,
 
-        Nvc, // NovaCoin
-        Ppc, // PeerCoin
-        Trc, // TerraCoin
-        Ftc, // FeatherCoin
-        Xpm, // PrimeCoin
-        Usd, // United States Dollar
-        Gbp, // Great British Pound
-        Rur, // Russian
-        Cnh, // Yuan
-        Eur, // Euro
+        [Description("NovaCoin")]
+        NVC,
+
+        [Description("PeerCoin")]
+        PPC,
+
+        [Description("TerraCoin")]
+        TRC,
+
+        [Description("FeatherCoin")]
+        FTC,
+
+        [Description("PrimeCoin")]
+        XPM,
+
+        [Description("United States Dollar")]
+        USD,
+
+        [Description("Great British Pound")]
+        GBP,
+
+        [Description("Russian")]
+        RUR,
+
+        [Description("Yuan")]
+        CNH,
+
+        [Description("Euro")]
+        EUR,
 
         [Description("DarkCoin")]
-        Drk, // DarkCoin
+        DRK,
 
-        Aud, //	Australia Dollar
-        Cny, //	China Yuan Renminbi
-        Hkd, //	Hong Kong Dollar
-        Isk, //	Iceland Krona
-        Jpy, //	Japan Yen
-        Krw, //	Korea (South) Won
-        Rub, //	Russia Ruble
-        Sgd, //	Singapore Dollar
+        [Description("Australia Dollar")]
+        AUD,
+
+        [Description("China Yuan Renminbi")]
+        CNY,
+
+        [Description("Hong Kong Dollar")]
+        HKD,
+
+        [Description("Iceland Krona")]
+        ISK,
+
+        [Description("Japan Yen")]
+        JPY,
+
+        [Description("Korea (South) Won")]
+        KRW,
+
+        [Description("Russia Ruble")]
+        RUB,
+
+        [Description("Singapore Dollar")]
+        SGD,
+
         Unknown
     }
 

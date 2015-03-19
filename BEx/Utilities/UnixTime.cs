@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BEx.CommandProcessing
+namespace BEx
 {
     internal class UnixTime
     {
@@ -14,7 +14,7 @@ namespace BEx.CommandProcessing
 
         internal static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
         {
-            return UnixTimeStampToDateTime(Convert.ToDouble(unixTimeStamp, CultureInfo.InvariantCulture));
+            return UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(unixTimeStamp));
         }
 
         internal static DateTime UnixTimeStampToDateTime(double unixTimeStamp)

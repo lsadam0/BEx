@@ -1,6 +1,8 @@
-﻿using RestSharp;
+﻿using BEx;
+using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BEx.CommandProcessing
 {
@@ -8,16 +10,16 @@ namespace BEx.CommandProcessing
     {
         public ExchangeCommand(CommandClass identifier,
                                 Method httpMethod,
-                                string relativeUrl,
+                                Uri relativeUri,
                                 bool isAuthenticated,
                                 Type intermediateType)
-            : this(identifier, httpMethod, relativeUrl, isAuthenticated, intermediateType, null)
+            : this(identifier, httpMethod, relativeUri, isAuthenticated, intermediateType, null)
         {
         }
 
         public ExchangeCommand(CommandClass identifier,
                                 Method httpMethod,
-                                string relativeUrl,
+                                Uri relativeUri,
                                 bool isAuthenticated,
                                 Type intermediateType,
                                 IList<ExchangeParameter> parameters)
@@ -38,7 +40,7 @@ namespace BEx.CommandProcessing
             HttpMethod = httpMethod;
             Identifier = identifier;
             IsAuthenticated = isAuthenticated;
-            RelativeUri = relativeUrl;
+            RelativeUri = relativeUri;
 
             IntermediateType = intermediateType;
             LowercaseUrlParameters = false;
@@ -180,18 +182,10 @@ namespace BEx.CommandProcessing
         /// <summary>
         /// Exchange URL endpoint relative to the base address
         /// </summary>
-        public string RelativeUri
+        public Uri RelativeUri
         {
             get;
             private set;
-        }
-
-        public string GetResolvedRelativeUri(CurrencyTradingPair pair)
-        {
-            if (LowercaseUrlParameters)
-                return string.Format(RelativeUri, pair.BaseCurrency.ToString().ToLower(), pair.CounterCurrency.ToString().ToLower());
-            else
-                return string.Format(RelativeUri, pair.BaseCurrency.ToString(), pair.CounterCurrency.ToString());
         }
 
         public bool ReturnsValueType

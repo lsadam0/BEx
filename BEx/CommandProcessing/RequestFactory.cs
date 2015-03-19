@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using BEx;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,11 +20,11 @@ namespace BEx.CommandProcessing
 
             parameters = PopulateCommandParameters(command, pair, parameters);
 
-            SetParameters(result, command, pair, parameters);
+            SetParameters(result, command, parameters);
             return result;
         }
 
-        private static void SetParameters(RestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> parameters)
+        private static void SetParameters(RestRequest request, ExchangeCommand command, Dictionary<StandardParameterType, string> parameters)
         {
             foreach (KeyValuePair<StandardParameterType, string> param in parameters)
             {
@@ -39,7 +40,10 @@ namespace BEx.CommandProcessing
 
         private static RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)
         {
-            var request = new RestRequest(command.GetResolvedRelativeUri(pair), command.HttpMethod);
+            var request = new RestRequest(command.RelativeUri, command.HttpMethod);
+
+            request.AddUrlSegment("0", pair.BaseCurrency.ToString());
+            request.AddUrlSegment("1", pair.CounterCurrency.ToString());
 
             request.RequestFormat = DataFormat.Json;
             request.Method = command.HttpMethod;
@@ -94,7 +98,7 @@ namespace BEx.CommandProcessing
                             throw new NotImplementedException();
 
                         case (StandardParameterType.UnixTimestamp):
-                            value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToString(CultureInfo.InvariantCulture);
+                            value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToStringInvariant();
                             break;
                     }
 

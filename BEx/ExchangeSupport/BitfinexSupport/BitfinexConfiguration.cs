@@ -62,16 +62,16 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             }
         }
 
-        private void Initialize(string url)
+        private void Initialize(Uri baseUri)
         {
-            DefaultPair = new CurrencyTradingPair(Currency.Btc, Currency.Usd);
+            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
 
             SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
 
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.DRK, Currency.USD));
+            SupportedPairs.Add(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
 
             SupportedCurrencies = new HashSet<Currency>();
 
@@ -84,10 +84,10 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                     SupportedCurrencies.Add(pair.CounterCurrency);
             }
 
-            if (string.IsNullOrWhiteSpace(url))
+            if (baseUri == null)
                 BaseUri = new Uri("https://api.bitfinex.com");
             else
-                BaseUri = new Uri(url);
+                BaseUri = baseUri;
         }
 
         internal BitfinexConfiguration()
@@ -95,12 +95,20 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             Initialize(null);
         }
 
-        public BitfinexConfiguration(string apiKey, string secretKey, string url = null)
+        public BitfinexConfiguration(string apiKey, string secretKey)
         {
             ApiKey = apiKey;
             SecretKey = secretKey;
 
-            Initialize(url);
+            Initialize(null);
+        }
+
+        public BitfinexConfiguration(string apiKey, string secretKey, Uri baseUri)
+        {
+            ApiKey = apiKey;
+            SecretKey = secretKey;
+
+            Initialize(baseUri);
         }
     }
 }

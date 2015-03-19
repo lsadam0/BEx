@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     public class ExchangeCommandVerification : ExchangeVerificationBase
     {
@@ -22,7 +22,7 @@ namespace NUnitTests
 
             Assert.IsTrue(toVerify.BalanceByCurrency.Count > 0);
 
-            Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(Currency.Btc));
+            Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(Currency.BTC));
 
             foreach (Currency c in testCandidate.SupportedCurrencies)
             {
@@ -50,7 +50,6 @@ namespace NUnitTests
 
         public void VerifyBuyOrder()
         {
-            Debug("Begin Buy Order Test");
             Order toVerify = testCandidate.CreateBuyOrder(1m, 5m);
 
             VerifyAPIResult(toVerify);
@@ -87,8 +86,6 @@ namespace NUnitTests
 
         public void VerifyOrderBook(CurrencyTradingPair pair)
         {
-            Debug(string.Format("Verifying OrderBook for {0}", pair));
-
             OrderBook toVerify = testCandidate.GetOrderBook(pair);
 
             VerifyAPIResult(toVerify);
@@ -109,13 +106,10 @@ namespace NUnitTests
                 Assert.IsTrue(order.Key >= 0.0m);
                 Assert.IsTrue(order.Value > 0.0m);
             }
-
-            Debug(toVerify.ToString());
         }
 
         public void VerifySellOrder()
         {
-            Debug("Begin Sell Order");
             Order toVerify = testCandidate.CreateSellOrder(0.02m, 10000m);
 
             VerifyAPIResult(toVerify);
@@ -127,14 +121,11 @@ namespace NUnitTests
         {
             Stopwatch measure = new Stopwatch();
 
-            Debug(string.Format("Verifying Tick for {0}/{1}", pair.BaseCurrency, pair.CounterCurrency));
-
             measure.Reset();
             measure.Start();
             Tick toVerify = testCandidate.GetTick(pair);
             measure.Stop();
 
-            Debug(string.Format("Tick execution time {0}ms", measure.ElapsedMilliseconds.ToString()));
             VerifyAPIResult(toVerify);
 
             Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
@@ -145,19 +136,15 @@ namespace NUnitTests
             Assert.IsTrue(toVerify.High > 0.0m);
             Assert.IsTrue(toVerify.Low > 0.0m);
             Assert.IsTrue(toVerify.Volume > 0.0m);
-
-            Debug(toVerify.ToString());
         }
 
         public void VerifyTransactions(CurrencyTradingPair pair)
         {
-            Debug(string.Format("Verifying Transactions for {0}", pair.ToString()));
-
             Transactions toVerify = testCandidate.GetTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
-            if (pair.BaseCurrency == Currency.Btc && pair.CounterCurrency == Currency.Usd)
+            if (pair.BaseCurrency == Currency.BTC && pair.CounterCurrency == Currency.USD)
                 Assert.IsTrue(toVerify.TransactionsCollection.Count > 0);
 
             if (toVerify.TransactionsCollection.Count > 0)
@@ -176,8 +163,6 @@ namespace NUnitTests
                 int totalMinutes = (newest - oldest).Minutes;
                 Assert.IsTrue(totalMinutes < 61);
             }
-
-            Debug(toVerify.ToString());
         }
 
         public void VerifyUserTransactions(CurrencyTradingPair pair)
@@ -200,8 +185,6 @@ namespace NUnitTests
                 Assert.IsTrue(transaction.TransactionId > 0);
                 Assert.IsTrue(transaction.OrderId > 0);
             }
-
-            Debug(toVerify.ToString());
         }
 
         private void VerifyOrder(Order toVerify, CurrencyTradingPair pair, OrderType requestedOrderType)

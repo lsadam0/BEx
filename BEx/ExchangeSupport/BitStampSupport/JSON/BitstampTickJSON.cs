@@ -26,13 +26,13 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), ExchangeType.BitStamp);
 
-            res.Ask = Convert.ToDecimal(ask, CultureInfo.InvariantCulture);
-            res.Bid = Convert.ToDecimal(bid, CultureInfo.InvariantCulture);
-            res.High = Convert.ToDecimal(high, CultureInfo.InvariantCulture);
-            res.Last = Convert.ToDecimal(last, CultureInfo.InvariantCulture);
-            res.Low = Convert.ToDecimal(low, CultureInfo.InvariantCulture);
+            res.Ask = Conversion.ToDecimalInvariant(ask);
+            res.Bid = Conversion.ToDecimalInvariant(bid);
+            res.High = Conversion.ToDecimalInvariant(high);
+            res.Last = Conversion.ToDecimalInvariant(last);
+            res.Low = Conversion.ToDecimalInvariant(low);
 
-            res.Volume = Convert.ToDecimal(volume, CultureInfo.InvariantCulture);
+            res.Volume = Conversion.ToDecimalInvariant(volume);
 
             res.Pair = pair;
 

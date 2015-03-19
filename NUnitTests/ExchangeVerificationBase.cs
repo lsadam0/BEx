@@ -2,14 +2,23 @@
 using System;
 using System.Xml.Linq;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     public class ExchangeVerificationBase
     {
-        protected Exchange testCandidate;
-        protected Type testCandidateType;
+        protected Exchange testCandidate
+        {
+            get;
+            set;
+        }
 
-        protected string APIKey
+        protected Type testCandidateType
+        {
+            get;
+            set;
+        }
+
+        protected string ApiKey
         {
             get;
             set;
@@ -21,13 +30,11 @@ namespace NUnitTests
             set;
         }
 
-        protected string ClientID
+        protected string ClientId
         {
             get;
             set;
         }
-
-        private static object testVelocityLock = new object();
 
         private ExchangeCommandVerification commandVerification = null;
 
@@ -64,18 +71,18 @@ namespace NUnitTests
             GetAPIKeys(exchangeType);
 
             if (exchangeType == typeof(BitStamp))
-                testCandidate = new BitStamp(APIKey, Secret, ClientID);
+                testCandidate = new BitStamp(ApiKey, Secret, ClientId);
             else if (exchangeType == typeof(Bitfinex))
-                testCandidate = new Bitfinex(APIKey, Secret);
+                testCandidate = new Bitfinex(ApiKey, Secret);
 
             testCandidateType = exchangeType;
         }
 
         protected ExchangeVerificationBase(Exchange candidate)
         {
-            APIKey = candidate.Configuration.ApiKey;// apiKey;
-            Secret = candidate.Configuration.SecretKey;//secret;
-            ClientID = candidate.Configuration.ClientId;
+            ApiKey = candidate.Configuration.ApiKey;
+            Secret = candidate.Configuration.SecretKey;
+            ClientId = candidate.Configuration.ClientId;
 
             testCandidate = candidate;
             testCandidateType = candidate.GetType();
@@ -102,11 +109,11 @@ namespace NUnitTests
                     break;
             }
 
-            APIKey = exchangeElement.Element("Key").Value;
+            ApiKey = exchangeElement.Element("Key").Value;
             Secret = exchangeElement.Element("Secret").Value;
 
             if (exchangeElement.Element("ClientID") != null)
-                ClientID = exchangeElement.Element("ClientID").Value;
+                ClientId = exchangeElement.Element("ClientID").Value;
         }
 
         protected ExchangeVerificationBase()

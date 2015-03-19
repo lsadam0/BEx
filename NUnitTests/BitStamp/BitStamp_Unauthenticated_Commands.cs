@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("BitStamp.UnauthenticatedCommands")]

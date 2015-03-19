@@ -15,7 +15,7 @@ namespace BEx.CommandProcessing
         public DetermineErrorConditionDelegate DetermineErrorCondition;
         public IsErrorDelegate IsExchangeError;
 
-        public bool IsResponseError(IRestResponse response)
+        public static bool IsResponseError(IRestResponse response)
         {
             return (response == null
                 || response.ErrorException != null

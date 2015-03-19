@@ -1,7 +1,7 @@
 ﻿using BEx;
 using NUnit.Framework;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     public class ExchangeExceptionVerification : ExchangeVerificationBase
     {
@@ -25,7 +25,7 @@ namespace NUnitTests
             Assert.Throws<ExchangeAuthorizationException>(
                 delegate
                 {
-                    Exchange failure = GetInstance("", Secret, ClientID);
+                    Exchange failure = GetInstance("", Secret, ClientId);
                 });
         }
 
@@ -34,7 +34,7 @@ namespace NUnitTests
             Assert.Throws<ExchangeAuthorizationException>(
                 delegate
                 {
-                    Exchange failure = GetInstance(APIKey.Remove(APIKey.Length - 1), Secret, ClientID);
+                    Exchange failure = GetInstance(ApiKey.Remove(ApiKey.Length - 1), Secret, ClientId);
                     failure.CreateSellOrder(9999, 9999);
                 });
         }
@@ -44,7 +44,7 @@ namespace NUnitTests
             Assert.Throws<ExchangeAuthorizationException>(
                 delegate
                 {
-                    Exchange failure = GetInstance(APIKey, "", ClientID);
+                    Exchange failure = GetInstance(ApiKey, "", ClientId);
                 });
         }
 
@@ -53,7 +53,7 @@ namespace NUnitTests
             Assert.Throws<ExchangeAuthorizationException>(
                 delegate
                 {
-                    Exchange failure = GetInstance(APIKey, Secret.Remove(Secret.Length - 1), ClientID);
+                    Exchange failure = GetInstance(ApiKey, Secret.Remove(Secret.Length - 1), ClientId);
                     failure.CreateSellOrder(9999, 9999);
                 });
         }
@@ -63,7 +63,7 @@ namespace NUnitTests
             Assert.Throws<ExchangeAuthorizationException>(
                 delegate
                 {
-                    Exchange failure = GetInstance(APIKey, Secret, "");
+                    Exchange failure = GetInstance(ApiKey, Secret, "");
                 });
         }
 
@@ -72,7 +72,7 @@ namespace NUnitTests
             Assert.Throws<ExchangeAuthorizationException>(
                 delegate
                 {
-                    Exchange failure = GetInstance(APIKey, Secret, ClientID.Remove(this.ClientID.Length - 1));
+                    Exchange failure = GetInstance(ApiKey, Secret, ClientId.Remove(this.ClientId.Length - 1));
                     failure.CreateSellOrder(9999, 9999);
                 });
         }

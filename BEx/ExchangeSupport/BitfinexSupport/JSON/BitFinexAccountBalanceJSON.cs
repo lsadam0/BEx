@@ -30,8 +30,8 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                 if (Enum.TryParse<Currency>(Currency.ToUpper(CultureInfo.InvariantCulture), out bCurrency))
                 {
                     res.BalanceCurrency = bCurrency;
-                    res.AvailableToTrade = Convert.ToDecimal(Available, CultureInfo.InvariantCulture);
-                    res.TotalBalance = Convert.ToDecimal(Amount, CultureInfo.InvariantCulture);
+                    res.AvailableToTrade = Conversion.ToDecimalInvariant(Available);
+                    res.TotalBalance = Conversion.ToDecimalInvariant(Amount);
                 }
             }
 

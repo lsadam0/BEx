@@ -1,7 +1,7 @@
 ﻿using BEx;
 using NUnit.Framework;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("BitStamp.AuthenticatedCommands")]
@@ -19,7 +19,7 @@ namespace NUnitTests
         }
 
         [Test]
-        public void GetOpenOrders_BTCUSD_SUccess()
+        public void GetOpenOrders_BTCUSD_Success()
         {
             CommandVerification.VerifyOpenOrders();
         }
@@ -33,7 +33,7 @@ namespace NUnitTests
         [Test]
         public void GetDepositAddress_BTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.Btc);
+            CommandVerification.VerifyDepositAddress(Currency.BTC);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(Timestamp, CultureInfo.InvariantCulture)), ExchangeType.Bitfinex);
+            UserTransaction u = new UserTransaction(UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(Timestamp)), ExchangeType.Bitfinex);
 
             u.TransactionId = Tid;
             u.OrderId = Tid;
@@ -41,7 +41,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             u.BaseCurrencyAmount = 0;
             u.CounterCurrencyAmount = 0;
 
-            u.TradeFee = Convert.ToDecimal(FeeAmount, CultureInfo.InvariantCulture);
+            u.TradeFee = Conversion.ToDecimalInvariant(FeeAmount);
             u.TradeFeeCurrency = Currency.Unknown;
 
             return u;

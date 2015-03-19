@@ -36,12 +36,12 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             Tick res = new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex);
 
             res.Pair = pair;
-            res.Ask = Convert.ToDecimal(Ask, CultureInfo.InvariantCulture);
-            res.Bid = Convert.ToDecimal(Bid, CultureInfo.InvariantCulture);
-            res.High = Convert.ToDecimal(High, CultureInfo.InvariantCulture);
-            res.Last = Convert.ToDecimal(LastPrice, CultureInfo.InvariantCulture);
-            res.Low = Convert.ToDecimal(Low, CultureInfo.InvariantCulture);
-            res.Volume = Convert.ToDecimal(Volume, CultureInfo.InvariantCulture);
+            res.Ask = Conversion.ToDecimalInvariant(Ask);
+            res.Bid = Conversion.ToDecimalInvariant(Bid);
+            res.High = Conversion.ToDecimalInvariant(High);
+            res.Last = Conversion.ToDecimalInvariant(LastPrice);
+            res.Low = Conversion.ToDecimalInvariant(Low);
+            res.Volume = Conversion.ToDecimalInvariant(Volume);
 
             return res;
         }

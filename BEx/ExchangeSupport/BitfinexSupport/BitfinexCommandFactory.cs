@@ -1,5 +1,6 @@
 ﻿using BEx.CommandProcessing;
 using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         {
             var accountBalance = new ExchangeCommand(CommandClass.AccountBalance,
                                                         Method.POST,
-                                                        "/v1/balances",
+                                                        new Uri("/v1/balances", UriKind.Relative),
                                                         true,
                                                         typeof(List<BitFinexAccountBalanceJSON>));
 
@@ -37,7 +38,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var buyOrder = new ExchangeCommand(CommandClass.BuyOrder,
                                                 Method.POST,
-                                                "/v1/order/new",
+                                                new Uri("/v1/order/new", UriKind.Relative),
                                                 true,
                                                 typeof(BitFinexOrderResponseJSON),
                                                 param);
@@ -53,7 +54,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var cancelOrder = new ExchangeCommand(CommandClass.CancelOrder,
                                                                 Method.POST,
-                                                                "/v1/order/cancel",
+                                                                new Uri("/v1/order/cancel", UriKind.Relative),
                                                                 true,
                                                                 typeof(Confirmation),
                                                                 param);
@@ -71,7 +72,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var depositAddress = new ExchangeCommand(CommandClass.DepositAddress,
                                                          Method.POST,
-                                                         "/v1/deposit/new",
+                                                         new Uri("/v1/deposit/new", UriKind.Relative),
                                                          true,
                                                          typeof(BitFinexDepositAddressJSON),
                                                          param);
@@ -83,7 +84,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         {
             var openOrders = new ExchangeCommand(CommandClass.OpenOrders,
                                                   Method.POST,
-                                                  "/v1/orders",
+                                                  new Uri("/v1/orders", UriKind.Relative),
                                                   true,
                                                   typeof(List<BitFinexOrderResponseJSON>));
 
@@ -99,7 +100,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var orderBook = new ExchangeCommand(CommandClass.OrderBook,
                                                  Method.GET,
-                                                 "/v1/book/{0}{1}",
+                                                 new Uri("/v1/book/{0}{1}", UriKind.Relative),
                                                  false,
                                                  typeof(BitFinexOrderBookJSON),
                                                  param);
@@ -120,7 +121,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var sell = new ExchangeCommand(CommandClass.SellOrder,
                                                Method.POST,
-                                               "/v1/order/new",
+                                               new Uri("/v1/order/new", UriKind.Relative),
                                                true,
                                                typeof(BitFinexOrderResponseJSON),
                                                param);
@@ -136,7 +137,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var tick = new ExchangeCommand(CommandClass.Tick,
                                             Method.GET,
-                                            "/v1/pubticker/{0}{1}",
+                                            new Uri("/v1/pubticker/{0}{1}", UriKind.Relative),
                                             false,
                                             typeof(BitfinexTickJSON),
                                             param);
@@ -159,7 +160,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var transactions = new ExchangeCommand(CommandClass.Transactions,
                                                         Method.GET,
-                                                        "/v1/trades/{0}{1}",
+                                                        new Uri("/v1/trades/{0}{1}", UriKind.Relative),
                                                         false,
                                                         typeof(List<BitFinexTransactionJSON>),
                                                         param);
@@ -177,7 +178,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             var userTransactions = new ExchangeCommand(CommandClass.UserTransactions,
                                                         Method.POST,
-                                                        "/v1/mytrades",
+                                                        new Uri("/v1/mytrades", UriKind.Relative),
                                                         true,
                                                         typeof(List<BitFinexUserTransactionJSON>),
                                                         param);

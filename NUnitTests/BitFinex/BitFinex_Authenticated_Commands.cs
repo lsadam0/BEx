@@ -1,7 +1,7 @@
 ﻿using BEx;
 using NUnit.Framework;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("Bitfinex.AuthenticatedCommands")]
@@ -21,19 +21,19 @@ namespace NUnitTests
         [Test]
         public void GetDepositAddress_BTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.Btc);
+            CommandVerification.VerifyDepositAddress(Currency.BTC);
         }
 
         [Test]
         public void GetDepositAddress_LTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.Ltc);
+            CommandVerification.VerifyDepositAddress(Currency.LTC);
         }
 
         [Test]
         public void GetDepositAddress_DRK_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.Drk);
+            CommandVerification.VerifyDepositAddress(Currency.DRK);
         }
 
         [Test]
@@ -45,25 +45,25 @@ namespace NUnitTests
         [Test]
         public void GetUserTransactions_DRKBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
         }
 
         [Test]
         public void GetUserTransactions_DRKUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
         }
 
         [Test]
         public void GetUserTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void GetUserTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
+            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]

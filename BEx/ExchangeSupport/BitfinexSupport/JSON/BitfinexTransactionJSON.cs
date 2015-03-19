@@ -29,10 +29,10 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         {
             Transaction res = new Transaction(DateTime.Now, ExchangeType.Bitfinex);
 
-            res.Amount = Convert.ToDecimal(amount, CultureInfo.InvariantCulture);
-            res.Price = Convert.ToDecimal(price, CultureInfo.InvariantCulture);
-            res.TransactionId = Convert.ToInt64(tid, CultureInfo.InvariantCulture);
-            res.CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp, CultureInfo.InvariantCulture));
+            res.Amount = Conversion.ToDecimalInvariant(amount);
+            res.Price = Conversion.ToDecimalInvariant(price);
+            res.TransactionId = (long)tid;
+            res.CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
             res.Pair = pair;
 
             return res;

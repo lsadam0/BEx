@@ -1,7 +1,7 @@
 ﻿using BEx;
 using NUnit.Framework;
 
-namespace NUnitTests
+namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("Bitfinex.UnauthenticatedCommands")]
@@ -15,31 +15,31 @@ namespace NUnitTests
         [Test]
         public void GetTick_BTCUSD_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.Btc, Currency.Usd));
+            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]
         public void GetTick_LTCUSD_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
+            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]
         public void GetTick_LTCBTC_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
+            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void GetTick_DRKUSD_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
+            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.DRK, Currency.USD));
         }
 
         [Test]
         public void GetTick_DRKBTC_Success()
         {
-            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
+            CommandVerification.VerifyTick(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
         }
 
         [Test]
@@ -51,55 +51,55 @@ namespace NUnitTests
         [Test]
         public void GetOrderBook_LTCUSD_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]
         public void GetOrderBook_DRKUSD_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.DRK, Currency.USD));
         }
 
         [Test]
         public void GetOrderBook_DRKBTC_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
         }
 
         [Test]
         public void GetOrderBook_LTCBTC_Success()
         {
-            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
+            CommandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void GetTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.Btc, Currency.Usd));
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]
         public void GetTransactions_DRKBTC_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.Drk, Currency.Btc));
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
         }
 
         [Test]
         public void GetTransactions_DRKUSD_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.Drk, Currency.Usd));
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
         }
 
         [Test]
         public void GetTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.Ltc, Currency.Btc));
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void GetTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.Ltc, Currency.Usd));
+            CommandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
         }
     }
 }

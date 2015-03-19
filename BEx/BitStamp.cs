@@ -5,8 +5,6 @@ namespace BEx
 {
     public sealed class BitStamp : Exchange
     {
-        private Regex errorId;
-
         public BitStamp()
             : base(new BitStampConfiguration(), new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
@@ -16,8 +14,6 @@ namespace BEx
             : base(new BitStampConfiguration(apiKey, clientId, secretKey), new BitStampCommandFactory(), ExchangeType.BitStamp)
         {
             Authenticator = new BitStampAuthenticator(Configuration);
-
-            errorId = new Regex("^{\"error\":");// \"API key not found\"}");
         }
     }
 }

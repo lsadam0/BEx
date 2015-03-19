@@ -52,8 +52,11 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             {
                 foreach (Parameter p in request.Parameters)
                 {
-                    payload.Append(",");
-                    payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
+                    if (p.Type != ParameterType.UrlSegment)
+                    {
+                        payload.Append(",");
+                        payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
+                    }
                 }
             }
 

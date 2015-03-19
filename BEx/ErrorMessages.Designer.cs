@@ -88,7 +88,7 @@ namespace BEx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured while executing the API Command {0}.  .
+        ///   Looks up a localized string similar to An error occurred while executing the API Command {0}.  .
         /// </summary>
         internal static string RESTExecuteException {
             get {

@@ -56,10 +56,10 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         {
             Order res = new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex);
 
-            res.Amount = Convert.ToDecimal(OriginalAmount, CultureInfo.InvariantCulture);
+            res.Amount = Conversion.ToDecimalInvariant(OriginalAmount);
             res.Pair = pair;
             res.Id = Id;
-            res.Price = Convert.ToDecimal(Price, CultureInfo.InvariantCulture);
+            res.Price = Conversion.ToDecimalInvariant(Price);
 
             return res;
         }

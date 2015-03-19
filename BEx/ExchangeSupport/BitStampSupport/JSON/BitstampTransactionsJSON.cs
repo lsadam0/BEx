@@ -21,12 +21,12 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            DateTime time = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(date, CultureInfo.InvariantCulture));
+            DateTime time = UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(date));
             Transaction res = new Transaction(DateTime.Now, ExchangeType.BitStamp);
 
-            res.Amount = Convert.ToDecimal(amount, CultureInfo.InvariantCulture);
-            res.Price = Convert.ToDecimal(price, CultureInfo.InvariantCulture);
-            res.TransactionId = Convert.ToInt64(tid, CultureInfo.InvariantCulture);
+            res.Amount = Conversion.ToDecimalInvariant(amount);
+            res.Price = Conversion.ToDecimalInvariant(price);
+            res.TransactionId = (long)tid;
             res.Pair = pair;
             res.CompletedTime = time;
 

@@ -23,10 +23,10 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            Order res = new Order(Convert.ToDateTime(Datetime, CultureInfo.InvariantCulture), ExchangeType.BitStamp);
+            Order res = new Order(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp);
 
-            res.Amount = Convert.ToDecimal(Amount, CultureInfo.InvariantCulture);
-            res.Price = Convert.ToDecimal(Price, CultureInfo.InvariantCulture);
+            res.Amount = Conversion.ToDecimalInvariant(Amount);
+            res.Price = Conversion.ToDecimalInvariant(Price);
 
             if (Type == 0)
                 res.TradeType = OrderType.Buy;
@@ -34,7 +34,7 @@ namespace BEx.ExchangeSupport.BitStampSupport
                 res.TradeType = OrderType.Sell;
 
             res.Id = Id;
-            res.ExchangeTimestamp = Convert.ToDateTime(Datetime, CultureInfo.InvariantCulture);
+            res.ExchangeTimestamp = Conversion.ToDateTimeInvariant(Datetime);
 
             res.Pair = pair;
 

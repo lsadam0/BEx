@@ -45,18 +45,19 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
             for (int x = 0; x < Bids.Length; ++x)
             {
-                decimal.TryParse(Bids[x].Price, out key);
-                decimal.TryParse(Bids[x].Amount, out value);
-
-                res.BidsByPrice.Add(key, value);
+                if (
+                decimal.TryParse(Bids[x].Price, out key)
+                    &&
+                decimal.TryParse(Bids[x].Amount, out value))
+                    res.BidsByPrice.Add(key, value);
             }
 
             for (int x = 0; x < Asks.Length; ++x)
             {
-                decimal.TryParse(Asks[x].Price, out key);
-                decimal.TryParse(Asks[x].Amount, out value);
-
-                res.AsksByPrice.Add(key, value);
+                if (decimal.TryParse(Asks[x].Price, out key)
+                    &&
+                decimal.TryParse(Asks[x].Amount, out value))
+                    res.AsksByPrice.Add(key, value);
             }
 
             // res.TimeStamp = DateTime.Now;

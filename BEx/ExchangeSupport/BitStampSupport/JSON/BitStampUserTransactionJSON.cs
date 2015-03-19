@@ -34,13 +34,13 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             if (OrderId != null && Type == 2)
             {
-                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime, CultureInfo.InvariantCulture), ExchangeType.BitStamp);
+                UserTransaction res = new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp);
 
-                res.BaseCurrencyAmount = Convert.ToDecimal(Btc, CultureInfo.InvariantCulture);
-                res.CounterCurrencyAmount = Convert.ToDecimal(Usd, CultureInfo.InvariantCulture);
+                res.BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc);
+                res.CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd);
                 res.TransactionId = Id;
 
-                res.TradeFee = Convert.ToDecimal(Fee, CultureInfo.InvariantCulture);
+                res.TradeFee = Conversion.ToDecimalInvariant(Fee);
                 res.OrderId = (int)OrderId;
                 res.TradeFeeCurrency = Currency.Unknown;
 
@@ -57,11 +57,11 @@ namespace BEx.ExchangeSupport.BitStampSupport
             {
                 UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
 
-                res.BaseCurrencyAmount = Convert.ToDecimal(Btc);
-                res.CounterCurrencyAmount = Convert.ToDecimal(Usd);
+                res.BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc);
+                res.CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd);
                 res.TransactionId = Id;
 
-                res.TradeFee = Convert.ToDecimal(Fee);
+                res.TradeFee = Conversion.ToDecimalInvariant(Fee);
                 res.OrderId = (int)OrderId;
                 res.TradeFeeCurrency = Currency.Unknown;
 

@@ -33,16 +33,16 @@ namespace BEx.ExchangeSupport.BitStampSupport
             AccountBalance res;
 
             Balance btcBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
-            btcBalance.BalanceCurrency = Currency.Btc;
+            btcBalance.BalanceCurrency = Currency.BTC;
 
-            btcBalance.AvailableToTrade = Convert.ToDecimal(BtcAvailable, CultureInfo.InvariantCulture);
-            btcBalance.TotalBalance = Convert.ToDecimal(BtcBalance, CultureInfo.InvariantCulture);
+            btcBalance.AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable);
+            btcBalance.TotalBalance = Conversion.ToDecimalInvariant(BtcBalance);
 
             Balance usdBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
 
-            usdBalance.AvailableToTrade = Convert.ToDecimal(UsdAvailable, CultureInfo.InvariantCulture);
-            usdBalance.TotalBalance = Convert.ToDecimal(UsdBalance, CultureInfo.InvariantCulture);
-            usdBalance.BalanceCurrency = Currency.Usd;
+            usdBalance.AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable);
+            usdBalance.TotalBalance = Conversion.ToDecimalInvariant(UsdBalance);
+            usdBalance.BalanceCurrency = Currency.USD;
 
             List<Balance> balances = new List<Balance>();
             balances.Add(btcBalance);
