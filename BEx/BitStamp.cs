@@ -1,8 +1,4 @@
 ﻿using BEx.ExchangeSupport.BitStampSupport;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace BEx
