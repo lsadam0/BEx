@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Globalization;
 
 namespace BEx.ExchangeEngine.Utilities
@@ -9,7 +11,7 @@ namespace BEx.ExchangeEngine.Utilities
     internal static class Conversion
     {
         /// <summary>
-        /// Convert using CultureInfo.InvariantCuluture
+        /// Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -19,7 +21,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCuluture
+        /// Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -29,7 +31,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCuluture
+        /// Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -39,7 +41,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCuluture
+        /// Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>

@@ -1,4 +1,6 @@
-﻿using BEx.ExchangeEngine.BitfinexSupport;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using BEx.ExchangeEngine.BitfinexSupport;
 
 namespace BEx
 {

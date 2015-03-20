@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 
 namespace BEx
 {
@@ -27,7 +29,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Timestamp of transaction completetion
+        /// Timestamp of transaction completion
         /// </summary>
         public DateTime CompletedTime
         {

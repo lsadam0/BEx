@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+
+using System.Collections.Generic;
 using RestSharp;
 using BEx;
 
@@ -21,7 +24,7 @@ namespace BEx.ExchangeEngine
             // errorHandler = new ErrorHandler(_sourceExchange.ExchangeSourceType);
         }
 
-        public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)
+        public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameter, string> paramCollection = null)
         {
             return ExecutionPipeline(toExecute, pair, paramCollection);
         }
@@ -29,9 +32,9 @@ namespace BEx.ExchangeEngine
         private ApiResult ExecutionPipeline(
                                         ExchangeCommand toExecute,
                                         CurrencyTradingPair pair,
-                                        Dictionary<StandardParameterType, string> paramCollection = null)
+                                        Dictionary<StandardParameter, string> paramCollection = null)
         {
-            RestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
+            IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             IRestResponse result = dispatcher.Dispatch(request, toExecute);
 

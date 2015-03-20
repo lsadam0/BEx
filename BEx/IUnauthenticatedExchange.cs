@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,26 +11,26 @@ namespace BEx
     public interface IUnauthenticatedExchange
     {
         /// <summary>
-        /// Get the current BTC/USD Order Book.
+        /// Url the current BTC/USD Order Book.
         /// </summary>
         /// <returns></returns>
         OrderBook GetOrderBook();
 
         /// <summary>
-        /// Get the current Order Book for the specified Currency pair.
+        /// Url the current Order Book for the specified Currency pair.
         /// </summary>
         /// <param name="pair"></param>
         /// <returns></returns>
         OrderBook GetOrderBook(CurrencyTradingPair pair);
 
         /// <summary>
-        /// Get the current Tick for the Default Pair of the Exchange
+        /// Url the current Tick for the Default Pair of the Exchange
         /// </summary>
         /// <returns></returns>
         Tick GetTick();
 
         /// <summary>
-        /// Get the current Tick for the specified currency pair.
+        /// Url the current Tick for the specified currency pair.
         /// </summary>
         /// <param name="pair"></param>
         /// <returns></returns>

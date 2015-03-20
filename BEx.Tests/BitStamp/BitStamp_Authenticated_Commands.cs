@@ -1,4 +1,6 @@
-﻿using BEx;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using BEx;
 using NUnit.Framework;
 
 namespace BEx.UnitTests
@@ -7,33 +9,36 @@ namespace BEx.UnitTests
     [Category("BitStamp.AuthenticatedCommands")]
     public class BitStamp_Authenticated_Commands : ExchangeVerificationBase
     {
+        private ExchangeCommandVerification commandVerification;
         public BitStamp_Authenticated_Commands()
-            : base(typeof(BEx.BitStamp))
+            : base()
         {
+            testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as Exchange;
+            commandVerification = new ExchangeCommandVerification(testCandidate);
         }
 
         [Test]
-        public void GetAccountBalance_All_Success()
+        public void BitStamp_GetAccountBalance_All_Success()
         {
-            CommandVerification.VerifyAccountBalance();
+            commandVerification.VerifyAccountBalance();
         }
 
         [Test]
-        public void GetOpenOrders_BTCUSD_Success()
+        public void BitStamp_GetOpenOrders_BTCUSD_Success()
         {
-            CommandVerification.VerifyOpenOrders();
+            commandVerification.VerifyOpenOrders();
         }
 
         [Test]
-        public void GetUserTransactions_BTCUSD_Success()
+        public void BitStamp_GetUserTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(testCandidate.DefaultPair);
+            commandVerification.VerifyUserTransactions(testCandidate.DefaultPair);
         }
 
         [Test]
-        public void GetDepositAddress_BTC_Success()
+        public void BitStamp_GetDepositAddress_BTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.BTC);
+            commandVerification.VerifyDepositAddress(Currency.BTC);
         }
     }
 }

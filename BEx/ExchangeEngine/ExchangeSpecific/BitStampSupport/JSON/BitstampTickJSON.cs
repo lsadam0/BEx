@@ -1,6 +1,6 @@
-﻿using BEx.ExchangeEngine.Utilities;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine.BitStampSupport
 {

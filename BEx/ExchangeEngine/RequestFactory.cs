@@ -1,108 +1,118 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using RestSharp;
 using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine
 {
-    internal class RequestFactory
+    /// <summary>
+    /// Factory responsible for consuming a reference ExchangeCommand object, TradingPair, and Parameters Collection
+    /// and returning a complete IRestRequest object, ready for dispatch to the target exchange.
+    /// </summary>
+    /// <remarks>
+    /// This is a static class because:
+    ///     A) There is no explicit need for sharing instance members
+    ///     B) A static class is slightly more performant than an instanced class
+    /// </remarks>
+    internal static class RequestFactory
     {
-        public static RestRequest GetRequest(
+
+        /// <summary>
+        /// Consume an ExchangeCommand, TradingPair, and Parameters Collection and return
+        /// a complete IRestRequest object.
+        /// </summary>
+        /// <param name="command">Command Information for building the request</param>
+        /// <param name="pair">Trading Pair.  If ExchangeCommand only uses a Currency value, we will use pair.BaseCurrency (e.g. GetDepositAddress)</param>
+        /// <param name="parameters">Parameter values</param>
+        /// <returns>IRestRequest, ready for dispatch</returns>
+        public static IRestRequest GetRequest(
                                         ExchangeCommand command,
                                         CurrencyTradingPair pair,
-                                        Dictionary<StandardParameterType, string> parameters = null)
+                                        Dictionary<StandardParameter, string> parameters = null)
         {
-            RestRequest result = CreateRequest(command, pair);
+            IRestRequest result = CreateRequest(command);
 
-            parameters = PopulateCommandParameters(command, pair, parameters);
+            PopulateCommandParameters(result, command, pair, parameters);
 
-            SetParameters(result, command, parameters);
             return result;
         }
 
-        private static void SetParameters(RestRequest request, ExchangeCommand command, Dictionary<StandardParameterType, string> parameters)
+        /// <summary>
+        /// Create the IRestRequest object
+        /// </summary>
+        /// <param name="command">Reference Command</param>
+        /// <returns>Unpopulated request object</returns>
+        private static IRestRequest CreateRequest(ExchangeCommand command)
         {
-            foreach (KeyValuePair<StandardParameterType, string> param in parameters)
+            return new RestRequest(command.RelativeUri, command.HttpMethod)
             {
-                string exchangeParamName = command.DependentParameters[param.Key].ExchangeParameterName;
-                request.AddParameter(exchangeParamName, Uri.EscapeUriString(param.Value));
-            }
-
-            foreach (KeyValuePair<string, ExchangeParameter> param in command.DefaultParameters)
-            {
-                request.AddParameter(param.Value.ExchangeParameterName, param.Value.DefaultValue);
-            }
+                RequestFormat = DataFormat.Json,
+                Method = command.HttpMethod
+            };
         }
 
-        private static RestRequest CreateRequest(ExchangeCommand command, CurrencyTradingPair pair)
+        /// <summary>
+        /// Reconcile ExchangeCommand parameters with supplied and default values, and populate them into the IRestRequest
+        /// </summary>
+        /// <param name="request">Unpopulated IRestRequest</param>
+        /// <param name="command">Reference Command</param>
+        /// <param name="pair">Trading Pair</param>
+        /// <param name="values">Explicitly supplied parameter values</param>
+        private static void PopulateCommandParameters(IRestRequest request, ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameter, string> values)
         {
-            var request = new RestRequest(command.RelativeUri, command.HttpMethod);
-
-            request.AddUrlSegment("0", pair.BaseCurrency.ToString());
-            request.AddUrlSegment("1", pair.CounterCurrency.ToString());
-
-            request.RequestFormat = DataFormat.Json;
-            request.Method = command.HttpMethod;
-
-            return request;
-        }
-
-        private static Dictionary<StandardParameterType, string> PopulateCommandParameters(ExchangeCommand command, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> values)
-        {
-            var res = new Dictionary<StandardParameterType, string>();
-
-            if (command.DependentParameters.Count > 0)
+            foreach (var param in command.Parameters)
             {
-                foreach (KeyValuePair<StandardParameterType, ExchangeParameter> param in command.DependentParameters)
+                ExchangeParameter parameter = param.Value;
+                string value;
+                switch (parameter.StandardParameterIdentifier)
                 {
-                    string value = string.Empty;
-                    switch (param.Key)
-                    {
-                        case StandardParameterType.Amount:
-                            value = values[param.Key];
-                            break;
+                    case StandardParameter.Price:
+                    case StandardParameter.Amount:
+                    case StandardParameter.Id:
+                    case StandardParameter.Timestamp:
+                        value = values[parameter.StandardParameterIdentifier];
+                        break;
+                    case StandardParameter.Base:
+                        value = pair.BaseCurrency.ToString();
+                        break;
 
-                        case StandardParameterType.Base:
-                            value = pair.BaseCurrency.ToString();
-                            break;
+                    case StandardParameter.Counter:
+                        value = pair.CounterCurrency.ToString();
+                        break;
 
-                        case StandardParameterType.Counter:
-                            value = pair.CounterCurrency.ToString();
-                            break;
+                    case StandardParameter.Currency:
+                        value = pair.BaseCurrency.ToString();
+                        break;
 
-                        case StandardParameterType.Currency:
-                            value = pair.BaseCurrency.ToString();
-                            break;
-
-                        case StandardParameterType.CurrencyFullName:
-                            value = pair.BaseCurrency.GetDescription();
-                            break;
-
-                        case StandardParameterType.Id:
-                            value = values[StandardParameterType.Id];
-                            break;
-
-                        case StandardParameterType.Pair:
-                            value = pair.ToString();
-                            break;
-
-                        case StandardParameterType.Price:
-                            value = values[param.Key];
-                            break;
-
-                        case StandardParameterType.Timestamp:
-                            throw new NotImplementedException();
-
-                        case StandardParameterType.UnixTimestamp:
-                            value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToStringInvariant();
-                            break;
-                    }
-
-                    res.Add(param.Key, param.Value.IsLowercase ? value.ToLowerInvariant() : value);
+                    case StandardParameter.CurrencyFullName:
+                        value = pair.BaseCurrency.GetDescription();
+                        break;
+                    case StandardParameter.Pair:
+                        value = pair.ToString();
+                        break;
+                    case StandardParameter.UnixTimestamp:
+                        value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToStringInvariant();
+                        break;
+                    case StandardParameter.None:
+                        value = parameter.DefaultValue;
+                        break;
+                    default:
+                        value = string.Empty;
+                        break;
                 }
+
+                ParameterType pType = ParameterType.GetOrPost;
+
+                if (parameter.ParameterMethod == ParameterMethod.Url)
+                    pType = ParameterType.UrlSegment;
+                else if (parameter.ParameterMethod == ParameterMethod.QueryString)
+                    pType = ParameterType.QueryString;
+
+                request.AddParameter(parameter.ExchangeParameterName, value, pType);
             }
 
-            return res;
         }
     }
 }

@@ -1,57 +1,42 @@
-﻿namespace BEx.ExchangeEngine
-{
-    public enum ExchangeParameterType
-    {
-        Address,
-        Post
-    }
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-    public enum StandardParameterType
-    {
-        None,
-        Amount,
-        Id,
-        Price,
-        Base,
-        Counter,
-        Currency,
-        CurrencyFullName,
-        Pair,
-        UnixTimestamp,
-        Timestamp
-    }
+namespace BEx.ExchangeEngine
+{
 
     public class ExchangeParameter
     {
         public ExchangeParameter(
-                    ExchangeParameterType parameterType,
+                    ParameterMethod parameterMethod,
                     string name,
-                    StandardParameterType standardType)
+                    StandardParameter standard)
         {
-            ParameterType = parameterType;
+            ParameterMethod = parameterMethod;
             ExchangeParameterName = name;
             DefaultValue = null;
-            StandardParameterIdentifier = standardType;
+            StandardParameterIdentifier = standard;
             IsLowercase = false;
         }
 
         public ExchangeParameter(
-                    ExchangeParameterType parameterType,
+                    ParameterMethod parameterMethod,
                     string name,
-                    StandardParameterType standardType,
+                    StandardParameter standard,
                     string defaultValue)
         {
-            ParameterType = parameterType;
+            ParameterMethod = parameterMethod;
             ExchangeParameterName = name;
             DefaultValue = defaultValue;
-            StandardParameterIdentifier = standardType;
+            StandardParameterIdentifier = standard;
             IsLowercase = false;
         }
 
+        /// <summary>
+        /// If no value is explicitly supplied, this value will be delivered to the exchange
+        /// </summary>
         public string DefaultValue
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -60,28 +45,34 @@
         public string ExchangeParameterName
         {
             get;
-            set;
+            private set;
         }
 
+        /// <summary>
+        /// If true, the value of the parameter will be converted to lowercase before delivery
+        /// </summary>
         public bool IsLowercase
         {
             get;
             set;
         }
 
-        public ExchangeParameterType ParameterType
+        /// <summary>
+        /// Parameter Delivery Method
+        /// </summary>
+        public ParameterMethod ParameterMethod
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// BEx standard parameter name
+        /// BEx Common Parameter Identifier
         /// </summary>
-        public StandardParameterType StandardParameterIdentifier
+        public StandardParameter StandardParameterIdentifier
         {
             get;
-            set;
+            private set;
         }
     }
 }

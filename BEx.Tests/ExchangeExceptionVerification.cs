@@ -1,4 +1,6 @@
-﻿using BEx;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using BEx;
 using BEx.Exceptions;
 using NUnit.Framework;
 
@@ -11,6 +13,7 @@ namespace BEx.UnitTests
         {
         }
 
+        /*
         private Exchange GetInstance(string apiKey, string secret, string clientId)
         {
             if (base.testCandidateType == typeof(BEx.Bitfinex))
@@ -94,6 +97,6 @@ namespace BEx.UnitTests
                 {
                     testCandidate.CreateBuyOrder(1200m, 1.00m);
                 });
-        }
+        }*/
     }
 }

@@ -1,75 +1,80 @@
-﻿using BEx;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using BEx;
 using NUnit.Framework;
 
 namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("Bitfinex.AuthenticatedCommands")]
-    public class BitFinex_Authenticated_Commands : ExchangeVerificationBase
+    public class Bitfinex_Authenticated_Commands : ExchangeVerificationBase
     {
-        public BitFinex_Authenticated_Commands()
-            : base(typeof(BEx.Bitfinex))
+        private ExchangeCommandVerification commandVerification;
+        public Bitfinex_Authenticated_Commands()
+            : base()
         {
+            testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Exchange;
+            commandVerification = new ExchangeCommandVerification(testCandidate);
         }
 
         [Test]
-        public void GetAccountBalance_Success()
+        public void Bitfinex_GetAccountBalance_Success()
         {
-            CommandVerification.VerifyAccountBalance();
+            commandVerification.VerifyAccountBalance();
         }
 
         [Test]
-        public void GetDepositAddress_BTC_Success()
+        public void Bitfinex_GetDepositAddress_BTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.BTC);
+            commandVerification.VerifyDepositAddress(Currency.BTC);
         }
 
         [Test]
-        public void GetDepositAddress_LTC_Success()
+        public void Bitfinex_GetDepositAddress_LTC_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.LTC);
+            commandVerification.VerifyDepositAddress(Currency.LTC);
         }
 
         [Test]
-        public void GetDepositAddress_DRK_Success()
+        public void Bitfinex_GetDepositAddress_DRK_Success()
         {
-            CommandVerification.VerifyDepositAddress(Currency.DRK);
+            commandVerification.VerifyDepositAddress(Currency.DRK);
         }
 
         [Test]
-        public void GetUserTransactions_BTCUSD_Success()
+        public void Bitfinex_GetUserTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(testCandidate.DefaultPair);
+            commandVerification.VerifyUserTransactions(testCandidate.DefaultPair);
         }
 
         [Test]
-        public void GetUserTransactions_DRKBTC_Success()
+        public void Bitfinex_GetUserTransactions_DRKBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
+            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
         }
 
         [Test]
-        public void GetUserTransactions_DRKUSD_Success()
+        public void Bitfinex_GetUserTransactions_DRKUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
+            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
         }
 
         [Test]
-        public void GetUserTransactions_LTCBTC_Success()
+        public void Bitfinex_GetUserTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
-        public void GetUserTransactions_LTCUSD_Success()
+        public void Bitfinex_GetUserTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]
-        public void GetOpenOrders_Success()
+        public void Bitfinex_GetOpenOrders_Success()
         {
-            CommandVerification.VerifyOpenOrders();
+            commandVerification.VerifyOpenOrders();
         }
     }
 }

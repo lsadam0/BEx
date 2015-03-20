@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BEx
 {
-    interface IAuthenticatedExchange
+    public interface IAuthenticatedExchange
     {
         Confirmation CancelOrder(Order toCancel);
 
@@ -21,19 +23,19 @@ namespace BEx
         Order CreateSellOrder(CurrencyTradingPair pair, decimal amount, decimal price);
 
         /// <summary>
-        /// Get complete Balance information for your Exchange account
+        /// Url complete Balance information for your Exchange account
         /// </summary>
         /// <returns>AccountBalance</returns>
         AccountBalance GetAccountBalance();
 
         /// <summary>
-        /// Get your BTC Deposit Address for the Exchange
+        /// Url your BTC Deposit Url for the Exchange
         /// </summary>
         /// <returns>DepositAddress</returns>
         DepositAddress GetDepositAddress();
 
         /// <summary>
-        /// Get the Deposit Address for the requested CryptoCurrency
+        /// Url the Deposit Url for the requested CryptoCurrency
         /// </summary>
         /// <param name="toDeposit">CryptoCurrency to deposit</param>
         /// <returns></returns>

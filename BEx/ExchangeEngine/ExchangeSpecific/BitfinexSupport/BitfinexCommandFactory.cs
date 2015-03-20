@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
@@ -31,12 +33,12 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "symbol", StandardParameterType.Pair, "BTCUSD"),
-                new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount),
-                new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price),
-                new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"),
-                new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"),
-                new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "buy")
+                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
+                new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
+                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
+                new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
+                new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "buy")
             };
 
             return new ExchangeCommand(
@@ -52,7 +54,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "order_id", StandardParameterType.Id)
+                new ExchangeParameter(ParameterMethod.Post, "order_id", StandardParameter.Id)
             };
 
             return new ExchangeCommand(
@@ -68,12 +70,12 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "currency", StandardParameterType.Currency, "BTC"),
-                new ExchangeParameter(ExchangeParameterType.Post, "method", StandardParameterType.CurrencyFullName, "bitcoin")
+                new ExchangeParameter(ParameterMethod.Post, "currency", StandardParameter.Currency, "BTC"),
+                new ExchangeParameter(ParameterMethod.Post, "method", StandardParameter.CurrencyFullName, "bitcoin")
                     {
                         IsLowercase = true
                     },
-                new ExchangeParameter(ExchangeParameterType.Post, "wallet_name", StandardParameterType.None, "exchange")
+                new ExchangeParameter(ParameterMethod.Post, "wallet_name", StandardParameter.None, "exchange")
             };
 
             return new ExchangeCommand(
@@ -99,29 +101,29 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Address, "base", StandardParameterType.Base, "BTC"),
-                new ExchangeParameter(ExchangeParameterType.Address, "counter", StandardParameterType.Counter, "USD")
+                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
+                
             };
 
             return new ExchangeCommand(
-                                CommandClass.OrderBook,
-                                Method.GET,
-                                new Uri("/v1/book/{0}{1}", UriKind.Relative),
-                                false,
-                                typeof(BitFinexOrderBookJSON),
-                                param);
+                CommandClass.OrderBook,
+                Method.GET,
+                new Uri("/v1/book/{pair}", UriKind.Relative),
+                false,
+                typeof(BitFinexOrderBookJSON));
+
         }
 
         public ExchangeCommand BuildSellOrderCommand()
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "symbol", StandardParameterType.Pair, "BTCUSD"),
-                new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount),
-                new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price),
-                new ExchangeParameter(ExchangeParameterType.Post, "exchange", StandardParameterType.None, "bitfinex"),
-                new ExchangeParameter(ExchangeParameterType.Post, "type", StandardParameterType.None, "exchange limit"),
-                new ExchangeParameter(ExchangeParameterType.Post, "side", StandardParameterType.None, "sell")
+                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
+                new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
+                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
+                new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
+                new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "sell")
             };
 
             return new ExchangeCommand(
@@ -137,50 +139,40 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Address, "pair", StandardParameterType.None)
+                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.None)
             };
 
             return new ExchangeCommand(
-                                CommandClass.Tick,
-                                Method.GET,
-                                new Uri("/v1/pubticker/{0}{1}", UriKind.Relative),
-                                false,
-                                typeof(BitfinexTickJSON),
-                                param);
+                CommandClass.Tick,
+                Method.GET,
+                new Uri("/v1/pubticker/{pair}", UriKind.Relative),
+                false,
+                typeof(BitfinexTickJSON));
         }
 
         public ExchangeCommand BuildTransactionsCommand()
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "timestamp", StandardParameterType.UnixTimestamp, "needtoset"),
-                new ExchangeParameter(ExchangeParameterType.Address, "base", StandardParameterType.Base, "BTC")
-                {
-                    IsLowercase = true
-                },
-                new ExchangeParameter(ExchangeParameterType.Address, "counter", StandardParameterType.Counter, "USD")
-                {
-                    IsLowercase = true
-                }
+                new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
+                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
+                
             };
 
             return new ExchangeCommand(
-                                CommandClass.Transactions,
-                                Method.GET,
-                                new Uri("/v1/trades/{0}{1}", UriKind.Relative),
-                                false,
-                                typeof(List<BitFinexTransactionJSON>),
-                                param)
-            {
-                LowercaseUrlParameters = true
-            };
+                CommandClass.Transactions,
+                Method.GET,
+                new Uri("/v1/trades/{pair}", UriKind.Relative),
+                false,
+                typeof(List<BitFinexTransactionJSON>),
+                param);
         }
 
         public ExchangeCommand BuildUserTransactionsCommand()
         {
             var param = new List<ExchangeParameter>()
             {
-                { new ExchangeParameter(ExchangeParameterType.Post, "symbol", StandardParameterType.Pair, "BTCUSD") }
+                { new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD") }
             };
 
             return new ExchangeCommand(

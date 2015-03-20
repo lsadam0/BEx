@@ -1,21 +1,61 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
+    /// <summary>
+    /// ExchangeCommand implements an immutable object that
+    /// contains the instructions for used by ExecutionEngine 
+    /// to execute a particular command for an Exchange.
+    /// </summary>
+    /// <remarks>
+    /// For Example, IUnauthenticatedCommands.GetTick() requests an ExchangeCommand
+    /// with CommandClass.Tick.  A corresponding ExchangeCommand for BitStamp would 
+    /// look like this:
+    /// public ExchangeCommand BuildTickCommand()
+    /// {
+    ///        return new ExchangeCommand(
+    ///                            CommandClass.Tick,                    // CommandClass for this Instance
+    ///                            Method.GET,                           // Http Execution Method
+    ///                            new Uri("ticker/", UriKind.Relative), // Url Endpoint Relative to baseUri
+    ///                            false,                                // IsAuthenticated: True/False
+    ///                            typeof(BitstampTickJSON));            // Intermediate Type
+    /// }
+    /// </remarks>
     public class ExchangeCommand
     {
+        /// <summary>
+        /// Initialize ExchangeCommand Instance
+        /// </summary>
+        /// <param name="identifier">CommandClass for this Instance</param>
+        /// <param name="httpMethod">Http Execution Method</param>
+        /// <param name="relativeUri">Exchange Uri, relative to the Base Uri</param>
+        /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
+        /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
         public ExchangeCommand(
                     CommandClass identifier,
                     Method httpMethod,
                     Uri relativeUri,
                     bool isAuthenticated,
                     Type intermediateType)
-            : this(identifier, httpMethod, relativeUri, isAuthenticated, intermediateType, null)
+            : this(identifier, httpMethod, relativeUri, isAuthenticated, intermediateType, new List<ExchangeParameter>())
         {
         }
 
+        /// <summary>
+        /// Initialize ExchangeCommand Instance
+        /// </summary>
+        /// <param name="identifier">CommandClass for this Instance</param>
+        /// <param name="httpMethod">Http Execution Method</param>
+        /// <param name="relativeUri">Exchange Uri, relative to the Base Uri</param>
+        /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
+        /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
+        /// <param name="parameters">Collection of Parameters for this Command</param>
         public ExchangeCommand(
                             CommandClass identifier,
                             Method httpMethod,
@@ -26,9 +66,6 @@ namespace BEx.ExchangeEngine
         {
             if (intermediateType == null)
                 throw new ArgumentNullException("intermediateType");
-
-            DefaultParameters = new Dictionary<string, ExchangeParameter>();
-            DependentParameters = new Dictionary<StandardParameterType, ExchangeParameter>();
 
             ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
 
@@ -43,52 +80,44 @@ namespace BEx.ExchangeEngine
             RelativeUri = relativeUri;
 
             IntermediateType = intermediateType;
-            LowercaseUrlParameters = false;
 
-            if (parameters != null)
-            {
-                foreach (ExchangeParameter param in parameters)
-                {
-                    if (param.StandardParameterIdentifier == StandardParameterType.None)
-                        DefaultParameters.Add(param.ExchangeParameterName, param);
-                    else
-                        DependentParameters.Add(param.StandardParameterIdentifier, param);
-                }
-            }
+            Parameters =
+                new ReadOnlyDictionary<string, ExchangeParameter>(
+                    parameters.ToDictionary(x => x.ExchangeParameterName, x => x)
+                    );
+
+
+
 
             SetReturnType();
         }
 
+        /// <summary>
+        /// Is the Intermediate Type a Collection?
+        /// </summary>
         public bool ReturnsCollection
         {
             get;
             private set;
         }
 
-        public bool HasDependentParameters
-        {
-            get
-            {
-                return DependentParameters.Count > 0;
-            }
-        }
 
-        public bool LowercaseUrlParameters
+        /// <summary>
+        /// BEx.ApiResult Sub-Type
+        /// </summary>
+        public Type ApiResultSubType
         {
             get;
-            set;
+            private set;
         }
 
-        public Type ReturnType
-        {
-            get;
-            set;
-        }
-
+        /// <summary>
+        /// JSON Response -> IntermediateType -> ApiResultSubType
+        /// </summary>
         public Type IntermediateType
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -127,13 +156,10 @@ namespace BEx.ExchangeEngine
             private set;
         }
 
+        /// <summary>
+        /// Is the IntermediateType a Value Type (or string)
+        /// </summary>
         public bool ReturnsValueType
-        {
-            get;
-            private set;
-        }
-
-        public Dictionary<StandardParameterType, ExchangeParameter> DependentParameters
         {
             get;
             private set;
@@ -142,7 +168,7 @@ namespace BEx.ExchangeEngine
         /// <summary>
         /// Command Parameters, including default values
         /// </summary>
-        public Dictionary<string, ExchangeParameter> DefaultParameters
+        public ReadOnlyDictionary<string, ExchangeParameter> Parameters
         {
             get;
             private set;
@@ -153,43 +179,43 @@ namespace BEx.ExchangeEngine
             switch (Identifier)
             {
                 case CommandClass.AccountBalance:
-                    ReturnType = typeof(AccountBalance);
+                    ApiResultSubType = typeof(AccountBalance);
                     break;
 
                 case CommandClass.BuyOrder:
-                    ReturnType = typeof(Order);
+                    ApiResultSubType = typeof(Order);
                     break;
 
                 case CommandClass.CancelOrder:
-                    ReturnType = typeof(bool);
+                    ApiResultSubType = typeof(bool);
                     break;
 
                 case CommandClass.DepositAddress:
-                    ReturnType = typeof(DepositAddress);
+                    ApiResultSubType = typeof(DepositAddress);
                     break;
 
                 case CommandClass.OpenOrders:
-                    ReturnType = typeof(OpenOrders);
+                    ApiResultSubType = typeof(OpenOrders);
                     break;
 
                 case CommandClass.OrderBook:
-                    ReturnType = typeof(OrderBook);
+                    ApiResultSubType = typeof(OrderBook);
                     break;
 
                 case CommandClass.SellOrder:
-                    ReturnType = typeof(Order);
+                    ApiResultSubType = typeof(Order);
                     break;
 
                 case CommandClass.Tick:
-                    ReturnType = typeof(Tick);
+                    ApiResultSubType = typeof(Tick);
                     break;
 
                 case CommandClass.Transactions:
-                    ReturnType = typeof(Transactions);
+                    ApiResultSubType = typeof(Transactions);
                     break;
 
                 case CommandClass.UserTransactions:
-                    ReturnType = typeof(UserTransactions);
+                    ApiResultSubType = typeof(UserTransactions);
                     break;
             }
         }

@@ -1,4 +1,6 @@
-﻿using BEx;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using BEx;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -59,6 +61,7 @@ namespace BEx.UnitTests
 
         public void VerifyDepositAddress(Currency depositCurrency)
         {
+
             DepositAddress address = testCandidate.GetDepositAddress(depositCurrency);
 
             VerifyAPIResult(address);
@@ -71,9 +74,10 @@ namespace BEx.UnitTests
         {
             OpenOrders toVerify = testCandidate.GetOpenOrders();
 
+
             VerifyAPIResult(toVerify);
 
-           // Assert.IsTrue(toVerify.Orders.Count > 0);
+            // Assert.IsTrue(toVerify.Orders.Count > 0);
 
             foreach (KeyValuePair<int, Order> ord in toVerify.BuyOrders)
             {
@@ -98,6 +102,7 @@ namespace BEx.UnitTests
 
             VerifyAPIResult(toVerify);
 
+
             Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
             Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
             Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
@@ -118,7 +123,9 @@ namespace BEx.UnitTests
 
         public void VerifySellOrder()
         {
+
             Order toVerify = testCandidate.CreateSellOrder(0.02m, 10000m);
+
 
             VerifyAPIResult(toVerify);
 
@@ -127,13 +134,11 @@ namespace BEx.UnitTests
 
         public void VerifyTick(CurrencyTradingPair pair)
         {
-            Stopwatch measure = new Stopwatch();
-            
-            measure.Reset();
-            measure.Start();
+
             Tick toVerify = testCandidate.GetTick(pair);
-            measure.Stop();
-            
+
+
+
             VerifyAPIResult(toVerify);
 
             Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
@@ -148,7 +153,9 @@ namespace BEx.UnitTests
 
         public void VerifyTransactions(CurrencyTradingPair pair)
         {
+
             Transactions toVerify = testCandidate.GetTransactions(pair);
+
 
             VerifyAPIResult(toVerify);
 
@@ -175,6 +182,7 @@ namespace BEx.UnitTests
 
         public void VerifyUserTransactions(CurrencyTradingPair pair)
         {
+
             UserTransactions toVerify = testCandidate.GetUserTransactions(pair);
 
             VerifyAPIResult(toVerify);

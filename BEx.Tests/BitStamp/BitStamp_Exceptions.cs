@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using NUnit.Framework;
 
 namespace BEx.UnitTests
 {
@@ -6,6 +8,7 @@ namespace BEx.UnitTests
     [Category("BitStamp.Exceptions")]
     public class BitStamp_Exceptions : ExchangeVerificationBase
     {
+        /*
         public BitStamp_Exceptions()
             : base(typeof(BEx.BitStamp))
         {
@@ -57,6 +60,6 @@ namespace BEx.UnitTests
         public void CreateBuyOrder_InsufficientFunds_InsufficientFundsException()
         {
             base.ExceptionVerification.CreateBuyOrder_InsufficientFundsException();
-        }
+        }*/
     }
 }

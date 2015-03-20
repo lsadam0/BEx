@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using NUnit.Framework;
 
 namespace BEx.UnitTests
 {
@@ -6,28 +8,31 @@ namespace BEx.UnitTests
     [Category("BitStamp.UnauthenticatedCommands")]
     public class BitStampUnauthenticatedCommands : ExchangeVerificationBase
     {
+        private ExchangeCommandVerification commandVerification;
         public BitStampUnauthenticatedCommands()
-            : base(new BitStamp())
+            : base()
         {
+            testCandidate = ExchangeFactory.GetUnauthenticatedExchange(ExchangeType.BitStamp) as Exchange;
+            commandVerification = new ExchangeCommandVerification(testCandidate);
         }
 
         [Test]
-        public void GetTick_BTCUSD_Success()
+        public void BitStamp_GetTick_BTCUSD_Success()
         {
             
-            CommandVerification.VerifyTick(testCandidate.DefaultPair);
+            commandVerification.VerifyTick(testCandidate.DefaultPair);
         }
 
         [Test]
-        public void GetOrderBook_BTCUSD_Success()
+        public void BitStamp_GetOrderBook_BTCUSD_Success()
         {
-            CommandVerification.VerifyOrderBook(testCandidate.DefaultPair);
+            commandVerification.VerifyOrderBook(testCandidate.DefaultPair);
         }
 
         [Test]
-        public void GetTransactions_BTCUSD_Success()
+        public void BitStamp_GetTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions(testCandidate.DefaultPair);
+            commandVerification.VerifyTransactions(testCandidate.DefaultPair);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using NUnit.Framework;
 
 namespace BEx.UnitTests
 {
@@ -6,6 +8,7 @@ namespace BEx.UnitTests
     [Category("Bitfinex.Exceptions")]
     public class Bitfinex_Exceptions : ExchangeVerificationBase
     {
+        /*
         public Bitfinex_Exceptions()
             : base(typeof(BEx.Bitfinex))
         {
@@ -46,5 +49,6 @@ namespace BEx.UnitTests
         {
             base.ExceptionVerification.CreateBuyOrder_InsufficientFundsException();
         }
+         */
     }
 }

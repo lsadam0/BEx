@@ -22,9 +22,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>
-    </DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\BEx.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -63,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExchangeEngine\Commands\ParameterMethod.cs" />
+    <Compile Include="ExchangeEngine\Commands\StandardParameter.cs" />
     <Compile Include="IAuthenticatedExchange.cs" />
     <Compile Include="IUnauthenticatedExchange.cs" />
     <Compile Include="ExchangeEngine\RateLimiter.cs" />
@@ -86,8 +87,7 @@
     <Compile Include="Exceptions\BExException.cs" />
     <Compile Include="Exceptions\CancelOrderRejectedException.cs" />
     <Compile Include="Exceptions\ExchangeAuthorizationException.cs" />
-    <Compile Include="Exceptions\OrderRejectedException.cs" />
-    <Compile Include="Exceptions\WithdrawalRejectedException.cs" />
+    <Compile Include="Exceptions\InsufficientFundsException.cs" />
     <Compile Include="Bitfinex.cs" />
     <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\BitfinexAuthenticator.cs" />
     <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\BitfinexConfiguration.cs" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Diagnostics;
 
 namespace BEx
@@ -18,9 +20,8 @@ namespace BEx
         }
 
         /// <summary>
-        /// Exchange reported TimeStamp of the action.  When the Exchange oes not provide
-        /// a TimeStamp, this value will be eual to LocalTimeStamp.
-        ///
+        /// Exchange reported TimeStamp of the action.  When the Exchange does not provide
+        /// a TimeStamp, this value will be equal to LocalTimeStamp.
         /// </summary>
         public DateTime ExchangeTimestamp
         {

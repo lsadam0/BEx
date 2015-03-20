@@ -1,11 +1,20 @@
-﻿using RestSharp;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
+    /// <summary>
+    /// Consumes an IRestRequest, Authenticates the Request, and 
+    /// sends it to the targeted Exchange
+    /// </summary>
     internal class RequestDispatcher
     {
         private readonly Exchange _sourceExchange;
 
+        /// <summary>
+        /// Don't allow burst requests
+        /// </summary>
         private readonly RateLimiter _throttler;
 
         internal RequestDispatcher(Exchange sourceExchange)
@@ -14,7 +23,13 @@ namespace BEx.ExchangeEngine
             _throttler = new RateLimiter(_sourceExchange.ExchangeSourceType);
         }
 
-        internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference)
+        /// <summary>
+        /// Send the IRestRequest to the targeted exchange
+        /// </summary>
+        /// <param name="request">To Dispatch</param>
+        /// <param name="commandReference">Reference Command</param>
+        /// <returns>IRestResponse</returns>
+        internal IRestResponse Dispatch(IRestRequest request, ExchangeCommand commandReference)
         {
             var client = new RestClient(_sourceExchange.Configuration.BaseUri);
 

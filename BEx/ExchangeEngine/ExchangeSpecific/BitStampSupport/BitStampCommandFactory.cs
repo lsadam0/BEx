@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
@@ -30,8 +32,8 @@ namespace BEx.ExchangeEngine.BitStampSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount),
-                new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price)
+                new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
             return new ExchangeCommand(
@@ -47,7 +49,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "id", StandardParameterType.Id)
+                new ExchangeParameter(ParameterMethod.Post, "id", StandardParameter.Id)
             };
 
             return new ExchangeCommand(
@@ -93,8 +95,8 @@ namespace BEx.ExchangeEngine.BitStampSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount),
-                new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price)
+                new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
             return new ExchangeCommand(
@@ -120,7 +122,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ExchangeParameterType.Address, "time", StandardParameterType.None, "hour")
+                new ExchangeParameter(ParameterMethod.Post, "time", StandardParameter.None, "hour")
             };
 
             return new ExchangeCommand(
