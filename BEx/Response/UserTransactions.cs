@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using BEx.ExchangeSupport;
 
 namespace BEx
@@ -40,6 +41,11 @@ namespace BEx
         {
             get;
             internal set;
+        }
+
+        protected override string DebugDisplay
+        {
+            get { return string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count); }
         }
     }
 }

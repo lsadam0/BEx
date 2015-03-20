@@ -38,5 +38,14 @@ namespace BEx
             get;
             internal set;
         }
+
+        protected override string DebugDisplay
+        {
+            get
+            {
+                return string.Format("{0} {1} - Available: {2} - Total: {3}", SourceExchange, BalanceCurrency,
+                    AvailableToTrade, TotalBalance);
+            }
+        }
     }
 }

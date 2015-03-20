@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BEx
 {
@@ -40,6 +41,11 @@ namespace BEx
         {
             get;
             internal set;
+        }
+
+        protected override string DebugDisplay
+        {
+            get { return string.Format("{0} - High Bid: {1} - Low Ask: {2}", SourceExchange, BidsByPrice.FirstOrDefault(), AsksByPrice.FirstOrDefault()); }
         }
     }
 }

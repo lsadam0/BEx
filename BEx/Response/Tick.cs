@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace BEx
 {
@@ -72,6 +73,13 @@ namespace BEx
         {
             get;
             internal set;
+        }
+
+
+
+        protected override string DebugDisplay
+        {
+            get { return string.Format("{0} {1}: {2}/{3}", SourceExchange, Pair, Bid, Ask); }
         }
     }
 }

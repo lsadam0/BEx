@@ -84,5 +84,14 @@ namespace BEx
             get;
             internal set;
         }
+
+        protected override string DebugDisplay
+        {
+            get
+            {
+                return string.Format("{0} {1} - ID: {2} - Amount: {3} - Type: {4}", SourceExchange, Pair, Id, Amount,
+                    TradeType);
+            }
+        }
     }
 }

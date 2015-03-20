@@ -73,9 +73,17 @@ namespace BEx.UnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.Orders.Count > 0);
+           // Assert.IsTrue(toVerify.Orders.Count > 0);
 
-            foreach (KeyValuePair<int, Order> ord in toVerify.Orders)
+            foreach (KeyValuePair<int, Order> ord in toVerify.BuyOrders)
+            {
+                VerifyAPIResult(ord.Value);
+                Assert.IsTrue(ord.Value.Amount > 0.0m);
+                Assert.IsTrue(ord.Value.Id > 0);
+                Assert.IsTrue(ord.Value.Price > 0.0m);
+            }
+
+            foreach (KeyValuePair<int, Order> ord in toVerify.SellOrders)
             {
                 VerifyAPIResult(ord.Value);
                 Assert.IsTrue(ord.Value.Amount > 0.0m);

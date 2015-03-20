@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using BEx.ExchangeSupport;
 
@@ -12,24 +13,42 @@ namespace BEx
         internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
-            Orders = new Dictionary<int, Order>();
+            BuyOrders = new Dictionary<int, Order>();
+            SellOrders = new Dictionary<int, Order>();
 
             foreach (IExchangeResponse order in orders)
             {
                 Order converted = order.ConvertToStandard(pair) as Order;
 
                 if (converted != null)
-                    Orders.Add(converted.Id, converted);
+                {
+                    if (converted.IsBuyOrder)
+                        BuyOrders.Add(converted.Id, converted);
+                    else
+                        SellOrders.Add(converted.Id, converted);
+                }
             }
         }
 
-        /// <summary>
-        /// Orders by Exchange Order ID
-        /// </summary>
-        public IDictionary<int, Order> Orders
+
+        public IDictionary<int, Order> SellOrders
         {
             get;
             internal set;
+        }
+
+        public IDictionary<int, Order> BuyOrders
+        {
+            get;
+            internal set;
+        }
+
+        protected override string DebugDisplay
+        {
+            get
+            {
+                return string.Format("{0} - Buy: {1} - Sell: {2}", SourceExchange, BuyOrders.Count, SellOrders.Count);
+            }
         }
     }
 }

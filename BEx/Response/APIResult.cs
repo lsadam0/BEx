@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace BEx
 {
     /// <summary>
     /// Exchange Result Base Class
     /// </summary>
-    public class ApiResult
+
+    [DebuggerDisplay("{DebugDisplay,nq}")]
+    public abstract class ApiResult
     {
         internal ApiResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
         {
@@ -41,6 +44,11 @@ namespace BEx
         {
             get;
             private set;
+        }
+
+        protected virtual string DebugDisplay
+        {
+            get { return string.Format("{0} {1}", SourceExchange, ExchangeTimestamp); }
         }
     }
 }

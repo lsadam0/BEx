@@ -38,5 +38,10 @@ namespace BEx
             get;
             internal set;
         }
+
+        protected override string DebugDisplay
+        {
+            get { return string.Format("{0} {1}: {2}", SourceExchange, DepositCurrency, Address); }
+        }
     }
 }

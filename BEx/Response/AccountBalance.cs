@@ -42,5 +42,10 @@ namespace BEx
             get;
             internal set;
         }
+
+        protected override string DebugDisplay
+        {
+            get { return string.Format("{0} - Balances: {1}", SourceExchange, BalanceByCurrency.Count); }
+        }
     }
 }
