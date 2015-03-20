@@ -6,11 +6,6 @@ namespace BEx
     [Serializable]
     public class ExchangeAuthorizationException : BExException
     {
-        public ExchangeAuthorizationException()
-            : base()
-        {
-        }
-
         public ExchangeAuthorizationException(string message)
             : base(message)
         {

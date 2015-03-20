@@ -1,8 +1,8 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using RestSharp;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -10,25 +10,25 @@ namespace BEx.ExchangeSupport.BitStampSupport
     {
         public static HMACSHA256 Hasher;
 
-        private IExchangeConfiguration Configuration;
+        private readonly IExchangeConfiguration _configuration;
 
         public BitStampAuthenticator(IExchangeConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
 
-            Hasher = new HMACSHA256(Encoding.ASCII.GetBytes(Configuration.SecretKey));
+            Hasher = new HMACSHA256(Encoding.ASCII.GetBytes(_configuration.SecretKey));
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {
-            long currentNonce = Configuration.Nonce;
+            long currentNonce = _configuration.Nonce;
 
-            string message = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", currentNonce, Configuration.ClientId, Configuration.ApiKey);
+            string message = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", currentNonce, _configuration.ClientId, _configuration.ApiKey);
 
             byte[] dta = Encoding.ASCII.GetBytes(message);
-            string signature = BitConverter.ToString(Hasher.ComputeHash(dta)).Replace("-", "").ToUpperInvariant();
+            string signature = BitConverter.ToString(Hasher.ComputeHash(dta)).Replace("-", string.Empty).ToUpperInvariant();
 
-            request.AddParameter("key", Uri.EscapeUriString(Configuration.ApiKey));
+            request.AddParameter("key", Uri.EscapeUriString(_configuration.ApiKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));
             request.AddParameter("nonce", Uri.EscapeUriString(currentNonce.ToStringInvariant()));
         }

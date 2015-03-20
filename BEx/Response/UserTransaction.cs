@@ -20,7 +20,7 @@ namespace BEx
         /// <summary>
         /// Base currency amount for the transaction
         /// </summary>
-        public Decimal BaseCurrencyAmount
+        public decimal BaseCurrencyAmount
         {
             get;
             internal set;
@@ -38,7 +38,7 @@ namespace BEx
         /// <summary>
         /// Counter currency amount for the transaction
         /// </summary>
-        public Decimal CounterCurrencyAmount
+        public decimal CounterCurrencyAmount
         {
             get;
             internal set;
@@ -56,7 +56,7 @@ namespace BEx
         /// <summary>
         /// Total Fee paid for transaction
         /// </summary>
-        public Decimal TradeFee
+        public decimal TradeFee
         {
             get;
             internal set;

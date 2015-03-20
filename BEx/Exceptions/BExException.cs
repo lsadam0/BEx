@@ -4,13 +4,8 @@ using System.Runtime.Serialization;
 namespace BEx
 {
     [Serializable]
-    public class BExException : Exception, ISerializable
+    public class BExException : Exception
     {
-        public BExException()
-            : base()
-        {
-        }
-
         public BExException(string message)
             : base(message)
         { }

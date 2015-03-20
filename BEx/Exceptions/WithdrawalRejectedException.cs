@@ -6,11 +6,6 @@ namespace BEx
     [Serializable]
     public class WithdrawalRejectedException : BExException
     {
-        public WithdrawalRejectedException()
-            : base()
-        {
-        }
-
         public WithdrawalRejectedException(string message)
             : base(message)
         {

@@ -9,11 +9,10 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            ApiError error = new ApiError(ExchangeType.BitStamp);
-
-            error.Message = Error;
-
-            return error;
+            return new ApiError(ExchangeType.BitStamp)
+            {
+                Message = Error
+            };
         }
     }
 }

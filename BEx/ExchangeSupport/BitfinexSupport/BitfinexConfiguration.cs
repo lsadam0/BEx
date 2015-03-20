@@ -6,6 +6,29 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
+        private long _nonce = DateTime.Now.Ticks;
+
+        public BitfinexConfiguration(string apiKey, string secretKey)
+        {
+            ApiKey = apiKey;
+            SecretKey = secretKey;
+
+            Initialize(null);
+        }
+
+        public BitfinexConfiguration(string apiKey, string secretKey, Uri baseUri)
+        {
+            ApiKey = apiKey;
+            SecretKey = secretKey;
+
+            Initialize(baseUri);
+        }
+
+        internal BitfinexConfiguration()
+        {
+            Initialize(null);
+        }
+
         public string ApiKey
         {
             get;
@@ -48,8 +71,6 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             private set;
         }
 
-        private long _nonce = DateTime.Now.Ticks;
-
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -66,49 +87,27 @@ namespace BEx.ExchangeSupport.BitfinexSupport
         {
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
 
-            SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
-
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.LTC, Currency.USD));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-            SupportedPairs.Add(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
+            SupportedPairs = new List<CurrencyTradingPair>()
+            {
+                DefaultPair,
+                new CurrencyTradingPair(Currency.LTC, Currency.USD),
+                new CurrencyTradingPair(Currency.LTC, Currency.BTC),
+                new CurrencyTradingPair(Currency.DRK, Currency.USD),
+                new CurrencyTradingPair(Currency.DRK, Currency.BTC)
+            };
 
             SupportedCurrencies = new HashSet<Currency>();
 
-            foreach (CurrencyTradingPair pair in SupportedPairs)
+            foreach (var pair in SupportedPairs)
             {
                 if (!SupportedCurrencies.Contains(pair.BaseCurrency))
-                    SupportedCurrencies.Add(pair.BaseCurrency);
+                    if (!SupportedCurrencies.Contains(pair.CounterCurrency))
+                        SupportedCurrencies.Add(pair.BaseCurrency);
 
-                if (!SupportedCurrencies.Contains(pair.CounterCurrency))
-                    SupportedCurrencies.Add(pair.CounterCurrency);
+                SupportedCurrencies.Add(pair.CounterCurrency);
             }
 
-            if (baseUri == null)
-                BaseUri = new Uri("https://api.bitfinex.com");
-            else
-                BaseUri = baseUri;
-        }
-
-        internal BitfinexConfiguration()
-        {
-            Initialize(null);
-        }
-
-        public BitfinexConfiguration(string apiKey, string secretKey)
-        {
-            ApiKey = apiKey;
-            SecretKey = secretKey;
-
-            Initialize(null);
-        }
-
-        public BitfinexConfiguration(string apiKey, string secretKey, Uri baseUri)
-        {
-            ApiKey = apiKey;
-            SecretKey = secretKey;
-
-            Initialize(baseUri);
+            BaseUri = baseUri ?? new Uri("https://api.bitfinex.com");
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Globalization;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitStampUserTransactionJSON : IExchangeResponse//ExchangeResponse<UserTransaction>
+    internal class BitStampUserTransactionJSON : IExchangeResponse
     {
         [JsonProperty("usd")]
         public string Usd { get; set; }
@@ -34,41 +32,18 @@ namespace BEx.ExchangeSupport.BitStampSupport
         {
             if (OrderId != null && Type == 2)
             {
-                UserTransaction res = new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp);
-
-                res.BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc);
-                res.CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd);
-                res.TransactionId = Id;
-
-                res.TradeFee = Conversion.ToDecimalInvariant(Fee);
-                res.OrderId = (int)OrderId;
-                res.TradeFeeCurrency = Currency.Unknown;
-
-                return res;
+                return new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
+                {
+                    BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc),
+                    CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd),
+                    OrderId = (int)OrderId,
+                    TradeFee = Conversion.ToDecimalInvariant(Fee),
+                    TradeFeeCurrency = Currency.Unknown,
+                    TransactionId = Id
+                };
             }
             else
                 return null;
         }
-
-        /*
-        public override UserTransaction ConvertToStandard(CurrencyTradingPair pair)
-        {
-            if (OrderId != null && Type == 2)
-            {
-                UserTransaction res = new UserTransaction(Convert.ToDateTime(Datetime), ExchangeType.BitStamp);
-
-                res.BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc);
-                res.CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd);
-                res.TransactionId = Id;
-
-                res.TradeFee = Conversion.ToDecimalInvariant(Fee);
-                res.OrderId = (int)OrderId;
-                res.TradeFeeCurrency = Currency.Unknown;
-
-                return res;
-            }
-            else
-                return null;
-        }*/
     }
 }

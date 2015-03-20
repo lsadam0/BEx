@@ -6,6 +6,31 @@ namespace BEx.ExchangeSupport.BitStampSupport
 {
     public class BitStampConfiguration : IExchangeConfiguration
     {
+        private long _nonce = DateTime.Now.Ticks;
+
+        public BitStampConfiguration(string apiKey, string clientId, string secretKey)
+        {
+            ApiKey = apiKey;
+            ClientId = clientId;
+            SecretKey = secretKey;
+
+            Initialize(null);
+        }
+
+        public BitStampConfiguration(string apiKey, string clientId, string secretKey, Uri baseUri)
+        {
+            ApiKey = apiKey;
+            ClientId = clientId;
+            SecretKey = secretKey;
+
+            Initialize(baseUri);
+        }
+
+        internal BitStampConfiguration()
+        {
+            Initialize(null);
+        }
+
         public string ApiKey
         {
             get;
@@ -48,8 +73,6 @@ namespace BEx.ExchangeSupport.BitStampSupport
             private set;
         }
 
-        private long _nonce = DateTime.Now.Ticks;
-
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -68,38 +91,13 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
             SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
 
-            SupportedCurrencies = new HashSet<Currency>();
+            SupportedCurrencies = new HashSet<Currency>()
+            {
+                DefaultPair.BaseCurrency,
+                DefaultPair.CounterCurrency
+            };
 
-            SupportedCurrencies.Add(DefaultPair.BaseCurrency);
-            SupportedCurrencies.Add(DefaultPair.CounterCurrency);
-
-            if (baseUri != null)
-                BaseUri = new Uri("https://www.bitstamp.net/api");
-            else
-                BaseUri = baseUri;
-        }
-
-        internal BitStampConfiguration()
-        {
-            Initialize(null);
-        }
-
-        public BitStampConfiguration(string apiKey, string clientId, string secretKey)
-        {
-            ApiKey = apiKey;
-            ClientId = clientId;
-            SecretKey = secretKey;
-
-            Initialize(null);
-        }
-
-        public BitStampConfiguration(string apiKey, string clientId, string secretKey, Uri baseUri)
-        {
-            ApiKey = apiKey;
-            ClientId = clientId;
-            SecretKey = secretKey;
-
-            Initialize(baseUri);
+            BaseUri = baseUri ?? new Uri("https://www.bitstamp.net/api");
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using BEx.ExchangeSupport;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BEx.ExchangeSupport;
+
 
 namespace BEx
 {
@@ -34,7 +35,7 @@ namespace BEx
 
         /// <summary>
         ///  A List of Available and Reserved Balances by Currency.  If a Currency is supported by
-        /// the Exchange, but is absent from the Balance collection, then a 0 balance should be assumed.
+        /// the Exchange, but is absent from the Balance Collection, then a 0 balance should be assumed.
         /// </summary>
         public IDictionary<Currency, Balance> BalanceByCurrency
         {

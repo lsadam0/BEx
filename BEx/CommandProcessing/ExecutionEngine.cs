@@ -1,51 +1,43 @@
-﻿using RestSharp;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using RestSharp;
 
 namespace BEx.CommandProcessing
 {
     internal class ExecutionEngine
     {
-        private Exchange sourceExchange;
+        private readonly RequestDispatcher dispatcher;
 
-        private RequestDispatcher dispatcher;
+        private readonly ResultTranslation translator;
 
-        private ResultTranslation translator;
-
-        //  private ErrorHandler errorHandler;
+        // private ErrorHandler errorHandler;
 
         internal ExecutionEngine(Exchange targetExchange)
         {
-            sourceExchange = targetExchange;
+            dispatcher = new RequestDispatcher(targetExchange);
 
-            dispatcher = new RequestDispatcher(sourceExchange);
+            translator = new ResultTranslation(targetExchange);
 
-            translator = new ResultTranslation(sourceExchange);
-
-            //    errorHandler = new ErrorHandler(sourceExchange.ExchangeSourceType);
+            // errorHandler = new ErrorHandler(_sourceExchange.ExchangeSourceType);
         }
 
         public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameterType, string> paramCollection = null)
         {
-            ApiResult res = null;
-
-            res = ExecutionPipeline(toExecute, pair, paramCollection);
-
-            return res;
+            return ExecutionPipeline(toExecute, pair, paramCollection);
         }
 
-        private ApiResult ExecutionPipeline(ExchangeCommand toExecute,
-                                                CurrencyTradingPair pair,
-                                                Dictionary<StandardParameterType, string> paramCollection = null)
+        private ApiResult ExecutionPipeline(
+                                        ExchangeCommand toExecute,
+                                        CurrencyTradingPair pair,
+                                        Dictionary<StandardParameterType, string> paramCollection = null)
         {
-            ApiResult res = null;
-
             RestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             IRestResponse result = dispatcher.Dispatch(request, toExecute);
 
-            res = translator.Translate(result.Content,
-                                            toExecute,
-                                            pair);
+            ApiResult res = translator.Translate(
+                                    result.Content,
+                                    toExecute,
+                                    pair);
 
             // Error Handling!
 

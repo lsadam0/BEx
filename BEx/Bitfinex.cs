@@ -12,7 +12,7 @@ namespace BEx
         public Bitfinex(string apiKey, string secret)
             : base(new BitfinexConfiguration(apiKey, secret), new BitfinexCommandFactory(), ExchangeType.Bitfinex)
         {
-            Authenticator = new BitfinexAuthenticator(base.Configuration);
+            Authenticator = new BitfinexAuthenticator(Configuration);
         }
     }
 }

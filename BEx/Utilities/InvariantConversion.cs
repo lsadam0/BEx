@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BEx
 {
@@ -27,7 +23,7 @@ namespace BEx
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static Int64 ToInt64Invariant(string source)
+        public static long ToInt64Invariant(string source)
         {
             return Convert.ToInt64(source, CultureInfo.InvariantCulture);
         }

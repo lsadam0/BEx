@@ -1,28 +1,28 @@
-﻿using BEx;
-using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using RestSharp;
 
 namespace BEx.CommandProcessing
 {
     public class ExchangeCommand
     {
-        public ExchangeCommand(CommandClass identifier,
-                                Method httpMethod,
-                                Uri relativeUri,
-                                bool isAuthenticated,
-                                Type intermediateType)
+        public ExchangeCommand(
+                    CommandClass identifier,
+                    Method httpMethod,
+                    Uri relativeUri,
+                    bool isAuthenticated,
+                    Type intermediateType)
             : this(identifier, httpMethod, relativeUri, isAuthenticated, intermediateType, null)
         {
         }
 
-        public ExchangeCommand(CommandClass identifier,
-                                Method httpMethod,
-                                Uri relativeUri,
-                                bool isAuthenticated,
-                                Type intermediateType,
-                                IList<ExchangeParameter> parameters)
+        public ExchangeCommand(
+                            CommandClass identifier,
+                            Method httpMethod,
+                            Uri relativeUri,
+                            bool isAuthenticated,
+                            Type intermediateType,
+                            IList<ExchangeParameter> parameters)
         {
             if (intermediateType == null)
                 throw new ArgumentNullException("intermediateType");
@@ -79,6 +79,75 @@ namespace BEx.CommandProcessing
             set;
         }
 
+        public Type ReturnType
+        {
+            get;
+            set;
+        }
+
+        public Type IntermediateType
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Http Execution Method (GET, POST, PUT, etc.)
+        /// </summary>
+        public Method HttpMethod
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Standard Command Identifier
+        /// </summary>
+        public CommandClass Identifier
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Flags if this command requires authentication with the target Exchange
+        /// </summary>
+        public bool IsAuthenticated
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Exchange URL endpoint relative to the base address
+        /// </summary>
+        public Uri RelativeUri
+        {
+            get;
+            private set;
+        }
+
+        public bool ReturnsValueType
+        {
+            get;
+            private set;
+        }
+
+        public Dictionary<StandardParameterType, ExchangeParameter> DependentParameters
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Command Parameters, including default values
+        /// </summary>
+        public Dictionary<string, ExchangeParameter> DefaultParameters
+        {
+            get;
+            private set;
+        }
+
         private void SetReturnType()
         {
             switch (Identifier)
@@ -123,75 +192,6 @@ namespace BEx.CommandProcessing
                     ReturnType = typeof(UserTransactions);
                     break;
             }
-        }
-
-        public Type ReturnType
-        {
-            get;
-            set;
-        }
-
-        public Type IntermediateType
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Http Execution Method (GET, POST, PUT, etc.)
-        /// </summary>
-        public Method HttpMethod
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Standard Command Identifier
-        /// </summary>
-        public CommandClass Identifier
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Flags if this command requires authentication with the target Exchange
-        /// </summary>
-        public bool IsAuthenticated
-        {
-            get;
-            private set;
-        }
-
-        public Dictionary<StandardParameterType, ExchangeParameter> DependentParameters
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Command Parameters, including default values
-        /// </summary>
-        public Dictionary<string, ExchangeParameter> DefaultParameters
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Exchange URL endpoint relative to the base address
-        /// </summary>
-        public Uri RelativeUri
-        {
-            get;
-            private set;
-        }
-
-        public bool ReturnsValueType
-        {
-            get;
-            private set;
         }
     }
 }

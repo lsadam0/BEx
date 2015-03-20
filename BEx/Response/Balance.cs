@@ -15,7 +15,7 @@ namespace BEx
         /// <summary>
         /// The Un-reserved Available Balance
         /// </summary>
-        public Decimal AvailableToTrade
+        public decimal AvailableToTrade
         {
             get;
             internal set;
@@ -33,7 +33,7 @@ namespace BEx
         /// <summary>
         /// Total Exchange Balance for BalanceCurrency, include amounts reserved in open trades
         /// </summary>
-        public Decimal TotalBalance
+        public decimal TotalBalance
         {
             get;
             internal set;

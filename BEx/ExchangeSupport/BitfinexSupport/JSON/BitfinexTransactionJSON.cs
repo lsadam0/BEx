@@ -1,7 +1,6 @@
-﻿using BEx.CommandProcessing;
+﻿using System;
 using Newtonsoft.Json;
-using System;
-using System.Globalization;
+
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
@@ -27,15 +26,14 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            Transaction res = new Transaction(DateTime.Now, ExchangeType.Bitfinex);
-
-            res.Amount = Conversion.ToDecimalInvariant(amount);
-            res.Price = Conversion.ToDecimalInvariant(price);
-            res.TransactionId = (long)tid;
-            res.CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp));
-            res.Pair = pair;
-
-            return res;
+            return new Transaction(DateTime.Now, ExchangeType.Bitfinex)
+            {
+                Amount = Conversion.ToDecimalInvariant(amount),
+                Price = Conversion.ToDecimalInvariant(price),
+                TransactionId = tid,
+                CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)),
+                Pair = pair,
+            };
         }
     }
 }

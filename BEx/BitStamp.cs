@@ -1,5 +1,4 @@
 ﻿using BEx.ExchangeSupport.BitStampSupport;
-using System.Text.RegularExpressions;
 
 namespace BEx
 {

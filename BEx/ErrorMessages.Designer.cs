@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BEx {
-    using System;
-    
-    
+namespace BEx
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -151,7 +151,7 @@ namespace BEx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server returned status OK (HTTP 200) when executing command {0}, but an exception was raised on the response. .
+        ///   Looks up a localized string similar to Server returned status Ok (HTTP 200) when executing command {0}, but an exception was raised on the response. .
         /// </summary>
         internal static string RESTSuccessButHasException {
             get {

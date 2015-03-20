@@ -2,6 +2,9 @@
 
 namespace BEx
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public sealed class ApiError : ApiResult
     {

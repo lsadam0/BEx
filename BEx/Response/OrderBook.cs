@@ -18,7 +18,7 @@ namespace BEx
         /// <summary>
         /// Total Ask Orders sorted and indexed by Price
         /// </summary>
-        public SortedDictionary<Decimal, Decimal> AsksByPrice
+        public SortedDictionary<decimal, decimal> AsksByPrice
         {
             get;
             internal set;
@@ -36,7 +36,7 @@ namespace BEx
         /// <summary>
         /// Total Bid Orders sorted and indexed by Price
         /// </summary>
-        public SortedDictionary<Decimal, Decimal> BidsByPrice
+        public SortedDictionary<decimal, decimal> BidsByPrice
         {
             get;
             internal set;

@@ -21,7 +21,7 @@ namespace BEx
         /// <summary>
         /// Currency Amount
         /// </summary>
-        public Decimal Amount
+        public decimal Amount
         {
             get;
             internal set;
@@ -52,7 +52,7 @@ namespace BEx
         {
             get
             {
-                return (this.TradeType == OrderType.Buy);
+                return TradeType == OrderType.Buy;
             }
         }
 
@@ -63,14 +63,14 @@ namespace BEx
         {
             get
             {
-                return (this.TradeType == OrderType.Sell);
+                return TradeType == OrderType.Sell;
             }
         }
 
         /// <summary>
         /// Limit Price
         /// </summary>
-        public Decimal Price
+        public decimal Price
         {
             get;
             internal set;

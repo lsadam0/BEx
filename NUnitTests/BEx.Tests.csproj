@@ -55,7 +55,9 @@
     <Compile Include="ExchangeExceptionVerification.cs" />
     <Compile Include="ExchangeVerificationBase.cs" />
     <Compile Include="ExchangeCommandVerification.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GlobalSuppressions.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

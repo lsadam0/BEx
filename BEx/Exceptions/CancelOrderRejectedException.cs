@@ -6,11 +6,6 @@ namespace BEx
     [Serializable]
     public class CancelOrderRejectedException : BExException
     {
-        public CancelOrderRejectedException()
-            : base()
-        {
-        }
-
         public CancelOrderRejectedException(string message)
             : base(message)
         {

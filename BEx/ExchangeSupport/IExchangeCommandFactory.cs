@@ -1,5 +1,5 @@
-﻿using BEx.CommandProcessing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BEx.CommandProcessing;
 
 namespace BEx.ExchangeSupport
 {
@@ -8,8 +8,6 @@ namespace BEx.ExchangeSupport
         ExchangeCommand GetCommand(CommandClass commandType);
 
         Dictionary<CommandClass, ExchangeCommand> GetCommandCollection();
-
-        IList<ExchangeCommand> GetCommands();
 
         ExchangeCommand BuildAccountBalanceCommand();
 

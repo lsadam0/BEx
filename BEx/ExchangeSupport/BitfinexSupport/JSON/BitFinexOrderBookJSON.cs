@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
+
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
@@ -37,30 +38,30 @@ namespace BEx.ExchangeSupport.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            OrderBook res = new OrderBook(DateTime.Now, ExchangeType.Bitfinex);
+            OrderBook res = new OrderBook(DateTime.Now, ExchangeType.Bitfinex)
+            {
+                Pair = pair
+            };
 
-            res.Pair = pair;
             decimal key;
             decimal value;
 
-            for (int x = 0; x < Bids.Length; ++x)
+            foreach (Bid bid in Bids)
             {
                 if (
-                decimal.TryParse(Bids[x].Price, out key)
+                decimal.TryParse(bid.Price, out key)
                     &&
-                decimal.TryParse(Bids[x].Amount, out value))
+                decimal.TryParse(bid.Amount, out value))
                     res.BidsByPrice.Add(key, value);
             }
 
-            for (int x = 0; x < Asks.Length; ++x)
+            foreach (Ask ask in Asks)
             {
-                if (decimal.TryParse(Asks[x].Price, out key)
+                if (decimal.TryParse(ask.Price, out key)
                     &&
-                decimal.TryParse(Asks[x].Amount, out value))
+                decimal.TryParse(ask.Amount, out value))
                     res.AsksByPrice.Add(key, value);
             }
-
-            // res.TimeStamp = DateTime.Now;
 
             return res;
         }

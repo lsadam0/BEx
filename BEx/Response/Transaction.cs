@@ -15,7 +15,7 @@ namespace BEx
         /// <summary>
         /// Transaction Amount
         /// </summary>
-        public Decimal Amount
+        public decimal Amount
         {
             get;
             internal set;
@@ -42,7 +42,7 @@ namespace BEx
         /// <summary>
         /// Execution Price
         /// </summary>
-        public Decimal Price
+        public decimal Price
         {
             get;
             internal set;

@@ -1,9 +1,9 @@
-﻿using BEx.CommandProcessing;
+﻿using System;
+using System.Collections.Generic;
+using BEx.CommandProcessing;
 using BEx.ExchangeSupport;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+
 
 namespace BEx
 {
@@ -82,8 +82,10 @@ namespace BEx
 
         public Confirmation CancelOrder(int id)
         {
-            Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
-            param.Add(StandardParameterType.Id, id.ToStringInvariant());
+            Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>()
+            {
+                { StandardParameterType.Id, id.ToStringInvariant() }
+            };
 
             return (Confirmation)ExecuteCommand(CommandClass.CancelOrder, DefaultPair, param);
         }
@@ -95,10 +97,11 @@ namespace BEx
 
         public Order CreateBuyOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
-            Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
-
-            param.Add(StandardParameterType.Amount, amount.ToStringInvariant());
-            param.Add(StandardParameterType.Price, price.ToStringInvariant());
+            Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>()
+            {
+                { StandardParameterType.Amount, amount.ToStringInvariant() },
+                { StandardParameterType.Price, price.ToStringInvariant() }
+            };
 
             return (Order)ExecuteCommand(CommandClass.BuyOrder, pair, param);
         }
@@ -110,10 +113,11 @@ namespace BEx
 
         public Order CreateSellOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
-            Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>();
-
-            param.Add(StandardParameterType.Amount, amount.ToStringInvariant());
-            param.Add(StandardParameterType.Price, price.ToStringInvariant());
+            Dictionary<StandardParameterType, string> param = new Dictionary<StandardParameterType, string>()
+            {
+                { StandardParameterType.Amount, amount.ToStringInvariant() },
+                { StandardParameterType.Price, price.ToStringInvariant() }
+            };
 
             return (Order)ExecuteCommand(CommandClass.SellOrder, pair, param);
         }
@@ -165,8 +169,7 @@ namespace BEx
         /// <summary>
         /// Get the current Order Book for the specified Currency pair.
         /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
         public OrderBook GetOrderBook(CurrencyTradingPair pair)
         {
@@ -185,13 +188,11 @@ namespace BEx
         /// <summary>
         /// Get the current Tick for the specified currency pair.
         /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
         public Tick GetTick(CurrencyTradingPair pair)
         {
             return (Tick)ExecuteCommand(CommandClass.Tick, pair);
-            // return (Tick)CommandExecutionEngine.ExecuteCommand(CommandCollection[CommandClass.Tick], pair);
         }
 
         /// <summary>
@@ -206,14 +207,17 @@ namespace BEx
         /// <summary>
         /// Return general Transactions from the past hour for the specified currency pair.
         /// </summary>
-        /// <param name="baseCurrency"></param>
-        /// <param name="counterCurrency"></param>
+        /// <param name="pair"></param>
         /// <returns></returns>
         public Transactions GetTransactions(CurrencyTradingPair pair)
         {
-            Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>();
-
-            values.Add(StandardParameterType.UnixTimestamp, UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToStringInvariant());
+            Dictionary<StandardParameterType, string> values = new Dictionary<StandardParameterType, string>()
+            {
+                {
+                    StandardParameterType.UnixTimestamp,
+                    UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToStringInvariant()
+                }
+            };
 
             return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
         }
@@ -231,8 +235,7 @@ namespace BEx
         /// <summary>
         /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
         /// </summary>
-        /// <param name="baseCurrency">Base Currency</param>
-        /// <param name="counterCurrency">Counter Currency</param>
+        /// <param name="pair">Currency Pair</param>
         /// <returns>True if supported, otherwise false.</returns>
         public bool IsTradingPairSupported(CurrencyTradingPair pair)
         {
@@ -249,9 +252,7 @@ namespace BEx
             ExchangeCommand command = Commands.GetCommand(commandType);
 
             if (command.HasDependentParameters)
-            {
                 return CommandExecutionEngine.ExecuteCommand(command, pair, values);
-            }
             else
                 return CommandExecutionEngine.ExecuteCommand(command, pair);
         }

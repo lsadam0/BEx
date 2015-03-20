@@ -1,6 +1,6 @@
-﻿using BEx.ExchangeSupport;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BEx.ExchangeSupport;
 
 namespace BEx
 {
@@ -17,7 +17,9 @@ namespace BEx
             foreach (IExchangeResponse order in orders)
             {
                 Order converted = order.ConvertToStandard(pair) as Order;
-                Orders.Add(converted.Id, converted);
+
+                if (converted != null)
+                    Orders.Add(converted.Id, converted);
             }
         }
 

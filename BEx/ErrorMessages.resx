@@ -157,7 +157,7 @@
     <value>Attempted to execute command {0} but the server responded that the method was not allowed (HTTP 405).  The method used was {1}.</value>
   </data>
   <data name="RESTSuccessButHasException" xml:space="preserve">
-    <value>Server returned status OK (HTTP 200) when executing command {0}, but an exception was raised on the response. </value>
+    <value>Server returned status Ok (HTTP 200) when executing command {0}, but an exception was raised on the response. </value>
   </data>
   <data name="RESTErrorResponseContent" xml:space="preserve">
     <value>The response content contained the following: {0}.</value>

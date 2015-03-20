@@ -1,6 +1,6 @@
-﻿using BEx.ExchangeSupport;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BEx.ExchangeSupport;
 
 namespace BEx
 {
@@ -13,7 +13,7 @@ namespace BEx
             : base(DateTime.Now, sourceExchange)
         {
             TransactionsCollection = new List<UserTransaction>();
-            this.Pair = pair;
+            Pair = pair;
 
             foreach (IExchangeResponse transaction in transactions)
             {

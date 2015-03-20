@@ -1,5 +1,6 @@
-﻿using JackLeitch.RateGate;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JackLeitch.RateGate;
+
 
 namespace BEx.CommandProcessing
 {
@@ -8,20 +9,21 @@ namespace BEx.CommandProcessing
     /// </summary>
     internal class RateLimiter
     {
-        private static Dictionary<ExchangeType, RateGate> gates = new Dictionary<ExchangeType, RateGate>();
-        private static object locker = new object();
+        private static readonly Dictionary<ExchangeType, RateGate> Gates = new Dictionary<ExchangeType, RateGate>();
 
-        private ExchangeType _sourceExchange;
+        private static readonly object Locker = new object();
+
+        private readonly ExchangeType _sourceExchange;
 
         public RateLimiter(ExchangeType sourceExchange)
         {
-            if (!gates.ContainsKey(sourceExchange))
+            if (!Gates.ContainsKey(sourceExchange))
             {
-                lock (locker)
+                lock (Locker)
                 {
-                    if (!gates.ContainsKey(sourceExchange))
+                    if (!Gates.ContainsKey(sourceExchange))
                     {
-                        gates.Add(sourceExchange, new RateGate(600, new System.TimeSpan(0, 10, 0)));
+                        Gates.Add(sourceExchange, new RateGate(600, new System.TimeSpan(0, 10, 0)));
                     }
                 }
             }
@@ -31,7 +33,7 @@ namespace BEx.CommandProcessing
 
         public void Throttle()
         {
-            gates[_sourceExchange].WaitToProceed();
+            Gates[_sourceExchange].WaitToProceed();
         }
     }
 }

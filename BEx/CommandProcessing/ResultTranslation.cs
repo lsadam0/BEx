@@ -1,18 +1,19 @@
-﻿using BEx.ExchangeSupport;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using BEx.ExchangeSupport;
+using Newtonsoft.Json;
+
 
 namespace BEx.CommandProcessing
 {
     internal class ResultTranslation
     {
-        private ExchangeType SourceExchange;
+        private readonly ExchangeType _sourceExchange;
 
         internal ResultTranslation(Exchange source)
         {
-            SourceExchange = source.ExchangeSourceType;
+            _sourceExchange = source.ExchangeSourceType;
         }
 
         internal ApiResult Translate(string source, ExchangeCommand executedCommand, CurrencyTradingPair pair)
@@ -25,26 +26,23 @@ namespace BEx.CommandProcessing
 
         private ApiResult DeserializeObject(string content, ExchangeCommand commandReference, CurrencyTradingPair pair)
         {
-            ApiResult res = default(ApiResult);
-
             if (commandReference.ReturnsCollection)
             {
                 IEnumerable<IExchangeResponse> responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IEnumerable<IExchangeResponse>;
 
-                res = (ApiResult)Activator.CreateInstance(commandReference.ReturnType,
-                                              BindingFlags.NonPublic | BindingFlags.Instance,
-                                              null,
-                                              new object[] { responseCollection, pair, SourceExchange },
-                                              null);
+                return (ApiResult)Activator.CreateInstance(
+                                                    commandReference.ReturnType,
+                                                    BindingFlags.NonPublic | BindingFlags.Instance,
+                                                    null,
+                                                    new object[] { responseCollection, pair, _sourceExchange },
+                                                    null);
             }
             else
             {
                 IExchangeResponse deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse;
 
-                res = deserialized.ConvertToStandard(pair);
+                return deserialized.ConvertToStandard(pair);
             }
-
-            return res;
         }
 
         private ApiResult GetValueType(string content, ExchangeCommand command, CurrencyTradingPair pair)
@@ -54,11 +52,12 @@ namespace BEx.CommandProcessing
 
             if (deserialized.GetType() != command.ReturnType)
             {
-                res = (ApiResult)Activator.CreateInstance(command.ReturnType,
-                                              BindingFlags.NonPublic | BindingFlags.Instance,
-                                              null,
-                                              new object[] { deserialized, SourceExchange, pair },
-                                              null);
+                res = (ApiResult)Activator.CreateInstance(
+                                                    command.ReturnType,
+                                                    BindingFlags.NonPublic | BindingFlags.Instance,
+                                                    null,
+                                                    new[] { deserialized, _sourceExchange, pair },
+                                                    null);
             }
 
             return res;

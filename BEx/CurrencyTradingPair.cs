@@ -1,9 +1,14 @@
-﻿using System;
-
-namespace BEx
+﻿namespace BEx
 {
     public struct CurrencyTradingPair
     {
+        public CurrencyTradingPair(Currency pairBase, Currency pairCounter)
+            : this()
+        {
+            BaseCurrency = pairBase;
+            CounterCurrency = pairCounter;
+        }
+
         public Currency BaseCurrency
         {
             get;
@@ -16,23 +21,6 @@ namespace BEx
             private set;
         }
 
-        public CurrencyTradingPair(Currency pairBase, Currency pairCounter)
-            : this()
-        {
-            BaseCurrency = pairBase;
-            CounterCurrency = pairCounter;
-        }
-
-        public override bool Equals(Object obj)
-        {
-            return obj is CurrencyTradingPair && this == (CurrencyTradingPair)obj;
-        }
-
-        public override int GetHashCode()
-        {
-            return BaseCurrency.GetHashCode() ^ CounterCurrency.GetHashCode();
-        }
-
         public static bool operator ==(CurrencyTradingPair x, CurrencyTradingPair y)
         {
             return (x.BaseCurrency == y.BaseCurrency) && (x.CounterCurrency == y.CounterCurrency);
@@ -41,6 +29,16 @@ namespace BEx
         public static bool operator !=(CurrencyTradingPair x, CurrencyTradingPair y)
         {
             return !(x == y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CurrencyTradingPair && this == (CurrencyTradingPair)obj;
+        }
+
+        public override int GetHashCode()
+        {
+            return BaseCurrency.GetHashCode() ^ CounterCurrency.GetHashCode();
         }
     }
 }

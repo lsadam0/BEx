@@ -65,7 +65,9 @@
   <ItemGroup>
     <Compile Include="CommandProcessing\RateLimiter.cs" />
     <Compile Include="ExchangeSupport\IExchangeResponse.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GlobalSuppressions.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Utilities\InvariantConversion.cs" />
     <Compile Include="Response\Balance.cs" />
     <Compile Include="Response\AccountBalance.cs" />

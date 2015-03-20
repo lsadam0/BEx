@@ -1,18 +1,13 @@
-﻿using BEx;
-using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using RestSharp;
 
 namespace BEx.CommandProcessing
 {
     internal class RequestFactory
     {
-        internal RequestFactory()
-        {
-        }
-
-        public static RestRequest GetRequest(ExchangeCommand command,
+        public static RestRequest GetRequest(
+                                        ExchangeCommand command,
                                         CurrencyTradingPair pair,
                                         Dictionary<StandardParameterType, string> parameters = null)
         {
@@ -59,53 +54,50 @@ namespace BEx.CommandProcessing
             {
                 foreach (KeyValuePair<StandardParameterType, ExchangeParameter> param in command.DependentParameters)
                 {
-                    string value = "";
+                    string value = string.Empty;
                     switch (param.Key)
                     {
-                        case (StandardParameterType.Amount):
+                        case StandardParameterType.Amount:
                             value = values[param.Key];
                             break;
 
-                        case (StandardParameterType.Base):
+                        case StandardParameterType.Base:
                             value = pair.BaseCurrency.ToString();
                             break;
 
-                        case (StandardParameterType.Counter):
+                        case StandardParameterType.Counter:
                             value = pair.CounterCurrency.ToString();
                             break;
 
-                        case (StandardParameterType.Currency):
+                        case StandardParameterType.Currency:
                             value = pair.BaseCurrency.ToString();
                             break;
 
-                        case (StandardParameterType.CurrencyFullName):
+                        case StandardParameterType.CurrencyFullName:
                             value = pair.BaseCurrency.GetDescription();
                             break;
 
-                        case (StandardParameterType.Id):
+                        case StandardParameterType.Id:
                             value = values[StandardParameterType.Id];
                             break;
 
-                        case (StandardParameterType.Pair):
+                        case StandardParameterType.Pair:
                             value = pair.ToString();
                             break;
 
-                        case (StandardParameterType.Price):
+                        case StandardParameterType.Price:
                             value = values[param.Key];
                             break;
 
-                        case (StandardParameterType.Timestamp):
+                        case StandardParameterType.Timestamp:
                             throw new NotImplementedException();
 
-                        case (StandardParameterType.UnixTimestamp):
+                        case StandardParameterType.UnixTimestamp:
                             value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToStringInvariant();
                             break;
                     }
 
-                    if (param.Value.IsLowercase)
-                        res.Add(param.Key, value.ToLowerInvariant());
-                    else
-                        res.Add(param.Key, value);
+                    res.Add(param.Key, param.Value.IsLowercase ? value.ToLowerInvariant() : value);
                 }
             }
 

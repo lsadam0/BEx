@@ -1,11 +1,10 @@
-﻿using BEx.CommandProcessing;
+﻿using System;
 using Newtonsoft.Json;
-using System;
-using System.Globalization;
+
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
-    internal class BitstampTransactionJSON : IExchangeResponse//ExchangeResponse<Transaction>
+    internal class BitstampTransactionJSON : IExchangeResponse
     {
         [JsonProperty("date")]
         public string date { get; set; }
@@ -21,16 +20,14 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            DateTime time = UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(date));
-            Transaction res = new Transaction(DateTime.Now, ExchangeType.BitStamp);
-
-            res.Amount = Conversion.ToDecimalInvariant(amount);
-            res.Price = Conversion.ToDecimalInvariant(price);
-            res.TransactionId = (long)tid;
-            res.Pair = pair;
-            res.CompletedTime = time;
-
-            return res;
+            return new Transaction(DateTime.Now, ExchangeType.BitStamp)
+            {
+                Amount = Conversion.ToDecimalInvariant(amount),
+                Price = Conversion.ToDecimalInvariant(price),
+                TransactionId = tid,
+                Pair = pair,
+                CompletedTime = UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(date))
+            };
         }
     }
 }

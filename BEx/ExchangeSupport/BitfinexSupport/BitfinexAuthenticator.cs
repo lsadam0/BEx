@@ -1,20 +1,20 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using RestSharp;
 
 namespace BEx.ExchangeSupport.BitfinexSupport
 {
     internal class BitfinexAuthenticator : IAuthenticator
     {
         public static HMACSHA384 Hasher;
-        private IExchangeConfiguration Configuration;
+        private readonly IExchangeConfiguration _configuration;
 
         public BitfinexAuthenticator(IExchangeConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
 
-            Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(Configuration.SecretKey));
+            Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(_configuration.SecretKey));
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)
@@ -38,9 +38,9 @@ namespace BEx.ExchangeSupport.BitfinexSupport
                X-BFX-PAYLOAD
                X-BFX-SIGNATURE*/
 
-            long currentNonce = Configuration.Nonce;
+            long currentNonce = _configuration.Nonce;
 
-            request.AddHeader("X-BFX-APIKEY", Configuration.ApiKey);
+            request.AddHeader("X-BFX-APIKEY", _configuration.ApiKey);
 
             StringBuilder payload = new StringBuilder();
 
@@ -67,7 +67,7 @@ namespace BEx.ExchangeSupport.BitfinexSupport
             request.AddHeader("X-BFX-PAYLOAD", payload64);
 
             byte[] hashBytes = Hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
-            request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant());
+            request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLowerInvariant());
         }
     }
 }

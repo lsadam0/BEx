@@ -14,23 +14,23 @@ namespace BEx
         /// <summary>
         /// Lowest Sell Price
         /// </summary>
-        public Decimal Ask
+        public decimal Ask
         {
             get;
             internal set;
         }
 
         /// <summary>
-        /// Highest Buy Price
+        /// Gets highest Buy Price
         /// </summary>
-        public Decimal Bid
+        public decimal Bid
         {
             get;
             internal set;
         }
 
         /// <summary>
-        /// Trading Pair
+        /// Gets trading pair
         /// </summary>
         public CurrencyTradingPair Pair
         {
@@ -39,36 +39,36 @@ namespace BEx
         }
 
         /// <summary>
-        /// Highest trade price of the last 24 hours
+        /// Gets highest trade price of the last 24 hours
         /// </summary>
-        public Decimal High
+        public decimal High
         {
             get;
             internal set;
         }
 
         /// <summary>
-        /// Price at which the last order executed
+        /// Gets price at which the last order executed
         /// </summary>
-        public Decimal Last
+        public decimal Last
         {
             get;
             internal set;
         }
 
         /// <summary>
-        /// Lowest trade price of the last 24 hours
+        /// Gets lowest trade price of the last 24 hours
         /// </summary>
-        public Decimal Low
+        public decimal Low
         {
             get;
             internal set;
         }
 
         /// <summary>
-        /// Trade volume of the last 24 hours
+        /// Gets trade volume of the last 24 hours
         /// </summary>
-        public Decimal Volume
+        public decimal Volume
         {
             get;
             internal set;

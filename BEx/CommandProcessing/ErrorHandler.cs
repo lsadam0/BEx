@@ -1,6 +1,6 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Reflection;
+using RestSharp;
 
 namespace BEx.CommandProcessing
 {
@@ -10,21 +10,36 @@ namespace BEx.CommandProcessing
 
     internal class ErrorHandler
     {
-        private ExchangeType SourceExchangeType;
-
         public DetermineErrorConditionDelegate DetermineErrorCondition;
+
         public IsErrorDelegate IsExchangeError;
 
-        public static bool IsResponseError(IRestResponse response)
-        {
-            return (response == null
-                || response.ErrorException != null
-                || response.StatusCode != System.Net.HttpStatusCode.OK);
-        }
+        private readonly ExchangeType _sourceExchangeType;
 
         internal ErrorHandler(ExchangeType sourceExchange)
         {
-            SourceExchangeType = sourceExchange;
+            _sourceExchangeType = sourceExchange;
+        }
+
+        public static bool IsResponseError(IRestResponse response)
+        {
+            return response == null
+                || response.ErrorException != null
+                || response.StatusCode != System.Net.HttpStatusCode.OK;
+        }
+
+        public static void ThrowException<TE>(ApiError source) where TE : Exception
+        {
+            TE exception = (TE)Activator.CreateInstance(
+                                                typeof(TE),
+                                                BindingFlags.Public | BindingFlags.Instance,
+                                                null,
+                                                new object[] { source.Message },
+                                                null);
+
+            exception.Data.Add("BExError", source);
+
+            throw exception;
         }
 
         public ApiError HandleErrorResponse(IRestResponse response, RestRequest request, Exception ex = null)
@@ -36,10 +51,10 @@ namespace BEx.CommandProcessing
             }
 
             if (error == null)
-            {
-                error = new ApiError(SourceExchangeType);
-                error.Message = response.Content;
-            }
+                error = new ApiError(_sourceExchangeType)
+                {
+                    Message = response.Content
+                };
 
             error.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
 
@@ -49,19 +64,6 @@ namespace BEx.CommandProcessing
                 ThrowException<ExchangeAuthorizationException>(error);
 
             return error;
-        }
-
-        public static void ThrowException<E>(ApiError source) where E : Exception
-        {
-            E exception = (E)Activator.CreateInstance(typeof(E),
-                                                    BindingFlags.Public | BindingFlags.Instance,
-                                                    null,
-                                                    new object[] { source.Message },
-                                                    null);
-
-            ((Exception)exception).Data.Add("BExError", source);
-
-            throw exception;
         }
     }
 }

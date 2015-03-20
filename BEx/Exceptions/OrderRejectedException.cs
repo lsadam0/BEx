@@ -6,11 +6,6 @@ namespace BEx
     [Serializable]
     public class InsufficientFundsException : BExException
     {
-        public InsufficientFundsException()
-            : base()
-        {
-        }
-
         public InsufficientFundsException(string message)
             : base(message)
         {

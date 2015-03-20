@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
@@ -30,27 +29,26 @@ namespace BEx.ExchangeSupport.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair)
         {
-            AccountBalance res;
+            Balance btcBalance = new Balance(DateTime.Now, ExchangeType.BitStamp)
+            {
+                BalanceCurrency = Currency.BTC,
+                AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable),
+                TotalBalance = Conversion.ToDecimalInvariant(BtcBalance)
+            };
 
-            Balance btcBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
-            btcBalance.BalanceCurrency = Currency.BTC;
+            Balance usdBalance = new Balance(DateTime.Now, ExchangeType.BitStamp)
+            {
+                AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable),
+                TotalBalance = Conversion.ToDecimalInvariant(UsdBalance),
+                BalanceCurrency = Currency.USD
+            };
+            List<Balance> balances = new List<Balance>()
+            {
+                btcBalance,
+                usdBalance
+            };
 
-            btcBalance.AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable);
-            btcBalance.TotalBalance = Conversion.ToDecimalInvariant(BtcBalance);
-
-            Balance usdBalance = new Balance(DateTime.Now, ExchangeType.BitStamp);
-
-            usdBalance.AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable);
-            usdBalance.TotalBalance = Conversion.ToDecimalInvariant(UsdBalance);
-            usdBalance.BalanceCurrency = Currency.USD;
-
-            List<Balance> balances = new List<Balance>();
-            balances.Add(btcBalance);
-            balances.Add(usdBalance);
-
-            res = new AccountBalance(balances, pair, ExchangeType.BitStamp);
-
-            return res;
+            return new AccountBalance(balances, pair, ExchangeType.BitStamp);
         }
     }
 }

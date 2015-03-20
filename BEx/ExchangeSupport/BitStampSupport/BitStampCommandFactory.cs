@@ -1,179 +1,171 @@
-﻿using BEx.CommandProcessing;
-using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BEx.CommandProcessing;
+using RestSharp;
 
 namespace BEx.ExchangeSupport.BitStampSupport
 {
     internal class BitStampCommandFactory : IExchangeCommandFactory
     {
-        internal Dictionary<CommandClass, ExchangeCommand> collection;
+
+        private readonly Dictionary<CommandClass, ExchangeCommand> commandCollection;
+
 
         public BitStampCommandFactory()
         {
-            collection = GetCommandCollection();
+            commandCollection = GetCommandCollection();
         }
-
         public ExchangeCommand BuildAccountBalanceCommand()
         {
-            var accountBalance = new ExchangeCommand(CommandClass.AccountBalance,
-                                                     Method.POST,
-                                                     new Uri("balance/", UriKind.Relative),
-                                                     true,
-                                                     typeof(BitStampAccountBalanceJSON));
-
-            return accountBalance;
+            return new ExchangeCommand(
+                                CommandClass.AccountBalance,
+                                Method.POST,
+                                new Uri("balance/", UriKind.Relative),
+                                true,
+                                typeof(BitStampAccountBalanceJSON));
         }
 
         public ExchangeCommand BuildBuyOrderCommand()
         {
-            var param = new List<ExchangeParameter>();
+            var param = new List<ExchangeParameter>()
+            {
+                new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount),
+                new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price)
+            };
 
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
-
-            var buyOrder = new ExchangeCommand(CommandClass.BuyOrder,
-                                                   Method.POST,
-                                                   new Uri("buy/", UriKind.Relative),
-                                                   true,
-                                                   typeof(BitStampOrderConfirmationJSON),
-                                                   param);
-
-            return buyOrder;
+            return new ExchangeCommand(
+                                CommandClass.BuyOrder,
+                                Method.POST,
+                                new Uri("buy/", UriKind.Relative),
+                                true,
+                                typeof(BitStampOrderConfirmationJSON),
+                                param);
         }
 
         public ExchangeCommand BuildCancelOrderCommand()
         {
-            var param = new List<ExchangeParameter>();
+            var param = new List<ExchangeParameter>()
+            {
+                new ExchangeParameter(ExchangeParameterType.Post, "id", StandardParameterType.Id)
+            };
 
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "id", StandardParameterType.Id));
-
-            var cancelOrder = new ExchangeCommand(CommandClass.CancelOrder,
-                                                                Method.POST,
-                                                                new Uri("cancel_order/", UriKind.Relative),
-                                                                true,
-                                                                typeof(Confirmation),
-                                                                param);
-
-            return cancelOrder;
+            return new ExchangeCommand(
+                                CommandClass.CancelOrder,
+                                Method.POST,
+                                new Uri("cancel_order/", UriKind.Relative),
+                                true,
+                                typeof(Confirmation),
+                                param);
         }
 
         public ExchangeCommand BuildDepositAddressCommand()
         {
-            var depositAddress = new ExchangeCommand(CommandClass.DepositAddress,
-                                                      Method.POST,
-                                                      new Uri("bitcoin_deposit_address/", UriKind.Relative),
-                                                      true,
-                                                      typeof(string));
-
-            return depositAddress;
+            return new ExchangeCommand(
+                                CommandClass.DepositAddress,
+                                Method.POST,
+                                new Uri("bitcoin_deposit_address/", UriKind.Relative),
+                                true,
+                                typeof(string));
         }
 
         public ExchangeCommand BuildOpenOrdersCommand()
         {
-            var openOrders = new ExchangeCommand(CommandClass.OpenOrders,
-                                                    Method.POST,
-                                                    new Uri("open_orders/", UriKind.Relative),
-                                                    true,
-                                                    typeof(List<BitStampOpenOrdersJSON>)
-                                                    );
-
-            return openOrders;
+            return new ExchangeCommand(
+                                CommandClass.OpenOrders,
+                                Method.POST,
+                                new Uri("open_orders/", UriKind.Relative),
+                                true,
+                                typeof(List<BitStampOpenOrdersJSON>));
         }
 
         public ExchangeCommand BuildOrderBookCommand()
         {
-            var orderBook = new ExchangeCommand(CommandClass.OrderBook,
-                                                                 Method.GET,
-                                                                 new Uri("order_book/", UriKind.Relative),
-                                                                 false,
-                                                                 typeof(BitstampOrderBookJSON));
-
-            return orderBook;
+            return new ExchangeCommand(
+                                CommandClass.OrderBook,
+                                Method.GET,
+                                new Uri("order_book/", UriKind.Relative),
+                                false,
+                                typeof(BitstampOrderBookJSON));
         }
 
         public ExchangeCommand BuildSellOrderCommand()
         {
-            var param = new List<ExchangeParameter>();
+            var param = new List<ExchangeParameter>()
+            {
+                new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount),
+                new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price)
+            };
 
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "amount", StandardParameterType.Amount));
-
-            param.Add(new ExchangeParameter(ExchangeParameterType.Post, "price", StandardParameterType.Price));
-
-            var sellOrder = new ExchangeCommand(CommandClass.SellOrder,
-                                                    Method.POST,
-                                                    new Uri("sell/", UriKind.Relative),
-                                                    true,
-                                                    typeof(BitStampOrderConfirmationJSON),
-                                                    param);
-
-            return sellOrder;
+            return new ExchangeCommand(
+                                CommandClass.SellOrder,
+                                Method.POST,
+                                new Uri("sell/", UriKind.Relative),
+                                true,
+                                typeof(BitStampOrderConfirmationJSON),
+                                param);
         }
 
         public ExchangeCommand BuildTickCommand()
         {
-            var tick = new ExchangeCommand(CommandClass.Tick,
-                                                      Method.GET,
-                                                      new Uri("ticker/", UriKind.Relative),
-                                                      false,
-                                                      typeof(BitstampTickJSON));
-            return tick;
+            return new ExchangeCommand(
+                                CommandClass.Tick,
+                                Method.GET,
+                                new Uri("ticker/", UriKind.Relative),
+                                false,
+                                typeof(BitstampTickJSON));
         }
 
         public ExchangeCommand BuildTransactionsCommand()
         {
-            var param = new List<ExchangeParameter>();
+            var param = new List<ExchangeParameter>()
+            {
+                new ExchangeParameter(ExchangeParameterType.Address, "time", StandardParameterType.None, "hour")
+            };
 
-            param.Add(new ExchangeParameter(ExchangeParameterType.Address, "time", StandardParameterType.None, "hour"));
-
-            var transactions = new ExchangeCommand(CommandClass.Transactions,
-                                                                Method.GET,
-                                                                new Uri("transactions/", UriKind.Relative),
-                                                                false,
-                                                                typeof(List<BitstampTransactionJSON>),
-                                                                param);
-
-            return transactions;
+            return new ExchangeCommand(
+                                CommandClass.Transactions,
+                                Method.GET,
+                                new Uri("transactions/", UriKind.Relative),
+                                false,
+                                typeof(List<BitstampTransactionJSON>),
+                                param);
         }
 
         public ExchangeCommand BuildUserTransactionsCommand()
         {
-            var userTransactions = new ExchangeCommand(CommandClass.UserTransactions,
-                                                        Method.POST,
-                                                        new Uri("user_transactions/", UriKind.Relative),
-                                                        true,
-                                                        typeof(List<BitStampUserTransactionJSON>));
-
-            return userTransactions;
+            return new ExchangeCommand(
+                                CommandClass.UserTransactions,
+                                Method.POST,
+                                new Uri("user_transactions/", UriKind.Relative),
+                                true,
+                                typeof(List<BitStampUserTransactionJSON>));
         }
 
         public ExchangeCommand GetCommand(CommandClass commandType)
         {
-            return collection[commandType];
+            return commandCollection[commandType];
         }
 
         public Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
         {
-            var res = new Dictionary<CommandClass, ExchangeCommand>();
-
-            res.Add(CommandClass.AccountBalance, BuildAccountBalanceCommand());
-            res.Add(CommandClass.BuyOrder, BuildBuyOrderCommand());
-            res.Add(CommandClass.CancelOrder, BuildCancelOrderCommand());
-            res.Add(CommandClass.DepositAddress, BuildDepositAddressCommand());
-            res.Add(CommandClass.OpenOrders, BuildOpenOrdersCommand());
-            res.Add(CommandClass.OrderBook, BuildOrderBookCommand());
-            res.Add(CommandClass.SellOrder, BuildSellOrderCommand());
-            res.Add(CommandClass.Tick, BuildTickCommand());
-            res.Add(CommandClass.Transactions, BuildTransactionsCommand());
-            res.Add(CommandClass.UserTransactions, BuildUserTransactionsCommand());
+            var res = new Dictionary<CommandClass, ExchangeCommand>()
+            {
+                { CommandClass.AccountBalance, BuildAccountBalanceCommand() },
+                { CommandClass.BuyOrder, BuildBuyOrderCommand() },
+                { CommandClass.CancelOrder, BuildCancelOrderCommand() },
+                { CommandClass.DepositAddress, BuildDepositAddressCommand() },
+                { CommandClass.OpenOrders, BuildOpenOrdersCommand() },
+                { CommandClass.OrderBook, BuildOrderBookCommand() },
+                { CommandClass.SellOrder, BuildSellOrderCommand() },
+                { CommandClass.Tick, BuildTickCommand() },
+                { CommandClass.Transactions, BuildTransactionsCommand() },
+                { CommandClass.UserTransactions, BuildUserTransactionsCommand() }
+            };
 
             return res;
         }
 
-        public IList<ExchangeCommand> GetCommands()
-        {
-            return collection.Values.ToList();
-        }
+        
     }
 }

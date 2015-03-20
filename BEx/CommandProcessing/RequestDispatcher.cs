@@ -4,19 +4,19 @@ namespace BEx.CommandProcessing
 {
     internal class RequestDispatcher
     {
-        private Exchange SourceExchange;
+        private readonly Exchange _sourceExchange;
 
-        private RateLimiter _throttler;
+        private readonly RateLimiter _throttler;
 
         internal RequestDispatcher(Exchange sourceExchange)
         {
-            SourceExchange = sourceExchange;
-            _throttler = new RateLimiter(SourceExchange.ExchangeSourceType);
+            _sourceExchange = sourceExchange;
+            _throttler = new RateLimiter(_sourceExchange.ExchangeSourceType);
         }
 
         internal IRestResponse Dispatch(RestRequest request, ExchangeCommand commandReference)
         {
-            var client = new RestClient(SourceExchange.Configuration.BaseUri);
+            var client = new RestClient(_sourceExchange.Configuration.BaseUri);
 
             IRestResponse response;
 
@@ -28,7 +28,7 @@ namespace BEx.CommandProcessing
                     // Exchanges strictly enforce sequential nonce values
                     // this lock insures that authenticated requests always
                     // contain a correct sequential nonce value.
-                    client.Authenticator = SourceExchange.Authenticator;
+                    client.Authenticator = _sourceExchange.Authenticator;
                     response = client.Execute(request);
                 }
             }
