@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEx.ExchangeSupport;
+using System.Collections.ObjectModel;
+using System.Linq;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -10,10 +12,12 @@ namespace BEx
             : base(DateTime.Now, sourceExchange)
         {
             Pair = pair;
-            TransactionsCollection = new List<Transaction>();
 
-            foreach (IExchangeResponse transaction in transactions)
-                TransactionsCollection.Add(transaction.ConvertToStandard(pair) as Transaction);
+            TransactionsCollection =
+                new ReadOnlyCollection<Transaction>(
+                    transactions.Select(x => x.ConvertToStandard(pair) as Transaction)
+                    .OfType<Transaction>()
+                    .ToList());
         }
 
         public CurrencyTradingPair Pair
@@ -22,7 +26,7 @@ namespace BEx
             internal set;
         }
 
-        public IList<Transaction> TransactionsCollection
+        public IEnumerable<Transaction> TransactionsCollection
         {
             get;
             internal set;
@@ -30,7 +34,7 @@ namespace BEx
 
         protected override string DebugDisplay
         {
-            get { return string.Format("{0} {1} - Transactions: {2}", SourceExchange, Pair, TransactionsCollection.Count); }
+            get { return string.Format("{0} {1} - Transactions: {2}", SourceExchange, Pair, TransactionsCollection.Count()); }
         }
     }
 }

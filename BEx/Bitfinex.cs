@@ -1,4 +1,4 @@
-﻿using BEx.ExchangeSupport.BitfinexSupport;
+﻿using BEx.ExchangeEngine.BitfinexSupport;
 
 namespace BEx
 {

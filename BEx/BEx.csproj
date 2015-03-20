@@ -63,20 +63,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandProcessing\RateLimiter.cs" />
-    <Compile Include="ExchangeSupport\IExchangeResponse.cs" />
+    <Compile Include="IAuthenticatedExchange.cs" />
+    <Compile Include="IUnauthenticatedExchange.cs" />
+    <Compile Include="ExchangeEngine\RateLimiter.cs" />
+    <Compile Include="ExchangeEngine\Interfaces\IExchangeResponse.cs" />
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Utilities\InvariantConversion.cs" />
+    <Compile Include="ExchangeEngine\Utilities\InvariantConversion.cs" />
     <Compile Include="Response\Balance.cs" />
     <Compile Include="Response\AccountBalance.cs" />
     <Compile Include="Response\ApiResult.cs" />
-    <Compile Include="Utilities\UnixTime.cs" />
+    <Compile Include="ExchangeEngine\Utilities\UnixTime.cs" />
     <Compile Include="Response\Confirmation.cs" />
     <Compile Include="CurrencyTradingPair.cs" />
     <Compile Include="Response\DepositAddress.cs" />
-    <Compile Include="ErrorMessages.Designer.cs">
+    <Compile Include="Exceptions\ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ErrorMessages.resx</DependentUpon>
@@ -87,32 +89,32 @@
     <Compile Include="Exceptions\OrderRejectedException.cs" />
     <Compile Include="Exceptions\WithdrawalRejectedException.cs" />
     <Compile Include="Bitfinex.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\BitfinexAuthenticator.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\BitfinexConfiguration.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitFinexAccountBalanceJSON.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\BitfinexCommandFactory.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitFinexDepositAddressJSON.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitFinexOrderBookJSON.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitFinexOrderResponseJSON.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitfinexTickJSON.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitfinexTransactionJSON.cs" />
-    <Compile Include="ExchangeSupport\BitfinexSupport\JSON\BitFinexUserTransactionJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\BitStampAuthenticator.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\BitStampCommandFactory.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\BitStampConfiguration.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitStampAccountBalanceJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitstampErrorJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitstampOpenOrdersJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitstampOrderBookJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitstampOrderConfirmationJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitstampTickJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitstampTransactionsJSON.cs" />
-    <Compile Include="ExchangeSupport\BitStampSupport\JSON\BitStampUserTransactionJSON.cs" />
-    <Compile Include="APIError.cs" />
-    <Compile Include="CommandProcessing\ErrorCodes.cs" />
-    <Compile Include="ExchangeSupport\ExchangeType.cs" />
-    <Compile Include="ExchangeSupport\IExchangeCommandFactory.cs" />
-    <Compile Include="ExchangeSupport\IExchangeConfiguration.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\BitfinexAuthenticator.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\BitfinexConfiguration.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitFinexAccountBalanceJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\BitfinexCommandFactory.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitFinexDepositAddressJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitFinexOrderBookJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitFinexOrderResponseJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitfinexTickJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitfinexTransactionJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitfinexSupport\JSON\BitFinexUserTransactionJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\BitStampAuthenticator.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\BitStampCommandFactory.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\BitStampConfiguration.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitStampAccountBalanceJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitstampErrorJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitstampOpenOrdersJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitstampOrderBookJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitstampOrderConfirmationJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitstampTickJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitstampTransactionsJSON.cs" />
+    <Compile Include="ExchangeEngine\ExchangeSpecific\BitStampSupport\JSON\BitStampUserTransactionJSON.cs" />
+    <Compile Include="Response\APIError.cs" />
+    <Compile Include="ExchangeEngine\ErrorCodes.cs" />
+    <Compile Include="ExchangeType.cs" />
+    <Compile Include="ExchangeEngine\Interfaces\IExchangeCommandFactory.cs" />
+    <Compile Include="ExchangeEngine\Interfaces\IExchangeConfiguration.cs" />
     <Compile Include="Response\OpenOrders.cs" />
     <Compile Include="Response\Order.cs" />
     <Compile Include="BitStamp.cs" />
@@ -120,27 +122,27 @@
     <Compile Include="Exchange.cs" />
     <Compile Include="Response\OrderBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommandProcessing\CommandClass.cs" />
-    <Compile Include="CommandProcessing\ErrorHandler.cs" />
-    <Compile Include="CommandProcessing\ExchangeCommand.cs" />
-    <Compile Include="CommandProcessing\ExchangeParameter.cs" />
-    <Compile Include="CommandProcessing\ExecutionEngine.cs" />
-    <Compile Include="CommandProcessing\RequestDispatcher.cs" />
-    <Compile Include="CommandProcessing\RequestFactory.cs" />
-    <Compile Include="CommandProcessing\ResultTranslation.cs" />
+    <Compile Include="ExchangeEngine\Commands\CommandClass.cs" />
+    <Compile Include="ExchangeEngine\ErrorHandler.cs" />
+    <Compile Include="ExchangeEngine\Commands\ExchangeCommand.cs" />
+    <Compile Include="ExchangeEngine\Commands\ExchangeParameter.cs" />
+    <Compile Include="ExchangeEngine\ExecutionEngine.cs" />
+    <Compile Include="ExchangeEngine\RequestDispatcher.cs" />
+    <Compile Include="ExchangeEngine\RequestFactory.cs" />
+    <Compile Include="ExchangeEngine\ResultTranslation.cs" />
     <Compile Include="Response\Tick.cs" />
     <Compile Include="Response\Transaction.cs" />
     <Compile Include="Response\Transactions.cs" />
     <Compile Include="Response\UserTransaction.cs" />
     <Compile Include="Response\UserTransactions.cs" />
-    <Compile Include="Utilities\ExtensionMethods.cs" />
+    <Compile Include="ExchangeEngine\Utilities\ExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ErrorMessages.resx">
+    <EmbeddedResource Include="Exceptions\ErrorMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>

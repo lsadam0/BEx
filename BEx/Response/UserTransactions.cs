@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
-using BEx.ExchangeSupport;
+using System.Linq;
+using System.Web.UI.WebControls;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -13,16 +16,14 @@ namespace BEx
         internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.Now, sourceExchange)
         {
-            TransactionsCollection = new List<UserTransaction>();
             Pair = pair;
 
-            foreach (IExchangeResponse transaction in transactions)
-            {
-                UserTransaction converted = transaction.ConvertToStandard(pair) as UserTransaction;
+            TransactionsCollection =
+                new ReadOnlyCollection<UserTransaction>(
+                    transactions.Select(x => x.ConvertToStandard(pair) as UserTransaction)
+                        .OfType<UserTransaction>()
+                        .ToList());
 
-                if (converted != null)
-                    TransactionsCollection.Add(converted);
-            }
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace BEx
         /// <summary>
         /// Your Transactions for the previous hour
         /// </summary>
-        public IList<UserTransaction> TransactionsCollection
+        public IEnumerable<UserTransaction> TransactionsCollection
         {
             get;
             internal set;
@@ -45,7 +46,7 @@ namespace BEx
 
         protected override string DebugDisplay
         {
-            get { return string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count); }
+            get { return string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count()); }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace BEx
+namespace BEx.Exceptions
 {
     [Serializable]
     public class ExchangeAuthorizationException : BExException

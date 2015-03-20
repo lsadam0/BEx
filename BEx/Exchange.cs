@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEx.CommandProcessing;
-using BEx.ExchangeSupport;
+using BEx.ExchangeEngine;
 using RestSharp;
-
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
-    public abstract class Exchange
+    public abstract class Exchange : IUnauthenticatedExchange, IAuthenticatedExchange
     {
         protected Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
         {
@@ -176,20 +175,13 @@ namespace BEx
             return (OrderBook)ExecuteCommand(CommandClass.OrderBook, pair);
         }
 
-        /// <summary>
-        /// Get the current BTC/USD Tick.
-        /// </summary>
-        /// <returns></returns>
+
         public Tick GetTick()
         {
             return GetTick(DefaultPair);
         }
 
-        /// <summary>
-        /// Get the current Tick for the specified currency pair.
-        /// </summary>
-        /// <param name="pair"></param>
-        /// <returns></returns>
+
         public Tick GetTick(CurrencyTradingPair pair)
         {
             return (Tick)ExecuteCommand(CommandClass.Tick, pair);
@@ -242,7 +234,7 @@ namespace BEx
             return Configuration.SupportedPairs.Contains(pair);
         }
 
-        protected OpenOrders GetOpenOrders(CurrencyTradingPair pair)
+        public OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {
             return (OpenOrders)ExecuteCommand(CommandClass.OpenOrders, pair);
         }

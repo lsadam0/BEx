@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using BEx.ExchangeSupport;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -16,6 +16,7 @@ namespace BEx
             BuyOrders = new Dictionary<int, Order>();
             SellOrders = new Dictionary<int, Order>();
 
+            
             foreach (IExchangeResponse order in orders)
             {
                 Order converted = order.ConvertToStandard(pair) as Order;

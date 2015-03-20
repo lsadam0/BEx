@@ -1,4 +1,4 @@
-﻿using BEx.ExchangeSupport.BitStampSupport;
+﻿using BEx.ExchangeEngine.BitStampSupport;
 
 namespace BEx
 {
