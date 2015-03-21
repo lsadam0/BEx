@@ -180,7 +180,8 @@ namespace BEx.ExchangeEngine.BitfinexSupport
                 Method.GET,
                 new Uri("/v1/book/{pair}", UriKind.Relative),
                 false,
-                typeof(BitFinexOrderBookJSON));
+                typeof(BitFinexOrderBookJSON),
+                param);
 
         }
 
@@ -209,7 +210,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.None)
+                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair)
             };
 
             return new TickCommand(
@@ -217,7 +218,8 @@ namespace BEx.ExchangeEngine.BitfinexSupport
                 Method.GET,
                 new Uri("/v1/pubticker/{pair}", UriKind.Relative),
                 false,
-                typeof(BitfinexTickJSON));
+                typeof(BitfinexTickJSON),
+                param);
         }
 
         public TransactionsCommand BuildTransactionsCommand()

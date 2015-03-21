@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine
         /// <param name="executedCommand">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        internal ApiResult Translate(string source, ExchangeCommand executedCommand, CurrencyTradingPair pair)
+        internal ApiResult Translate(string source, IExchangeCommand executedCommand, CurrencyTradingPair pair)
         {
             if (executedCommand.ReturnsValueType)
                 return GetValueType(source, executedCommand, pair);
@@ -48,7 +48,7 @@ namespace BEx.ExchangeEngine
         /// <param name="commandReference">Reference ExchangeCommand</param>
         /// <param name="pair">Trading Pair</param>
 
-        private ApiResult DeserializeObject(string content, ExchangeCommand commandReference, CurrencyTradingPair pair)
+        private ApiResult DeserializeObject(string content, IExchangeCommand commandReference, CurrencyTradingPair pair)
         {
             if (commandReference.ReturnsCollection)
             {
@@ -77,7 +77,7 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        private ApiResult GetValueType(string content, ExchangeCommand command, CurrencyTradingPair pair)
+        private ApiResult GetValueType(string content, IExchangeCommand command, CurrencyTradingPair pair)
         {
             ApiResult res = null;
 

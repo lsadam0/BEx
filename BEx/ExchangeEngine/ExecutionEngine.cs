@@ -26,33 +26,29 @@ namespace BEx.ExchangeEngine
 
         public ApiResult Execute(IExchangeCommand toExecute)
         {
-            return null;
+            return ExecutionPipeline(toExecute, default(CurrencyTradingPair));
         }
 
         public ApiResult Execute(IExchangeCommand toExecute, IDictionary<StandardParameter, string> parameters)
         {
-            return null;
+            return ExecutionPipeline(toExecute, default(CurrencyTradingPair), parameters);
         }
 
         public ApiResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair)
         {
-            return null;
+            return ExecutionPipeline(toExecute, pair);
         }
 
         public ApiResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
         {
-            return null;
+            return ExecutionPipeline(toExecute, pair, parameters);
         }
 
-        public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameter, string> paramCollection = null)
-        {
-            return ExecutionPipeline(toExecute, pair, paramCollection);
-        }
-
+        
         private ApiResult ExecutionPipeline(
-                                        ExchangeCommand toExecute,
+                                        IExchangeCommand toExecute,
                                         CurrencyTradingPair pair,
-                                        Dictionary<StandardParameter, string> paramCollection = null)
+                                        IDictionary<StandardParameter, string> paramCollection = null)
         {
             IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
