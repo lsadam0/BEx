@@ -24,6 +24,26 @@ namespace BEx.ExchangeEngine
             // errorHandler = new ErrorHandler(_sourceExchange.ExchangeSourceType);
         }
 
+        public ApiResult Execute(IExchangeCommand toExecute)
+        {
+            return null;
+        }
+
+        public ApiResult Execute(IExchangeCommand toExecute, IDictionary<StandardParameter, string> parameters)
+        {
+            return null;
+        }
+
+        public ApiResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair)
+        {
+            return null;
+        }
+
+        public ApiResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        {
+            return null;
+        }
+
         public ApiResult ExecuteCommand(ExchangeCommand toExecute, CurrencyTradingPair pair, Dictionary<StandardParameter, string> paramCollection = null)
         {
             return ExecutionPipeline(toExecute, pair, paramCollection);

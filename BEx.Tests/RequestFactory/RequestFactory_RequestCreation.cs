@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using RestSharp;
 using BEx.ExchangeEngine;
-
+using BEx.ExchangeEngine.Commands;
 
 namespace BEx.UnitTests.RequestFactory
 {
@@ -40,8 +40,8 @@ namespace BEx.UnitTests.RequestFactory
           
             };
 
-            command = new ExchangeCommand(
-                                 CommandClass.SellOrder,
+            command = new LimitOrderCommand(
+                                 new ExecutionEngine(new Bitfinex()), 
                                  Method.POST,
                                  new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                                  true,

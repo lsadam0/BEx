@@ -10,13 +10,13 @@ namespace BEx
 {
     public abstract class Exchange : IUnauthenticatedExchange, IAuthenticatedExchange
     {
-        protected Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
+        internal Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
         {
             ExchangeSourceType = sourceType;
             Configuration = configuration;
             Commands = commands;
 
-            CommandExecutionEngine = new ExecutionEngine(this);
+            Commands.BuildCommands(new ExecutionEngine(this));
         }
 
         public CurrencyTradingPair DefaultPair
@@ -55,7 +55,7 @@ namespace BEx
             set;
         }
 
-        protected internal IExchangeCommandFactory Commands
+        internal IExchangeCommandFactory Commands
         {
             get;
             private set;
@@ -67,11 +67,7 @@ namespace BEx
             private set;
         }
 
-        private ExecutionEngine CommandExecutionEngine
-        {
-            get;
-            set;
-        }
+
 
         public Confirmation CancelOrder(Order toCancel)
         {
@@ -83,12 +79,12 @@ namespace BEx
 
         public Confirmation CancelOrder(int id)
         {
-            Dictionary<StandardParameter, string> param = new Dictionary<StandardParameter, string>()
+            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
             {
                 { StandardParameter.Id, id.ToStringInvariant() }
             };
 
-            return (Confirmation)ExecuteCommand(CommandClass.CancelOrder, DefaultPair, param);
+            return Commands.CancelOrder.Execute(values) as Confirmation;
         }
 
         public Order CreateBuyOrder(decimal amount, decimal price)
@@ -98,13 +94,13 @@ namespace BEx
 
         public Order CreateBuyOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
-            Dictionary<StandardParameter, string> param = new Dictionary<StandardParameter, string>()
+            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
             {
-                { StandardParameter.Amount, amount.ToStringInvariant() },
-                { StandardParameter.Price, price.ToStringInvariant() }
+                {StandardParameter.Amount, amount.ToStringInvariant()},
+                {StandardParameter.Price, price.ToStringInvariant()}
             };
 
-            return (Order)ExecuteCommand(CommandClass.BuyOrder, pair, param);
+            return Commands.BuyOrder.Execute(pair, values) as Order;
         }
 
         public Order CreateSellOrder(decimal amount, decimal price)
@@ -114,13 +110,13 @@ namespace BEx
 
         public Order CreateSellOrder(CurrencyTradingPair pair, decimal amount, decimal price)
         {
-            Dictionary<StandardParameter, string> param = new Dictionary<StandardParameter, string>()
+            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
             {
                 { StandardParameter.Amount, amount.ToStringInvariant() },
                 { StandardParameter.Price, price.ToStringInvariant() }
             };
 
-            return (Order)ExecuteCommand(CommandClass.SellOrder, pair, param);
+            return Commands.SellOrder.Execute(pair, values) as Order;
         }
 
         /// <summary>
@@ -129,7 +125,7 @@ namespace BEx
         /// <returns>AccountBalance</returns>
         public AccountBalance GetAccountBalance()
         {
-            return (AccountBalance)ExecuteCommand(CommandClass.AccountBalance, DefaultPair);
+            return Commands.AccountBalance.Execute() as AccountBalance;
         }
 
         /// <summary>
@@ -150,7 +146,7 @@ namespace BEx
         {
             CurrencyTradingPair pair = new CurrencyTradingPair(toDeposit, toDeposit);
 
-            return (DepositAddress)ExecuteCommand(CommandClass.DepositAddress, pair);
+            return Commands.DepositAddress.Execute(pair) as DepositAddress;
         }
 
         public OpenOrders GetOpenOrders()
@@ -174,7 +170,7 @@ namespace BEx
         /// <returns></returns>
         public OrderBook GetOrderBook(CurrencyTradingPair pair)
         {
-            return (OrderBook)ExecuteCommand(CommandClass.OrderBook, pair);
+            return Commands.OrderBook.Execute(pair) as OrderBook;
         }
 
 
@@ -186,7 +182,7 @@ namespace BEx
 
         public Tick GetTick(CurrencyTradingPair pair)
         {
-            return (Tick)ExecuteCommand(CommandClass.Tick, pair);
+            return Commands.Tick.Execute(pair) as Tick;
         }
 
         /// <summary>
@@ -213,7 +209,7 @@ namespace BEx
                 }
             };
 
-            return (Transactions)ExecuteCommand(CommandClass.Transactions, pair, values);
+            return Commands.Transactions.Execute(pair, values) as Transactions;
         }
 
         public UserTransactions GetUserTransactions()
@@ -223,7 +219,8 @@ namespace BEx
 
         public UserTransactions GetUserTransactions(CurrencyTradingPair pair)
         {
-            return (UserTransactions)ExecuteCommand(CommandClass.UserTransactions, pair);
+            return Commands.UserTransactions.Execute(pair) as UserTransactions;
+
         }
 
         /// <summary>
@@ -238,15 +235,8 @@ namespace BEx
 
         public OpenOrders GetOpenOrders(CurrencyTradingPair pair)
         {
-            return (OpenOrders)ExecuteCommand(CommandClass.OpenOrders, pair);
+            return Commands.OpenOrders.Execute(pair) as OpenOrders;
         }
 
-        private ApiResult ExecuteCommand(CommandClass commandType, CurrencyTradingPair pair, Dictionary<StandardParameter, string> values = null)
-        {
-            ExchangeCommand command = Commands.GetCommand(commandType);
-
-            return CommandExecutionEngine.ExecuteCommand(command, pair, values);
-
-        }
     }
 }

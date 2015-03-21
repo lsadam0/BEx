@@ -4,31 +4,102 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Commands;
 using RestSharp;
 
 namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitStampCommandFactory : IExchangeCommandFactory
     {
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
+        /// </summary>
+        /// <returns></returns>
+        public AccountBalanceCommand AccountBalance { get; private set; }
 
-        private readonly Dictionary<CommandClass, ExchangeCommand> commandCollection;
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.CreateBuyOrder()
+        /// </summary>
+        /// <returns></returns>
+        public LimitOrderCommand BuyOrder { get; private set; }
 
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.CancelOrder()
+        /// </summary>
+        /// <returns></returns>
+        public CancelOrderCommand CancelOrder { get; private set; }
 
-        public BitStampCommandFactory()
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.GetDepositAddress()
+        /// </summary>
+        /// <returns></returns>
+        public DepositAddressCommand DepositAddress { get; private set; }
+
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
+        /// </summary>
+        /// <returns></returns>
+        public OpenOrdersCommand OpenOrders { get; private set; }
+
+        /// <summary>
+        /// ExchangeCommand associated with IUnauthenticatedCommands.GetOrderBook()
+        /// </summary>
+        /// <returns></returns>
+        public OrderBookCommand OrderBook { get; private set; }
+
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.CreateSellOrder()
+        /// </summary>
+        /// <returns></returns>
+        public LimitOrderCommand SellOrder { get; private set; }
+
+        /// <summary>
+        /// ExchangeCommand associated with IUnauthenticatedCommands.GetTick()
+        /// </summary>
+        /// <returns></returns>
+        public TickCommand Tick { get; private set; }
+
+        /// <summary>
+        /// ExchangeCommand associated with IUnauthenticatedCommands.GetTransactions()
+        /// </summary>
+        /// <returns></returns>
+        public TransactionsCommand Transactions { get; private set; }
+
+        /// <summary>
+        /// ExchangeCommand associated with IAuthenticatedCommands.GetUserTransactions()
+        /// </summary>
+        /// <returns></returns>
+        public UserTransactionsCommand UserTransactions { get; private set; }
+
+        private ExecutionEngine _engine;
+
+        public void BuildCommands(ExecutionEngine executor)
         {
-            commandCollection = GetCommandCollection();
+            _engine = executor;
+
+            this.AccountBalance = BuildAccountBalanceCommand();
+            this.BuyOrder = BuildBuyOrderCommand();
+            this.CancelOrder = BuildCancelOrderCommand();
+            this.DepositAddress = BuildDepositAddressCommand();
+            this.OpenOrders = BuildOpenOrdersCommand();
+            this.OrderBook = BuildOrderBookCommand();
+            this.SellOrder = BuildSellOrderCommand();
+            this.Tick = BuildTickCommand();
+            this.Transactions = BuildTransactionsCommand();
+            this.UserTransactions = BuildUserTransactionsCommand();
         }
-        public ExchangeCommand BuildAccountBalanceCommand()
+
+        public AccountBalanceCommand BuildAccountBalanceCommand()
         {
-            return new ExchangeCommand(
-                                CommandClass.AccountBalance,
+            return new AccountBalanceCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("balance/", UriKind.Relative),
                                 true,
                                 typeof(BitStampAccountBalanceJSON));
         }
 
-        public ExchangeCommand BuildBuyOrderCommand()
+        public LimitOrderCommand BuildBuyOrderCommand()
         {
             var param = new List<ExchangeParameter>()
             {
@@ -36,8 +107,8 @@ namespace BEx.ExchangeEngine.BitStampSupport
                 new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
-            return new ExchangeCommand(
-                                CommandClass.BuyOrder,
+            return new LimitOrderCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("buy/", UriKind.Relative),
                                 true,
@@ -45,15 +116,15 @@ namespace BEx.ExchangeEngine.BitStampSupport
                                 param);
         }
 
-        public ExchangeCommand BuildCancelOrderCommand()
+        public CancelOrderCommand BuildCancelOrderCommand()
         {
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Post, "id", StandardParameter.Id)
             };
 
-            return new ExchangeCommand(
-                                CommandClass.CancelOrder,
+            return new CancelOrderCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("cancel_order/", UriKind.Relative),
                                 true,
@@ -61,37 +132,37 @@ namespace BEx.ExchangeEngine.BitStampSupport
                                 param);
         }
 
-        public ExchangeCommand BuildDepositAddressCommand()
+        public DepositAddressCommand BuildDepositAddressCommand()
         {
-            return new ExchangeCommand(
-                                CommandClass.DepositAddress,
+            return new DepositAddressCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("bitcoin_deposit_address/", UriKind.Relative),
                                 true,
                                 typeof(string));
         }
 
-        public ExchangeCommand BuildOpenOrdersCommand()
+        public OpenOrdersCommand BuildOpenOrdersCommand()
         {
-            return new ExchangeCommand(
-                                CommandClass.OpenOrders,
+            return new OpenOrdersCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("open_orders/", UriKind.Relative),
                                 true,
                                 typeof(List<BitStampOpenOrdersJSON>));
         }
 
-        public ExchangeCommand BuildOrderBookCommand()
+        public OrderBookCommand BuildOrderBookCommand()
         {
-            return new ExchangeCommand(
-                                CommandClass.OrderBook,
+            return new OrderBookCommand(
+                                _engine,
                                 Method.GET,
                                 new Uri("order_book/", UriKind.Relative),
                                 false,
                                 typeof(BitstampOrderBookJSON));
         }
 
-        public ExchangeCommand BuildSellOrderCommand()
+        public LimitOrderCommand BuildSellOrderCommand()
         {
             var param = new List<ExchangeParameter>()
             {
@@ -99,8 +170,8 @@ namespace BEx.ExchangeEngine.BitStampSupport
                 new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
-            return new ExchangeCommand(
-                                CommandClass.SellOrder,
+            return new LimitOrderCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("sell/", UriKind.Relative),
                                 true,
@@ -108,25 +179,25 @@ namespace BEx.ExchangeEngine.BitStampSupport
                                 param);
         }
 
-        public ExchangeCommand BuildTickCommand()
+        public TickCommand BuildTickCommand()
         {
-            return new ExchangeCommand(
-                                CommandClass.Tick,
+            return new TickCommand(
+                                _engine,
                                 Method.GET,
                                 new Uri("ticker/", UriKind.Relative),
                                 false,
                                 typeof(BitstampTickJSON));
         }
 
-        public ExchangeCommand BuildTransactionsCommand()
+        public TransactionsCommand BuildTransactionsCommand()
         {
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Post, "time", StandardParameter.None, "hour")
             };
 
-            return new ExchangeCommand(
-                                CommandClass.Transactions,
+            return new TransactionsCommand(
+                                _engine,
                                 Method.GET,
                                 new Uri("transactions/", UriKind.Relative),
                                 false,
@@ -134,40 +205,15 @@ namespace BEx.ExchangeEngine.BitStampSupport
                                 param);
         }
 
-        public ExchangeCommand BuildUserTransactionsCommand()
+        public UserTransactionsCommand BuildUserTransactionsCommand()
         {
-            return new ExchangeCommand(
-                                CommandClass.UserTransactions,
+            return new UserTransactionsCommand(
+                                _engine,
                                 Method.POST,
                                 new Uri("user_transactions/", UriKind.Relative),
                                 true,
                                 typeof(List<BitStampUserTransactionJSON>));
         }
 
-        public ExchangeCommand GetCommand(CommandClass commandType)
-        {
-            return commandCollection[commandType];
-        }
-
-        public Dictionary<CommandClass, ExchangeCommand> GetCommandCollection()
-        {
-            var res = new Dictionary<CommandClass, ExchangeCommand>()
-            {
-                { CommandClass.AccountBalance, BuildAccountBalanceCommand() },
-                { CommandClass.BuyOrder, BuildBuyOrderCommand() },
-                { CommandClass.CancelOrder, BuildCancelOrderCommand() },
-                { CommandClass.DepositAddress, BuildDepositAddressCommand() },
-                { CommandClass.OpenOrders, BuildOpenOrdersCommand() },
-                { CommandClass.OrderBook, BuildOrderBookCommand() },
-                { CommandClass.SellOrder, BuildSellOrderCommand() },
-                { CommandClass.Tick, BuildTickCommand() },
-                { CommandClass.Transactions, BuildTransactionsCommand() },
-                { CommandClass.UserTransactions, BuildUserTransactionsCommand() }
-            };
-
-            return res;
-        }
-
-        
     }
 }
