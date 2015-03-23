@@ -15,8 +15,8 @@ namespace BEx
     /// </summary>
     public sealed class Order : ApiResult
     {
-        internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        internal Order(DateTime exchangeTimeStamp, Exchange sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         {
         }
 

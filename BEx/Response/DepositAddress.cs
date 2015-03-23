@@ -9,15 +9,15 @@ namespace BEx
     /// </summary>
     public sealed class DepositAddress : ApiResult
     {
-        internal DepositAddress(string address, ExchangeType sourceExchange, CurrencyTradingPair pair)
-            : base(DateTime.Now, sourceExchange)
+        internal DepositAddress(string address, Exchange sourceExchange, CurrencyTradingPair pair)
+            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
             Address = address;
             DepositCurrency = pair.BaseCurrency;
         }
 
-        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency, Exchange sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         {
             Address = address;
             DepositCurrency = depositCurrency;
@@ -29,7 +29,7 @@ namespace BEx
         public string Address
         {
             get;
-            internal set;
+            private set;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace BEx
         public Currency DepositCurrency
         {
             get;
-            internal set;
+            private set;
         }
 
         protected override string DebugDisplay

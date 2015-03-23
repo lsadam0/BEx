@@ -7,19 +7,22 @@ using BEx;
 
 namespace BEx.ExchangeEngine
 {
+    /// <summary>
+    /// Facade
+    /// </summary>
     internal class ExecutionEngine
     {
-        private readonly RequestDispatcher dispatcher;
+        private readonly RequestDispatcher _dispatcher;
 
-        private readonly ResultTranslation translator;
+        private readonly ResultTranslation _translator;
 
         // private ErrorHandler errorHandler;
 
         internal ExecutionEngine(Exchange targetExchange)
         {
-            dispatcher = new RequestDispatcher(targetExchange);
+            _dispatcher = new RequestDispatcher(targetExchange);
 
-            translator = new ResultTranslation(targetExchange);
+            _translator = new ResultTranslation(targetExchange);
 
             // errorHandler = new ErrorHandler(_sourceExchange.ExchangeSourceType);
         }
@@ -52,9 +55,9 @@ namespace BEx.ExchangeEngine
         {
             IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
-            IRestResponse result = dispatcher.Dispatch(request, toExecute);
+            IRestResponse result = _dispatcher.Dispatch(request, toExecute);
 
-            ApiResult res = translator.Translate(
+            ApiResult res = _translator.Translate(
                                     result.Content,
                                     toExecute,
                                     pair);

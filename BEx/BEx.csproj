@@ -125,6 +125,7 @@
     <Compile Include="ExchangeType.cs" />
     <Compile Include="ExchangeEngine\Interfaces\IExchangeCommandFactory.cs" />
     <Compile Include="ExchangeEngine\Interfaces\IExchangeConfiguration.cs" />
+    <Compile Include="Response\OrderBookEntry.cs" />
     <Compile Include="Response\OpenOrders.cs" />
     <Compile Include="Response\Order.cs" />
     <Compile Include="BitStamp.cs" />

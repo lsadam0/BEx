@@ -7,14 +7,18 @@ namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("Bitfinex.UnauthenticatedCommands")]
-    public class BitFinex_Unauthenticated_Commands : ExchangeVerificationBase
+    public class BitFinex_Unauthenticated_Commands
     {
         private ExchangeCommandVerification commandVerification;
-        public BitFinex_Unauthenticated_Commands()
-            : base()
+        private Bitfinex TestCandidate;
+
+        [TestFixtureSetUp]
+        public void SetupTests()
         {
-            testCandidate = ExchangeFactory.GetUnauthenticatedExchange(ExchangeType.Bitfinex) as Exchange;
-            commandVerification = new ExchangeCommandVerification(testCandidate);
+            TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
+            Assert.IsInstanceOf<IUnauthenticatedExchange>(TestCandidate);
+            Assert.IsInstanceOf<Bitfinex>(TestCandidate);
+            commandVerification = new ExchangeCommandVerification(TestCandidate);
         }
 
         [Test]
@@ -50,7 +54,7 @@ namespace BEx.UnitTests
         [Test]
         public void Bitfinex_GetOrderBook_BTCUSD_Success()
         {
-            commandVerification.VerifyOrderBook(testCandidate.DefaultPair);
+            commandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
         }
 
         [Test]

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace BEx
@@ -11,20 +12,17 @@ namespace BEx
     /// </summary>
     public sealed class OrderBook : ApiResult
     {
-        internal OrderBook(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp, Exchange sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         {
-            BidsByPrice = new SortedDictionary<decimal, decimal>();
-            AsksByPrice = new SortedDictionary<decimal, decimal>();
+            Asks = new ReadOnlyCollection<OrderBookEntry>(asks);
+            Bids = new ReadOnlyCollection<OrderBookEntry>(bids);
         }
 
-        /// <summary>
-        /// Total Ask Orders sorted and indexed by Price
-        /// </summary>
-        public SortedDictionary<decimal, decimal> AsksByPrice
+        public IReadOnlyList<OrderBookEntry> Asks
         {
             get;
-            internal set;
+            private set;
         }
 
         /// <summary>
@@ -36,18 +34,17 @@ namespace BEx
             internal set;
         }
 
-        /// <summary>
-        /// Total Bid Orders sorted and indexed by Price
-        /// </summary>
-        public SortedDictionary<decimal, decimal> BidsByPrice
+
+        public IReadOnlyList<OrderBookEntry> Bids
         {
             get;
-            internal set;
+            private set;
         }
 
         protected override string DebugDisplay
         {
-            get { return string.Format("{0} - High Bid: {1} - Low Ask: {2}", SourceExchange, BidsByPrice.FirstOrDefault(), AsksByPrice.FirstOrDefault()); }
+            get { return string.Format("{0} - High Bid: {1} - Low Ask: {2}", SourceExchange); }
+            //BidsByPrice, AsksByPrice.FirstOrDefault()); }
         }
     }
 }

@@ -22,15 +22,14 @@ namespace BEx.ExchangeEngine.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Order(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
+            return new Order(Conversion.ToDateTimeInvariant(Datetime), sourceExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(Amount),
                 Price = Conversion.ToDecimalInvariant(Price),
                 TradeType = Type == 0 ? OrderType.Buy : OrderType.Sell,
                 Id = Id,
-                ExchangeTimestamp = Conversion.ToDateTimeInvariant(Datetime),
                 Pair = pair
             };
         }

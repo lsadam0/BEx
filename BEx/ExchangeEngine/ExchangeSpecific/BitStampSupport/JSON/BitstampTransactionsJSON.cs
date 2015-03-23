@@ -21,9 +21,9 @@ namespace BEx.ExchangeEngine.BitStampSupport
         [JsonProperty("amount")]
         public string amount { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Transaction(DateTime.Now, ExchangeType.BitStamp)
+            return new Transaction(DateTime.Now, sourceExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),

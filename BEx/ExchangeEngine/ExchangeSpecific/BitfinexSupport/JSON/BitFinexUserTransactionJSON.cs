@@ -31,9 +31,9 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("tid")]
         public int Tid { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new UserTransaction(UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(Timestamp)), ExchangeType.Bitfinex)
+            return new UserTransaction(UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(Timestamp)),sourceExchange)
             {
                 TransactionId = Tid,
                 OrderId = Tid,

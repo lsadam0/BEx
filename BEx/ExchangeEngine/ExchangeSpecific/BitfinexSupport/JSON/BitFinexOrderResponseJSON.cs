@@ -52,14 +52,15 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex)
+            return new Order(UnixTime.UnixTimeStampToDateTime(Timestamp), sourceExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(OriginalAmount),
                 Pair = pair,
                 Id = Id,
                 Price = Conversion.ToDecimalInvariant(Price),
+                TradeType = (Side == "sell" ? OrderType.Sell :  OrderType.Buy)
             };
         }
     }

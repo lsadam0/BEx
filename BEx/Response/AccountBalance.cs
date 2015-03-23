@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using BEx.ExchangeEngine;
 
 
@@ -12,37 +14,62 @@ namespace BEx
     /// </summary>
     public sealed class AccountBalance : ApiResult
     {
-        internal AccountBalance(IEnumerable<Balance> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
+        internal AccountBalance(IEnumerable<Balance> balances, CurrencyTradingPair pair, Exchange sourceExchange)
+            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
-            BalanceByCurrency = new Dictionary<Currency, Balance>();
-
-            foreach (Balance toAdd in balances)
-                BalanceByCurrency.Add(toAdd.BalanceCurrency, toAdd);
+            Initialize(balances, pair, sourceExchange);
         }
 
-        internal AccountBalance(IEnumerable<IExchangeResponse> balances, CurrencyTradingPair pair, ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
+        internal AccountBalance(IEnumerable<IExchangeResponse> balances, CurrencyTradingPair pair, Exchange sourceExchange)
+            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
-            BalanceByCurrency = new Dictionary<Currency, Balance>();
+            IList<Balance> convertedBalances = balances
+                                                .Select(x => x.ConvertToStandard(pair, sourceExchange) as Balance)
+                                                .OfType<Balance>()
+                                                .ToList();
 
-            foreach (IExchangeResponse balance in balances)
+
+            Initialize(convertedBalances, pair, sourceExchange);
+        }
+
+        private void Initialize(IEnumerable<Balance> balances, CurrencyTradingPair pair,
+            Exchange sourceExchange)
+        {
+
+            var balanceBuffer = new Dictionary<Currency, Balance>();
+
+            foreach (Balance toAdd in balances)
+                balanceBuffer.Add(toAdd.BalanceCurrency, toAdd);
+
+
+            if (balanceBuffer.Count < sourceExchange.SupportedCurrencies.Count)
             {
-                Balance converted = balance.ConvertToStandard(pair) as Balance;
-
-                if (converted != null)
-                    BalanceByCurrency.Add(converted.BalanceCurrency, converted);
+                // Insure an entry exists for every supported currency
+                foreach (var missingCurrency in sourceExchange.SupportedCurrencies)
+                {
+                    if (!balanceBuffer.ContainsKey(missingCurrency))
+                    {
+                        balanceBuffer.Add(missingCurrency, new Balance(DateTime.Now, sourceExchange)
+                        {
+                            BalanceCurrency = missingCurrency,
+                            AvailableToTrade = 0,
+                            TotalBalance = 0
+                        });
+                    }
+                }
             }
+
+            BalanceByCurrency = new ReadOnlyDictionary<Currency, Balance>(balanceBuffer);
         }
 
         /// <summary>
         ///  A List of Available and Reserved Balances by Currency.  If a Currency is supported by
         /// the Exchange, but is absent from the Balance Collection, then a 0 balance should be assumed.
         /// </summary>
-        public IDictionary<Currency, Balance> BalanceByCurrency
+        public IReadOnlyDictionary<Currency, Balance> BalanceByCurrency
         {
             get;
-            internal set;
+            private set;
         }
 
         protected override string DebugDisplay

@@ -27,9 +27,9 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("type")]
         public string type { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourcExchange)
         {
-            return new Transaction(DateTime.Now, ExchangeType.Bitfinex)
+            return new Transaction(DateTime.Now, sourcExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),

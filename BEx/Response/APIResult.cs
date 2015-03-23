@@ -26,7 +26,7 @@ namespace BEx
         public DateTime ExchangeTimestamp
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace BEx
         public DateTime LocalTimestamp
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>

@@ -10,8 +10,8 @@ namespace BEx
     /// </summary>
     public sealed class Tick : ApiResult
     {
-        internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        internal Tick(DateTime exchangeTimeStamp, Exchange sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         { }
 
         /// <summary>

@@ -14,6 +14,6 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        ApiResult ConvertToStandard(CurrencyTradingPair pair);
+        ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange);
     }
 }

@@ -1,7 +1,11 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
+using BEx.ExchangeEngine.Utilities;
 
 
 namespace BEx.ExchangeEngine.BitfinexSupport
@@ -38,34 +42,21 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            OrderBook res = new OrderBook(DateTime.Now, ExchangeType.Bitfinex)
+            IList<OrderBookEntry> convertedBids = Bids.Select(
+                x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
+
+
+            IList<OrderBookEntry> convertedAsks = Asks.Select(
+                x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
+
+
+            return new OrderBook(convertedBids, convertedAsks, DateTime.Now, sourceExchange)
             {
                 Pair = pair
             };
 
-            decimal key;
-            decimal value;
-
-            foreach (Bid bid in Bids)
-            {
-                if (
-                decimal.TryParse(bid.Price, out key)
-                    &&
-                decimal.TryParse(bid.Amount, out value))
-                    res.BidsByPrice.Add(key, value);
-            }
-
-            foreach (Ask ask in Asks)
-            {
-                if (decimal.TryParse(ask.Price, out key)
-                    &&
-                decimal.TryParse(ask.Amount, out value))
-                    res.AsksByPrice.Add(key, value);
-            }
-
-            return res;
         }
     }
 }

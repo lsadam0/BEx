@@ -17,11 +17,11 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal class ResultTranslation
     {
-        private readonly ExchangeType _sourceExchange;
+        private readonly Exchange _sourceExchange;
 
         internal ResultTranslation(Exchange source)
         {
-            _sourceExchange = source.ExchangeSourceType;
+            _sourceExchange = source;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace BEx.ExchangeEngine
             {
                 IExchangeResponse deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse;
 
-                return deserialized.ConvertToStandard(pair);
+                return deserialized.ConvertToStandard(pair, _sourceExchange);
             }
         }
 

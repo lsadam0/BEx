@@ -31,11 +31,11 @@ namespace BEx.ExchangeEngine.BitStampSupport
         [JsonProperty("datetime")]
         public string Datetime { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             if (OrderId != null && Type == 2)
             {
-                return new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
+                return new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), sourceExchange)
                 {
                     BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc),
                     CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd),

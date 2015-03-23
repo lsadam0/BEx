@@ -22,13 +22,13 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             Balance res = null;
 
             if (Type == "exchange")
             {
-                res = new Balance(DateTime.Now, ExchangeType.Bitfinex);
+                res = new Balance(DateTime.Now, sourceExchange);
                 Currency balanceCurrency;
 
                 if (Enum.TryParse(Currency.ToUpper(CultureInfo.InvariantCulture), out balanceCurrency))

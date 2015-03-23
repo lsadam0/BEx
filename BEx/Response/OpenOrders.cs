@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using BEx.ExchangeEngine;
 
 namespace BEx
@@ -12,38 +14,32 @@ namespace BEx
     /// </summary>
     public sealed class OpenOrders : ApiResult
     {
-        internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
+        internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, Exchange sourceExchange)
+            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
-            BuyOrders = new Dictionary<int, Order>();
-            SellOrders = new Dictionary<int, Order>();
 
-            
-            foreach (IExchangeResponse order in orders)
-            {
-                Order converted = order.ConvertToStandard(pair) as Order;
+            IEnumerable<Order> allOrders = orders.Select(x => x.ConvertToStandard(pair, sourceExchange) as Order);
 
-                if (converted != null)
-                {
-                    if (converted.IsBuyOrder)
-                        BuyOrders.Add(converted.Id, converted);
-                    else
-                        SellOrders.Add(converted.Id, converted);
-                }
-            }
+            BuyOrders =
+                new ReadOnlyDictionary<int, Order>(
+                    allOrders.Where(x => x.IsBuyOrder).ToDictionary(x => x.Id, x => x));
+
+            SellOrders = new ReadOnlyDictionary<int, Order>(
+                allOrders.Where(x => x.IsSellOrder).ToDictionary(x => x.Id, x => x));
+
         }
 
 
-        public IDictionary<int, Order> SellOrders
+        public IReadOnlyDictionary<int, Order> SellOrders
         {
             get;
-            internal set;
+            private set;
         }
 
-        public IDictionary<int, Order> BuyOrders
+        public IReadOnlyDictionary<int, Order> BuyOrders
         {
             get;
-            internal set;
+            private set;
         }
 
         protected override string DebugDisplay

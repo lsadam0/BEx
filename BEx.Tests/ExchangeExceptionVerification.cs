@@ -9,7 +9,7 @@ namespace BEx.UnitTests
     public class ExchangeExceptionVerification : ExchangeVerificationBase
     {
         public ExchangeExceptionVerification(Exchange testCandidate)
-            : base(testCandidate)
+            : base()
         {
         }
 
@@ -86,7 +86,7 @@ namespace BEx.UnitTests
             Assert.Throws<InsufficientFundsException>(
                 delegate
                 {
-                    testCandidate.CreateSellOrder(1200m, 99000.00m);
+                    TestCandidate.CreateSellOrder(1200m, 99000.00m);
                 });
         }
 
@@ -95,7 +95,7 @@ namespace BEx.UnitTests
             Assert.Throws<InsufficientFundsException>(
                 delegate
                 {
-                    testCandidate.CreateBuyOrder(1200m, 1.00m);
+                    TestCandidate.CreateBuyOrder(1200m, 1.00m);
                 });
         }*/
     }

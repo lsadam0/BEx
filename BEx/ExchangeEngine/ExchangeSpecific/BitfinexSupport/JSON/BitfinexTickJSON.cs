@@ -31,9 +31,9 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.Bitfinex)
+            return new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), sourceExchange)
             {
                 Pair = pair,
                 Ask = Conversion.ToDecimalInvariant(Ask),

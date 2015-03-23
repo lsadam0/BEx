@@ -22,9 +22,9 @@ namespace BEx.ExchangeEngine.BitStampSupport
 
         public string ask { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), ExchangeType.BitStamp)
+            return new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), sourceExchange)
             {
                 Ask = Conversion.ToDecimalInvariant(ask),
                 Bid = Conversion.ToDecimalInvariant(bid),

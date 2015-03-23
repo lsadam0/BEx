@@ -15,8 +15,8 @@ namespace BEx
         {
         }
 
-        internal ApiError(string message, BExErrorCode code, ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
+        internal ApiError(string message, BExErrorCode code, Exchange sourceExchange)
+            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
             Message = message;
             ErrorCode = code;

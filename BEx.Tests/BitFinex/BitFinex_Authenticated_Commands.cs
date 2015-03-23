@@ -7,14 +7,18 @@ namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("Bitfinex.AuthenticatedCommands")]
-    public class Bitfinex_Authenticated_Commands : ExchangeVerificationBase
+    public class Bitfinex_Authenticated_Commands
     {
         private ExchangeCommandVerification commandVerification;
-        public Bitfinex_Authenticated_Commands()
-            : base()
+        private Bitfinex TestCandidate;
+
+        [TestFixtureSetUp]
+        public void TestSetup()
         {
-            testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Exchange;
-            commandVerification = new ExchangeCommandVerification(testCandidate);
+            TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
+
+            commandVerification = new ExchangeCommandVerification(TestCandidate);
+
         }
 
         [Test]
@@ -44,7 +48,7 @@ namespace BEx.UnitTests
         [Test]
         public void Bitfinex_GetUserTransactions_BTCUSD_Success()
         {
-            commandVerification.VerifyUserTransactions(testCandidate.DefaultPair);
+            commandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
         }
 
         [Test]

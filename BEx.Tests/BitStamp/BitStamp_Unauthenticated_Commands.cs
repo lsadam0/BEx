@@ -6,33 +6,37 @@ namespace BEx.UnitTests
 {
     [TestFixture]
     [Category("BitStamp.UnauthenticatedCommands")]
-    public class BitStampUnauthenticatedCommands : ExchangeVerificationBase
+    public class BitStampUnauthenticatedCommands
     {
         private ExchangeCommandVerification commandVerification;
-        public BitStampUnauthenticatedCommands()
-            : base()
+        private BitStamp TestCandidate;
+
+        [TestFixtureSetUp]
+        public void TestSetup()
         {
-            testCandidate = ExchangeFactory.GetUnauthenticatedExchange(ExchangeType.BitStamp) as Exchange;
-            commandVerification = new ExchangeCommandVerification(testCandidate);
+            TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
+            Assert.IsInstanceOf<IUnauthenticatedExchange>(TestCandidate);
+            Assert.IsInstanceOf<BitStamp>(TestCandidate);
+            commandVerification = new ExchangeCommandVerification(TestCandidate);
         }
 
         [Test]
         public void BitStamp_GetTick_BTCUSD_Success()
         {
-            
-            commandVerification.VerifyTick(testCandidate.DefaultPair);
+
+            commandVerification.VerifyTick(TestCandidate.DefaultPair);
         }
 
         [Test]
         public void BitStamp_GetOrderBook_BTCUSD_Success()
         {
-            commandVerification.VerifyOrderBook(testCandidate.DefaultPair);
+            commandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
         }
 
         [Test]
         public void BitStamp_GetTransactions_BTCUSD_Success()
         {
-            commandVerification.VerifyTransactions(testCandidate.DefaultPair);
+            commandVerification.VerifyTransactions(TestCandidate.DefaultPair);
         }
     }
 }

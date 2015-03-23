@@ -9,8 +9,8 @@ namespace BEx
     /// </summary>
     public sealed class Balance : ApiResult
     {
-        internal Balance(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        internal Balance(DateTime exchangeTimeStamp, Exchange sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         {
         }
 

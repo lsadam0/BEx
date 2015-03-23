@@ -52,9 +52,11 @@
   <ItemGroup>
     <Compile Include="BitFinex\BitFinex_Authenticated_Commands.cs" />
     <Compile Include="BitFinex\BitFinex_Exceptions.cs" />
+    <Compile Include="BitFinex\Bitfinex_Setup.cs" />
     <Compile Include="BitFinex\BitFinex_Unauthenticated_Commands.cs" />
     <Compile Include="BitStamp\BitStamp_Authenticated_Commands.cs" />
     <Compile Include="BitStamp\BitStamp_Exceptions.cs" />
+    <Compile Include="BitStamp\BitStamp_Setup.cs" />
     <Compile Include="BitStamp\BitStamp_Unauthenticated_Commands.cs" />
     <Compile Include="ExchangeExceptionVerification.cs" />
     <Compile Include="ExchangeFactory.cs" />

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Services;
 
 namespace BEx.UnitTests
 {
@@ -18,30 +19,30 @@ namespace BEx.UnitTests
 
         public void VerifyAccountBalance()
         {
-            AccountBalance toVerify = testCandidate.GetAccountBalance();
+            AccountBalance toVerify = TestCandidate.GetAccountBalance();
 
             VerifyAPIResult(toVerify);
 
             Assert.IsTrue(toVerify.BalanceByCurrency.Count > 0);
 
-            Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(Currency.BTC));
-
-            foreach (Currency c in testCandidate.SupportedCurrencies)
+            foreach (Currency c in TestCandidate.SupportedCurrencies)
             {
-                if (toVerify.BalanceByCurrency.ContainsKey(c))
-                {
-                    Balance individualBalance = toVerify.BalanceByCurrency[c];
+                Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(c));
 
-                    Assert.IsTrue(individualBalance.AvailableToTrade >= 0);
-                    Assert.IsTrue(individualBalance.TotalBalance >= 0);
-                }
+                Balance individualBalance = toVerify.BalanceByCurrency[c];
+
+                VerifyAPIResult(individualBalance);
+                Assert.IsTrue(individualBalance.BalanceCurrency == c);
+                Assert.IsTrue(individualBalance.AvailableToTrade >= 0);
+                Assert.IsTrue(individualBalance.TotalBalance >= 0);
+
             }
         }
 
         public void VerifyAPIResult(ApiResult toVerify)
         {
             Assert.IsNotNull(toVerify);
-            Assert.IsTrue(toVerify.SourceExchange == base.testCandidate.ExchangeSourceType);
+            Assert.IsTrue(toVerify.SourceExchange == base.TestCandidate.ExchangeSourceType);
 
             Assert.IsTrue(toVerify.ExchangeTimestamp > DateTime.MinValue);
             Assert.IsTrue(toVerify.ExchangeTimestamp < DateTime.MaxValue);
@@ -52,19 +53,20 @@ namespace BEx.UnitTests
 
         public void VerifyBuyOrder()
         {
-            Order toVerify = testCandidate.CreateBuyOrder(1m, 5m);
+            Order toVerify = TestCandidate.CreateBuyOrder(1m, 5m);
 
             VerifyAPIResult(toVerify);
 
-            VerifyOrder(toVerify, testCandidate.DefaultPair, OrderType.Buy);
+            VerifyOrder(toVerify, TestCandidate.DefaultPair, OrderType.Buy);
         }
 
         public void VerifyDepositAddress(Currency depositCurrency)
         {
 
-            DepositAddress address = testCandidate.GetDepositAddress(depositCurrency);
+            DepositAddress address = TestCandidate.GetDepositAddress(depositCurrency);
 
             VerifyAPIResult(address);
+
 
             Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
             Assert.IsTrue(address.DepositCurrency == depositCurrency);
@@ -72,12 +74,9 @@ namespace BEx.UnitTests
 
         public void VerifyOpenOrders()
         {
-            OpenOrders toVerify = testCandidate.GetOpenOrders();
-
+            OpenOrders toVerify = TestCandidate.GetOpenOrders();
 
             VerifyAPIResult(toVerify);
-
-            // Assert.IsTrue(toVerify.Orders.Count > 0);
 
             foreach (KeyValuePair<int, Order> ord in toVerify.BuyOrders)
             {
@@ -98,46 +97,43 @@ namespace BEx.UnitTests
 
         public void VerifyOrderBook(CurrencyTradingPair pair)
         {
-            OrderBook toVerify = testCandidate.GetOrderBook(pair);
+            OrderBook toVerify = TestCandidate.GetOrderBook(pair);
 
             VerifyAPIResult(toVerify);
 
-
             Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
             Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
-            Assert.IsTrue(toVerify.BidsByPrice.Keys.Count > 0);
-            Assert.IsTrue(toVerify.AsksByPrice.Keys.Count > 0);
+            Assert.IsTrue(toVerify.Asks.Count > 0);
+            Assert.IsTrue(toVerify.Bids.Count > 0);
 
-            foreach (KeyValuePair<decimal, decimal> order in toVerify.BidsByPrice)
+            foreach (var entry in toVerify.Asks)
             {
-                Assert.IsTrue(order.Key >= 0.0m);
-                Assert.IsTrue(order.Value > 0.0m);
+                Assert.IsTrue(entry.Amount > 0.0m);
+                Assert.IsTrue(entry.Price >= 0.0m);
             }
 
-            foreach (KeyValuePair<decimal, decimal> order in toVerify.AsksByPrice)
+            foreach (var entry in toVerify.Bids)
             {
-                Assert.IsTrue(order.Key >= 0.0m);
-                Assert.IsTrue(order.Value > 0.0m);
+                Assert.IsTrue(entry.Amount > 0.0m);
+                Assert.IsTrue(entry.Price >= 0.0m);
             }
         }
 
         public void VerifySellOrder()
         {
 
-            Order toVerify = testCandidate.CreateSellOrder(0.02m, 10000m);
+            Order toVerify = TestCandidate.CreateSellOrder(0.02m, 10000m);
 
 
             VerifyAPIResult(toVerify);
 
-            VerifyOrder(toVerify, testCandidate.DefaultPair, OrderType.Sell);
+            VerifyOrder(toVerify, TestCandidate.DefaultPair, OrderType.Sell);
         }
 
         public void VerifyTick(CurrencyTradingPair pair)
         {
 
-            Tick toVerify = testCandidate.GetTick(pair);
-
-
+            Tick toVerify = TestCandidate.GetTick(pair);
 
             VerifyAPIResult(toVerify);
 
@@ -149,20 +145,20 @@ namespace BEx.UnitTests
             Assert.IsTrue(toVerify.High > 0.0m);
             Assert.IsTrue(toVerify.Low > 0.0m);
             Assert.IsTrue(toVerify.Volume > 0.0m);
+
         }
 
         public void VerifyTransactions(CurrencyTradingPair pair)
         {
 
-            Transactions toVerify = testCandidate.GetTransactions(pair);
-
+            Transactions toVerify = TestCandidate.GetTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
             if (pair.BaseCurrency == Currency.BTC && pair.CounterCurrency == Currency.USD)
-                Assert.IsTrue(toVerify.TransactionsCollection.Count() > 0);
+                Assert.IsTrue(toVerify.TransactionsCollection.Any());
 
-            if (toVerify.TransactionsCollection.Count() > 0)
+            if (toVerify.TransactionsCollection.Any())
             {
                 foreach (Transaction t in toVerify.TransactionsCollection)
                 {
@@ -183,14 +179,14 @@ namespace BEx.UnitTests
         public void VerifyUserTransactions(CurrencyTradingPair pair)
         {
 
-            UserTransactions toVerify = testCandidate.GetUserTransactions(pair);
+            UserTransactions toVerify = TestCandidate.GetUserTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
             Assert.IsNotNull(toVerify.TransactionsCollection);
 
-            if (pair == testCandidate.DefaultPair)
-                Assert.IsTrue(toVerify.TransactionsCollection.Count() > 0);
+            if (pair == TestCandidate.DefaultPair)
+                Assert.IsTrue(toVerify.TransactionsCollection.Any());
 
             foreach (UserTransaction transaction in toVerify.TransactionsCollection)
             {
@@ -210,7 +206,7 @@ namespace BEx.UnitTests
             Assert.IsTrue(toVerify.Amount > 0);
             Assert.IsTrue(toVerify.Id > 0);
             Assert.IsTrue(toVerify.Price > 0);
-            Assert.IsTrue(toVerify.SourceExchange == testCandidate.ExchangeSourceType);
+            Assert.IsTrue(toVerify.SourceExchange == TestCandidate.ExchangeSourceType);
             Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
             Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
             Assert.IsTrue(toVerify.TradeType == requestedOrderType);

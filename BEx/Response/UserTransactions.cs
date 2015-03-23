@@ -15,14 +15,14 @@ namespace BEx
     /// </summary>
     public sealed class UserTransactions : ApiResult
     {
-        internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
+        internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, Exchange sourceExchange)
+            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
             Pair = pair;
-
+          
             TransactionsCollection =
                 new ReadOnlyCollection<UserTransaction>(
-                    transactions.Select(x => x.ConvertToStandard(pair) as UserTransaction)
+                    transactions.Select(x => x.ConvertToStandard(pair, sourceExchange) as UserTransaction)
                         .OfType<UserTransaction>()
                         .ToList());
 
@@ -34,16 +34,16 @@ namespace BEx
         public CurrencyTradingPair Pair
         {
             get;
-            internal set;
+            private set;
         }
 
         /// <summary>
         /// Your Transactions for the previous hour
         /// </summary>
-        public IEnumerable<UserTransaction> TransactionsCollection
+        public IReadOnlyList<UserTransaction> TransactionsCollection
         {
             get;
-            internal set;
+            private set;
         }
 
         protected override string DebugDisplay

@@ -103,10 +103,11 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             foreach (var pair in SupportedPairs)
             {
                 if (!SupportedCurrencies.Contains(pair.BaseCurrency))
-                    if (!SupportedCurrencies.Contains(pair.CounterCurrency))
-                        SupportedCurrencies.Add(pair.BaseCurrency);
+                    SupportedCurrencies.Add(pair.BaseCurrency);
 
-                SupportedCurrencies.Add(pair.CounterCurrency);
+                if (!SupportedCurrencies.Contains(pair.CounterCurrency))
+                    SupportedCurrencies.Add(pair.CounterCurrency);
+
             }
 
             BaseUri = baseUri ?? new Uri("https://api.bitfinex.com");

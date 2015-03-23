@@ -1,5 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
@@ -16,33 +18,29 @@ namespace BEx.ExchangeEngine.BitStampSupport
         [JsonProperty("asks")]
         public string[][] Asks { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            OrderBook res = new OrderBook(UnixTime.UnixTimeStampToDateTime(Timestamp), ExchangeType.BitStamp);
 
-            res.Pair = pair;
+            IList<OrderBookEntry> convertedBids = Bids
+                .Select(
+                    x =>
+                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0]))).ToList();
 
-            for (int x = 0; x < Bids.Length; ++x)
+            IList<OrderBookEntry> convertedAsks = Asks
+                .Select(
+                    x =>
+                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0]))).ToList();
+
+
+            return new OrderBook(
+                convertedBids,
+                convertedAsks,
+                UnixTime.UnixTimeStampToDateTime(Timestamp),
+                sourceExchange)
             {
-                string[] values = Bids[x];
+                Pair = pair
+            };
 
-                decimal price = Conversion.ToDecimalInvariant(values[0]);
-                decimal amount = Conversion.ToDecimalInvariant(values[1]);
-
-                res.BidsByPrice.Add(price, amount);
-            }
-
-            for (int x = 0; x < Asks.Length; ++x)
-            {
-                string[] values = Asks[x];
-
-                decimal price = Conversion.ToDecimalInvariant(values[0]);
-                decimal amount = Conversion.ToDecimalInvariant(values[1]);
-
-                res.AsksByPrice.Add(price, amount);
-            }
-
-            return res;
         }
     }
 }

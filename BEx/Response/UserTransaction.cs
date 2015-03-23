@@ -6,8 +6,8 @@ namespace BEx
 {
     public sealed class UserTransaction : ApiResult
     {
-        internal UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+        internal UserTransaction(DateTime exchangeTimeStamp, Exchange sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         { }
 
         /// <summary>

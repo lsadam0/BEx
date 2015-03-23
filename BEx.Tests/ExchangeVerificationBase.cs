@@ -8,25 +8,31 @@ namespace BEx.UnitTests
 {
     public class ExchangeVerificationBase
     {
-        protected Exchange testCandidate
+        protected Exchange TestCandidate
         {
             get;
             set;
         }
 
-
-        protected  ExchangeVerificationBase()
-        { }
-
-        protected ExchangeVerificationBase(IUnauthenticatedExchange exchange)
+        protected ExchangeCommandVerification CommandVerification
         {
-            testCandidate = exchange as Exchange;
+            get;
+            set;
         }
 
-      
+        public ExchangeVerificationBase(Exchange testCanddiate)
+        {
+            TestCandidate = testCanddiate;
+        }
+
+        public ExchangeVerificationBase()
+        {
+
+        }
+
         protected void Debug(string message)
         {
-            System.Diagnostics.Debug.WriteLine("{0}: {1}", testCandidate.ExchangeSourceType, message);
+            System.Diagnostics.Debug.WriteLine("{0}: {1}", TestCandidate.ExchangeSourceType, message);
         }
     }
 }

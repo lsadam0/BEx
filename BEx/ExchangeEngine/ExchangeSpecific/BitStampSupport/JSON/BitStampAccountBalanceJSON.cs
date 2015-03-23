@@ -30,16 +30,16 @@ namespace BEx.ExchangeEngine.BitStampSupport
         [JsonProperty("usd_available")]
         public string UsdAvailable { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            Balance btcBalance = new Balance(DateTime.Now, ExchangeType.BitStamp)
+            Balance btcBalance = new Balance(DateTime.Now, sourceExchange)
             {
                 BalanceCurrency = Currency.BTC,
                 AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(BtcBalance)
             };
 
-            Balance usdBalance = new Balance(DateTime.Now, ExchangeType.BitStamp)
+            Balance usdBalance = new Balance(DateTime.Now, sourceExchange)
             {
                 AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(UsdBalance),
@@ -51,7 +51,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
                 usdBalance
             };
 
-            return new AccountBalance(balances, pair, ExchangeType.BitStamp);
+            return new AccountBalance(balances, pair, sourceExchange);
         }
     }
 }
