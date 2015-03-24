@@ -1,5 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
@@ -33,14 +34,30 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new UserTransaction(UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(Timestamp)),sourceExchange)
+
+            if (string.IsNullOrWhiteSpace(FeeCurrency))
             {
-                TransactionId = Tid,
+
+                // Buy Base
+                if (Type == "Buy")
+                    FeeCurrency = pair.BaseCurrency.ToString();
+                else
+                    FeeCurrency = pair.CounterCurrency.ToString();
+
+                // Sell Counter
+            }
+
+            return new UserTransaction(UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(Timestamp)), sourceExchange)
+            {
                 OrderId = Tid,
-                BaseCurrencyAmount = 0,
-                CounterCurrencyAmount = 0,
+                ExchangeRate = Conversion.ToDecimalInvariant(Price),
+                BaseCurrencyAmount = Conversion.ToDecimalInvariant(Amount),
+                CounterCurrencyAmount = Conversion.ToDecimalInvariant(Price) * Conversion.ToDecimalInvariant(Amount),
                 TradeFee = Conversion.ToDecimalInvariant(FeeAmount),
-                TradeFeeCurrency = Currency.Unknown
+                TradeFeeCurrency = (Currency)Enum.Parse(typeof(Currency), FeeCurrency),
+                TransactionType = (OrderType)Enum.Parse(typeof(OrderType), Type),
+                Pair = pair,
+                CompletedTime = UnixTime.UnixTimeStampToDateTime(Timestamp)
             };
         }
     }

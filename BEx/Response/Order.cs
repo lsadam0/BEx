@@ -48,7 +48,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// True if this Order has TradeType == Buy
+        /// True if this Order has TransactionType == Buy
         /// </summary>
         public bool IsBuyOrder
         {
@@ -59,7 +59,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// True if this Order has a TradeType == Sell
+        /// True if this Order has a TransactionType == Sell
         /// </summary>
         public bool IsSellOrder
         {

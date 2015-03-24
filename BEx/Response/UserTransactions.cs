@@ -50,5 +50,8 @@ namespace BEx
         {
             get { return string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count()); }
         }
+
+
+
     }
 }

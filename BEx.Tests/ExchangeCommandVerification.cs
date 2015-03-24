@@ -188,13 +188,41 @@ namespace BEx.UnitTests
             if (pair == TestCandidate.DefaultPair)
                 Assert.IsTrue(toVerify.TransactionsCollection.Any());
 
+            DateTime last = DateTime.MaxValue;
             foreach (UserTransaction transaction in toVerify.TransactionsCollection)
             {
                 VerifyAPIResult(transaction);
-                // Assert.IsTrue(transaction.BaseCurrencyAmount > 0.0m);
-                // Assert.IsTrue(transaction.CounterCurrencyAmount > 0.0m);
-                // Assert.IsTrue(transaction.ExchangeRate > 0.0m);
-                Assert.IsTrue(transaction.TransactionId > 0);
+
+                Assert.IsTrue(transaction.CompletedTime > DateTime.MinValue);
+                Assert.IsTrue(transaction.CompletedTime <= last);
+                last = transaction.CompletedTime;
+                Assert.IsTrue(transaction.Pair == pair);
+
+                // Check that correct sign is used
+                if (transaction.TransactionType == OrderType.Sell)
+                {
+                    Assert.Less(transaction.BaseCurrencyAmount, 0);
+                    Assert.Greater(transaction.CounterCurrencyAmount, 0);
+                }
+                else
+                {
+                    Assert.Greater(transaction.BaseCurrencyAmount, 0);
+                    Assert.Less(transaction.CounterCurrencyAmount, 0);
+                }
+
+                Assert.Greater(transaction.ExchangeRate, 0);
+
+                // Check that transaction balances
+                Assert.IsTrue(Math.Round(((transaction.BaseCurrencyAmount * transaction.ExchangeRate) +
+                               transaction.CounterCurrencyAmount), 2) == 0);
+
+
+                // Trade Fee Currency belongs to Trading Pair
+                Assert.IsTrue((transaction.Pair.BaseCurrency == transaction.TradeFeeCurrency)
+                                ||
+                                (transaction.Pair.CounterCurrency == transaction.TradeFeeCurrency));
+
+
                 Assert.IsTrue(transaction.OrderId > 0);
             }
         }
