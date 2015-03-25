@@ -17,6 +17,8 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             _configuration = configuration;
 
             Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(_configuration.SecretKey));
+            _configuration.SecretKey = null;
+
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)

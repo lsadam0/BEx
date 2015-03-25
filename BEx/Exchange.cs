@@ -10,9 +10,9 @@ namespace BEx
 {
     public abstract class Exchange : IUnauthenticatedExchange, IAuthenticatedExchange
     {
-        internal Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands, ExchangeType sourceType)
+        internal Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands)
         {
-            ExchangeSourceType = sourceType;
+
             Configuration = configuration;
             Commands = commands;
 
@@ -29,8 +29,8 @@ namespace BEx
 
         public ExchangeType ExchangeSourceType
         {
-            get;
-            protected set;
+            get { return Configuration.ExchangeSourceType; }
+
         }
 
         public HashSet<Currency> SupportedCurrencies
@@ -58,7 +58,7 @@ namespace BEx
         internal IExchangeCommandFactory Commands
         {
             get;
-            private set;
+            set;
         }
 
         protected internal IExchangeConfiguration Configuration
@@ -66,7 +66,6 @@ namespace BEx
             get;
             private set;
         }
-
 
 
         public Confirmation CancelOrder(Order toCancel)
@@ -212,16 +211,25 @@ namespace BEx
             return Commands.Transactions.Execute(pair, values) as Transactions;
         }
 
+        /// <summary>
+        /// Return your last 50 Order Transactions for the Default Trading Pair
+        /// </summary>
+        /// <returns>UserTransactions, non-null</returns>
         public UserTransactions GetUserTransactions()
         {
             return GetUserTransactions(DefaultPair);
         }
 
+
+        /// <summary>
+        /// Return your last 50 Order Transactions for the Default Trading Pair
+        /// </summary>
+        /// <returns>UserTransactions, non-null</returns>
         public UserTransactions GetUserTransactions(CurrencyTradingPair pair)
         {
             return Commands.UserTransactions.Execute(pair) as UserTransactions;
-
         }
+
 
         /// <summary>
         /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.

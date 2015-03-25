@@ -52,7 +52,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         public string SecretKey
         {
             get;
-            private set;
+             set;
         }
 
         public IList<CurrencyTradingPair> SupportedPairs
@@ -73,6 +73,10 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             private set;
         }
 
+        public ExchangeType ExchangeSourceType
+        {
+            get; private set; }
+
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -88,7 +92,9 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         private void Initialize(Uri baseUri)
         {
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
-
+            ExchangeSourceType = ExchangeType.Bitfinex;
+            ;ExchangeSourceType = ExchangeType.Bitfinex;
+            ;
             SupportedPairs = new List<CurrencyTradingPair>()
             {
                 DefaultPair,

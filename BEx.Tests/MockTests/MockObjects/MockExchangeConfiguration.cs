@@ -1,34 +1,20 @@
-﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Threading;
+using BEx.ExchangeEngine;
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.UnitTests.MockTests.MockObjects
 {
-    public class BitStampConfiguration : IExchangeConfiguration
+    public class MockExchangeConfiguration : IExchangeConfiguration
     {
-        private long _nonce = DateTime.Now.Ticks;
+             private long _nonce = DateTime.Now.Ticks;
 
-        public BitStampConfiguration(string apiKey, string clientId, string secretKey)
-        {
-            ApiKey = apiKey;
-            ClientId = clientId;
-            SecretKey = secretKey;
 
-            Initialize(null);
-        }
 
-        public BitStampConfiguration(string apiKey, string clientId, string secretKey, Uri baseUri)
-        {
-            ApiKey = apiKey;
-            ClientId = clientId;
-            SecretKey = secretKey;
-
-            Initialize(baseUri);
-        }
-
-        internal BitStampConfiguration()
+        internal MockExchangeConfiguration()
         {
             Initialize(null);
         }
@@ -94,7 +80,13 @@ namespace BEx.ExchangeEngine.BitStampSupport
         private void Initialize(Uri baseUri)
         {
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
-            ExchangeSourceType = ExchangeType.BitStamp;
+
+            ApiKey = "mocked";
+            ClientId = "mocked";
+            SecretKey = "mocked";
+
+            ExchangeSourceType = ExchangeType.Mock;
+            
             SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
 
             SupportedCurrencies = new HashSet<Currency>()
@@ -103,7 +95,8 @@ namespace BEx.ExchangeEngine.BitStampSupport
                 DefaultPair.CounterCurrency
             };
 
-            BaseUri = baseUri ?? new Uri("https://www.bitstamp.net/api");
+            
+            BaseUri = baseUri ?? new Uri("http://localhost");
         }
     }
 }

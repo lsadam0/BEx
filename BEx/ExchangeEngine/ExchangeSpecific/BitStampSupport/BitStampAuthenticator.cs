@@ -20,6 +20,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
             _configuration = configuration;
 
             Hasher = new HMACSHA256(Encoding.ASCII.GetBytes(_configuration.SecretKey));
+            _configuration.SecretKey = null;
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)

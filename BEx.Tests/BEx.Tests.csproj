@@ -65,6 +65,12 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="MockTests\MockObjects\MockExchange.cs" />
+    <Compile Include="MockTests\MockObjects\MockExchangeAuthenticator.cs" />
+    <Compile Include="MockTests\MockObjects\MockExchangeCommandFactory.cs" />
+    <Compile Include="MockTests\MockObjects\MockExchangeConfiguration.cs" />
+    <Compile Include="MockTests\MockObjects\MockRequestDispatcher.cs" />
+    <Compile Include="MockTests\MockExchange_Setup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestFactory\RequestFactory_RequestCreation.cs" />
   </ItemGroup>

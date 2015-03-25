@@ -72,6 +72,7 @@ namespace BEx.ExchangeEngine
                     case StandardParameter.Amount:
                     case StandardParameter.Id:
                     case StandardParameter.Timestamp:
+                    case StandardParameter.Limit:
                         value = values[parameter.StandardParameterIdentifier];
                         break;
                     case StandardParameter.Base:

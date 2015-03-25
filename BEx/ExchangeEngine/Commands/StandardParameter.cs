@@ -50,6 +50,10 @@ namespace BEx.ExchangeEngine
         /// <summary>
         /// Standard Timestamp
         /// </summary>
-        Timestamp
+        Timestamp,
+        /// <summary>
+        /// Integer describing maximum size
+        /// </summary>
+        Limit
     }
 }

@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit;
 using NUnit.Framework;
+using BEx.UnitTests.MockTests.MockObjects;
 
-using BEx;
-
-namespace BEx.UnitTests.BitStampTests
+namespace BEx.UnitTests.MockTests
 {
     [TestFixture]
-    [Category("BitStamp.Setup")]
-    public class BitStamp_Setup
+    [Category("A.MockExchange.Setup")]
+    public class MockExchange_Setup
     {
-        private BitStamp _testCandidate;
+        private MockExchange _testCandidate;
 
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            _testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
+            _testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Mock) as MockExchange;
         }
 
         [Test]
-        public void Bitstamp_ImplementsInterfaces()
+        public void MockExchange_ImplementsInterfaces()
         {
             Assert.IsInstanceOf<IUnauthenticatedExchange>(_testCandidate);
             Assert.IsInstanceOf<IAuthenticatedExchange>(_testCandidate);
         }
 
         [Test]
-        public void BitStamp_SupportedCurrencies_Complete()
+        public void MockExchange_SupportedCurrencies_Complete()
         {
             Assert.That(_testCandidate.SupportedCurrencies.Count == 2);
             Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.BTC));
@@ -38,7 +38,7 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_SupportedPairs_Complete()
+        public void MockExchange_SupportedPairs_Complete()
         {
             Assert.That(_testCandidate.SupportedTradingPairs.Count == 1);
 
@@ -47,7 +47,7 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_Commands_Complete()
+        public void MockExchange_Commands_Complete()
         {
             Assert.IsNotNull(_testCandidate.Commands);
             Assert.IsNotNull(_testCandidate.Commands.BuyOrder);
@@ -63,7 +63,7 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_Authenticator_Complete()
+        public void MockExchange_Authenticator_Complete()
         {
             Assert.IsNotNull(_testCandidate.Authenticator);
             Assert.IsNull(_testCandidate.Configuration.SecretKey);
@@ -71,7 +71,7 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_Nonce_Sequential()
+        public void MockExchange_Nonce_Sequential()
         {
             long _nonce = _testCandidate.Configuration.Nonce;
 

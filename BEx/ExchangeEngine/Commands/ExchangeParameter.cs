@@ -54,7 +54,7 @@ namespace BEx.ExchangeEngine
         public bool IsLowercase
         {
             get;
-            set;
+            internal set;
         }
 
         /// <summary>

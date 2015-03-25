@@ -12,11 +12,17 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal class ExecutionEngine
     {
-        private readonly RequestDispatcher _dispatcher;
+        private readonly IRequestDispatcher _dispatcher;
 
         private readonly ResultTranslation _translator;
 
         // private ErrorHandler errorHandler;
+
+        internal ExecutionEngine(Exchange targetExchange, IRequestDispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
+            _translator = new ResultTranslation(targetExchange);
+        }
 
         internal ExecutionEngine(Exchange targetExchange)
         {

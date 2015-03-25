@@ -40,8 +40,7 @@ namespace BEx.ExchangeEngine
         /// </summary>
         string SecretKey
         {
-            get;
-        }
+            get; set; }
 
         /// <summary>
         /// All Trading pairs supported by the Exchange
@@ -74,5 +73,7 @@ namespace BEx.ExchangeEngine
         {
             get;
         }
+
+        ExchangeType ExchangeSourceType { get; }
     }
 }

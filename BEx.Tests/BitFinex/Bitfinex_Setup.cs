@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 using BEx;
 
-namespace BEx.UnitTests
+namespace BEx.UnitTests.BitfinexTests
 {
     [TestFixture]
     [Category("BitFinex.Setup")]
@@ -22,28 +22,35 @@ namespace BEx.UnitTests
         }
 
         [Test]
+        public void Bitfinex_ImplementsInterfaces()
+        {
+            Assert.IsInstanceOf<IUnauthenticatedExchange>(_testCandidate);
+            Assert.IsInstanceOf<IAuthenticatedExchange>(_testCandidate);
+        }
+
+        [Test]
         public void Bitfinex_SupportedCurrencies_Complete()
         {
-            Assert.IsTrue(_testCandidate.SupportedCurrencies.Count == 4);
-            Assert.IsTrue(_testCandidate.SupportedCurrencies.Contains(Currency.BTC));
-            Assert.IsTrue(_testCandidate.SupportedCurrencies.Contains(Currency.LTC));
-            Assert.IsTrue(_testCandidate.SupportedCurrencies.Contains(Currency.DRK));
-            Assert.IsTrue(_testCandidate.SupportedCurrencies.Contains(Currency.USD));
+            Assert.That(_testCandidate.SupportedCurrencies.Count == 4);
+            Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.BTC));
+            Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.LTC));
+            Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.DRK));
+            Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.USD));
 
         }
 
         [Test]
         public void Bitfinex_SupportedPairs_Complete()
         {
-            Assert.IsTrue(_testCandidate.SupportedTradingPairs.Count == 5);
-        
+            Assert.That(_testCandidate.SupportedTradingPairs.Count == 5);
 
-            Assert.IsTrue(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.BTC, Currency.USD)));
-            Assert.IsTrue(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.USD)));
-            Assert.IsTrue(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.BTC)));
-            Assert.IsTrue(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.DRK, Currency.USD)));
-            Assert.IsTrue(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.DRK, Currency.BTC)));
-            Assert.IsTrue(_testCandidate.DefaultPair == new CurrencyTradingPair(Currency.BTC, Currency.USD));
+
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.BTC, Currency.USD)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.USD)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.BTC)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.DRK, Currency.USD)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.DRK, Currency.BTC)));
+            Assert.That(_testCandidate.DefaultPair == new CurrencyTradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]
@@ -66,6 +73,7 @@ namespace BEx.UnitTests
         public void Bitfinex_Authenticator_Complete()
         {
             Assert.IsNotNull(_testCandidate.Authenticator);
+            Assert.IsNull(_testCandidate.Configuration.SecretKey);
 
         }
 
@@ -78,12 +86,12 @@ namespace BEx.UnitTests
             {
                 long _nextNonce = _testCandidate.Configuration.Nonce;
 
-                Assert.IsTrue(_nextNonce - _nonce == 1);
+                Assert.That(_nextNonce - _nonce == 1);
 
                 _nonce = _nextNonce;
             }
 
-         
+
         }
 
 

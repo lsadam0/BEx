@@ -8,7 +8,7 @@ namespace BEx.ExchangeEngine
     /// Consumes an IRestRequest, Authenticates the Request, and 
     /// sends it to the targeted Exchange
     /// </summary>
-    internal class RequestDispatcher
+    internal class RequestDispatcher : IRequestDispatcher
     {
         private readonly Exchange _sourceExchange;
 
@@ -29,7 +29,7 @@ namespace BEx.ExchangeEngine
         /// <param name="request">To Dispatch</param>
         /// <param name="commandReference">Reference Command</param>
         /// <returns>IRestResponse</returns>
-        internal IRestResponse Dispatch(IRestRequest request, IExchangeCommand commandReference)
+        public IRestResponse Dispatch(IRestRequest request, IExchangeCommand commandReference)
         {
             var client = new RestClient(_sourceExchange.Configuration.BaseUri);
 

@@ -10,7 +10,7 @@ using RestSharp;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
 
-namespace BEx.UnitTests.RequestFactory
+namespace BEx.UnitTests.RequestFactoryTests
 {
     [TestFixture]
     [Category("RequestFactory")]
@@ -57,8 +57,8 @@ namespace BEx.UnitTests.RequestFactory
         [Test]
         public void Request_Configuration_Success()
         {
-            Assert.IsTrue(toTest.Method == Method.POST);
-            Assert.IsTrue(toTest.Resource == "/v1/order/new/{pair}/{side}");
+            Assert.That(toTest.Method == Method.POST);
+            Assert.That(toTest.Resource == "/v1/order/new/{pair}/{side}");
           
 
         }
@@ -66,7 +66,7 @@ namespace BEx.UnitTests.RequestFactory
         [Test]
         public void Request_AllParameters_Populated()
         {
-            Assert.IsTrue(toTest.Parameters.Count == command.Parameters.Count);
+            Assert.That(toTest.Parameters.Count == command.Parameters.Count);
 
             foreach (var parameter in command.Parameters)
             {
@@ -80,13 +80,13 @@ namespace BEx.UnitTests.RequestFactory
 
             var urlParams = toTest.Parameters.Where(x => x.Type == ParameterType.UrlSegment).ToList();
 
-            Assert.IsTrue(urlParams.Count == 2);
+            Assert.That(urlParams.Count == 2);
 
-            Assert.IsTrue(urlParams[0].Name == "pair");
-            Assert.IsTrue(urlParams[0].Value.ToString() == pair.ToString());
+            Assert.That(urlParams[0].Name == "pair");
+            Assert.That(urlParams[0].Value.ToString() == pair.ToString());
 
-            Assert.IsTrue(urlParams[1].Name == "side");
-            Assert.IsTrue(urlParams[1].Value.ToString() == "sell");
+            Assert.That(urlParams[1].Name == "side");
+            Assert.That(urlParams[1].Value.ToString() == "sell");
 
         }
 
@@ -95,13 +95,13 @@ namespace BEx.UnitTests.RequestFactory
         {
             var postParams = toTest.Parameters.Where(x => x.Type == ParameterType.GetOrPost).ToList();
 
-            Assert.IsTrue(postParams.Count == 2);
+            Assert.That(postParams.Count == 2);
 
-            Assert.IsTrue(postParams[0].Name == "symbol");
-            Assert.IsTrue(postParams[0].Value.ToString() == pair.ToString());
+            Assert.That(postParams[0].Name == "symbol");
+            Assert.That(postParams[0].Value.ToString() == pair.ToString());
 
-            Assert.IsTrue(postParams[1].Name == "exchange");
-            Assert.IsTrue(postParams[1].Value.ToString() == "bitfinex");
+            Assert.That(postParams[1].Name == "exchange");
+            Assert.That(postParams[1].Value.ToString() == "bitfinex");
 
         }
 
@@ -110,13 +110,13 @@ namespace BEx.UnitTests.RequestFactory
         {
             var queryParams = toTest.Parameters.Where(x => x.Type == ParameterType.QueryString).ToList();
 
-            Assert.IsTrue(queryParams.Count == 2);
+            Assert.That(queryParams.Count == 2);
 
-            Assert.IsTrue(queryParams[0].Name == "price");
-            Assert.IsTrue(queryParams[0].Value.ToString() == "100.00");
+            Assert.That(queryParams[0].Name == "price");
+            Assert.That(queryParams[0].Value.ToString() == "100.00");
 
-            Assert.IsTrue(queryParams[1].Name == "type");
-            Assert.IsTrue(queryParams[1].Value.ToString() == "exchange limit");
+            Assert.That(queryParams[1].Name == "type");
+            Assert.That(queryParams[1].Value.ToString() == "exchange limit");
 
         }
 

@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-namespace BEx.UnitTests
+namespace BEx.UnitTests.BitfinexTests
 {
     [TestFixture]
     [Category("Bitfinex.Exceptions")]

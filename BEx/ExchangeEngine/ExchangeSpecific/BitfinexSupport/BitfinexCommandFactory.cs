@@ -89,6 +89,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             this.Transactions = BuildTransactionsCommand();
             this.UserTransactions = BuildUserTransactionsCommand();
         }
+
         public AccountBalanceCommand BuildAccountBalanceCommand()
         {
             return new AccountBalanceCommand(
@@ -224,12 +225,16 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
         public TransactionsCommand BuildTransactionsCommand()
         {
+            /*timestamp (time): Optional. Only show trades at or after this timestamp.
+limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1. Default is 50.*/
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
                 new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
                 
             };
+
+          
 
             return new TransactionsCommand(
                 _engine,
@@ -244,7 +249,8 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                { new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD") }
+                 new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD")
+                // new ExchangeParameter(ParameterMethod.Post, "limit_trades", StandardParameter.Limit, "50")
             };
 
             return new UserTransactionsCommand(

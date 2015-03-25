@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.BitfinexSupport;
 using BEx.ExchangeEngine.BitStampSupport;
+using BEx.UnitTests.MockTests.MockObjects;
 
 namespace BEx.UnitTests
 {
@@ -49,6 +50,8 @@ namespace BEx.UnitTests
                     return new BitStamp();
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
+                case ExchangeType.Mock:
+                    return new MockExchange();
                 default:
                     return null;
             }
@@ -59,7 +62,10 @@ namespace BEx.UnitTests
             if (configurations == null)
                 LoadAPIKeys();
 
-            IExchangeConfiguration configuration = configurations[toGet];
+            IExchangeConfiguration configuration;
+
+            configurations.TryGetValue(toGet, out configuration);
+
             switch (toGet)
             {
                 case ExchangeType.BitStamp:
@@ -71,6 +77,8 @@ namespace BEx.UnitTests
                     return new Bitfinex(
                         configuration.ApiKey,
                         configuration.SecretKey);
+                case ExchangeType.Mock:
+                    return new MockExchange();
                 default:
                     return null;
 

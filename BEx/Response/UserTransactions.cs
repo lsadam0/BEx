@@ -11,7 +11,7 @@ using BEx.ExchangeEngine;
 namespace BEx
 {
     /// <summary>
-    /// Your transactions for the previous hour
+    /// Contains the 50 most recent Order Transactions that have been completed for your user
     /// </summary>
     public sealed class UserTransactions : ApiResult
     {
@@ -19,17 +19,18 @@ namespace BEx
             : base(DateTime.Now, sourceExchange.ExchangeSourceType)
         {
             Pair = pair;
-          
+
             TransactionsCollection =
                 new ReadOnlyCollection<UserTransaction>(
                     transactions.Select(x => x.ConvertToStandard(pair, sourceExchange) as UserTransaction)
                         .OfType<UserTransaction>()
+                        .Take(50)
                         .ToList());
 
         }
 
         /// <summary>
-        /// Trading Pair
+        /// Trading Pair for all contained Transactions
         /// </summary>
         public CurrencyTradingPair Pair
         {
@@ -38,7 +39,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Your Transactions for the previous hour
+        /// Your 50 most recent Order Transactions, Sorted by CompletedTime in Descending Order
         /// </summary>
         public IReadOnlyList<UserTransaction> TransactionsCollection
         {

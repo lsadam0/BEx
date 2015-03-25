@@ -11,7 +11,7 @@ namespace BEx.ExchangeEngine
     /// commands specified by IAuthenticatedCommands and
     /// IUnauthenticatedCommands
     /// </summary>
-    internal interface IExchangeCommandFactory
+   internal interface IExchangeCommandFactory
     {
 
         void BuildCommands(ExecutionEngine executor);
@@ -21,7 +21,7 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <returns></returns>
         AccountBalanceCommand AccountBalance { get; }
-        
+
 
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.CreateBuyOrder()

@@ -23,18 +23,19 @@ namespace BEx.UnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.BalanceByCurrency.Count > 0);
+            CollectionAssert.IsNotEmpty(toVerify.BalanceByCurrency);
+
 
             foreach (Currency c in TestCandidate.SupportedCurrencies)
             {
-                Assert.IsTrue(toVerify.BalanceByCurrency.ContainsKey(c));
+                Assert.That(toVerify.BalanceByCurrency.ContainsKey(c));
 
                 Balance individualBalance = toVerify.BalanceByCurrency[c];
 
                 VerifyAPIResult(individualBalance);
-                Assert.IsTrue(individualBalance.BalanceCurrency == c);
-                Assert.IsTrue(individualBalance.AvailableToTrade >= 0);
-                Assert.IsTrue(individualBalance.TotalBalance >= 0);
+                Assert.That(individualBalance.BalanceCurrency == c);
+                Assert.That(individualBalance.AvailableToTrade >= 0);
+                Assert.That(individualBalance.TotalBalance >= 0);
 
             }
         }
@@ -42,13 +43,13 @@ namespace BEx.UnitTests
         public void VerifyAPIResult(ApiResult toVerify)
         {
             Assert.IsNotNull(toVerify);
-            Assert.IsTrue(toVerify.SourceExchange == base.TestCandidate.ExchangeSourceType);
+            Assert.That(toVerify.SourceExchange == base.TestCandidate.ExchangeSourceType);
 
-            Assert.IsTrue(toVerify.ExchangeTimestamp > DateTime.MinValue);
-            Assert.IsTrue(toVerify.ExchangeTimestamp < DateTime.MaxValue);
+            Assert.That(toVerify.ExchangeTimestamp > DateTime.MinValue);
+            Assert.That(toVerify.ExchangeTimestamp < DateTime.MaxValue);
 
-            Assert.IsTrue(toVerify.LocalTimestamp > DateTime.MinValue);
-            Assert.IsTrue(toVerify.LocalTimestamp < DateTime.MaxValue);
+            Assert.That(toVerify.LocalTimestamp > DateTime.MinValue);
+            Assert.That(toVerify.LocalTimestamp < DateTime.MaxValue);
         }
 
         public void VerifyBuyOrder()
@@ -62,14 +63,12 @@ namespace BEx.UnitTests
 
         public void VerifyDepositAddress(Currency depositCurrency)
         {
-
             DepositAddress address = TestCandidate.GetDepositAddress(depositCurrency);
 
             VerifyAPIResult(address);
 
-
-            Assert.IsTrue(!string.IsNullOrEmpty(address.Address));
-            Assert.IsTrue(address.DepositCurrency == depositCurrency);
+            Assert.That(!string.IsNullOrWhiteSpace(address.Address));
+            Assert.That(address.DepositCurrency == depositCurrency);
         }
 
         public void VerifyOpenOrders()
@@ -78,20 +77,31 @@ namespace BEx.UnitTests
 
             VerifyAPIResult(toVerify);
 
-            foreach (KeyValuePair<int, Order> ord in toVerify.BuyOrders)
+            foreach (var openOrder in toVerify.BuyOrders)
             {
-                VerifyAPIResult(ord.Value);
-                Assert.IsTrue(ord.Value.Amount > 0.0m);
-                Assert.IsTrue(ord.Value.Id > 0);
-                Assert.IsTrue(ord.Value.Price > 0.0m);
+                var order = openOrder.Value;
+
+                VerifyAPIResult(order);
+
+                Assert.That(order.IsBuyOrder);
+                Assert.That(order.Amount > 0.0m);
+                Assert.That(order.Id > 0);
+                Assert.That(openOrder.Key == order.Id);
+                Assert.That(order.Price > 0.0m);
+
             }
 
-            foreach (KeyValuePair<int, Order> ord in toVerify.SellOrders)
+            foreach (var openOrder in toVerify.SellOrders)
             {
-                VerifyAPIResult(ord.Value);
-                Assert.IsTrue(ord.Value.Amount > 0.0m);
-                Assert.IsTrue(ord.Value.Id > 0);
-                Assert.IsTrue(ord.Value.Price > 0.0m);
+                var order = openOrder.Value;
+
+                VerifyAPIResult(order);
+
+                Assert.That(order.IsSellOrder);
+                Assert.That(order.Amount > 0.0m);
+                Assert.That(order.Id > 0);
+                Assert.That(openOrder.Key == order.Id);
+                Assert.That(order.Price > 0.0m);
             }
         }
 
@@ -101,29 +111,41 @@ namespace BEx.UnitTests
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
-            Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
-            Assert.IsTrue(toVerify.Asks.Count > 0);
-            Assert.IsTrue(toVerify.Bids.Count > 0);
+            Assert.That(toVerify.Pair == pair);
+
+            CollectionAssert.IsNotEmpty(toVerify.Asks);
+            CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreUnique(toVerify.Asks);
+
+            CollectionAssert.IsNotEmpty(toVerify.Bids);
+            CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreUnique(toVerify.Bids);
+
+            var orderedAsks = toVerify.Asks.OrderBy(x => x.Price);
+            Assert.That(orderedAsks.SequenceEqual(toVerify.Asks));
+
+            var orderedBids = toVerify.Bids.OrderByDescending(x => x.Price);
+            Assert.That(orderedBids.SequenceEqual(toVerify.Bids));
 
             foreach (var entry in toVerify.Asks)
             {
-                Assert.IsTrue(entry.Amount > 0.0m);
-                Assert.IsTrue(entry.Price >= 0.0m);
+                Assert.That(entry.Amount > 0.0m);
+                Assert.That(entry.Price > 0.0m);
+
             }
 
             foreach (var entry in toVerify.Bids)
             {
-                Assert.IsTrue(entry.Amount > 0.0m);
-                Assert.IsTrue(entry.Price >= 0.0m);
+                Assert.That(entry.Amount > 0.0m);
+                Assert.That(entry.Price > 0.0m);
             }
         }
 
         public void VerifySellOrder()
         {
-
             Order toVerify = TestCandidate.CreateSellOrder(0.02m, 10000m);
-
 
             VerifyAPIResult(toVerify);
 
@@ -132,71 +154,77 @@ namespace BEx.UnitTests
 
         public void VerifyTick(CurrencyTradingPair pair)
         {
-
             Tick toVerify = TestCandidate.GetTick(pair);
 
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
-            Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
-            Assert.IsTrue(toVerify.Ask > 0.0m);
-            Assert.IsTrue(toVerify.Bid > 0.0m);
-            Assert.IsTrue(toVerify.Last > 0.0m);
-            Assert.IsTrue(toVerify.High > 0.0m);
-            Assert.IsTrue(toVerify.Low > 0.0m);
-            Assert.IsTrue(toVerify.Volume > 0.0m);
+            Assert.That(toVerify.Pair == pair);
+            Assert.That(toVerify.Ask > 0.0m);
+            Assert.That(toVerify.Bid > 0.0m);
+            Assert.That(toVerify.Last > 0.0m);
+            Assert.That(toVerify.High > 0.0m);
+            Assert.That(toVerify.Low > 0.0m);
+            Assert.That(toVerify.Volume > 0.0m);
 
         }
 
         public void VerifyTransactions(CurrencyTradingPair pair)
         {
-
+            DateTime current = DateTime.Now;
             Transactions toVerify = TestCandidate.GetTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
-            if (pair.BaseCurrency == Currency.BTC && pair.CounterCurrency == Currency.USD)
-                Assert.IsTrue(toVerify.TransactionsCollection.Any());
+            Assert.IsNotNull(toVerify.TransactionsCollection);
 
-            if (toVerify.TransactionsCollection.Any())
+            CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
+            CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(BEx.Transaction));
+            CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
+
+            var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
+            Assert.That(ordered.SequenceEqual(toVerify.TransactionsCollection));
+
+            DateTime minimumTime = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
+            Assert.That(minimumTime, Is.InRange(current.AddMinutes(-61), current));
+
+            foreach (Transaction t in toVerify.TransactionsCollection)
             {
-                foreach (Transaction t in toVerify.TransactionsCollection)
-                {
-                    VerifyAPIResult(t);
-                    Assert.IsTrue(t.Amount > 0.0m);
-                    Assert.IsTrue(t.Price > 0.0m);
-                    Assert.IsTrue(t.TransactionId > 0);
-                }
+                VerifyAPIResult(t);
 
-                DateTime oldest = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
-                DateTime newest = toVerify.TransactionsCollection.Max(x => x.CompletedTime);
+                Assert.That(t.CompletedTime, Is.InRange(current.AddMinutes(-61), current));
 
-                int totalMinutes = (newest - oldest).Minutes;
-                Assert.IsTrue(totalMinutes < 61);
+                Assert.That(t.Pair == pair);
+                Assert.That(t.Amount > 0.0m);
+
+                Assert.That(t.Price > 0.0m);
+                Assert.That(t.TransactionId > 0);
             }
         }
 
         public void VerifyUserTransactions(CurrencyTradingPair pair)
         {
-
             UserTransactions toVerify = TestCandidate.GetUserTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
             Assert.IsNotNull(toVerify.TransactionsCollection);
 
-            if (pair == TestCandidate.DefaultPair)
-                Assert.IsTrue(toVerify.TransactionsCollection.Any());
+            CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
+            CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(BEx.UserTransaction));
+            CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
 
-            DateTime last = DateTime.MaxValue;
+            var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
+            Assert.That(ordered.SequenceEqual(toVerify.TransactionsCollection));
+
+            Assert.That(toVerify.TransactionsCollection.Count <= 50);
+
             foreach (UserTransaction transaction in toVerify.TransactionsCollection)
             {
                 VerifyAPIResult(transaction);
 
-                Assert.IsTrue(transaction.CompletedTime > DateTime.MinValue);
-                Assert.IsTrue(transaction.CompletedTime <= last);
-                last = transaction.CompletedTime;
-                Assert.IsTrue(transaction.Pair == pair);
+                Assert.That(transaction.Pair == pair);
 
                 // Check that correct sign is used
                 if (transaction.TransactionType == OrderType.Sell)
@@ -213,17 +241,18 @@ namespace BEx.UnitTests
                 Assert.Greater(transaction.ExchangeRate, 0);
 
                 // Check that transaction balances
-                Assert.IsTrue(Math.Round(((transaction.BaseCurrencyAmount * transaction.ExchangeRate) +
+
+                Assert.That(Math.Round(((transaction.BaseCurrencyAmount * transaction.ExchangeRate) +
                                transaction.CounterCurrencyAmount), 2) == 0);
 
 
                 // Trade Fee Currency belongs to Trading Pair
-                Assert.IsTrue((transaction.Pair.BaseCurrency == transaction.TradeFeeCurrency)
+                Assert.That((transaction.Pair.BaseCurrency == transaction.TradeFeeCurrency)
                                 ||
                                 (transaction.Pair.CounterCurrency == transaction.TradeFeeCurrency));
 
 
-                Assert.IsTrue(transaction.OrderId > 0);
+                Assert.That(transaction.OrderId > 0);
             }
         }
 
@@ -231,13 +260,13 @@ namespace BEx.UnitTests
         {
             VerifyAPIResult(toVerify);
 
-            Assert.IsTrue(toVerify.Amount > 0);
-            Assert.IsTrue(toVerify.Id > 0);
-            Assert.IsTrue(toVerify.Price > 0);
-            Assert.IsTrue(toVerify.SourceExchange == TestCandidate.ExchangeSourceType);
-            Assert.IsTrue(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
-            Assert.IsTrue(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
-            Assert.IsTrue(toVerify.TradeType == requestedOrderType);
+            Assert.That(toVerify.Amount > 0);
+            Assert.That(toVerify.Id > 0);
+            Assert.That(toVerify.Price > 0);
+            Assert.That(toVerify.SourceExchange == TestCandidate.ExchangeSourceType);
+            Assert.That(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
+            Assert.That(toVerify.Pair.CounterCurrency == pair.CounterCurrency);
+            Assert.That(toVerify.TradeType == requestedOrderType);
         }
     }
 }

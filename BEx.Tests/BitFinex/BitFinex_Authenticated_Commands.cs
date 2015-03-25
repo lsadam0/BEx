@@ -3,7 +3,7 @@
 using BEx;
 using NUnit.Framework;
 
-namespace BEx.UnitTests
+namespace BEx.UnitTests.BitfinexTests
 {
     [TestFixture]
     [Category("Bitfinex.AuthenticatedCommands")]
@@ -51,6 +51,7 @@ namespace BEx.UnitTests
             commandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
         }
 
+        /*
         [Test]
         public void Bitfinex_GetUserTransactions_DRKBTC_Success()
         {
@@ -61,7 +62,7 @@ namespace BEx.UnitTests
         public void Bitfinex_GetUserTransactions_DRKUSD_Success()
         {
             commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-        }
+        }*/
 
         [Test]
         public void Bitfinex_GetUserTransactions_LTCBTC_Success()

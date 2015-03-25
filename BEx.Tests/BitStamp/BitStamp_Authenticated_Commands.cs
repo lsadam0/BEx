@@ -3,7 +3,7 @@
 using BEx;
 using NUnit.Framework;
 
-namespace BEx.UnitTests
+namespace BEx.UnitTests.BitStampTests
 {
     [TestFixture]
     [Category("BitStamp.AuthenticatedCommands")]

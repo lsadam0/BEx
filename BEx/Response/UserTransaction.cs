@@ -18,7 +18,7 @@ namespace BEx
         private OrderType _transactionType;
 
         /// <summary>
-        /// Signifies whether this transaction is a Buy or Sell
+        /// Signifies whether this transaction is a Buy or Sell Order
         /// </summary>
         public OrderType TransactionType
         {
@@ -41,7 +41,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Trading Pair
+        /// Trading Pair for this Transaction
         /// </summary>
         public CurrencyTradingPair Pair
         {
