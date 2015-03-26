@@ -31,19 +31,22 @@ namespace BEx.UnitTests.MockTests
         [Test]
         public void MockExchange_SupportedCurrencies_Complete()
         {
-            Assert.That(_testCandidate.SupportedCurrencies.Count == 2);
+            Assert.That(_testCandidate.SupportedCurrencies.Count == 3);
             Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.BTC));
             Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.USD));
+            Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.LTC));
 
         }
 
         [Test]
         public void MockExchange_SupportedPairs_Complete()
         {
-            Assert.That(_testCandidate.SupportedTradingPairs.Count == 1);
+            Assert.That(_testCandidate.SupportedTradingPairs.Count == 3);
 
             Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.BTC, Currency.USD)));
             Assert.That(_testCandidate.DefaultPair == new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.USD)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.BTC)));
         }
 
         [Test]

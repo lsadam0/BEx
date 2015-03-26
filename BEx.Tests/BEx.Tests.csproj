@@ -34,6 +34,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -65,10 +69,19 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="MockTests\MockExchange_AuthenticatedCommands.cs" />
+    <Compile Include="MockTests\MockExchange_UnauthenticatedCommands.cs" />
     <Compile Include="MockTests\MockObjects\MockExchange.cs" />
     <Compile Include="MockTests\MockObjects\MockExchangeAuthenticator.cs" />
     <Compile Include="MockTests\MockObjects\MockExchangeCommandFactory.cs" />
     <Compile Include="MockTests\MockObjects\MockExchangeConfiguration.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockAccountBalanceJSON.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockDepositAddressJSON.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockOrderBookJSON.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockOrderResponseJSON.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockTickJSON.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockTransactionJSON.cs" />
+    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockUserTransactionJSON.cs" />
     <Compile Include="MockTests\MockObjects\MockRequestDispatcher.cs" />
     <Compile Include="MockTests\MockExchange_Setup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

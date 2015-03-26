@@ -10,7 +10,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
 {
     public class MockExchangeConfiguration : IExchangeConfiguration
     {
-             private long _nonce = DateTime.Now.Ticks;
+        private long _nonce = DateTime.Now.Ticks;
 
 
 
@@ -40,7 +40,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
         public string SecretKey
         {
             get;
-             set;
+            set;
         }
 
         public IList<CurrencyTradingPair> SupportedPairs
@@ -63,7 +63,9 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         public ExchangeType ExchangeSourceType
         {
-            get; private set; }
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Consecutively increasing action counter
@@ -86,16 +88,22 @@ namespace BEx.UnitTests.MockTests.MockObjects
             SecretKey = "mocked";
 
             ExchangeSourceType = ExchangeType.Mock;
-            
-            SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };
+
+            SupportedPairs = new List<CurrencyTradingPair>()
+            {
+                DefaultPair,
+                new CurrencyTradingPair(Currency.LTC, Currency.USD),
+                new CurrencyTradingPair(Currency.LTC, Currency.BTC)
+            };
 
             SupportedCurrencies = new HashSet<Currency>()
             {
                 DefaultPair.BaseCurrency,
-                DefaultPair.CounterCurrency
+                DefaultPair.CounterCurrency,
+                Currency.LTC
             };
 
-            
+
             BaseUri = baseUri ?? new Uri("http://localhost");
         }
     }
