@@ -10,7 +10,7 @@ namespace BEx.ExchangeEngine.Utilities
 
         internal static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
-            return Convert.ToDouble((dateTime - epoch.ToLocalTime()).TotalSeconds);
+            return Convert.ToDouble((dateTime - epoch).TotalSeconds);
         }
 
         internal static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
@@ -20,7 +20,7 @@ namespace BEx.ExchangeEngine.Utilities
 
         internal static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
-            return epoch.AddSeconds(unixTimeStamp).ToLocalTime();
+            return epoch.AddSeconds(unixTimeStamp);
         }
     }
 }

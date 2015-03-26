@@ -62,6 +62,7 @@
     <Compile Include="BitStamp\BitStamp_Exceptions.cs" />
     <Compile Include="BitStamp\BitStamp_Setup.cs" />
     <Compile Include="BitStamp\BitStamp_Unauthenticated_Commands.cs" />
+    <Compile Include="DateTimeUnixConversion.cs" />
     <Compile Include="ExchangeExceptionVerification.cs" />
     <Compile Include="ExchangeFactory.cs" />
     <Compile Include="ExchangeVerificationBase.cs" />

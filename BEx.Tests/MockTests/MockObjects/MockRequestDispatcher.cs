@@ -11,6 +11,7 @@ using BEx.ExchangeEngine.Utilities;
 using RestSharp;
 using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
@@ -112,7 +113,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 StatusCode = HttpStatusCode.OK
             };
         }
-
+ 
         private IRestResponse OpenOrdersResponse(IRestRequest request, IExchangeCommand command)
         {
             return null;
@@ -147,7 +148,49 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse TransactionsResponse(IRestRequest request, IExchangeCommand command)
         {
-            return null;
+            var firstTransaction = new MockTransactionJSON()
+            {
+                amount = "4.0",
+                exchange = "",
+                price = "250.43",
+                tid = 101,
+                timestamp = (int) UnixTime.DateTimeToUnixTimestamp(DateTime.Now),
+                type = ""
+            };
+
+            var secondTransaction = new MockTransactionJSON()
+            {
+                amount = "4.0",
+                exchange = "",
+                price = "251.43",
+                tid = 102,
+                timestamp = (int)UnixTime.DateTimeToUnixTimestamp(DateTime.Now),
+                type = ""
+            };
+
+            var thirdTransaction = new MockTransactionJSON()
+            {
+                amount = "4.0",
+                exchange = "",
+                price = "252.43",
+                tid = 103,
+                timestamp = (int)UnixTime.DateTimeToUnixTimestamp(DateTime.Now),
+                type = ""
+            };
+
+            var trans = new List<MockTransactionJSON>()
+            {
+                firstTransaction,
+                secondTransaction,
+                thirdTransaction
+            };
+
+            return new RestResponse()
+            {
+                Content = JsonConvert.SerializeObject(trans),
+                ResponseStatus = ResponseStatus.Completed,
+                StatusCode = HttpStatusCode.OK
+            };
         }
 
         private IRestResponse UserTransactionsResponse(IRestRequest request, IExchangeCommand command)
