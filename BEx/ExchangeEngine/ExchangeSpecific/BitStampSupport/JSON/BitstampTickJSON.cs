@@ -24,7 +24,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Tick(UnixTime.UnixTimeStampToDateTime(timestamp), sourceExchange)
+            return new Tick(timestamp.ToDateTimeUTC(), sourceExchange)
             {
                 Ask = Conversion.ToDecimalInvariant(ask),
                 Bid = Conversion.ToDecimalInvariant(bid),

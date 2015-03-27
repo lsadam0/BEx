@@ -54,12 +54,6 @@ namespace BEx.UnitTests.MockTests
         }
 
         [Test]
-        public void MockExchange_GetUserTransactions_LTCUSD_Success()
-        {
-            _commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
-        }
-
-        [Test]
         public void MockExchange_GetOpenOrders_Success()
         {
             _commandVerification.VerifyOpenOrders();

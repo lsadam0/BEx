@@ -32,14 +32,14 @@ namespace BEx.ExchangeEngine.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            Balance btcBalance = new Balance(DateTime.Now, sourceExchange)
+            Balance btcBalance = new Balance(DateTime.UtcNow, sourceExchange)
             {
                 BalanceCurrency = Currency.BTC,
                 AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(BtcBalance)
             };
 
-            Balance usdBalance = new Balance(DateTime.Now, sourceExchange)
+            Balance usdBalance = new Balance(DateTime.UtcNow, sourceExchange)
             {
                 AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(UsdBalance),

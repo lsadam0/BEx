@@ -15,14 +15,30 @@ namespace BEx.UnitTests
         [Test]
         public void UnixTime_CircularConversion_Success()
         {
-            DateTime testDate = DateTime.Now;
+            DateTime testDate = DateTime.UtcNow;
 
-            double unixTime = UnixTime.DateTimeToUnixTimestamp(testDate);
+            double unixTime = testDate.ToUnixTime();
 
-            DateTime converted = UnixTime.UnixTimeStampToDateTime(unixTime);
+            DateTime converted = unixTime.ToDateTimeUTC();
 
-            Assert.That(converted == testDate);
+          
+            Assert.That(converted.Second == testDate.Second);
+            Assert.That(converted.Minute == testDate.Minute);
+            Assert.That(converted.Hour == testDate.Hour);
+            Assert.That(converted.Date == testDate.Date);
 
+        }
+
+        [Test]
+        public void UnixTime_UTCResponse()
+        {
+            DateTime response = new DateTime(2015, 3, 27, 0, 4, 9, DateTimeKind.Utc);
+
+            double unixTime = response.ToUnixTime();
+
+            DateTime final = unixTime.ToDateTimeUTC();
+
+            Assert.IsTrue(final == response);
         }
     }
 }

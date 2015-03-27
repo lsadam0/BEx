@@ -35,7 +35,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
             return new OrderBook(
                 convertedBids,
                 convertedAsks,
-                UnixTime.UnixTimeStampToDateTime(Timestamp),
+                Timestamp.ToDateTimeUTC(),
                 sourceExchange)
             {
                 Pair = pair

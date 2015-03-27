@@ -170,7 +170,7 @@ namespace BEx.UnitTests
 
         public void VerifyTransactions(CurrencyTradingPair pair)
         {
-            DateTime current = DateTime.Now;
+            DateTime current = DateTime.UtcNow;
             Transactions toVerify = TestCandidate.GetTransactions(pair);
 
             VerifyAPIResult(toVerify);

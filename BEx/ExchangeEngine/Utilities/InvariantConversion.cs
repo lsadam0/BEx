@@ -31,7 +31,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCulture
+        /// Convert using CultureInfo.InvariantCulture to UTC Time
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>

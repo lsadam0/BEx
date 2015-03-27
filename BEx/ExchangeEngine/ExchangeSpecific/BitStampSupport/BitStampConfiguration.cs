@@ -8,7 +8,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
 {
     public class BitStampConfiguration : IExchangeConfiguration
     {
-        private long _nonce = DateTime.Now.Ticks;
+        private long _nonce = DateTime.UtcNow.Ticks;
 
         public BitStampConfiguration(string apiKey, string clientId, string secretKey)
         {

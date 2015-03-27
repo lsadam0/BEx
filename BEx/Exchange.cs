@@ -204,7 +204,7 @@ namespace BEx
             {
                 {
                     StandardParameter.UnixTimestamp,
-                    UnixTime.DateTimeToUnixTimestamp(DateTime.UtcNow.AddHours(-1)).ToStringInvariant()
+                   (DateTime.UtcNow.AddHours(-1).ToUnixTime()).ToStringInvariant()
                 }
             };
 

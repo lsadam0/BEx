@@ -11,12 +11,12 @@ namespace BEx
     public sealed class ApiError : ApiResult
     {
         internal ApiError(ExchangeType sourceExchange)
-            : base(DateTime.Now, sourceExchange)
+            : base(DateTime.UtcNow, sourceExchange)
         {
         }
 
         internal ApiError(string message, BExErrorCode code, Exchange sourceExchange)
-            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
+            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             Message = message;
             ErrorCode = code;

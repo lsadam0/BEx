@@ -10,7 +10,7 @@ namespace BEx
     public sealed class DepositAddress : ApiResult
     {
         internal DepositAddress(string address, Exchange sourceExchange, CurrencyTradingPair pair)
-            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
+            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             Address = address;
             DepositCurrency = pair.BaseCurrency;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
 using BEx.ExchangeEngine.BitfinexSupport;
+using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
 using RestSharp;
 
 namespace BEx.UnitTests.MockTests.MockObjects
@@ -107,7 +108,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
                 new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
-                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
+                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "Mock"),
                 new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
                 new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "buy")
             };
@@ -117,7 +118,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                                 Method.POST,
                                 new Uri("/v1/order/new", UriKind.Relative),
                                 true,
-                                typeof(BitFinexOrderResponseJSON),
+                                typeof(MockOrderResponseJSON),
                                 param);
         }
 
@@ -154,7 +155,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                                 Method.POST,
                                 new Uri("/v1/deposit/new", UriKind.Relative),
                                 true,
-                                typeof(BitFinexDepositAddressJSON),
+                                typeof(MockDepositAddressJSON),
                                 param);
         }
 
@@ -165,7 +166,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                                 Method.POST,
                                 new Uri("/v1/orders", UriKind.Relative),
                                 true,
-                                typeof(List<BitFinexOrderResponseJSON>));
+                                typeof(List<MockOrderResponseJSON>));
         }
 
         public OrderBookCommand BuildOrderBookCommand()
@@ -181,7 +182,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 Method.GET,
                 new Uri("/v1/book/{pair}", UriKind.Relative),
                 false,
-                typeof(BitFinexOrderBookJSON),
+                typeof(MockOrderBookJSON),
                 param);
 
         }
@@ -193,7 +194,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
                 new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
-                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
+                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "Mock"),
                 new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
                 new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "sell")
             };
@@ -203,7 +204,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                                 Method.POST,
                                 new Uri("/v1/order/new", UriKind.Relative),
                                 true,
-                                typeof(BitFinexOrderResponseJSON),
+                                typeof(MockOrderResponseJSON),
                                 param);
         }
 
@@ -219,14 +220,12 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 Method.GET,
                 new Uri("/v1/pubticker/{pair}", UriKind.Relative),
                 false,
-                typeof(BitfinexTickJSON),
+                typeof(MockTickJSON),
                 param);
         }
 
         public TransactionsCommand BuildTransactionsCommand()
         {
-            /*timestamp (time): Optional. Only show trades at or after this timestamp.
-limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1. Default is 50.*/
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
@@ -234,14 +233,12 @@ limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1.
                 
             };
 
-
-
             return new TransactionsCommand(
                 _engine,
                 Method.GET,
                 new Uri("/v1/trades/{pair}", UriKind.Relative),
                 false,
-                typeof(List<BitFinexTransactionJSON>),
+                typeof(List<MockTransactionJSON>),
                 param);
         }
 
@@ -258,7 +255,7 @@ limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1.
                                 Method.POST,
                                 new Uri("/v1/mytrades", UriKind.Relative),
                                 true,
-                                typeof(List<BitFinexUserTransactionJSON>),
+                                typeof(List<MockUserTransactionJSON>),
                                 param);
         }
     }

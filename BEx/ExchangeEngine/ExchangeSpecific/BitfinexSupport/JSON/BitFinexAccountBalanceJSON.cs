@@ -28,7 +28,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
             if (Type == "exchange")
             {
-                res = new Balance(DateTime.Now, sourceExchange);
+                res = new Balance(DateTime.UtcNow, sourceExchange);
                 Currency balanceCurrency;
 
                 if (Enum.TryParse(Currency.ToUpper(CultureInfo.InvariantCulture), out balanceCurrency))

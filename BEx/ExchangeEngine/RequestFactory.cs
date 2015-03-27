@@ -94,7 +94,7 @@ namespace BEx.ExchangeEngine
                         value = pair.ToString();
                         break;
                     case StandardParameter.UnixTimestamp:
-                        value = UnixTime.DateTimeToUnixTimestamp(DateTime.Now.AddHours(-2)).ToStringInvariant();
+                        value = DateTime.UtcNow.AddHours(-1).ToUnixTime().ToStringInvariant();
                         break;
                     case StandardParameter.None:
                         value = parameter.DefaultValue;
@@ -103,7 +103,7 @@ namespace BEx.ExchangeEngine
                         value = string.Empty;
                         break;
                 }
-
+                
                 ParameterType pType = ParameterType.GetOrPost;
 
                 if (parameter.ParameterMethod == ParameterMethod.Url)

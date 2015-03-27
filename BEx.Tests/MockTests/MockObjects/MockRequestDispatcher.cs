@@ -116,12 +116,97 @@ namespace BEx.UnitTests.MockTests.MockObjects
  
         private IRestResponse OpenOrdersResponse(IRestRequest request, IExchangeCommand command)
         {
-            return null;
+
+            var OrderOne = new MockOrderResponseJSON()
+            {
+                OriginalAmount = "100.00",
+                Id = 100,
+                Price = "234.12",
+                Side = "sell"
+
+            };
+
+            var OrderTwo = new MockOrderResponseJSON()
+            {
+                OriginalAmount = "200.00",
+                Id = 200,
+                Price = "334.12",
+                Side = "buy"
+
+            };
+
+            var OrderThree = new MockOrderResponseJSON()
+            {
+                OriginalAmount = "300.00",
+                Id = 300,
+                Price = "434.12",
+                Side = "sell"
+
+            };
+
+            var orders = new List<MockOrderResponseJSON>()
+            {
+                OrderOne,
+                OrderTwo,
+                OrderThree
+            };
+
+            return new RestResponse()
+            {
+                Content = JsonConvert.SerializeObject(orders),
+                ResponseStatus = ResponseStatus.Completed,
+                StatusCode = HttpStatusCode.OK
+            };
+
+
         }
 
         private IRestResponse OrderBookResponse(IRestRequest request, IExchangeCommand command)
         {
-            return null;
+            var asks = new List<Ask>()
+            {
+                new Ask()
+                {
+                    Price = "212.34",
+                    Amount = "2.332245",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString()
+                },
+                new Ask()
+                {
+                    Price = "214.34",
+                    Amount = "3.332245",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString()
+                } 
+            };
+
+            var bids = new List<Bid>()
+            {
+                new Bid()
+                {
+                    Price = "212.34",
+                    Amount = "2.332245",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString()
+                },
+                new Bid()
+                {
+                    Price = "214.34",
+                    Amount = "3.332245",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString()
+                } 
+            };
+
+            var orderBook = new MockOrderBookJSON()
+            {
+                Bids = bids.OrderByDescending(x => x.Price).ToArray(),
+                Asks = asks.OrderBy(x => x.Price).ToArray()
+            };
+
+            return new RestResponse()
+            {
+                Content = JsonConvert.SerializeObject(orderBook),
+                ResponseStatus = ResponseStatus.Completed,
+                StatusCode = HttpStatusCode.OK
+            };
         }
 
         private IRestResponse TickResponse(IRestRequest request, IExchangeCommand command)
@@ -134,7 +219,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 LastPrice = (251.50m).ToString(),
                 Low = (249.34m).ToString(),
                 Mid = (252.12m).ToString(),
-                Timestamp = UnixTime.DateTimeToUnixTimestamp(DateTime.Now).ToString(),
+                Timestamp = DateTime.UtcNow.ToUnixTime().ToString(),
                 Volume = (32456m).ToString()
             };
 
@@ -154,7 +239,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 exchange = "",
                 price = "250.43",
                 tid = 101,
-                timestamp = (int) UnixTime.DateTimeToUnixTimestamp(DateTime.Now),
+                timestamp = Convert.ToInt64(DateTime.UtcNow.ToUnixTime()),
                 type = ""
             };
 
@@ -164,7 +249,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 exchange = "",
                 price = "251.43",
                 tid = 102,
-                timestamp = (int)UnixTime.DateTimeToUnixTimestamp(DateTime.Now),
+                timestamp = Convert.ToInt64(DateTime.UtcNow.ToUnixTime()),
                 type = ""
             };
 
@@ -174,7 +259,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 exchange = "",
                 price = "252.43",
                 tid = 103,
-                timestamp = (int)UnixTime.DateTimeToUnixTimestamp(DateTime.Now),
+                timestamp = Convert.ToInt64(DateTime.UtcNow.ToUnixTime()),
                 type = ""
             };
 
@@ -195,7 +280,48 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse UserTransactionsResponse(IRestRequest request, IExchangeCommand command)
         {
-            return null;
+         
+            var transactions = new List<MockUserTransactionJSON>()
+            {
+                new MockUserTransactionJSON()
+                {
+                    Tid = 100,
+                    Price = "241.32",
+                    Amount = "2.321",
+                    FeeAmount = "5.43",
+                    FeeCurrency = "BTC",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString(),
+                    Type = "Buy"
+                },
+                new MockUserTransactionJSON()
+                {
+                    Tid = 200,
+                    Price = "242.32",
+                    Amount = "3.321",
+                    FeeAmount = "6.43",
+                    FeeCurrency = "BTC",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString(),
+                    Type = "Sell"
+                },
+                new MockUserTransactionJSON()
+                {
+                    Tid = 300,
+                    Price = "243.32",
+                    Amount = "4.321",
+                    FeeAmount = "8.43",
+                    FeeCurrency = "BTC",
+                    Timestamp = DateTime.UtcNow.ToUnixTime().ToString(),
+                    Type = "Buy"
+
+                }
+            };
+
+            return new RestResponse()
+            {
+                Content = JsonConvert.SerializeObject(transactions.OrderByDescending(x => x.Timestamp)),
+                ResponseStatus = ResponseStatus.Completed,
+                StatusCode = HttpStatusCode.OK
+            };
         }
     }
 

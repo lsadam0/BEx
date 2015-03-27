@@ -15,7 +15,7 @@ namespace BEx
     public sealed class OpenOrders : ApiResult
     {
         internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
+            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
 
             IEnumerable<Order> allOrders = orders.Select(x => x.ConvertToStandard(pair, sourceExchange) as Order);

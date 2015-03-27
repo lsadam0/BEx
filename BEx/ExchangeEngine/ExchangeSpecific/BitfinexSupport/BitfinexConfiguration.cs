@@ -8,7 +8,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
-        private long _nonce = DateTime.Now.Ticks;
+        private long _nonce = DateTime.UtcNow.Ticks;
 
         public BitfinexConfiguration(string apiKey, string secretKey)
         {

@@ -15,13 +15,13 @@ namespace BEx
     public sealed class AccountBalance : ApiResult
     {
         internal AccountBalance(IEnumerable<Balance> balances, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
+            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             Initialize(balances, pair, sourceExchange);
         }
 
         internal AccountBalance(IEnumerable<IExchangeResponse> balances, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
+            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             IList<Balance> convertedBalances = balances
                                                 .Select(x => x.ConvertToStandard(pair, sourceExchange) as Balance)
@@ -49,7 +49,7 @@ namespace BEx
                 {
                     if (!balanceBuffer.ContainsKey(missingCurrency))
                     {
-                        balanceBuffer.Add(missingCurrency, new Balance(DateTime.Now, sourceExchange)
+                        balanceBuffer.Add(missingCurrency, new Balance(DateTime.UtcNow, sourceExchange)
                         {
                             BalanceCurrency = missingCurrency,
                             AvailableToTrade = 0,

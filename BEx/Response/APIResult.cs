@@ -15,7 +15,7 @@ namespace BEx
         internal ApiResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
         {
             ExchangeTimestamp = exchangeTimeStamp;
-            LocalTimestamp = DateTime.Now;
+            LocalTimestamp = DateTime.UtcNow;
             SourceExchange = sourceExchange;
         }
 

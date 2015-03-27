@@ -48,7 +48,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
                 // Sell Counter
             }
 
-            return new UserTransaction(UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(Timestamp)), sourceExchange)
+            return new UserTransaction(Timestamp.ToDateTimeUTC(), sourceExchange)
             {
                 OrderId = Tid,
                 ExchangeRate = Conversion.ToDecimalInvariant(Price),
@@ -58,7 +58,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
                 TradeFeeCurrency = (Currency)Enum.Parse(typeof(Currency), FeeCurrency),
                 TransactionType = (OrderType)Enum.Parse(typeof(OrderType), Type),
                 Pair = pair,
-                CompletedTime = UnixTime.UnixTimeStampToDateTime(Timestamp)
+                CompletedTime = Timestamp.ToDateTimeUTC()
             };
         }
     }

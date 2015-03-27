@@ -16,7 +16,7 @@ namespace BEx
     public sealed class UserTransactions : ApiResult
     {
         internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.Now, sourceExchange.ExchangeSourceType)
+            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             Pair = pair;
 

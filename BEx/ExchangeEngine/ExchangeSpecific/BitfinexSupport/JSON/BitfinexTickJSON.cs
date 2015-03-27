@@ -33,7 +33,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Tick(UnixTime.UnixTimeStampToDateTime(Timestamp), sourceExchange)
+            return new Tick(Timestamp.ToDateTimeUTC(), sourceExchange)
             {
                 Pair = pair,
                 Ask = Conversion.ToDecimalInvariant(Ask),

@@ -23,13 +23,13 @@ namespace BEx.ExchangeEngine.BitStampSupport
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new Transaction(DateTime.Now, sourceExchange)
+            return new Transaction(DateTime.UtcNow, sourceExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),
                 TransactionId = tid,
                 Pair = pair,
-                CompletedTime = UnixTime.UnixTimeStampToDateTime(Conversion.ToDoubleInvariant(date))
+                CompletedTime = date.ToDateTimeUTC()
             };
         }
     }

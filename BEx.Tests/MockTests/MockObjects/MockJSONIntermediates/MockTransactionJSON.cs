@@ -10,7 +10,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
     internal class MockTransactionJSON : IExchangeResponse
     {
         [JsonProperty("timestamp")]
-        public int timestamp { get; set; }
+        public long timestamp { get; set; }
 
         [JsonProperty("tid")]
         public int tid { get; set; }
@@ -29,12 +29,12 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourcExchange)
         {
-            return new Transaction(DateTime.Now, sourcExchange)
+            return new Transaction(DateTime.UtcNow, sourcExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),
                 TransactionId = tid,
-                CompletedTime = UnixTime.UnixTimeStampToDateTime(Convert.ToDouble(timestamp)),
+                CompletedTime = Convert.ToDouble(timestamp).ToDateTimeUTC(),
                 Pair = pair,
             };
         }

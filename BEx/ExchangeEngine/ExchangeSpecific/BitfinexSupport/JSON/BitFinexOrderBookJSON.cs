@@ -52,7 +52,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
 
 
-            return new OrderBook(convertedBids, convertedAsks, DateTime.Now, sourceExchange)
+            return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, sourceExchange)
             {
                 Pair = pair
             };

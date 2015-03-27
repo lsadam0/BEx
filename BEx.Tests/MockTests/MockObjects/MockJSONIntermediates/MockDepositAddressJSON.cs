@@ -22,7 +22,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new DepositAddress(Address, DateTime.Now, pair.BaseCurrency, sourceExchange);
+            return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, sourceExchange);
         }
     }
 }

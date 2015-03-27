@@ -10,7 +10,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
 {
     public class MockExchangeConfiguration : IExchangeConfiguration
     {
-        private long _nonce = DateTime.Now.Ticks;
+        private long _nonce = DateTime.UtcNow.Ticks;
 
 
 
