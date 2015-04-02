@@ -7,28 +7,28 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     internal class BitfinexTickJSON : IExchangeResponse
     {
-        [JsonProperty("mid")]
+        [JsonProperty("mid", Required = Required.Always)]
         public string Mid { get; set; }
 
-        [JsonProperty("bid")]
+        [JsonProperty("bid", Required = Required.Always)]
         public string Bid { get; set; }
 
-        [JsonProperty("ask")]
+        [JsonProperty("ask", Required = Required.Always)]
         public string Ask { get; set; }
 
-        [JsonProperty("last_price")]
+        [JsonProperty("last_price", Required = Required.Always)]
         public string LastPrice { get; set; }
 
-        [JsonProperty("low")]
+        [JsonProperty("low", Required = Required.Always)]
         public string Low { get; set; }
 
-        [JsonProperty("high")]
+        [JsonProperty("high", Required = Required.Always)]
         public string High { get; set; }
 
-        [JsonProperty("volume")]
+        [JsonProperty("volume", Required = Required.Always)]
         public string Volume { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

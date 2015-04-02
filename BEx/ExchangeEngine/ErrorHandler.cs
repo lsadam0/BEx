@@ -4,34 +4,23 @@ using System;
 using System.Reflection;
 using RestSharp;
 using BEx.Exceptions;
+using Newtonsoft.Json;
+using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine
 {
-    internal delegate ApiError DetermineErrorConditionDelegate(string content);
-
-    internal delegate bool IsErrorDelegate(string content);
 
     internal class ErrorHandler
     {
-        public DetermineErrorConditionDelegate DetermineErrorCondition;
+        private readonly Exchange _sourceExchange;
 
-        public IsErrorDelegate IsExchangeError;
-
-        private readonly ExchangeType _sourceExchangeType;
-
-        internal ErrorHandler(ExchangeType sourceExchange)
+        internal ErrorHandler(Exchange sourceExchange)
         {
-            _sourceExchangeType = sourceExchange;
+            _sourceExchange = sourceExchange;
         }
 
-        public static bool IsResponseError(IRestResponse response)
-        {
-            return response == null
-                || response.ErrorException != null
-                || response.StatusCode != System.Net.HttpStatusCode.OK;
-        }
-
-        public static void ThrowException<TE>(ApiError source) where TE : Exception
+        private static void ThrowException<TE>(ApiError source) where TE : Exception
         {
             TE exception = (TE)Activator.CreateInstance(
                                                 typeof(TE),
@@ -45,28 +34,52 @@ namespace BEx.ExchangeEngine
             throw exception;
         }
 
-        public ApiError HandleErrorResponse(IRestResponse response, RestRequest request, Exception ex = null)
+        private ApiError GetErrorObject(string json, CurrencyTradingPair pair)
         {
-            ApiError error = null;
-            if (DetermineErrorCondition != null)
+            if (!string.IsNullOrWhiteSpace(json))
             {
-                error = DetermineErrorCondition(response.Content);
+                var deserialized = JsonConvert.DeserializeObject(
+                                        json,
+                                        _sourceExchange.Configuration.ErrorJsonType
+                                        ) as IExchangeResponse;
+
+                return deserialized.ConvertToStandard(pair, _sourceExchange) as ApiError;
             }
+            else
+                return new ApiError(_sourceExchange.ExchangeSourceType)
+                            {
+                                Message = json
+                            };
 
-            if (error == null)
-                error = new ApiError(_sourceExchangeType)
-                {
-                    Message = response.Content
-                };
+        }
 
-            error.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
+        public Exception HandleErrorResponse(
+                                        IExchangeCommand referenceCommand,
+                                        IRestResponse response,
+                                        IRestRequest request,
+                                        CurrencyTradingPair pair)
+        {
 
-            if (error.ErrorCode == BExErrorCode.InsufficientFunds)
-                ThrowException<InsufficientFundsException>(error);
-            else if (error.ErrorCode == BExErrorCode.Authorization)
-                ThrowException<ExchangeAuthorizationException>(error);
+            var errorObject = GetErrorObject(response.Content, pair);
 
-            return error;
+            errorObject.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
+
+            Exception res;
+
+            res = DetermineExceptionType(errorObject, referenceCommand, response.ErrorException);
+
+            res.Source = _sourceExchange.ToString();
+            res.Data.Add("BExErrorObject", errorObject);
+
+            return res;
+        }
+
+        private Exception DetermineExceptionType(ApiError errorObject, IExchangeCommand referenceCommand, Exception inner)
+        {
+            if (referenceCommand is LimitOrderCommand)
+                return new LimitOrderRejectedException(errorObject.Message, inner);
+            else
+                return new Exception(errorObject.Message, inner);
         }
     }
 }

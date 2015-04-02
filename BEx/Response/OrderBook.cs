@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace BEx
 {
@@ -15,6 +17,7 @@ namespace BEx
         internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         {
+
             Asks = new ReadOnlyCollection<OrderBookEntry>(asks);
             Bids = new ReadOnlyCollection<OrderBookEntry>(bids);
         }

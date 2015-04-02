@@ -67,6 +67,11 @@ namespace BEx.UnitTests.MockTests.MockObjects
             private set;
         }
 
+        public Type ErrorJsonType
+        {
+            get;
+            private set;
+        }
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>

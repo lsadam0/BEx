@@ -172,12 +172,10 @@ namespace BEx
             return Commands.OrderBook.Execute(pair) as OrderBook;
         }
 
-
         public Tick GetTick()
         {
             return GetTick(DefaultPair);
         }
-
 
         public Tick GetTick(CurrencyTradingPair pair)
         {

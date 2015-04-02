@@ -8,16 +8,16 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     internal class BitFinexDepositAddressJSON : IExchangeResponse
     {
-        [JsonProperty("result")]
+        [JsonProperty("result", Required = Required.Always)]
         public string Result { get; set; }
 
-        [JsonProperty("method")]
+        [JsonProperty("method", Required = Required.Always)]
         public string Method { get; set; }
 
-        [JsonProperty("currency")]
+        [JsonProperty("currency", Required = Required.Always)]
         public string Currency { get; set; }
 
-        [JsonProperty("address")]
+        [JsonProperty("address", Required = Required.Always)]
         public string Address { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

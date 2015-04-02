@@ -54,7 +54,7 @@ namespace BEx.ExchangeEngine.BitStampSupport
         public string SecretKey
         {
             get;
-             set;
+            set;
         }
 
         public IList<CurrencyTradingPair> SupportedPairs
@@ -77,7 +77,9 @@ namespace BEx.ExchangeEngine.BitStampSupport
 
         public ExchangeType ExchangeSourceType
         {
-            get; private set; }
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Consecutively increasing action counter
@@ -91,8 +93,15 @@ namespace BEx.ExchangeEngine.BitStampSupport
             }
         }
 
+        public Type ErrorJsonType
+        {
+            get;
+            private set;
+        }
+
         private void Initialize(Uri baseUri)
         {
+            ErrorJsonType = typeof(BitStampErrorJSON);
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.BitStamp;
             SupportedPairs = new List<CurrencyTradingPair>() { DefaultPair };

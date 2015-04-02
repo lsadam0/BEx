@@ -89,12 +89,19 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             }
         }
 
+        public Type ErrorJsonType
+        {
+            get;
+            private set;
+        }
+
         private void Initialize(Uri baseUri)
         {
+            ErrorJsonType = typeof(BitfinexErrorJSON);
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
-            ;ExchangeSourceType = ExchangeType.Bitfinex;
-            ;
+            ExchangeSourceType = ExchangeType.Bitfinex;
+            
             SupportedPairs = new List<CurrencyTradingPair>()
             {
                 DefaultPair,

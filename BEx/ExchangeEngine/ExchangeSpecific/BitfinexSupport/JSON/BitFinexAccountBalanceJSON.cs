@@ -10,16 +10,16 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     internal class BitFinexAccountBalanceJSON : IExchangeResponse
     {
-        [JsonProperty("type")]
+        [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
 
-        [JsonProperty("currency")]
+        [JsonProperty("currency", Required = Required.Always)]
         public string Currency { get; set; }
 
-        [JsonProperty("amount")]
+        [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("available")]
+        [JsonProperty("available", Required = Required.Always)]
         public string Available { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace BEx.Exceptions
 {
     [Serializable]
-    public class ExchangeAuthorizationException : BExException
+    public class ExchangeAuthorizationException : Exception
     {
         public ExchangeAuthorizationException(string message)
             : base(message)

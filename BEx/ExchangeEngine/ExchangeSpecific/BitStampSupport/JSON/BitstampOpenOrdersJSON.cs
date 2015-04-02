@@ -7,19 +7,19 @@ namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitStampOpenOrdersJSON : IExchangeResponse
     {
-        [JsonProperty("price")]
+        [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
 
-        [JsonProperty("amount")]
+        [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", Required = Required.Always)]
         public int Type { get; set; }
 
-        [JsonProperty("id")]
+        [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
 
-        [JsonProperty("datetime")]
+        [JsonProperty("datetime", Required = Required.Always)]
         public string Datetime { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

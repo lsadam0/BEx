@@ -9,16 +9,16 @@ namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitstampTransactionJSON : IExchangeResponse
     {
-        [JsonProperty("date")]
+        [JsonProperty("date", Required = Required.Always)]
         public string date { get; set; }
 
-        [JsonProperty("tid")]
+        [JsonProperty("tid", Required = Required.Always)]
         public int tid { get; set; }
 
-        [JsonProperty("price")]
+        [JsonProperty("price", Required = Required.Always)]
         public string price { get; set; }
 
-        [JsonProperty("amount")]
+        [JsonProperty("amount", Required = Required.Always)]
         public string amount { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

@@ -8,28 +8,28 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     internal class BitFinexUserTransactionJSON : IExchangeResponse
     {
-        [JsonProperty("price")]
+        [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
 
-        [JsonProperty("amount")]
+        [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
 
-        [JsonProperty("exchange")]
+        [JsonProperty("exchange", Required = Required.Always)]
         public string Exchange { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
 
-        [JsonProperty("fee_currency")]
+        [JsonProperty("fee_currency", Required = Required.Always)]
         public string FeeCurrency { get; set; }
 
-        [JsonProperty("fee_amount")]
+        [JsonProperty("fee_amount", Required = Required.Always)]
         public string FeeAmount { get; set; }
 
-        [JsonProperty("tid")]
+        [JsonProperty("tid", Required = Required.Always)]
         public int Tid { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using BEx.ExchangeEngine;
+using System.Diagnostics;
 
 namespace BEx
 {
@@ -14,12 +15,13 @@ namespace BEx
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             Pair = pair;
-
+            
             TransactionsCollection =
                 new ReadOnlyCollection<Transaction>(
                     transactions.Select(x => x.ConvertToStandard(pair, sourceExchange) as Transaction)
                     .OfType<Transaction>()
                     .ToList());
+
         }
 
         public CurrencyTradingPair Pair

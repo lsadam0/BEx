@@ -12,34 +12,34 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     internal class Bid
     {
-        [JsonProperty("price")]
+        [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
 
-        [JsonProperty("amount")]
+        [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
     }
 
     internal class Ask
     {
-        [JsonProperty("price")]
+        [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
 
-        [JsonProperty("amount")]
+        [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
     }
 
     internal class BitFinexOrderBookJSON : IExchangeResponse
     {
-        [JsonProperty("bids")]
+        [JsonProperty("bids", Required = Required.Always)]
         public Bid[] Bids { get; set; }
 
-        [JsonProperty("asks")]
+        [JsonProperty("asks", Required = Required.Always)]
         public Ask[] Asks { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

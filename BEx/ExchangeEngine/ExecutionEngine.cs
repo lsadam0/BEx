@@ -1,9 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-
+using System;
 using System.Collections.Generic;
 using RestSharp;
 using BEx;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine
 {
@@ -16,12 +17,13 @@ namespace BEx.ExchangeEngine
 
         private readonly ResultTranslation _translator;
 
-        // private ErrorHandler errorHandler;
+        private readonly ErrorHandler _errorHandler;
 
         internal ExecutionEngine(Exchange targetExchange, IRequestDispatcher dispatcher)
         {
             _dispatcher = dispatcher;
             _translator = new ResultTranslation(targetExchange);
+            _errorHandler = new ErrorHandler(targetExchange);
         }
 
         internal ExecutionEngine(Exchange targetExchange)
@@ -30,7 +32,7 @@ namespace BEx.ExchangeEngine
 
             _translator = new ResultTranslation(targetExchange);
 
-            // errorHandler = new ErrorHandler(_sourceExchange.ExchangeSourceType);
+            _errorHandler = new ErrorHandler(targetExchange);
         }
 
         public ApiResult Execute(IExchangeCommand toExecute)
@@ -53,7 +55,7 @@ namespace BEx.ExchangeEngine
             return ExecutionPipeline(toExecute, pair, parameters);
         }
 
-        
+
         private ApiResult ExecutionPipeline(
                                         IExchangeCommand toExecute,
                                         CurrencyTradingPair pair,
@@ -62,15 +64,28 @@ namespace BEx.ExchangeEngine
             IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             IRestResponse result = _dispatcher.Dispatch(request, toExecute);
+         
+            if (result.ErrorException == null)
+            {
 
-            ApiResult res = _translator.Translate(
-                                    result.Content,
-                                    toExecute,
-                                    pair);
+                try
+                {
+                    return _translator.Translate(
+                                             result.Content,
+                                             toExecute,
+                                             pair);
+                }
+                catch (JsonSerializationException jsonEx)
+                {
+                    throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
+                }
+            }
+            else
+            {
+                throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
+            }
 
-            // Error Handling!
-
-            return res;
+           
         }
     }
 }

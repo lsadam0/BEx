@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace BEx.Exceptions
 {
     [Serializable]
-    public class CancelOrderRejectedException : BExException
+    public class CancelOrderRejectedException : Exception
     {
         public CancelOrderRejectedException(string message)
             : base(message)

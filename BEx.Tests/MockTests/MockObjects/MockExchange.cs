@@ -10,13 +10,14 @@ namespace BEx.UnitTests.MockTests.MockObjects
 {
     public class MockExchange : Exchange
     {
-        public MockExchange()
+        internal MockExchange(IRequestDispatcher dispatcher)
             : base(new MockExchangeConfiguration(), new MockExchangeCommandFactory())
         {
             Authenticator = new MockExchangeAuthenticator(base.Configuration);
 
             base.Commands = new MockExchangeCommandFactory();
-            base.Commands.BuildCommands(new ExecutionEngine(this, new MockRequestDispatcher()));
+            base.Commands.BuildCommands(new ExecutionEngine(this, dispatcher));
         }
+
     }
 }

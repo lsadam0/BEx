@@ -40,6 +40,7 @@ namespace BEx.ExchangeEngine
                 return DeserializeObject(source, executedCommand, pair);
         }
 
+
         /// <summary>
         /// Deserialize JSON responses that deserialize to reference types,
         /// including Collections

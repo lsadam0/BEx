@@ -4,23 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
+using System.Threading.Tasks;
 
 namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitstampOrderBookJSON : IExchangeResponse
     {
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
 
-        [JsonProperty("bids")]
+        [JsonProperty("bids", Required = Required.Always)]
         public string[][] Bids { get; set; }
 
-        [JsonProperty("asks")]
+        [JsonProperty("asks", Required = Required.Always)]
         public string[][] Asks { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
 
+        
             IList<OrderBookEntry> convertedBids = Bids
                 .Select(
                     x =>

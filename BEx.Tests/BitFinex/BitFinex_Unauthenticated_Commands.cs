@@ -87,11 +87,12 @@ namespace BEx.UnitTests.BitfinexTests
             commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.BTC, Currency.USD));
         }
 
+        /*
         [Test]
         public void Bitfinex_GetTransactions_DRKBTC_Success()
         {
             commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
-        }
+        }*/
 
         /*
         [Test]

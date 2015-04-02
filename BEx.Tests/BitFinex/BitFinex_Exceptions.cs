@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using NUnit.Framework;
+using BEx;
 
 namespace BEx.UnitTests.BitfinexTests
 {
@@ -8,12 +9,25 @@ namespace BEx.UnitTests.BitfinexTests
     [Category("Bitfinex.Exceptions")]
     public class Bitfinex_Exceptions : ExchangeVerificationBase
     {
-        /*
-        public Bitfinex_Exceptions()
-            : base(typeof(BEx.Bitfinex))
+        private Bitfinex _exchange;
+
+
+        [TestFixtureSetUp]
+        public void Setup()
         {
+            _exchange = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
         }
 
+        [Test]
+        public void CreateBuyOrder_InsufficientFunds_LimitOrderRejectedException()
+        {
+            Assert.Throws<Exceptions.LimitOrderRejectedException>(() =>
+                {
+                    Order res = _exchange.CreateBuyOrder(1999, 1);
+                    { }
+                });
+        }
+        /*
         [Test]
         public void Constructor_MissingAPIKey_ExchangeAuthorizationException()
         {

@@ -51,7 +51,7 @@ namespace BEx.UnitTests
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
                 case ExchangeType.Mock:
-                    return new MockExchange();
+                    return new MockExchange(new MockRequestDispatcher());
                 default:
                     return null;
             }
@@ -78,7 +78,7 @@ namespace BEx.UnitTests
                         configuration.ApiKey,
                         configuration.SecretKey);
                 case ExchangeType.Mock:
-                    return new MockExchange();
+                    return new MockExchange(new MockRequestDispatcher());
                 default:
                     return null;
 

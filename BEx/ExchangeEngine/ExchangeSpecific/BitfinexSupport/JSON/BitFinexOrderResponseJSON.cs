@@ -7,49 +7,49 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 {
     internal class BitFinexOrderResponseJSON : IExchangeResponse
     {
-        [JsonProperty("id")]
+        [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonProperty("symbol", Required = Required.Always)]
         public string Symbol { get; set; }
 
-        [JsonProperty("exchange")]
+        [JsonProperty("exchange", Required = Required.Always)]
         public string Exchange { get; set; }
 
-        [JsonProperty("price")]
+        [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
 
-        [JsonProperty("avg_execution_price")]
+        [JsonProperty("avg_execution_price", Required = Required.Always)]
         public string AvgExecutionPrice { get; set; }
 
-        [JsonProperty("side")]
+        [JsonProperty("side", Required = Required.Always)]
         public string Side { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
 
-        [JsonProperty("is_live")]
+        [JsonProperty("is_live", Required = Required.Always)]
         public bool IsLive { get; set; }
 
-        [JsonProperty("is_cancelled")]
+        [JsonProperty("is_cancelled", Required = Required.Always)]
         public bool IsCancelled { get; set; }
 
-        [JsonProperty("was_forced")]
+        [JsonProperty("was_forced", Required = Required.Always)]
         public bool WasForced { get; set; }
 
-        [JsonProperty("original_amount")]
+        [JsonProperty("original_amount", Required = Required.Always)]
         public string OriginalAmount { get; set; }
 
-        [JsonProperty("remaining_amount")]
+        [JsonProperty("remaining_amount", Required = Required.Always)]
         public string RemainingAmount { get; set; }
 
-        [JsonProperty("executed_amount")]
+        [JsonProperty("executed_amount", Required = Required.Always)]
         public string ExecutedAmount { get; set; }
 
-        [JsonProperty("order_id")]
+        [JsonProperty("order_id", Required = Required.Always)]
         public int OrderId { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
@@ -60,7 +60,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
                 Pair = pair,
                 Id = Id,
                 Price = Conversion.ToDecimalInvariant(Price),
-                TradeType = (Side == "sell" ? OrderType.Sell :  OrderType.Buy)
+                TradeType = (Side == "sell" ? OrderType.Sell : OrderType.Buy)
             };
         }
     }

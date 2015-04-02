@@ -1,26 +1,68 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
+
 
 namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitstampTickJSON : IExchangeResponse
     {
-        public string high { get; set; }
+        [JsonProperty("high", Required = Required.Always)]
+        public string high
+        {
+            get;
+            set;
+        }
 
-        public string last { get; set; }
+        [JsonProperty("last", Required = Required.Always)]
+        public string last
+        {
+            get;
+            set;
+        }
 
-        public string timestamp { get; set; }
+        [JsonProperty("timestamp", Required = Required.Always)]
+        public string timestamp
+        {
+            get;
+            set;
+        }
 
-        public string bid { get; set; }
+        [JsonProperty("bid", Required = Required.Always)]
+        public string bid
+        {
+            get;
+            set;
+        }
 
-        public string vwap { get; set; }
+        [JsonProperty("vwap", Required = Required.Always)]
+        public string vwap
+        {
+            get;
+            set;
+        }
 
-        public string volume { get; set; }
+        [JsonProperty("volume", Required = Required.Always)]
+        public string volume
+        {
+            get;
+            set;
+        }
 
-        public string low { get; set; }
+        [JsonProperty("low", Required = Required.Always)]
+        public string low
+        {
+            get;
+            set;
+        }
 
-        public string ask { get; set; }
+        [JsonProperty("ask", Required = Required.Always)]
+        public string ask
+        {
+            get;
+            set;
+        }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {

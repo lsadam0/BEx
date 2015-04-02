@@ -8,7 +8,6 @@ namespace BEx
     /// <summary>
     /// Exchange Result Base Class
     /// </summary>
-
     [DebuggerDisplay("{DebugDisplay,nq}")]
     public abstract class ApiResult
     {

@@ -6,19 +6,21 @@ using System.Runtime.Serialization;
 namespace BEx.Exceptions
 {
     [Serializable]
-    public class BExException : Exception
+    public class LimitOrderRejectedException : Exception
     {
-        public BExException(string message)
+        public LimitOrderRejectedException(string message)
             : base(message)
-        { }
+        {
+        }
 
-        public BExException(string message, Exception inner)
+        public LimitOrderRejectedException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        protected BExException(SerializationInfo info, StreamingContext context)
+        protected LimitOrderRejectedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
-        { }
+        {
+        }
     }
 }

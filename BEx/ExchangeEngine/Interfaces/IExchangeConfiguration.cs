@@ -74,6 +74,12 @@ namespace BEx.ExchangeEngine
             get;
         }
 
+
+        Type ErrorJsonType
+        {
+            get;
+        }
+
         ExchangeType ExchangeSourceType { get; }
     }
 }

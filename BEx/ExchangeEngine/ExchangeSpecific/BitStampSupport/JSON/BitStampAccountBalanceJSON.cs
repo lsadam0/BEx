@@ -9,25 +9,25 @@ namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitStampAccountBalanceJSON : IExchangeResponse
     {
-        [JsonProperty("btc_reserved")]
+        [JsonProperty("btc_reserved", Required = Required.Always)]
         public string BtcReserved { get; set; }
 
-        [JsonProperty("fee")]
+        [JsonProperty("fee", Required = Required.Always)]
         public string Fee { get; set; }
 
-        [JsonProperty("btc_available")]
+        [JsonProperty("btc_available", Required = Required.Always)]
         public string BtcAvailable { get; set; }
 
-        [JsonProperty("usd_reserved")]
+        [JsonProperty("usd_reserved", Required = Required.Always)]
         public string UsdReserved { get; set; }
 
-        [JsonProperty("btc_balance")]
+        [JsonProperty("btc_balance", Required = Required.Always)]
         public string BtcBalance { get; set; }
 
-        [JsonProperty("usd_balance")]
+        [JsonProperty("usd_balance", Required = Required.Always)]
         public string UsdBalance { get; set; }
 
-        [JsonProperty("usd_available")]
+        [JsonProperty("usd_available", Required = Required.Always)]
         public string UsdAvailable { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
 using BEx.ExchangeEngine.Utilities;
+using BEx.ExchangeEngine.BitStampSupport;
 
 using RestSharp;
 using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
@@ -15,7 +16,7 @@ using NUnit.Framework;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
-    internal class MockRequestDispatcher : IRequestDispatcher
+    internal class MockFailedRequestDispatcher : IRequestDispatcher
     {
         public IRestResponse Dispatch(IRestRequest request, IExchangeCommand referenceCommand)
         {
@@ -86,6 +87,11 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse LimitOrderResponse(IRestRequest request, IExchangeCommand command)
         {
+            BitStampErrorJSON error = new BitStampErrorJSON();
+            //{
+              //  Error = "blah blah blah"
+            //};
+
             return null;
         }
 
@@ -113,7 +119,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 StatusCode = HttpStatusCode.OK
             };
         }
- 
+
         private IRestResponse OpenOrdersResponse(IRestRequest request, IExchangeCommand command)
         {
 
@@ -209,27 +215,19 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
+        /// <summary>
+        /// Times out
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
         private IRestResponse TickResponse(IRestRequest request, IExchangeCommand command)
         {
-            MockTickJSON tick = new MockTickJSON()
-            {
-                Ask = (251.21m).ToString(),
-                Bid = (252.22m).ToString(),
-                High = (260.43m).ToString(),
-                LastPrice = (251.50m).ToString(),
-                Low = (249.34m).ToString(),
-                Mid = (252.12m).ToString(),
-                Timestamp = DateTime.UtcNow.ToUnixTime().ToString(),
-                Volume = (32456m).ToString()
-            };
+            RestClient client = new RestClient("http://nothingnothing");
 
 
-            return new RestResponse()
-            {
-                Content = JsonConvert.SerializeObject(tick),
-                ResponseStatus = ResponseStatus.Completed,
-                StatusCode = HttpStatusCode.OK
-            };
+            client.Timeout = 0;
+            return client.Execute(request);
         }
 
         private IRestResponse TransactionsResponse(IRestRequest request, IExchangeCommand command)
@@ -281,7 +279,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse UserTransactionsResponse(IRestRequest request, IExchangeCommand command)
         {
-         
+
             var transactions = new List<MockUserTransactionJSON>()
             {
                 new MockUserTransactionJSON()

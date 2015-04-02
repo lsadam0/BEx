@@ -8,28 +8,28 @@ namespace BEx.ExchangeEngine.BitStampSupport
 {
     internal class BitStampUserTransactionJSON : IExchangeResponse
     {
-        [JsonProperty("usd")]
+        [JsonProperty("usd", Required = Required.Always)]
         public string Usd { get; set; }
 
-        [JsonProperty("btc")]
+        [JsonProperty("btc", Required = Required.Always)]
         public string Btc { get; set; }
 
-        [JsonProperty("btc_usd")]
+        [JsonProperty("btc_usd", Required = Required.Always)]
         public string BtcUsd { get; set; }
 
-        [JsonProperty("order_id")]
+        [JsonProperty("order_id", Required = Required.Default)]
         public int? OrderId { get; set; }
 
-        [JsonProperty("fee")]
+        [JsonProperty("fee", Required = Required.Always)]
         public string Fee { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", Required = Required.Always)]
         public int Type { get; set; }
 
-        [JsonProperty("id")]
+        [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
 
-        [JsonProperty("datetime")]
+        [JsonProperty("datetime", Required = Required.Always)]
         public string Datetime { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
