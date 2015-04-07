@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class BitFinexAccountBalanceJSON : IExchangeResponse
+    internal class AccountBalanceIntermediate : IExchangeResponse
     {
         [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }

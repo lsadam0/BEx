@@ -12,11 +12,21 @@ namespace BEx
     {
         internal Exchange(IExchangeConfiguration configuration, IExchangeCommandFactory commands)
         {
-
             Configuration = configuration;
             Commands = commands;
 
             Commands.BuildCommands(new ExecutionEngine(this));
+        }
+
+        internal Exchange(
+                    IExchangeConfiguration configuration,
+                    IExchangeCommandFactory commands,
+                    IExchangeAuthenticator authenticator)
+        {
+            Configuration = configuration;
+            Commands = commands;
+            Commands.BuildCommands(new ExecutionEngine(this));
+            Authenticator = authenticator;
         }
 
         public CurrencyTradingPair DefaultPair
@@ -41,7 +51,7 @@ namespace BEx
             }
         }
 
-        public IList<CurrencyTradingPair> SupportedTradingPairs
+        public HashSet<CurrencyTradingPair> SupportedTradingPairs
         {
             get
             {
@@ -49,7 +59,7 @@ namespace BEx
             }
         }
 
-        protected internal IAuthenticator Authenticator
+        internal IExchangeAuthenticator Authenticator
         {
             get;
             set;
@@ -66,7 +76,6 @@ namespace BEx
             get;
             private set;
         }
-
 
         public Confirmation CancelOrder(Order toCancel)
         {
@@ -218,7 +227,6 @@ namespace BEx
             return GetUserTransactions(DefaultPair);
         }
 
-
         /// <summary>
         /// Return your last 50 Order Transactions for the Default Trading Pair
         /// </summary>
@@ -227,7 +235,6 @@ namespace BEx
         {
             return Commands.UserTransactions.Execute(pair) as UserTransactions;
         }
-
 
         /// <summary>
         /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
@@ -243,6 +250,5 @@ namespace BEx
         {
             return Commands.OpenOrders.Execute(pair) as OpenOrders;
         }
-
     }
 }

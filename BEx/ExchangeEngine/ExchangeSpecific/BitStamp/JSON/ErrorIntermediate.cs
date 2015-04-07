@@ -4,9 +4,9 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class BitStampErrorJSON : IExchangeResponse
+    internal class ErrorIntermediate : IExchangeResponse
     {
         [JsonProperty("error")]
         public Error error { get; set; }

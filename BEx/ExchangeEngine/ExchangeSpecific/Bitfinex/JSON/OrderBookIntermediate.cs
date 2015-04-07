@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
     internal class Bid
     {
@@ -34,7 +34,7 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         public string Timestamp { get; set; }
     }
 
-    internal class BitFinexOrderBookJSON : IExchangeResponse
+    internal class OrderBookIntermediate : IExchangeResponse
     {
         [JsonProperty("bids", Required = Required.Always)]
         public Bid[] Bids { get; set; }

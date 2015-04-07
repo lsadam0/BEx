@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class BitFinexTransactionJSON : IExchangeResponse
+    internal class TransactionIntermediate : IExchangeResponse
     {
-        [JsonProperty("timestamp", Required = Required.Always)]
-        public long timestamp { get; set; }
+        [JsonProperty("date", Required = Required.Always)]
+        public string date { get; set; }
 
         [JsonProperty("tid", Required = Required.Always)]
         public int tid { get; set; }
@@ -21,22 +21,15 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         [JsonProperty("amount", Required = Required.Always)]
         public string amount { get; set; }
 
-        [JsonProperty("exchange", Required = Required.Always)]
-        public string exchange { get; set; }
-
-        [JsonProperty("type", Required = Required.Always)]
-        public string type { get; set; }
-
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourcExchange)
+        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-
-            return new Transaction(DateTime.UtcNow, sourcExchange)
+            return new Transaction(DateTime.UtcNow, sourceExchange)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),
                 TransactionId = tid,
-                CompletedTime = Convert.ToDouble(timestamp).ToDateTimeUTC(),
                 Pair = pair,
+                CompletedTime = date.ToDateTimeUTC()
             };
         }
     }

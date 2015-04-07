@@ -10,22 +10,6 @@ namespace BEx.ExchangeEngine
     /// </summary>
     public interface IExchangeConfiguration
     {
-        /// <summary>
-        /// Exchange supplied Api Key for WS Access
-        /// </summary>
-        string ApiKey
-        {
-            get;
-        }
-
-        /// <summary>
-        ///  Exchange supplied Client Id for WS Access
-        /// </summary>
-        /// <remarks>Not Required</remarks>
-        string ClientId
-        {
-            get;
-        }
 
         /// <summary>
         /// Default Trading Pair for the Exchange
@@ -36,16 +20,9 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        ///  Exchange supplied Secret key for WS Access
-        /// </summary>
-        string SecretKey
-        {
-            get; set; }
-
-        /// <summary>
         /// All Trading pairs supported by the Exchange
         /// </summary>
-        IList<CurrencyTradingPair> SupportedPairs
+        HashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
         }
@@ -54,14 +31,6 @@ namespace BEx.ExchangeEngine
         /// All Currency values supported by the Exchange
         /// </summary>
         HashSet<Currency> SupportedCurrencies
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Sequential Nonce for Authenticated Commands
-        /// </summary>
-        long Nonce
         {
             get;
         }

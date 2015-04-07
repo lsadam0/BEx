@@ -55,7 +55,6 @@ namespace BEx.ExchangeEngine
             return ExecutionPipeline(toExecute, pair, parameters);
         }
 
-
         private ApiResult ExecutionPipeline(
                                         IExchangeCommand toExecute,
                                         CurrencyTradingPair pair,

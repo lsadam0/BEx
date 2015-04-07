@@ -4,9 +4,9 @@ using System;
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class BitStampUserTransactionJSON : IExchangeResponse
+    internal class UserTransactionIntermediate : IExchangeResponse
     {
         [JsonProperty("usd", Required = Required.Always)]
         public string Usd { get; set; }

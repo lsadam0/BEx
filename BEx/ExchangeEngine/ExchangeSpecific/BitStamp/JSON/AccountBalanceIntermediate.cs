@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class BitStampAccountBalanceJSON : IExchangeResponse
+    internal class AccountBalanceIntermediate : IExchangeResponse
     {
         [JsonProperty("btc_reserved", Required = Required.Always)]
         public string BtcReserved { get; set; }

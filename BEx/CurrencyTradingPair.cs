@@ -1,8 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+using System;
 
 namespace BEx
 {
-    public struct CurrencyTradingPair
+    public struct CurrencyTradingPair : IEquatable<CurrencyTradingPair>
     {
         public CurrencyTradingPair(Currency pairBase, Currency pairCounter)
             : this()
@@ -31,6 +32,11 @@ namespace BEx
         public static bool operator !=(CurrencyTradingPair x, CurrencyTradingPair y)
         {
             return !(x == y);
+        }
+
+        public bool Equals(CurrencyTradingPair other)
+        {
+            return (this == other);
         }
 
         public override bool Equals(object obj)

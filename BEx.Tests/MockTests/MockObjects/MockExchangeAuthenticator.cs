@@ -8,11 +8,19 @@ using RestSharp;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
-    class MockExchangeAuthenticator : IAuthenticator
+    class MockExchangeAuthenticator : IExchangeAuthenticator
     {
+        public long Nonce
+        {
+            get
+            {
+                return DateTime.UtcNow.Ticks;
+            }
+        }
+
         public MockExchangeAuthenticator(IExchangeConfiguration configuration)
         {
-            configuration.SecretKey = null;
+           
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)

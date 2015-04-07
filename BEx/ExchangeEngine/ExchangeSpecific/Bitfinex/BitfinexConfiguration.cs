@@ -3,26 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using BEx.ExchangeEngine.Bitfinex.JSON;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
-        private long _nonce = DateTime.UtcNow.Ticks;
 
-        public BitfinexConfiguration(string apiKey, string secretKey)
+        public BitfinexConfiguration(Uri baseUri)
         {
-            ApiKey = apiKey;
-            SecretKey = secretKey;
-
-            Initialize(null);
-        }
-
-        public BitfinexConfiguration(string apiKey, string secretKey, Uri baseUri)
-        {
-            ApiKey = apiKey;
-            SecretKey = secretKey;
-
             Initialize(baseUri);
         }
 
@@ -52,10 +41,10 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         public string SecretKey
         {
             get;
-             set;
+            set;
         }
 
-        public IList<CurrencyTradingPair> SupportedPairs
+        public HashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
             private set;
@@ -75,18 +64,8 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
         public ExchangeType ExchangeSourceType
         {
-            get; private set; }
-
-        /// <summary>
-        /// Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
-        public long Nonce
-        {
-            get
-            {
-                return Interlocked.Increment(ref _nonce);
-            }
+            get;
+            private set;
         }
 
         public Type ErrorJsonType
@@ -97,12 +76,12 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof(BitfinexErrorJSON);
+            ErrorJsonType = typeof(ErrorIntermediate);
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;
-            
-            SupportedPairs = new List<CurrencyTradingPair>()
+
+            SupportedPairs = new HashSet<CurrencyTradingPair>()
             {
                 DefaultPair,
                 new CurrencyTradingPair(Currency.LTC, Currency.USD),

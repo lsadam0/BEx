@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
 using BEx.ExchangeEngine.Utilities;
-using BEx.ExchangeEngine.BitStampSupport;
+using BEx.ExchangeEngine.BitStamp;
 
 using RestSharp;
 using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using BEx.ExchangeEngine.BitStamp.JSON;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
@@ -87,7 +88,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse LimitOrderResponse(IRestRequest request, IExchangeCommand command)
         {
-            BitStampErrorJSON error = new BitStampErrorJSON();
+            ErrorIntermediate error = new ErrorIntermediate();
             //{
               //  Error = "blah blah blah"
             //};

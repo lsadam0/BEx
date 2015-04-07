@@ -73,24 +73,6 @@ namespace BEx.UnitTests.BitfinexTests
         public void Bitfinex_Authenticator_Complete()
         {
             Assert.IsNotNull(_testCandidate.Authenticator);
-            Assert.IsNull(_testCandidate.Configuration.SecretKey);
-
-        }
-
-        [Test]
-        public void Bitfinex_Nonce_Sequential()
-        {
-            long _nonce = _testCandidate.Configuration.Nonce;
-
-            for (int i = 0; i < 10; ++i)
-            {
-                long _nextNonce = _testCandidate.Configuration.Nonce;
-
-                Assert.That(_nextNonce - _nonce == 1);
-
-                _nonce = _nextNonce;
-            }
-
 
         }
 

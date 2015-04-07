@@ -7,15 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.BitfinexSupport;
-using BEx.ExchangeEngine.BitStampSupport;
+using BEx.ExchangeEngine.Bitfinex;
+using BEx.ExchangeEngine.BitStamp;
 using BEx.UnitTests.MockTests.MockObjects;
 
 namespace BEx.UnitTests
 {
     public static class ExchangeFactory
     {
-        private static Dictionary<ExchangeType, IExchangeConfiguration> configurations;
+        private static Dictionary<ExchangeType, AuthToken> tokens;
 
         private static void LoadAPIKeys()
         {
@@ -23,23 +23,24 @@ namespace BEx.UnitTests
 
             XElement exchangeElement;
 
-            configurations = new Dictionary<ExchangeType, IExchangeConfiguration>();
+            tokens = new Dictionary<ExchangeType, AuthToken>();
 
             exchangeElement = keys.Element("BitStamp");
 
-            configurations.Add(ExchangeType.BitStamp, new BitStampConfiguration(
-                exchangeElement.Element("Key").Value,
-                exchangeElement.Element("ClientID").Value,
-                exchangeElement.Element("Secret").Value
-                ));
-
+            tokens.Add(ExchangeType.BitStamp, new AuthToken()
+                {
+                  ApiKey = exchangeElement.Element("Key").Value,
+                  ClientId = exchangeElement.Element("ClientID").Value,
+                  Secret = exchangeElement.Element("Secret").Value
+                });
 
             exchangeElement = keys.Element("BitFinex");
 
-            configurations.Add(ExchangeType.Bitfinex, new BitfinexConfiguration(
-                exchangeElement.Element("Key").Value,
-                exchangeElement.Element("Secret").Value
-                ));
+            tokens.Add(ExchangeType.Bitfinex, new AuthToken()
+                {
+                    ApiKey = exchangeElement.Element("Key").Value,
+                    Secret = exchangeElement.Element("Secret").Value
+                }); 
         }
 
         public static IUnauthenticatedExchange GetUnauthenticatedExchange(ExchangeType toGet)
@@ -59,29 +60,50 @@ namespace BEx.UnitTests
 
         public static IAuthenticatedExchange GetAuthenticatedExchange(ExchangeType toGet)
         {
-            if (configurations == null)
+            if (tokens == null)
                 LoadAPIKeys();
 
-            IExchangeConfiguration configuration;
+            AuthToken token;
 
-            configurations.TryGetValue(toGet, out configuration);
+            tokens.TryGetValue(toGet, out token);
 
             switch (toGet)
             {
                 case ExchangeType.BitStamp:
                     return new BitStamp(
-                        configuration.ApiKey,
-                        configuration.SecretKey,
-                        configuration.ClientId);
+                        token.ApiKey,
+                        token.Secret,
+                        token.ClientId);
                 case ExchangeType.Bitfinex:
                     return new Bitfinex(
-                        configuration.ApiKey,
-                        configuration.SecretKey);
+                        token.ApiKey,
+                        token.Secret);
                 case ExchangeType.Mock:
                     return new MockExchange(new MockRequestDispatcher());
                 default:
                     return null;
 
+            }
+        }
+
+        private class AuthToken
+        {
+            public string ApiKey
+            {
+                get;
+                set;
+            }
+
+            public string ClientId
+            {
+                get;
+                set;
+            }
+
+            public string Secret
+            {
+                get;
+                set;
             }
         }
     }

@@ -3,9 +3,9 @@
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class BitfinexTickJSON : IExchangeResponse
+    internal class TickIntermediate : IExchangeResponse
     {
         [JsonProperty("mid", Required = Required.Always)]
         public string Mid { get; set; }

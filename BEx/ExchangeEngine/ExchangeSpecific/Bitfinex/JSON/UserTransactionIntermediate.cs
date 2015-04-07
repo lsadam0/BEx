@@ -4,9 +4,9 @@ using System;
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class BitFinexUserTransactionJSON : IExchangeResponse
+    internal class UserTransactionIntermediate : IExchangeResponse
     {
         [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }

@@ -19,31 +19,14 @@ namespace BEx.UnitTests.MockTests.MockObjects
             Initialize(null);
         }
 
-        public string ApiKey
-        {
-            get;
-            private set;
-        }
-
-        public string ClientId
-        {
-            get;
-            private set;
-        }
-
+        
         public CurrencyTradingPair DefaultPair
         {
             get;
             private set;
         }
 
-        public string SecretKey
-        {
-            get;
-            set;
-        }
-
-        public IList<CurrencyTradingPair> SupportedPairs
+        public HashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
             private set;
@@ -88,13 +71,9 @@ namespace BEx.UnitTests.MockTests.MockObjects
         {
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
 
-            ApiKey = "mocked";
-            ClientId = "mocked";
-            SecretKey = "mocked";
-
             ExchangeSourceType = ExchangeType.Mock;
 
-            SupportedPairs = new List<CurrencyTradingPair>()
+            SupportedPairs = new HashSet<CurrencyTradingPair>()
             {
                 DefaultPair,
                 new CurrencyTradingPair(Currency.LTC, Currency.USD),

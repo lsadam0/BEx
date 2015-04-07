@@ -240,7 +240,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 exchange = "",
                 price = "250.43",
                 tid = 101,
-                timestamp = Convert.ToInt64(DateTime.UtcNow.ToUnixTime()),
+                timestamp = Convert.ToInt64(DateTime.UtcNow.AddMinutes(-5).ToUnixTime()),
                 type = ""
             };
 
@@ -250,7 +250,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 exchange = "",
                 price = "251.43",
                 tid = 102,
-                timestamp = Convert.ToInt64(DateTime.UtcNow.ToUnixTime()),
+                timestamp = Convert.ToInt64(DateTime.UtcNow.AddMinutes(-20).ToUnixTime()),
                 type = ""
             };
 
@@ -260,7 +260,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 exchange = "",
                 price = "252.43",
                 tid = 103,
-                timestamp = Convert.ToInt64(DateTime.UtcNow.ToUnixTime()),
+                timestamp = Convert.ToInt64(DateTime.UtcNow.AddMinutes(-40).ToUnixTime()),
                 type = ""
             };
 

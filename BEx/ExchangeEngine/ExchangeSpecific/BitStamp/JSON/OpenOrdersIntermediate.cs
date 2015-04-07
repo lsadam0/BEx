@@ -3,25 +3,24 @@
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    
-    internal class BitStampOrderConfirmationJSON : IExchangeResponse
+    internal class OpenOrdersIntermediate : IExchangeResponse
     {
+        [JsonProperty("price", Required = Required.Always)]
+        public string Price { get; set; }
+
         [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("datetime", Required = Required.Always)]
-        public string Datetime { get; set; }
+        [JsonProperty("type", Required = Required.Always)]
+        public int Type { get; set; }
 
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
 
-        [JsonProperty("price", Required = Required.Always)]
-        public string Price { get; set; }
-
-        [JsonProperty("type", Required = Required.Always)]
-        public int Type { get; set; }
+        [JsonProperty("datetime", Required = Required.Always)]
+        public string Datetime { get; set; }
 
         public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {

@@ -3,21 +3,44 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using RestSharp;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex
 {
-    internal class BitfinexAuthenticator : IAuthenticator
+    internal class BitfinexAuthenticator : IExchangeAuthenticator
     {
         public static HMACSHA384 Hasher;
-        private readonly IExchangeConfiguration _configuration;
 
-        public BitfinexAuthenticator(IExchangeConfiguration configuration)
+      //  private readonly IExchangeConfiguration _configuration;
+
+        private static long _nonce = DateTime.UtcNow.Ticks;
+
+        /// <summary>
+        /// Consecutively increasing action counter
+        /// </summary>
+        /// <value>0</value>
+        public long Nonce
         {
-            _configuration = configuration;
+            get
+            {
+                return Interlocked.Increment(ref _nonce);
+            }
+        }
 
-            Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(_configuration.SecretKey));
-            _configuration.SecretKey = null;
+        private string ApiKey
+        {
+            get;
+            set;
+        }
+
+        public BitfinexAuthenticator(string secretKey, string apiKey)//IExchangeConfiguration configuration)
+        {
+        //    _configuration = configuration;
+            ApiKey = apiKey;
+
+            Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
+           // _configuration.SecretKey = null;
 
         }
 
@@ -42,9 +65,9 @@ namespace BEx.ExchangeEngine.BitfinexSupport
                X-BFX-PAYLOAD
                X-BFX-SIGNATURE*/
 
-            long currentNonce = _configuration.Nonce;
+            long currentNonce = Nonce;
 
-            request.AddHeader("X-BFX-APIKEY", _configuration.ApiKey);
+            request.AddHeader("X-BFX-APIKEY", ApiKey);
 
             StringBuilder payload = new StringBuilder();
 

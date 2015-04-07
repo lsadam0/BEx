@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
 
-    internal class BitfinexErrorJSON : IExchangeResponse
+    internal class ErrorIntermediate : IExchangeResponse
     {
         [JsonProperty("message")]
         public string message { get; set; }

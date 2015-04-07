@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 using System.Threading.Tasks;
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class BitstampOrderBookJSON : IExchangeResponse
+    internal class OrderBookIntermediate : IExchangeResponse
     {
         [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }

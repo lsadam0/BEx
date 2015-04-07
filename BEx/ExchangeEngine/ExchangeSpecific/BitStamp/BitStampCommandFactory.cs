@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
-using RestSharp;
 using BEx.ExchangeEngine.Commands;
+using RestSharp;
+using BEx.ExchangeEngine.BitStamp.JSON;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.BitStamp
 {
-    internal class BitfinexCommandFactory : IExchangeCommandFactory
+    internal class BitStampCommandFactory : IExchangeCommandFactory
     {
-
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
         /// </summary>
@@ -95,29 +95,25 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             return new AccountBalanceCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/balances", UriKind.Relative),
+                                new Uri("balance/", UriKind.Relative),
                                 true,
-                                typeof(List<BitFinexAccountBalanceJSON>));
+                                typeof(AccountBalanceIntermediate));
         }
 
         public LimitOrderCommand BuildBuyOrderCommand()
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
-                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
-                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
-                new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
-                new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "buy")
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
             return new LimitOrderCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/order/new", UriKind.Relative),
+                                new Uri("buy/", UriKind.Relative),
                                 true,
-                                typeof(BitFinexOrderResponseJSON),
+                                typeof(OrderConfirmationIntermediate),
                                 param);
         }
 
@@ -125,13 +121,13 @@ namespace BEx.ExchangeEngine.BitfinexSupport
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ParameterMethod.Post, "order_id", StandardParameter.Id)
+                new ExchangeParameter(ParameterMethod.Post, "id", StandardParameter.Id)
             };
 
             return new CancelOrderCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/order/cancel", UriKind.Relative),
+                                new Uri("cancel_order/", UriKind.Relative),
                                 true,
                                 typeof(Confirmation),
                                 param);
@@ -139,23 +135,12 @@ namespace BEx.ExchangeEngine.BitfinexSupport
 
         public DepositAddressCommand BuildDepositAddressCommand()
         {
-            var param = new List<ExchangeParameter>()
-            {
-                new ExchangeParameter(ParameterMethod.Post, "currency", StandardParameter.Currency, "BTC"),
-                new ExchangeParameter(ParameterMethod.Post, "method", StandardParameter.CurrencyFullName, "bitcoin")
-                    {
-                        IsLowercase = true
-                    },
-                new ExchangeParameter(ParameterMethod.Post, "wallet_name", StandardParameter.None, "exchange")
-            };
-
             return new DepositAddressCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/deposit/new", UriKind.Relative),
+                                new Uri("bitcoin_deposit_address/", UriKind.Relative),
                                 true,
-                                typeof(BitFinexDepositAddressJSON),
-                                param);
+                                typeof(string));
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()
@@ -163,103 +148,79 @@ namespace BEx.ExchangeEngine.BitfinexSupport
             return new OpenOrdersCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/orders", UriKind.Relative),
+                                new Uri("open_orders/", UriKind.Relative),
                                 true,
-                                typeof(List<BitFinexOrderResponseJSON>));
+                                typeof(List<OpenOrdersIntermediate>));
         }
 
         public OrderBookCommand BuildOrderBookCommand()
         {
-            var param = new List<ExchangeParameter>()
-            {
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-                
-            };
-
             return new OrderBookCommand(
-                _engine,
-                Method.GET,
-                new Uri("/v1/book/{pair}", UriKind.Relative),
-                false,
-                typeof(BitFinexOrderBookJSON),
-                param);
-
+                                _engine,
+                                Method.GET,
+                                new Uri("order_book/", UriKind.Relative),
+                                false,
+                                typeof(OrderBookIntermediate));
         }
 
         public LimitOrderCommand BuildSellOrderCommand()
         {
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
-                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
-                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
-                new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
-                new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "sell")
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
             return new LimitOrderCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/order/new", UriKind.Relative),
+                                new Uri("sell/", UriKind.Relative),
                                 true,
-                                typeof(BitFinexOrderResponseJSON),
+                                typeof(OrderConfirmationIntermediate),
                                 param);
         }
 
         public TickCommand BuildTickCommand()
         {
-            var param = new List<ExchangeParameter>()
-            {
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair)
-            };
-
             return new TickCommand(
-                _engine,
-                Method.GET,
-                new Uri("/v1/pubticker/{pair}", UriKind.Relative),
-                false,
-                typeof(BitfinexTickJSON),
-                param);
+                                _engine,
+                                Method.GET,
+                                new Uri("ticker/", UriKind.Relative),
+                                false,
+                                typeof(TickIntermediate));
         }
 
         public TransactionsCommand BuildTransactionsCommand()
         {
-            /*timestamp (time): Optional. Only show trades at or after this timestamp.
-limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1. Default is 50.*/
             var param = new List<ExchangeParameter>()
             {
-                new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-                
+                new ExchangeParameter(ParameterMethod.Post, "time", StandardParameter.None, "hour")
             };
 
-          
-
             return new TransactionsCommand(
-                _engine,
-                Method.GET,
-                new Uri("/v1/trades/{pair}", UriKind.Relative),
-                false,
-                typeof(List<BitFinexTransactionJSON>),
-                param);
+                                _engine,
+                                Method.GET,
+                                new Uri("transactions/", UriKind.Relative),
+                                false,
+                                typeof(List<TransactionIntermediate>),
+                                param);
         }
 
         public UserTransactionsCommand BuildUserTransactionsCommand()
         {
+
             var param = new List<ExchangeParameter>()
             {
-                 new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD")
-                // new ExchangeParameter(ParameterMethod.Post, "limit_trades", StandardParameter.Limit, "50")
+                new ExchangeParameter(ParameterMethod.Post, "limit", StandardParameter.None, "50")
             };
 
             return new UserTransactionsCommand(
                                 _engine,
                                 Method.POST,
-                                new Uri("/v1/mytrades", UriKind.Relative),
+                                new Uri("user_transactions/", UriKind.Relative),
                                 true,
-                                typeof(List<BitFinexUserTransactionJSON>),
-                                param);
+                                typeof(List<UserTransactionIntermediate>)
+                                );
         }
 
     }

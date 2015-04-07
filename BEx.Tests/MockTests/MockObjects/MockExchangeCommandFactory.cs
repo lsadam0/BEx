@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
-using BEx.ExchangeEngine.BitfinexSupport;
+using BEx.ExchangeEngine.Bitfinex;
 using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
 using RestSharp;
 
@@ -98,7 +98,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                                 Method.POST,
                                 new Uri("/v1/balances", UriKind.Relative),
                                 true,
-                                typeof(List<BitFinexAccountBalanceJSON>));
+                                typeof(List<MockAccountBalanceJSON>));
         }
 
         public LimitOrderCommand BuildBuyOrderCommand()

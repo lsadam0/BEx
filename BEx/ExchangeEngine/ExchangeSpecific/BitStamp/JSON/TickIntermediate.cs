@@ -4,9 +4,9 @@ using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 
-namespace BEx.ExchangeEngine.BitStampSupport
+namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class BitstampTickJSON : IExchangeResponse
+    internal class TickIntermediate : IExchangeResponse
     {
         [JsonProperty("high", Required = Required.Always)]
         public string high

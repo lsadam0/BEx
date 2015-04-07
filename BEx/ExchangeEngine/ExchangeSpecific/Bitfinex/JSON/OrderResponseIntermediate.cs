@@ -3,9 +3,9 @@
 using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.BitfinexSupport
+namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class BitFinexOrderResponseJSON : IExchangeResponse
+    internal class OrderResponseIntermediate : IExchangeResponse
     {
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }

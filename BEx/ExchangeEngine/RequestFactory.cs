@@ -78,15 +78,12 @@ namespace BEx.ExchangeEngine
                     case StandardParameter.Base:
                         value = pair.BaseCurrency.ToString();
                         break;
-
                     case StandardParameter.Counter:
                         value = pair.CounterCurrency.ToString();
                         break;
-
                     case StandardParameter.Currency:
                         value = pair.BaseCurrency.ToString();
                         break;
-
                     case StandardParameter.CurrencyFullName:
                         value = pair.BaseCurrency.GetDescription();
                         break;
