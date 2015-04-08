@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// Individual Transaction
     /// </summary>
-    public sealed class Transaction : ApiResult
+    public sealed class Transaction : BExResult
     {
         internal Transaction(DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)

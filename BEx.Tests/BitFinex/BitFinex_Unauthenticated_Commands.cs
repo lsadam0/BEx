@@ -16,7 +16,6 @@ namespace BEx.UnitTests.BitfinexTests
         public void SetupTests()
         {
             TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
-            Assert.IsInstanceOf<IUnauthenticatedExchange>(TestCandidate);
             Assert.IsInstanceOf<Bitfinex>(TestCandidate);
             commandVerification = new ExchangeCommandVerification(TestCandidate);
         }

@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// Complete Balance Information for a specific Currency.
     /// </summary>
-    public sealed class Balance : ApiResult
+    public sealed class Balance : BExResult
     {
         internal Balance(DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)

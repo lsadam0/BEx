@@ -32,7 +32,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             return new Tick(Timestamp.ToDateTimeUTC(), sourceExchange)
             {

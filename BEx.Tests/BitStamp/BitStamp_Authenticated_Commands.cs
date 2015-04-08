@@ -16,7 +16,6 @@ namespace BEx.UnitTests.BitStampTests
         public void TestSetup()
         {
             TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
-            Assert.IsInstanceOf<IAuthenticatedExchange>(TestCandidate);
             Assert.IsInstanceOf<BitStamp>(TestCandidate);
             commandVerification = new ExchangeCommandVerification(TestCandidate);
 

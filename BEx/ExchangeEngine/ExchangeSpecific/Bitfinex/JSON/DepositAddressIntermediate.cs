@@ -20,7 +20,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("address", Required = Required.Always)]
         public string Address { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, sourceExchange);
         }

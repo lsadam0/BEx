@@ -7,15 +7,19 @@ namespace BEx
     public sealed class BitStamp : Exchange
     {
         public BitStamp()
-            : base(new BitStampConfiguration(), 
-                   new BitStampCommandFactory())
+            : base(
+                new BitStampConfiguration(), 
+                new BitStampCommandFactory(),
+                BitStampErrorInterpreter.GetInterpreter())
         {
         }
 
         public BitStamp(string apiKey, string secretKey, string clientId)
-            : base(new BitStampConfiguration(), 
-                   new BitStampCommandFactory(),
-                   new BitStampAuthenticator(apiKey, secretKey, clientId))
+            : base( 
+                new BitStampConfiguration(), 
+                new BitStampCommandFactory(),
+                BitStampErrorInterpreter.GetInterpreter(),
+                new BitStampAuthenticator(apiKey, secretKey, clientId))
         {
         }
     }

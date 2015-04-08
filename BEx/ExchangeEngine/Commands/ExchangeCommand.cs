@@ -72,6 +72,7 @@ namespace BEx.ExchangeEngine
                     parameters.ToDictionary(x => x.ExchangeParameterName, x => x)
                     );
 
+
         }
 
         /// <summary>
@@ -83,26 +84,24 @@ namespace BEx.ExchangeEngine
             private set;
         }
 
-
         public ExecutionEngine Executor { get; private set; }
 
-
-
-        public ApiResult Execute(IDictionary<StandardParameter, string> parameters)
+        public BExResult Execute(IDictionary<StandardParameter, string> parameters)
         {
             return Executor.Execute(this, parameters);
         }
-        public ApiResult Execute()
+
+        public BExResult Execute()
         {
             return Executor.Execute(this);
         }
 
-        public ApiResult Execute(CurrencyTradingPair pair)
+        public BExResult Execute(CurrencyTradingPair pair)
         {
             return Executor.Execute(this, pair);
         }
 
-        public ApiResult Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        public BExResult Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
         {
             return Executor.Execute(this, pair, parameters);
         }

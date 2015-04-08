@@ -40,7 +40,7 @@ namespace BEx.UnitTests
             }
         }
 
-        public void VerifyAPIResult(ApiResult toVerify)
+        public void VerifyAPIResult(BExResult toVerify)
         {
             Assert.IsNotNull(toVerify);
             Assert.That(toVerify.SourceExchange == base.TestCandidate.ExchangeSourceType);
@@ -54,7 +54,7 @@ namespace BEx.UnitTests
 
         public void VerifyBuyOrder()
         {
-            Order toVerify = TestCandidate.CreateBuyOrder(1m, 5m);
+            Order toVerify = TestCandidate.CreateBuyLimitOrder(1m, 5m);
 
             VerifyAPIResult(toVerify);
 
@@ -145,7 +145,7 @@ namespace BEx.UnitTests
 
         public void VerifySellOrder()
         {
-            Order toVerify = TestCandidate.CreateSellOrder(0.02m, 10000m);
+            Order toVerify = TestCandidate.CreateSellLimitOrder(0.02m, 10000m);
 
             VerifyAPIResult(toVerify);
 

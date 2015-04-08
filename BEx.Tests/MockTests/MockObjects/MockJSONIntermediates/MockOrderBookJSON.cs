@@ -43,7 +43,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             IList<OrderBookEntry> convertedBids = Bids.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();

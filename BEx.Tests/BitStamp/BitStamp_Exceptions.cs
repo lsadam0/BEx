@@ -1,7 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 using System;
 using NUnit.Framework;
-//using BEx.Exceptions;
+using BEx.Exceptions;
 using BEx;
 
 namespace BEx.UnitTests.BitStampTests
@@ -23,25 +23,64 @@ namespace BEx.UnitTests.BitStampTests
         {
             Assert.Throws<Exceptions.LimitOrderRejectedException>(() =>
                 {
-                    _testCandidate.CreateBuyOrder(1000m, 1m);
+                    _testCandidate.CreateBuyLimitOrder(1000m, 1m);
                 });
         }
 
         [Test]
-        public void ExecuteAuthenticatedCommand_MissingApiKey_AuthorizationException()
+        public void ExecuteAuthenticatedCommand_MissingAuthorization_ArgNull()
         {
 
-            try
+            Assert.Throws<ArgumentNullException>(() =>
+                {
+                    BitStamp bits = new BitStamp("", "", "");
+                    bits.GetAccountBalance();
+                });
+
+         
+        }
+     
+        [Test]
+        public void Constructor_IncorrectAuth_AuthException()
+        {
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                BitStamp bits = new BitStamp("somekey", "somesecret", "someclient");
+                bits.GetAccountBalance();
+            });
+
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                AuthToken token = ExchangeFactory.GetToken(ExchangeType.BitStamp);
+                BitStamp bits = new BitStamp(token.ApiKey, token.Secret, "someclientid");
+                bits.GetAccountBalance();
+            });
+
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                AuthToken token = ExchangeFactory.GetToken(ExchangeType.BitStamp);
+                BitStamp bits = new BitStamp(token.ApiKey, "somesecret", token.ClientId);
+                bits.GetAccountBalance();
+            });
+
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                AuthToken token = ExchangeFactory.GetToken(ExchangeType.BitStamp);
+                BitStamp bits = new BitStamp("somekey", token.Secret, token.ClientId);
+                bits.GetAccountBalance();
+            });
+        }
+
+        [Test]
+        public void Constructor_AuthNotSet_AuthException()
+        {
+            Assert.Throws<ExchangeAuthorizationException>(() =>
             {
                 BitStamp bits = new BitStamp();
-
                 bits.GetAccountBalance();
-            }
-            catch (Exception ex)
-            {
-                { }
-            }
-        }
+            });
+        }       
+
         /*
          * 
          * 

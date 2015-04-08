@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("tid", Required = Required.Always)]
         public int Tid { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
 
             if (string.IsNullOrWhiteSpace(FeeCurrency))

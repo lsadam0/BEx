@@ -162,4 +162,13 @@
   <data name="RESTErrorResponseContent" xml:space="preserve">
     <value>The response content contained the following: {0}.</value>
   </data>
+  <data name="MissingArgApiKey" xml:space="preserve">
+    <value>The provided ApiKey value was null or empty.  A valid Api Key is required for Authenticated commands</value>
+  </data>
+  <data name="MissingArgClientId" xml:space="preserve">
+    <value>The provided Client Id value was null or empty.  A valid Client Id is required for Authenticated commands for the current Exchange.</value>
+  </data>
+  <data name="MissingArgSecretKey" xml:space="preserve">
+    <value>The provided Secret Key value was null or empty.  A valid Secret Key is required for Authenticed commands of the current Exchange.</value>
+  </data>
 </root>

@@ -12,7 +12,7 @@ namespace BEx
     /// <summary>
     /// All open Orders for your Exchange Account
     /// </summary>
-    public sealed class OpenOrders : ApiResult
+    public sealed class OpenOrders : BExResult
     {
         internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, Exchange sourceExchange)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)

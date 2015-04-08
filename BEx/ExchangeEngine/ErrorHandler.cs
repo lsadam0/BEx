@@ -2,6 +2,8 @@
 
 using System;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using RestSharp;
 using BEx.Exceptions;
 using Newtonsoft.Json;
@@ -20,7 +22,7 @@ namespace BEx.ExchangeEngine
             _sourceExchange = sourceExchange;
         }
 
-        private static void ThrowException<TE>(ApiError source) where TE : Exception
+        private static void ThrowException<TE>(BExError source) where TE : Exception
         {
             TE exception = (TE)Activator.CreateInstance(
                                                 typeof(TE),
@@ -34,7 +36,7 @@ namespace BEx.ExchangeEngine
             throw exception;
         }
 
-        private ApiError GetErrorObject(string json, CurrencyTradingPair pair)
+        private BExError GetErrorObject(string json, CurrencyTradingPair pair)
         {
             if (!string.IsNullOrWhiteSpace(json))
             {
@@ -43,10 +45,10 @@ namespace BEx.ExchangeEngine
                                         _sourceExchange.Configuration.ErrorJsonType
                                         ) as IExchangeResponse;
 
-                return deserialized.ConvertToStandard(pair, _sourceExchange) as ApiError;
+                return deserialized.ConvertToStandard(pair, _sourceExchange) as BExError;
             }
             else
-                return new ApiError(_sourceExchange.ExchangeSourceType)
+                return new BExError(_sourceExchange.ExchangeSourceType)
                             {
                                 Message = json
                             };
@@ -66,6 +68,7 @@ namespace BEx.ExchangeEngine
 
             Exception res;
 
+
             res = DetermineExceptionType(errorObject, referenceCommand, response.ErrorException);
 
             res.Source = _sourceExchange.ToString();
@@ -74,12 +77,20 @@ namespace BEx.ExchangeEngine
             return res;
         }
 
-        private Exception DetermineExceptionType(ApiError errorObject, IExchangeCommand referenceCommand, Exception inner)
+        private Exception DetermineExceptionType(BExError errorObject, IExchangeCommand referenceCommand, Exception inner)
         {
-            if (referenceCommand is LimitOrderCommand)
-                return new LimitOrderRejectedException(errorObject.Message, inner);
-            else
-                return new Exception(errorObject.Message, inner);
+           Type exceptionType = _sourceExchange.ErrorInterpreter.Interpret(errorObject);
+
+
+           return (Exception)Activator.CreateInstance(
+                                               exceptionType,
+                                               BindingFlags.Public | BindingFlags.Instance,
+                                               null,
+                                               new object[] { errorObject.Message, inner },
+                                               null);
+
         }
+
+        
     }
 }

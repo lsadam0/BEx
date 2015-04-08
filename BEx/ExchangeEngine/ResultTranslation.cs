@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine
         /// <param name="executedCommand">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        internal ApiResult Translate(string source, IExchangeCommand executedCommand, CurrencyTradingPair pair)
+        internal BExResult Translate(string source, IExchangeCommand executedCommand, CurrencyTradingPair pair)
         {
             if (executedCommand.ReturnsValueType)
                 return GetValueType(source, executedCommand, pair);
@@ -49,13 +49,13 @@ namespace BEx.ExchangeEngine
         /// <param name="commandReference">Reference ExchangeCommand</param>
         /// <param name="pair">Trading Pair</param>
 
-        private ApiResult DeserializeObject(string content, IExchangeCommand commandReference, CurrencyTradingPair pair)
+        private BExResult DeserializeObject(string content, IExchangeCommand commandReference, CurrencyTradingPair pair)
         {
             if (commandReference.ReturnsCollection)
             {
                 IEnumerable<IExchangeResponse> responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IEnumerable<IExchangeResponse>;
 
-                return (ApiResult)Activator.CreateInstance(
+                return (BExResult)Activator.CreateInstance(
                                                     commandReference.ApiResultSubType,
                                                     BindingFlags.NonPublic | BindingFlags.Instance,
                                                     null,
@@ -78,16 +78,16 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        private ApiResult GetValueType(string content, IExchangeCommand command, CurrencyTradingPair pair)
+        private BExResult GetValueType(string content, IExchangeCommand command, CurrencyTradingPair pair)
         {
-            ApiResult res = null;
+            BExResult res = null;
 
             // boxing
             object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);
 
             if (deserialized.GetType() != command.ApiResultSubType)
             {
-                res = (ApiResult)Activator.CreateInstance(
+                res = (BExResult)Activator.CreateInstance(
                                                     command.ApiResultSubType,
                                                     BindingFlags.NonPublic | BindingFlags.Instance,
                                                     null,

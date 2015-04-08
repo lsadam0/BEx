@@ -1,0 +1,4 @@
+﻿- Exceptions
+- Threading (One Engine per Exechange Type)
+- Refine Exchange Method definitions
+- Release

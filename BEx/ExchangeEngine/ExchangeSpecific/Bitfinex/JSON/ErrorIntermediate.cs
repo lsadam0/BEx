@@ -13,9 +13,9 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("message")]
         public string message { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-            return new ApiError(sourceExchange.ExchangeSourceType)
+            return new BExError(sourceExchange.ExchangeSourceType)
             {
                 Message = message
             };

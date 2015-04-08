@@ -5,14 +5,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using RestSharp;
+using BEx.Exceptions;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexAuthenticator : IExchangeAuthenticator
     {
         public static HMACSHA384 Hasher;
-
-      //  private readonly IExchangeConfiguration _configuration;
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
@@ -28,19 +27,19 @@ namespace BEx.ExchangeEngine.Bitfinex
             }
         }
 
-        private string ApiKey
-        {
-            get;
-            set;
-        }
+        private readonly string ApiKey;
 
-        public BitfinexAuthenticator(string secretKey, string apiKey)//IExchangeConfiguration configuration)
+        public BitfinexAuthenticator(string secretKey, string apiKey)
         {
-        //    _configuration = configuration;
+            if (string.IsNullOrWhiteSpace(apiKey))
+                throw new ArgumentNullException("apiKey", ErrorMessages.MissingArgApiKey);
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+                throw new ArgumentNullException("secretKey", ErrorMessages.MissingArgSecretKey);
+
             ApiKey = apiKey;
 
             Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
-           // _configuration.SecretKey = null;
 
         }
 

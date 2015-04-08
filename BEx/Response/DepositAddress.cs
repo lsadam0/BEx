@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// Deposit Information
     /// </summary>
-    public sealed class DepositAddress : ApiResult
+    public sealed class DepositAddress : BExResult
     {
         internal DepositAddress(string address, Exchange sourceExchange, CurrencyTradingPair pair)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)

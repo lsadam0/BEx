@@ -8,7 +8,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 {
     internal class ErrorIntermediate : IExchangeResponse
     {
-        [JsonProperty("error")]
+       
         public Error error { get; set; }
 
         public class Error
@@ -16,25 +16,22 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             public string[] __all__ { get; set; }
         }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
 
             StringBuilder sb = new StringBuilder();
 
             foreach (string line in error.__all__)
-                sb.AppendLine(line);
+                sb.Append(line);
 
-            return new ApiError(ExchangeType.BitStamp)
+            return new BExError(ExchangeType.BitStamp)
             {
                 Message = sb.ToString()
             };
         }
     }
 
-
-
-
-
+    
 
 
 }

@@ -8,7 +8,7 @@ namespace BEx
     /// <summary>
     /// Exchange Tick
     /// </summary>
-    public sealed class Tick : ApiResult
+    public sealed class Tick : BExResult
     {
         internal Tick(DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
@@ -24,7 +24,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Gets highest Buy Price
+        /// Highest Buy Price
         /// </summary>
         public decimal Bid
         {
@@ -33,7 +33,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Gets trading pair
+        /// Trading pair
         /// </summary>
         public CurrencyTradingPair Pair
         {
@@ -42,7 +42,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Gets highest trade price of the last 24 hours
+        /// Highest trade price of the last 24 hours
         /// </summary>
         public decimal High
         {
@@ -51,7 +51,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Gets price at which the last order executed
+        /// Price at which the last order executed
         /// </summary>
         public decimal Last
         {
@@ -60,7 +60,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Gets lowest trade price of the last 24 hours
+        /// Lowest trade price of the last 24 hours
         /// </summary>
         public decimal Low
         {
@@ -69,15 +69,13 @@ namespace BEx
         }
 
         /// <summary>
-        /// Gets trade volume of the last 24 hours
+        /// Trade volume of the last 24 hours
         /// </summary>
         public decimal Volume
         {
             get;
             internal set;
         }
-
-
 
         protected override string DebugDisplay
         {

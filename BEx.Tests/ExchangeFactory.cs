@@ -13,7 +13,7 @@ using BEx.UnitTests.MockTests.MockObjects;
 
 namespace BEx.UnitTests
 {
-    public static class ExchangeFactory
+    internal static class ExchangeFactory
     {
         private static Dictionary<ExchangeType, AuthToken> tokens;
 
@@ -43,7 +43,7 @@ namespace BEx.UnitTests
                 }); 
         }
 
-        public static IUnauthenticatedExchange GetUnauthenticatedExchange(ExchangeType toGet)
+        public static Exchange GetUnauthenticatedExchange(ExchangeType toGet)
         {
             switch (toGet)
             {
@@ -58,7 +58,7 @@ namespace BEx.UnitTests
             }
         }
 
-        public static IAuthenticatedExchange GetAuthenticatedExchange(ExchangeType toGet)
+        public static Exchange GetAuthenticatedExchange(ExchangeType toGet)
         {
             if (tokens == null)
                 LoadAPIKeys();
@@ -86,25 +86,31 @@ namespace BEx.UnitTests
             }
         }
 
-        private class AuthToken
+        public static AuthToken GetToken(ExchangeType source)
         {
-            public string ApiKey
-            {
-                get;
-                set;
-            }
+            return tokens[source];
+        }
+       
+    }
 
-            public string ClientId
-            {
-                get;
-                set;
-            }
+    internal class AuthToken
+    {
+        public string ApiKey
+        {
+            get;
+            set;
+        }
 
-            public string Secret
-            {
-                get;
-                set;
-            }
+        public string ClientId
+        {
+            get;
+            set;
+        }
+
+        public string Secret
+        {
+            get;
+            set;
         }
     }
 }

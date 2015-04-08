@@ -21,12 +21,6 @@ namespace BEx.UnitTests.MockTests
             _testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Mock) as MockExchange;
         }
 
-        [Test]
-        public void MockExchange_ImplementsInterfaces()
-        {
-            Assert.IsInstanceOf<IUnauthenticatedExchange>(_testCandidate);
-            Assert.IsInstanceOf<IAuthenticatedExchange>(_testCandidate);
-        }
 
         [Test]
         public void MockExchange_SupportedCurrencies_Complete()

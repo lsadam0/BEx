@@ -33,6 +33,6 @@ namespace BEx.ExchangeEngine
 
         bool ReturnsValueType { get; }
 
-        ApiResult Execute(IDictionary<StandardParameter, string> parameters);
+        BExResult Execute(IDictionary<StandardParameter, string> parameters);
     }
 }

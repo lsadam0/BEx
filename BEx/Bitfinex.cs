@@ -9,7 +9,8 @@ namespace BEx
         public Bitfinex()
             : base(
                     new BitfinexConfiguration(),
-                    new BitfinexCommandFactory())
+                    new BitfinexCommandFactory(),
+                    BitfinexErrorInterpreter.GetInterpreter())
         {
         }
 
@@ -17,6 +18,7 @@ namespace BEx
             : base(
                     new BitfinexConfiguration(),
                     new BitfinexCommandFactory(),
+                    BitfinexErrorInterpreter.GetInterpreter(),
                     new BitfinexAuthenticator(secret, apiKey))
         {
 

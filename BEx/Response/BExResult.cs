@@ -9,9 +9,9 @@ namespace BEx
     /// Exchange Result Base Class
     /// </summary>
     [DebuggerDisplay("{DebugDisplay,nq}")]
-    public abstract class ApiResult
+    public abstract class BExResult
     {
-        internal ApiResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+        internal BExResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
         {
             ExchangeTimestamp = exchangeTimeStamp;
             LocalTimestamp = DateTime.UtcNow;
@@ -29,7 +29,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Local Machine TimeStamp marking the time at which an APICommand has successfully executed.
+        /// Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
         /// </summary>
         public DateTime LocalTimestamp
         {

@@ -22,13 +22,6 @@ namespace BEx.UnitTests.BitfinexTests
         }
 
         [Test]
-        public void Bitfinex_ImplementsInterfaces()
-        {
-            Assert.IsInstanceOf<IUnauthenticatedExchange>(_testCandidate);
-            Assert.IsInstanceOf<IAuthenticatedExchange>(_testCandidate);
-        }
-
-        [Test]
         public void Bitfinex_SupportedCurrencies_Complete()
         {
             Assert.That(_testCandidate.SupportedCurrencies.Count == 4);

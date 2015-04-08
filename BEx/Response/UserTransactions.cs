@@ -13,7 +13,7 @@ namespace BEx
     /// <summary>
     /// Contains the 50 most recent Order Transactions that have been completed for your user
     /// </summary>
-    public sealed class UserTransactions : ApiResult
+    public sealed class UserTransactions : BExResult
     {
         internal UserTransactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, Exchange sourceExchange)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)

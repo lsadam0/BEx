@@ -12,7 +12,7 @@ namespace BEx
     /// <summary>
     /// Open Order Book for the trading Pair
     /// </summary>
-    public sealed class OrderBook : ApiResult
+    public sealed class OrderBook : BExResult
     {
         internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)

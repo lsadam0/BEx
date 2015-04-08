@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace BEx
 {
-    public sealed class Transactions : ApiResult
+    public sealed class Transactions : BExResult
     {
         internal Transactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, Exchange sourceExchange)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)

@@ -64,7 +64,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             set;
         }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             return new Tick(timestamp.ToDateTimeUTC(), sourceExchange)
             {

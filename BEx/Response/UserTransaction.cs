@@ -8,7 +8,7 @@ namespace BEx
     /// <summary>
     /// Represents a Buy or Sell transaction previously executed for your user account.
     /// </summary>
-    public sealed class UserTransaction : ApiResult
+    public sealed class UserTransaction : BExResult
     {
         internal UserTransaction(DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)

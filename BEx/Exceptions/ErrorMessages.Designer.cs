@@ -61,6 +61,33 @@ namespace BEx.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The provided ApiKey value was null or empty.  A valid Api Key is required for Authenticated commands.
+        /// </summary>
+        internal static string MissingArgApiKey {
+            get {
+                return ResourceManager.GetString("MissingArgApiKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided Client Id value was null or empty.  A valid Client Id is required for Authenticated commands for the current Exchange..
+        /// </summary>
+        internal static string MissingArgClientId {
+            get {
+                return ResourceManager.GetString("MissingArgClientId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided Secret Key value was null or empty.  A valid Secret Key is required for Authenticed commands of the current Exchange..
+        /// </summary>
+        internal static string MissingArgSecretKey {
+            get {
+                return ResourceManager.GetString("MissingArgSecretKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Executed command {0}, but the server replied that the request was bad (HTTP 400)..
         /// </summary>
         internal static string RESTBadRequest {

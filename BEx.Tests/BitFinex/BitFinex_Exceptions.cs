@@ -1,7 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+using System;
 using NUnit.Framework;
 using BEx;
+using BEx.Exceptions;
 
 namespace BEx.UnitTests.BitfinexTests
 {
@@ -23,17 +24,49 @@ namespace BEx.UnitTests.BitfinexTests
         {
             Assert.Throws<Exceptions.LimitOrderRejectedException>(() =>
                 {
-                    Order res = _exchange.CreateBuyOrder(1999, 1);
+                    Order res = _exchange.CreateBuyLimitOrder(1999, 1);
                     { }
                 });
         }
-        /*
+        
         [Test]
-        public void Constructor_MissingAPIKey_ExchangeAuthorizationException()
+        public void Constructor_MissingAuthentication_ArgNull()
         {
-            base.ExceptionVerification.MissingAPIKey_ExchangeAuthorizationException();
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Bitfinex bits = new Bitfinex("", "");
+                bits.GetAccountBalance();
+            });
         }
 
+        [Test]
+        public void Constructor_IncorrectAuth_AuthException()
+        {
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                Bitfinex bits = new Bitfinex("somekey", "somesecret");
+                bits.GetAccountBalance();
+            });
+
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                AuthToken token = ExchangeFactory.GetToken(ExchangeType.Bitfinex);
+                Bitfinex bits = new Bitfinex(token.ApiKey, "somesecret");
+                bits.GetAccountBalance();
+            });
+        }
+
+        [Test]
+        public void Constructor_AuthNotSet_AuthException()
+        {
+            Assert.Throws<ExchangeAuthorizationException>(() =>
+            {
+                Bitfinex bits = new Bitfinex();
+                bits.GetAccountBalance();
+            });
+        }
+
+        /*
         [Test]
         public void AuthenticatedCommand_IncorrectAPIKey_ExchangeAuthorizationException()
         {

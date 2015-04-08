@@ -23,7 +23,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("type", Required = Required.Always)]
         public int Type { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             return new Order(Conversion.ToDateTimeInvariant(Datetime), sourceExchange)
             {

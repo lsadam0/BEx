@@ -52,7 +52,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("order_id", Required = Required.Always)]
         public int OrderId { get; set; }
 
-        public ApiResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             return new Order(Timestamp.ToDateTimeUTC(), sourceExchange)
             {

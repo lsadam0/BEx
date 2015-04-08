@@ -35,27 +35,27 @@ namespace BEx.ExchangeEngine
             _errorHandler = new ErrorHandler(targetExchange);
         }
 
-        public ApiResult Execute(IExchangeCommand toExecute)
+        public BExResult Execute(IExchangeCommand toExecute)
         {
             return ExecutionPipeline(toExecute, default(CurrencyTradingPair));
         }
 
-        public ApiResult Execute(IExchangeCommand toExecute, IDictionary<StandardParameter, string> parameters)
+        public BExResult Execute(IExchangeCommand toExecute, IDictionary<StandardParameter, string> parameters)
         {
             return ExecutionPipeline(toExecute, default(CurrencyTradingPair), parameters);
         }
 
-        public ApiResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair)
+        public BExResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair)
         {
             return ExecutionPipeline(toExecute, pair);
         }
 
-        public ApiResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        public BExResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
         {
             return ExecutionPipeline(toExecute, pair, parameters);
         }
 
-        private ApiResult ExecutionPipeline(
+        private BExResult ExecutionPipeline(
                                         IExchangeCommand toExecute,
                                         CurrencyTradingPair pair,
                                         IDictionary<StandardParameter, string> paramCollection = null)
@@ -64,7 +64,7 @@ namespace BEx.ExchangeEngine
 
             IRestResponse result = _dispatcher.Dispatch(request, toExecute);
          
-            if (result.ErrorException == null)
+            if (result.ErrorException == null && result.StatusCode == System.Net.HttpStatusCode.OK)
             {
 
                 try

@@ -8,14 +8,14 @@ namespace BEx
     /// 
     /// </summary>
     [Serializable]
-    public sealed class ApiError : ApiResult
+    public sealed class BExError : BExResult
     {
-        internal ApiError(ExchangeType sourceExchange)
+        internal BExError(ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
         }
 
-        internal ApiError(string message, BExErrorCode code, Exchange sourceExchange)
+        internal BExError(string message, BExErrorCode code, Exchange sourceExchange)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             Message = message;

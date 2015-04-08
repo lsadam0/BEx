@@ -2,19 +2,20 @@
 
 using System;
 using System.Globalization;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using RestSharp;
 using BEx.ExchangeEngine.Utilities;
+using BEx.Exceptions;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
     internal class BitStampAuthenticator : IExchangeAuthenticator
     {
         public static HMACSHA256 Hasher;
-
-     //   private readonly IExchangeConfiguration _configuration;
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
@@ -30,21 +31,21 @@ namespace BEx.ExchangeEngine.BitStamp
             }
         }
 
-        private string ApiKey
-        {
-            get;
-            set;
-        }
+        private readonly string ApiKey;
 
-        private string ClientId
-        {
-            get;
-            set;
-        }
+        private readonly string ClientId;
 
-        public BitStampAuthenticator(string apiKey, string secretKey, string clientId)//IExchangeConfiguration configuration)
+        public BitStampAuthenticator(string apiKey, string secretKey, string clientId)
         {
-           // _configuration = configuration;
+            if (string.IsNullOrWhiteSpace(apiKey))
+                throw new ArgumentNullException("apiKey", ErrorMessages.MissingArgApiKey);
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+                throw new ArgumentNullException("secretKey", ErrorMessages.MissingArgSecretKey);
+
+            if (string.IsNullOrWhiteSpace("clientId"))
+                throw new ArgumentNullException("clientId", ErrorMessages.MissingArgClientId);
+
             ApiKey = apiKey;
             ClientId = clientId;
 
