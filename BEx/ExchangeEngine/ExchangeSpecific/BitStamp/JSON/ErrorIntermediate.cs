@@ -2,6 +2,7 @@
 
 using System;
 using System.Text;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
@@ -19,12 +20,11 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-
             StringBuilder sb = new StringBuilder();
 
             foreach (string line in error.__all__)
                 sb.Append(line);
-
+            
             return new BExError(ExchangeType.BitStamp)
             {
                 Message = sb.ToString()
@@ -42,28 +42,24 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                Error res = null;
-
-
                 if (reader.TokenType == JsonToken.String)
                 {
-                    string message = reader.Value.ToString();
-
                     string[] all = new string[1];
-                    all[0] = message;
+                    all[0] = reader.Value.ToString();
 
-                    res = new Error()
+                    return new Error()
                     {
                         __all__ = all
                     };
                 }
                 else if (reader.TokenType == JsonToken.StartObject)
                 {
-                    res = serializer.Deserialize<Error>(reader);
-
+                    return serializer.Deserialize<Error>(reader);
                 }
+                else
+                    throw new JsonSerializationException("Unable to deserialize BitStamp error messages");
 
-                return res;
+                
             }
 
             public override bool CanConvert(Type objectType)
