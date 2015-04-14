@@ -49,7 +49,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("executed_amount", Required = Required.Always)]
         public string ExecutedAmount { get; set; }
 
-        [JsonProperty("order_id", Required = Required.Always)]
+        [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
@@ -65,3 +65,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         }
     }
 }
+
+
+
+
