@@ -15,7 +15,7 @@ namespace BEx.UnitTests
 {
     internal static class ExchangeFactory
     {
-        private static Dictionary<ExchangeType, AuthToken> tokens;
+        private static Dictionary<ExchangeType, AuthToken> tokens = null;
 
         private static void LoadAPIKeys()
         {
@@ -29,9 +29,9 @@ namespace BEx.UnitTests
 
             tokens.Add(ExchangeType.BitStamp, new AuthToken()
                 {
-                  ApiKey = exchangeElement.Element("Key").Value,
-                  ClientId = exchangeElement.Element("ClientID").Value,
-                  Secret = exchangeElement.Element("Secret").Value
+                    ApiKey = exchangeElement.Element("Key").Value,
+                    ClientId = exchangeElement.Element("ClientID").Value,
+                    Secret = exchangeElement.Element("Secret").Value
                 });
 
             exchangeElement = keys.Element("BitFinex");
@@ -40,7 +40,7 @@ namespace BEx.UnitTests
                 {
                     ApiKey = exchangeElement.Element("Key").Value,
                     Secret = exchangeElement.Element("Secret").Value
-                }); 
+                });
         }
 
         public static Exchange GetUnauthenticatedExchange(ExchangeType toGet)
@@ -86,11 +86,23 @@ namespace BEx.UnitTests
             }
         }
 
-        public static AuthToken GetToken(ExchangeType source)
+
+        public static AuthToken GetBitfinexAuthToken()
         {
-            return tokens[source];
+            if (tokens == null)
+                LoadAPIKeys();
+
+            return tokens[ExchangeType.Bitfinex];
         }
-       
+
+        public static AuthToken GetBitstampAuthToken()
+        {
+            if (tokens == null)
+                LoadAPIKeys();
+
+            return tokens[ExchangeType.BitStamp];
+        }
+
     }
 
     internal class AuthToken

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using RestSharp;
 using BEx.Exceptions;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
@@ -70,6 +71,8 @@ namespace BEx.ExchangeEngine.Bitfinex
 
             StringBuilder payload = new StringBuilder();
 
+
+
             payload.Append("{");
             payload.Append("\"request\": \"" + request.Resource + "\",");
             payload.Append("\"nonce\": \"" + currentNonce + "\"");
@@ -80,12 +83,14 @@ namespace BEx.ExchangeEngine.Bitfinex
                 {
                     if (p.Type != ParameterType.UrlSegment)
                     {
+                        string test = JsonConvert.SerializeObject(p);
                         payload.Append(",");
                         payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
                     }
                 }
             }
 
+            
             payload.Append("}");
 
             string payload64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload.ToString()));

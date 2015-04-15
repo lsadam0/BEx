@@ -32,37 +32,52 @@ namespace BEx.UnitTests
 
       
 
-            AuthToken token = ExchangeFactory.GetBitfinexToken();
+            AuthToken token = ExchangeFactory.GetBitfinexAuthToken();
             Bitfinex bfx = new Bitfinex(token.ApiKey, token.Secret);
 
-             /*
-            //   var balance = bfx.GetAccountBalance();
+            
+            //  var balance = bfx.GetAccountBalance();
 
-            // var currentTick = bfx.GetTick();
+            //var currentTick = bfx.GetTick();
 
-            //var availableUsd = balance.BalanceByCurrency[Currency.USD].AvailableToTrade;
-            //var availableBtc = balance.BalanceByCurrency[Currency.BTC].AvailableToTrade;
+            var open = bfx.GetOpenOrders();
 
-            // if (availableBtc > .01m)
-            {
-                var sellOrder = bfx.CreateSellLimitOrder(.01m, 1000);
+            var sellOrder = open.SellOrders.Values.First();
 
-                { }
-            */
-
-                var openOrders = bfx.GetOpenOrders();
-
-                Order toCancel = openOrders.SellOrders.Values.First();
+           var res = bfx.CancelOrder(sellOrder);
 
             /*
-                var confirm = bfx.CancelOrder(toCancel);
+           var availableUsd = balance.BalanceByCurrency[Currency.USD].AvailableToTrade;
+           var availableBtc = balance.BalanceByCurrency[Currency.BTC].AvailableToTrade;
 
-                confirm = bfx.CancelOrder(toCancel);
-                // bfx.CancelOrder(sellOrder);
 
-                // openOrders = bfx.GetOpenOrders();
-            }
+           var buyOrder = bfx.CreateBuyLimitOrder(1, 205);
+
+           var open = bfx.GetOpenOrders();
             */
+
+            /*
+           if (availableBtc > .01m)
+           {
+               var sellOrder = bfx.CreateSellLimitOrder(.01m, 1000);
+
+               { }
+
+
+               var openOrders = bfx.GetOpenOrders();
+
+               Order toCancel = openOrders.SellOrders.Values.First();
+
+               /*
+                   var confirm = bfx.CancelOrder(toCancel);
+
+                   confirm = bfx.CancelOrder(toCancel);
+                   // bfx.CancelOrder(sellOrder);
+
+                   // openOrders = bfx.GetOpenOrders();
+               }
+               */
+           
         }
 
       

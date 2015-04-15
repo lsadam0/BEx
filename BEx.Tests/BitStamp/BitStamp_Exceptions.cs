@@ -51,21 +51,21 @@ namespace BEx.UnitTests.BitStampTests
 
             Assert.Throws<ExchangeAuthorizationException>(() =>
             {
-                AuthToken token = ExchangeFactory.GetToken(ExchangeType.BitStamp);
+                AuthToken token = ExchangeFactory.GetBitstampAuthToken();
                 BitStamp bits = new BitStamp(token.ApiKey, token.Secret, "someclientid");
                 bits.GetAccountBalance();
             });
 
             Assert.Throws<ExchangeAuthorizationException>(() =>
             {
-                AuthToken token = ExchangeFactory.GetToken(ExchangeType.BitStamp);
+                AuthToken token = ExchangeFactory.GetBitstampAuthToken();
                 BitStamp bits = new BitStamp(token.ApiKey, "somesecret", token.ClientId);
                 bits.GetAccountBalance();
             });
 
             Assert.Throws<ExchangeAuthorizationException>(() =>
             {
-                AuthToken token = ExchangeFactory.GetToken(ExchangeType.BitStamp);
+                AuthToken token = ExchangeFactory.GetBitstampAuthToken();
                 BitStamp bits = new BitStamp("somekey", token.Secret, token.ClientId);
                 bits.GetAccountBalance();
             });

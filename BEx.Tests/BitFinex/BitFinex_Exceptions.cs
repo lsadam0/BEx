@@ -50,7 +50,7 @@ namespace BEx.UnitTests.BitfinexTests
 
             Assert.Throws<ExchangeAuthorizationException>(() =>
             {
-                AuthToken token = ExchangeFactory.GetToken(ExchangeType.Bitfinex);
+                AuthToken token = ExchangeFactory.GetBitfinexAuthToken();
                 Bitfinex bits = new Bitfinex(token.ApiKey, "somesecret");
                 bits.GetAccountBalance();
             });
