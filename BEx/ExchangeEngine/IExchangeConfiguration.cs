@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace BEx.ExchangeEngine
 {
@@ -10,7 +11,6 @@ namespace BEx.ExchangeEngine
     /// </summary>
     public interface IExchangeConfiguration
     {
-
         /// <summary>
         /// Default Trading Pair for the Exchange
         /// </summary>
@@ -22,7 +22,7 @@ namespace BEx.ExchangeEngine
         /// <summary>
         /// All Trading pairs supported by the Exchange
         /// </summary>
-        HashSet<CurrencyTradingPair> SupportedPairs
+        ImmutableHashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
         }
@@ -30,7 +30,7 @@ namespace BEx.ExchangeEngine
         /// <summary>
         /// All Currency values supported by the Exchange
         /// </summary>
-        HashSet<Currency> SupportedCurrencies
+        ImmutableHashSet<Currency> SupportedCurrencies
         {
             get;
         }
@@ -42,7 +42,6 @@ namespace BEx.ExchangeEngine
         {
             get;
         }
-
 
         Type ErrorJsonType
         {

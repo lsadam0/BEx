@@ -1,6 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx;
 using NUnit.Framework;
 
 namespace BEx.UnitTests.BitfinexTests
@@ -18,7 +17,6 @@ namespace BEx.UnitTests.BitfinexTests
             TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
 
             commandVerification = new ExchangeCommandVerification(TestCandidate);
-
         }
 
         [Test]
@@ -50,19 +48,7 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
         }
-
-        /*
-        [Test]
-        public void Bitfinex_GetUserTransactions_DRKBTC_Success()
-        {
-            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
-        }
-
-        [Test]
-        public void Bitfinex_GetUserTransactions_DRKUSD_Success()
-        {
-            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-        }*/
+        
 
         [Test]
         public void Bitfinex_GetUserTransactions_LTCBTC_Success()

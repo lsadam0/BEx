@@ -1,18 +1,12 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using RestSharp;
-using BEx.Exceptions;
-using Newtonsoft.Json;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine
 {
-
     internal class ErrorHandler
     {
         private readonly Exchange _sourceExchange;
@@ -49,10 +43,9 @@ namespace BEx.ExchangeEngine
             }
             else
                 return new BExError(_sourceExchange.ExchangeSourceType)
-                            {
-                                Message = json
-                            };
-
+                {
+                    Message = json
+                };
         }
 
         public Exception HandleErrorResponse(
@@ -61,13 +54,11 @@ namespace BEx.ExchangeEngine
                                         IRestRequest request,
                                         CurrencyTradingPair pair)
         {
-
             var errorObject = GetErrorObject(response.Content, pair);
 
             errorObject.HttpStatus = (HttpResponseCode)(int)response.StatusCode;
 
             Exception res;
-
 
             res = DetermineExceptionType(errorObject, referenceCommand, response.ErrorException);
 
@@ -79,18 +70,14 @@ namespace BEx.ExchangeEngine
 
         private Exception DetermineExceptionType(BExError errorObject, IExchangeCommand referenceCommand, Exception inner)
         {
-           Type exceptionType = _sourceExchange.ErrorInterpreter.Interpret(errorObject);
+            Type exceptionType = _sourceExchange.ErrorInterpreter.Interpret(errorObject);
 
-
-           return (Exception)Activator.CreateInstance(
-                                               exceptionType,
-                                               BindingFlags.Public | BindingFlags.Instance,
-                                               null,
-                                               new object[] { errorObject.Message, inner },
-                                               null);
-
+            return (Exception)Activator.CreateInstance(
+                                                exceptionType,
+                                                BindingFlags.Public | BindingFlags.Instance,
+                                                null,
+                                                new object[] { errorObject.Message, inner },
+                                                null);
         }
-
-        
     }
 }

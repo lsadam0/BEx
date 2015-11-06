@@ -21,7 +21,6 @@ namespace BEx
                     BitfinexErrorInterpreter.GetInterpreter(),
                     new BitfinexAuthenticator(secret, apiKey))
         {
-
         }
     }
 }

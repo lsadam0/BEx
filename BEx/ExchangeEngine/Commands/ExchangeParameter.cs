@@ -2,7 +2,6 @@
 
 namespace BEx.ExchangeEngine
 {
-
     public class ExchangeParameter
     {
         public ExchangeParameter(

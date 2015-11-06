@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {

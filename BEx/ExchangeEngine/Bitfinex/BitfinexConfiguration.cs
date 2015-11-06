@@ -1,15 +1,14 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine.Bitfinex.JSON;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using BEx.ExchangeEngine.Bitfinex.JSON;
+using System.Collections.Immutable;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
-
         public BitfinexConfiguration(Uri baseUri)
         {
             Initialize(baseUri);
@@ -44,13 +43,13 @@ namespace BEx.ExchangeEngine.Bitfinex
             set;
         }
 
-        public HashSet<CurrencyTradingPair> SupportedPairs
+        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
             private set;
         }
 
-        public HashSet<Currency> SupportedCurrencies
+        public ImmutableHashSet<Currency> SupportedCurrencies
         {
             get;
             private set;
@@ -81,26 +80,30 @@ namespace BEx.ExchangeEngine.Bitfinex
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;
 
-            SupportedPairs = new HashSet<CurrencyTradingPair>()
-            {
+
+            SupportedPairs = ImmutableHashSet.Create<CurrencyTradingPair>(
                 DefaultPair,
                 new CurrencyTradingPair(Currency.LTC, Currency.USD),
-                new CurrencyTradingPair(Currency.LTC, Currency.BTC),
-                new CurrencyTradingPair(Currency.DRK, Currency.USD),
-                new CurrencyTradingPair(Currency.DRK, Currency.BTC)
-            };
+                new CurrencyTradingPair(Currency.LTC, Currency.BTC)
 
-            SupportedCurrencies = new HashSet<Currency>();
+                );
+
+            var supportedCurrencies = new HashSet<Currency>();
 
             foreach (var pair in SupportedPairs)
             {
-                if (!SupportedCurrencies.Contains(pair.BaseCurrency))
-                    SupportedCurrencies.Add(pair.BaseCurrency);
+                if (!supportedCurrencies.Contains(pair.BaseCurrency))
+                {
+                    supportedCurrencies.Add(pair.BaseCurrency);
+                }
 
-                if (!SupportedCurrencies.Contains(pair.CounterCurrency))
-                    SupportedCurrencies.Add(pair.CounterCurrency);
-
+                if (!supportedCurrencies.Contains(pair.CounterCurrency))
+                {
+                    supportedCurrencies.Add(pair.CounterCurrency);
+                }
             }
+
+            this.SupportedCurrencies = supportedCurrencies.ToImmutableHashSet<Currency>();
 
             BaseUri = baseUri ?? new Uri("https://api.bitfinex.com");
         }

@@ -1,11 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -17,7 +16,6 @@ namespace BEx
         internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, Exchange sourceExchange)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
-
             IEnumerable<Order> allOrders = orders.Select(x => x.ConvertToStandard(pair, sourceExchange) as Order);
 
             BuyOrders =
@@ -26,9 +24,7 @@ namespace BEx
 
             SellOrders = new ReadOnlyDictionary<int, Order>(
                 allOrders.Where(x => x.IsSellOrder).ToDictionary(x => x.Id, x => x));
-
         }
-
 
         public IReadOnlyDictionary<int, Order> SellOrders
         {

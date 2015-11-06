@@ -1,15 +1,13 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.Exceptions;
+using BEx.ExchangeEngine.Utilities;
+using RestSharp;
 using System;
 using System.Globalization;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using RestSharp;
-using BEx.ExchangeEngine.Utilities;
-using BEx.Exceptions;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
@@ -50,7 +48,6 @@ namespace BEx.ExchangeEngine.BitStamp
             ClientId = clientId;
 
             Hasher = new HMACSHA256(Encoding.ASCII.GetBytes(secretKey));
-            
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)

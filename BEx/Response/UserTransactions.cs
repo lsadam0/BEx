@@ -1,12 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Linq;
-using System.Web.UI.WebControls;
-using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -26,7 +24,6 @@ namespace BEx
                         .OfType<UserTransaction>()
                         .Take(50)
                         .ToList());
-
         }
 
         /// <summary>
@@ -51,8 +48,5 @@ namespace BEx
         {
             get { return string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count()); }
         }
-
-
-
     }
 }

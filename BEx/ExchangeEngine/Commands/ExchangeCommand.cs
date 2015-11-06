@@ -1,14 +1,13 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
-
     internal abstract class ExchangeCommand : IExchangeCommand
     {
         /// <summary>
@@ -71,8 +70,6 @@ namespace BEx.ExchangeEngine
                 new ReadOnlyDictionary<string, ExchangeParameter>(
                     parameters.ToDictionary(x => x.ExchangeParameterName, x => x)
                     );
-
-
         }
 
         /// <summary>
@@ -168,9 +165,5 @@ namespace BEx.ExchangeEngine
             get;
             private set;
         }
-
-
     }
-
-
 }

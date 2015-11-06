@@ -1,10 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using RestSharp;
-using BEx;
 using Newtonsoft.Json;
+using RestSharp;
+using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine
 {
@@ -63,10 +61,9 @@ namespace BEx.ExchangeEngine
             IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             IRestResponse result = _dispatcher.Dispatch(request, toExecute);
-         
+
             if (result.ErrorException == null && result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-
                 try
                 {
                     return _translator.Translate(
@@ -83,8 +80,6 @@ namespace BEx.ExchangeEngine
             {
                 throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
             }
-
-           
         }
     }
 }

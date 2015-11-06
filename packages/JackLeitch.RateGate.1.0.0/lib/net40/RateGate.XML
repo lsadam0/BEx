@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RateGate</name>
+    </assembly>
+    <members>
+        <member name="M:JackLeitch.RateGate.EnumerableExtensions.LimitRate``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.TimeSpan)">
+            <summary>
+            Limits the rate at which the sequence is enumerated.
+            </summary>
+            <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+            <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose enumeration is to be rate limited.</param>
+            <param name="count">The number of items in the sequence that are allowed to be processed per time unit.</param>
+            <param name="timeUnit">Length of the time unit.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the elements of the source sequence.</returns>
+        </member>
+        <member name="T:JackLeitch.RateGate.RateGate">
+            <summary>
+            Used to control the rate of some occurrence per unit of time.
+            </summary>
+            <remarks>
+                <para>
+                To control the rate of an action using a <see cref="T:JackLeitch.RateGate.RateGate"/>, 
+                code should simply call <see cref="M:JackLeitch.RateGate.RateGate.WaitToProceed"/> prior to 
+                performing the action. <see cref="M:JackLeitch.RateGate.RateGate.WaitToProceed"/> will block
+                the current thread until the action is allowed based on the rate 
+                limit.
+                </para>
+                <para>
+                This class is thread safe. A single <see cref="T:JackLeitch.RateGate.RateGate"/> instance 
+                may be used to control the rate of an occurrence across multiple 
+                threads.
+                </para>
+            </remarks>
+        </member>
+        <member name="M:JackLeitch.RateGate.RateGate.#ctor(System.Int32,System.TimeSpan)">
+            <summary>
+            Initializes a <see cref="T:JackLeitch.RateGate.RateGate"/> with a rate of <paramref name="occurrences"/> 
+            per <paramref name="timeUnit"/>.
+            </summary>
+            <param name="occurrences">Number of occurrences allowed per unit of time.</param>
+            <param name="timeUnit">Length of the time unit.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            If <paramref name="occurrences"/> or <paramref name="timeUnit"/> is negative.
+            </exception>
+        </member>
+        <member name="M:JackLeitch.RateGate.RateGate.WaitToProceed(System.Int32)">
+            <summary>
+            Blocks the current thread until allowed to proceed or until the
+            specified timeout elapses.
+            </summary>
+            <param name="millisecondsTimeout">Number of milliseconds to wait, or -1 to wait indefinitely.</param>
+            <returns>true if the thread is allowed to proceed, or false if timed out</returns>
+        </member>
+        <member name="M:JackLeitch.RateGate.RateGate.WaitToProceed(System.TimeSpan)">
+            <summary>
+            Blocks the current thread until allowed to proceed or until the
+            specified timeout elapses.
+            </summary>
+            <param name="timeout"></param>
+            <returns>true if the thread is allowed to proceed, or false if timed out</returns>
+        </member>
+        <member name="M:JackLeitch.RateGate.RateGate.WaitToProceed">
+            <summary>
+            Blocks the current thread indefinitely until allowed to proceed.
+            </summary>
+        </member>
+        <member name="M:JackLeitch.RateGate.RateGate.Dispose">
+            <summary>
+            Releases unmanaged resources held by an instance of this class.
+            </summary>
+        </member>
+        <member name="M:JackLeitch.RateGate.RateGate.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged resources held by an instance of this class.
+            </summary>
+            <param name="isDisposing">Whether this object is being disposed.</param>
+        </member>
+        <member name="P:JackLeitch.RateGate.RateGate.Occurrences">
+            <summary>
+            Number of occurrences allowed per unit of time.
+            </summary>
+        </member>
+        <member name="P:JackLeitch.RateGate.RateGate.TimeUnitMilliseconds">
+            <summary>
+            The length of the time unit, in milliseconds.
+            </summary>
+        </member>
+    </members>
+</doc>

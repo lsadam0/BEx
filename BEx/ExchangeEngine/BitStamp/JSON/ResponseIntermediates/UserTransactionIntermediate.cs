@@ -1,8 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
@@ -38,7 +37,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             {
                 return new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), sourceExchange)
                 {
-                    ExchangeRate =  Conversion.ToDecimalInvariant(BtcUsd),
+                    ExchangeRate = Conversion.ToDecimalInvariant(BtcUsd),
                     BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc),
                     CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd),
                     Pair = pair,
@@ -47,7 +46,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                     TradeFeeCurrency = Currency.USD,
                     CompletedTime = Conversion.ToDateTimeInvariant(Datetime),
                     TransactionType = (Conversion.ToDecimalInvariant(Btc) < 0) ? OrderType.Sell : OrderType.Buy
-                    
                 };
             }
             else

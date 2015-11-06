@@ -1,11 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using BEx.ExchangeEngine;
-using Newtonsoft.Json;
-
 
 namespace BEx.ExchangeEngine
 {
@@ -40,7 +38,6 @@ namespace BEx.ExchangeEngine
                 return DeserializeObject(source, executedCommand, pair);
         }
 
-
         /// <summary>
         /// Deserialize JSON responses that deserialize to reference types,
         /// including Collections
@@ -71,7 +68,7 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// Deserialize Value-type (and string!) JSON responses into a specific 
+        /// Deserialize Value-type (and string!) JSON responses into a specific
         /// ApiResult Sub-Type
         /// </summary>
         /// <param name="content">JSON Response</param>

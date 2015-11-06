@@ -8,15 +8,15 @@ namespace BEx
     {
         public BitStamp()
             : base(
-                new BitStampConfiguration(), 
+                new BitStampConfiguration(),
                 new BitStampCommandFactory(),
                 BitStampErrorInterpreter.GetInterpreter())
         {
         }
 
         public BitStamp(string apiKey, string secretKey, string clientId)
-            : base( 
-                new BitStampConfiguration(), 
+            : base(
+                new BitStampConfiguration(),
                 new BitStampCommandFactory(),
                 BitStampErrorInterpreter.GetInterpreter(),
                 new BitStampAuthenticator(apiKey, secretKey, clientId))

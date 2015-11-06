@@ -1,12 +1,12 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.Exceptions;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using RestSharp;
-using BEx.Exceptions;
-using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
@@ -41,7 +41,6 @@ namespace BEx.ExchangeEngine.Bitfinex
             ApiKey = apiKey;
 
             Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
-
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)
@@ -71,8 +70,6 @@ namespace BEx.ExchangeEngine.Bitfinex
 
             StringBuilder payload = new StringBuilder();
 
-
-
             payload.Append("{");
             payload.Append("\"request\": \"" + request.Resource + "\",");
             payload.Append("\"nonce\": \"" + currentNonce + "\"");
@@ -90,7 +87,6 @@ namespace BEx.ExchangeEngine.Bitfinex
                 }
             }
 
-            
             payload.Append("}");
 
             string payload64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload.ToString()));

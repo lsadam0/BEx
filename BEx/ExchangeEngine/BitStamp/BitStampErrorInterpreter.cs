@@ -1,16 +1,13 @@
-﻿using System;
+﻿using BEx.Exceptions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using BEx.Exceptions;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
     internal class BitStampErrorInterpreter : ExchangeErrorInterpreter
     {
-        private static BitStampErrorInterpreter _instance;
+        private static object locker = new object();
+        private static BitStampErrorInterpreter instance;
 
         private BitStampErrorInterpreter(IList<ExceptionIdentifier> identifiers)
             : base(identifiers)
@@ -19,10 +16,18 @@ namespace BEx.ExchangeEngine.BitStamp
 
         public static BitStampErrorInterpreter GetInterpreter()
         {
-            if (_instance == null)
-                _instance = new BitStampErrorInterpreter(GetIdentifiers());
+            if (instance == null)
+            {
+                lock (locker)
+                {
+                    if (instance == null)
+                    {
+                        instance = new BitStampErrorInterpreter(GetIdentifiers());
+                    }
+                }
+            }
 
-            return _instance;
+            return instance;
         }
 
         private static IList<ExceptionIdentifier> GetIdentifiers()
@@ -47,7 +52,6 @@ namespace BEx.ExchangeEngine.BitStamp
                                         typeof(LimitOrderRejectedException)));
 
             return identifiers;
-
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Services;
 
 namespace BEx.UnitTests
 {
@@ -25,7 +21,6 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.BalanceByCurrency);
 
-
             foreach (Currency c in TestCandidate.SupportedCurrencies)
             {
                 Assert.That(toVerify.BalanceByCurrency.ContainsKey(c));
@@ -36,7 +31,6 @@ namespace BEx.UnitTests
                 Assert.That(individualBalance.BalanceCurrency == c);
                 Assert.That(individualBalance.AvailableToTrade >= 0);
                 Assert.That(individualBalance.TotalBalance >= 0);
-
             }
         }
 
@@ -88,7 +82,6 @@ namespace BEx.UnitTests
                 Assert.That(order.Id > 0);
                 Assert.That(openOrder.Key == order.Id);
                 Assert.That(order.Price > 0.0m);
-
             }
 
             foreach (var openOrder in toVerify.SellOrders)
@@ -133,7 +126,6 @@ namespace BEx.UnitTests
             {
                 Assert.That(entry.Amount > 0.0m);
                 Assert.That(entry.Price > 0.0m);
-
             }
 
             foreach (var entry in toVerify.Bids)
@@ -165,7 +157,6 @@ namespace BEx.UnitTests
             Assert.That(toVerify.High > 0.0m);
             Assert.That(toVerify.Low > 0.0m);
             Assert.That(toVerify.Volume > 0.0m);
-
         }
 
         public void VerifyTransactions(CurrencyTradingPair pair)
@@ -245,12 +236,10 @@ namespace BEx.UnitTests
                 Assert.That(Math.Round(((transaction.BaseCurrencyAmount * transaction.ExchangeRate) +
                                transaction.CounterCurrencyAmount), 2) == 0);
 
-
                 // Trade Fee Currency belongs to Trading Pair
                 Assert.That((transaction.Pair.BaseCurrency == transaction.TradeFeeCurrency)
                                 ||
                                 (transaction.Pair.CounterCurrency == transaction.TradeFeeCurrency));
-
 
                 Assert.That(transaction.OrderId > 0);
             }

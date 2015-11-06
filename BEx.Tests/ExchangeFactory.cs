@@ -1,15 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Bitfinex;
-using BEx.ExchangeEngine.BitStamp;
 using BEx.UnitTests.MockTests.MockObjects;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace BEx.UnitTests
 {
@@ -19,7 +12,7 @@ namespace BEx.UnitTests
 
         private static void LoadAPIKeys()
         {
-            XElement keys = XElement.Load(@"C:\_Work\BEx\TestingKeys.xml");
+            XElement keys = XElement.Load(@"C:\Users\LarrySAdams\Desktop\To Save\BEx\TestingKeys.xml");
 
             XElement exchangeElement;
 
@@ -28,19 +21,19 @@ namespace BEx.UnitTests
             exchangeElement = keys.Element("BitStamp");
 
             tokens.Add(ExchangeType.BitStamp, new AuthToken()
-                {
-                    ApiKey = exchangeElement.Element("Key").Value,
-                    ClientId = exchangeElement.Element("ClientID").Value,
-                    Secret = exchangeElement.Element("Secret").Value
-                });
+            {
+                ApiKey = exchangeElement.Element("Key").Value,
+                ClientId = exchangeElement.Element("ClientID").Value,
+                Secret = exchangeElement.Element("Secret").Value
+            });
 
             exchangeElement = keys.Element("BitFinex");
 
             tokens.Add(ExchangeType.Bitfinex, new AuthToken()
-                {
-                    ApiKey = exchangeElement.Element("Key").Value,
-                    Secret = exchangeElement.Element("Secret").Value
-                });
+            {
+                ApiKey = exchangeElement.Element("Key").Value,
+                Secret = exchangeElement.Element("Secret").Value
+            });
         }
 
         public static Exchange GetUnauthenticatedExchange(ExchangeType toGet)
@@ -49,10 +42,13 @@ namespace BEx.UnitTests
             {
                 case ExchangeType.BitStamp:
                     return new BitStamp();
+
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
+
                 case ExchangeType.Mock:
                     return new MockExchange(new MockRequestDispatcher());
+
                 default:
                     return null;
             }
@@ -74,18 +70,19 @@ namespace BEx.UnitTests
                         token.ApiKey,
                         token.Secret,
                         token.ClientId);
+
                 case ExchangeType.Bitfinex:
                     return new Bitfinex(
                         token.ApiKey,
                         token.Secret);
+
                 case ExchangeType.Mock:
                     return new MockExchange(new MockRequestDispatcher());
+
                 default:
                     return null;
-
             }
         }
-
 
         public static AuthToken GetBitfinexAuthToken()
         {
@@ -102,7 +99,6 @@ namespace BEx.UnitTests
 
             return tokens[ExchangeType.BitStamp];
         }
-
     }
 
     internal class AuthToken

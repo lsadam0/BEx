@@ -4,7 +4,6 @@ using System;
 
 namespace BEx
 {
-
     /// <summary>
     /// Represents a Buy or Sell transaction previously executed for your user account.
     /// </summary>
@@ -13,7 +12,6 @@ namespace BEx
         internal UserTransaction(DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
         { }
-
 
         private OrderType _transactionType;
 

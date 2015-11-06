@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine.Utilities;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using RestSharp;
-using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine
 {
@@ -18,7 +18,6 @@ namespace BEx.ExchangeEngine
     /// </remarks>
     internal static class RequestFactory
     {
-
         /// <summary>
         /// Consume an ExchangeCommand, TradingPair, and Parameters Collection and return
         /// a complete IRestRequest object.
@@ -75,32 +74,40 @@ namespace BEx.ExchangeEngine
                     case StandardParameter.Limit:
                         value = values[parameter.StandardParameterIdentifier];
                         break;
+
                     case StandardParameter.Base:
                         value = pair.BaseCurrency.ToString();
                         break;
+
                     case StandardParameter.Counter:
                         value = pair.CounterCurrency.ToString();
                         break;
+
                     case StandardParameter.Currency:
                         value = pair.BaseCurrency.ToString();
                         break;
+
                     case StandardParameter.CurrencyFullName:
                         value = pair.BaseCurrency.GetDescription();
                         break;
+
                     case StandardParameter.Pair:
                         value = pair.ToString();
                         break;
+
                     case StandardParameter.UnixTimestamp:
                         value = DateTime.UtcNow.AddHours(-1).ToUnixTime().ToStringInvariant();
                         break;
+
                     case StandardParameter.None:
                         value = parameter.DefaultValue;
                         break;
+
                     default:
                         value = string.Empty;
                         break;
                 }
-                
+
                 ParameterType pType = ParameterType.GetOrPost;
 
                 if (parameter.ParameterMethod == ParameterMethod.Url)
@@ -110,7 +117,6 @@ namespace BEx.ExchangeEngine
 
                 request.AddParameter(parameter.ExchangeParameterName, value, pType);
             }
-
         }
     }
 }

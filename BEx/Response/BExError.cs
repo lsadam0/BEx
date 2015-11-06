@@ -5,7 +5,7 @@ using System;
 namespace BEx
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [Serializable]
     public sealed class BExError : BExResult

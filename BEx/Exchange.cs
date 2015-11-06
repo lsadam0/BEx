@@ -1,11 +1,11 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.Exceptions;
+using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
 using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine;
-using RestSharp;
-using BEx.ExchangeEngine.Utilities;
-using BEx.Exceptions;
+using System.Collections.Immutable;
 
 namespace BEx
 {
@@ -47,10 +47,9 @@ namespace BEx
         public ExchangeType ExchangeSourceType
         {
             get { return Configuration.ExchangeSourceType; }
-
         }
 
-        public HashSet<Currency> SupportedCurrencies
+        public ImmutableHashSet<Currency> SupportedCurrencies
         {
             get
             {
@@ -58,7 +57,7 @@ namespace BEx
             }
         }
 
-        public HashSet<CurrencyTradingPair> SupportedTradingPairs
+        public ImmutableHashSet<CurrencyTradingPair> SupportedTradingPairs
         {
             get
             {

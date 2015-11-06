@@ -1,6 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx;
 using NUnit.Framework;
 
 namespace BEx.UnitTests.BitStampTests
@@ -18,7 +17,6 @@ namespace BEx.UnitTests.BitStampTests
             TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
             Assert.IsInstanceOf<BitStamp>(TestCandidate);
             commandVerification = new ExchangeCommandVerification(TestCandidate);
-
         }
 
         [Test]

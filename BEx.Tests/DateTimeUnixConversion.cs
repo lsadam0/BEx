@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BEx.ExchangeEngine.Utilities;
 using NUnit.Framework;
-using BEx.ExchangeEngine.Utilities;
+using System;
 
 namespace BEx.UnitTests
 {
@@ -21,12 +17,10 @@ namespace BEx.UnitTests
 
             DateTime converted = unixTime.ToDateTimeUTC();
 
-          
             Assert.That(converted.Second == testDate.Second);
             Assert.That(converted.Minute == testDate.Minute);
             Assert.That(converted.Hour == testDate.Hour);
             Assert.That(converted.Date == testDate.Date);
-
         }
 
         [Test]

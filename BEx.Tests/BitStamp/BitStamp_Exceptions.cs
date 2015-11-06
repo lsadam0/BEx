@@ -1,8 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-using System;
-using NUnit.Framework;
 using BEx.Exceptions;
-using BEx;
+using NUnit.Framework;
+using System;
 
 namespace BEx.UnitTests.BitStampTests
 {
@@ -10,12 +9,12 @@ namespace BEx.UnitTests.BitStampTests
     [Category("BitStamp.Exceptions")]
     public class BitStamp_Exceptions : ExchangeVerificationBase
     {
-        BitStamp _testCandidate;
+        private BitStamp testCandidate;
 
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            _testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
+            testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
         }
 
         [Test]
@@ -23,23 +22,20 @@ namespace BEx.UnitTests.BitStampTests
         {
             Assert.Throws<Exceptions.LimitOrderRejectedException>(() =>
                 {
-                    _testCandidate.CreateBuyLimitOrder(1000m, 1m);
+                    testCandidate.CreateBuyLimitOrder(1000m, 1m);
                 });
         }
 
         [Test]
         public void ExecuteAuthenticatedCommand_MissingAuthorization_ArgNull()
         {
-
             Assert.Throws<ArgumentNullException>(() =>
                 {
                     BitStamp bits = new BitStamp("", "", "");
                     bits.GetAccountBalance();
                 });
-
-         
         }
-     
+
         [Test]
         public void Constructor_IncorrectAuth_AuthException()
         {
@@ -79,11 +75,11 @@ namespace BEx.UnitTests.BitStampTests
                 BitStamp bits = new BitStamp();
                 bits.GetAccountBalance();
             });
-        }       
+        }
 
         /*
-         * 
-         * 
+         *
+         *
         public BitStamp_Exceptions()
             : base(typeof(BEx.BitStamp))
         {

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using BEx.Exceptions;
 
 namespace BEx.ExchangeEngine
 {
@@ -50,7 +46,7 @@ namespace BEx.ExchangeEngine
         }
     }
 
-    interface IExchangeErrorInterpreter
+    internal interface IExchangeErrorInterpreter
     {
         Type Interpret(BExError error);
     }

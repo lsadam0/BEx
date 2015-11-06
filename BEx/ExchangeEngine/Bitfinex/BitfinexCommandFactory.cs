@@ -1,18 +1,15 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine.Bitfinex.JSON;
+using BEx.ExchangeEngine.Commands;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using BEx.ExchangeEngine;
-using RestSharp;
-using BEx.ExchangeEngine.Commands;
-using BEx.ExchangeEngine.Bitfinex.JSON;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexCommandFactory : IExchangeCommandFactory
     {
-
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
         /// </summary>
@@ -174,7 +171,6 @@ namespace BEx.ExchangeEngine.Bitfinex
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-                
             };
 
             return new OrderBookCommand(
@@ -184,7 +180,6 @@ namespace BEx.ExchangeEngine.Bitfinex
                 false,
                 typeof(OrderBookIntermediate),
                 param);
-
         }
 
         public LimitOrderCommand BuildSellOrderCommand()
@@ -230,10 +225,7 @@ namespace BEx.ExchangeEngine.Bitfinex
             {
                 new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
                 new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-                
             };
-
-          
 
             return new TransactionsCommand(
                 _engine,
@@ -259,6 +251,5 @@ namespace BEx.ExchangeEngine.Bitfinex
                                 typeof(List<UserTransactionIntermediate>),
                                 param);
         }
-
     }
 }

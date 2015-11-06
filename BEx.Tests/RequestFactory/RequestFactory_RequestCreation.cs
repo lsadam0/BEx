@@ -1,14 +1,12 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Commands;
+using NUnit.Framework;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using RestSharp;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Commands;
 
 namespace BEx.UnitTests.RequestFactoryTests
 {
@@ -33,15 +31,13 @@ namespace BEx.UnitTests.RequestFactoryTests
                 new ExchangeParameter(ParameterMethod.Url, "side", StandardParameter.None, "sell")
             };
 
-
             var values = new Dictionary<StandardParameter, string>()
             {
                 { StandardParameter.Price, "100.00"}
-          
             };
 
             command = new LimitOrderCommand(
-                                 new ExecutionEngine(new Bitfinex()), 
+                                 new ExecutionEngine(new Bitfinex()),
                                  Method.POST,
                                  new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                                  true,
@@ -51,7 +47,6 @@ namespace BEx.UnitTests.RequestFactoryTests
             pair = new CurrencyTradingPair(Currency.LTC, Currency.BTC);
 
             toTest = BEx.ExchangeEngine.RequestFactory.GetRequest(command, pair, values);
-
         }
 
         [Test]
@@ -59,8 +54,6 @@ namespace BEx.UnitTests.RequestFactoryTests
         {
             Assert.That(toTest.Method == Method.POST);
             Assert.That(toTest.Resource == "/v1/order/new/{pair}/{side}");
-          
-
         }
 
         [Test]
@@ -77,7 +70,6 @@ namespace BEx.UnitTests.RequestFactoryTests
         [Test]
         public void Request_UrlParameters_Populated()
         {
-
             var urlParams = toTest.Parameters.Where(x => x.Type == ParameterType.UrlSegment).ToList();
 
             Assert.That(urlParams.Count == 2);
@@ -87,7 +79,6 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             Assert.That(urlParams[1].Name == "side");
             Assert.That(urlParams[1].Value.ToString() == "sell");
-
         }
 
         [Test]
@@ -102,7 +93,6 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             Assert.That(postParams[1].Name == "exchange");
             Assert.That(postParams[1].Value.ToString() == "bitfinex");
-
         }
 
         [Test]
@@ -117,8 +107,6 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             Assert.That(queryParams[1].Name == "type");
             Assert.That(queryParams[1].Value.ToString() == "exchange limit");
-
         }
-
     }
 }

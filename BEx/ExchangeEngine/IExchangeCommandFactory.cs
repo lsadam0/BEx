@@ -1,19 +1,17 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Collections.Generic;
 using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine
 {
     /// <summary>
     /// Provide Exchange Specific ExchangeCommand objects
-    /// that describe how each Exchange implements the 
+    /// that describe how each Exchange implements the
     /// commands specified by IAuthenticatedCommands and
     /// IUnauthenticatedCommands
     /// </summary>
-   internal interface IExchangeCommandFactory
+    internal interface IExchangeCommandFactory
     {
-
         void BuildCommands(ExecutionEngine executor);
 
         /// <summary>
@@ -21,7 +19,6 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <returns></returns>
         AccountBalanceCommand AccountBalance { get; }
-
 
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.CreateBuyOrder()

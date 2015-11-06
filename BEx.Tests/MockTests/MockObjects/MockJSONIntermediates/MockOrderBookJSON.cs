@@ -1,13 +1,11 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Newtonsoft.Json;
-using BEx.ExchangeEngine.Utilities;
-using BEx.ExchangeEngine;
-
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
@@ -48,16 +46,13 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
             IList<OrderBookEntry> convertedBids = Bids.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
 
-
             IList<OrderBookEntry> convertedAsks = Asks.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
-
 
             return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, sourceExchange)
             {
                 Pair = pair
             };
-
         }
     }
 }

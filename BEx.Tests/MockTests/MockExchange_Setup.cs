@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
+﻿using BEx.UnitTests.MockTests.MockObjects;
 using NUnit.Framework;
-using BEx.UnitTests.MockTests.MockObjects;
 
 namespace BEx.UnitTests.MockTests
 {
@@ -21,7 +15,6 @@ namespace BEx.UnitTests.MockTests
             _testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Mock) as MockExchange;
         }
 
-
         [Test]
         public void MockExchange_SupportedCurrencies_Complete()
         {
@@ -29,7 +22,6 @@ namespace BEx.UnitTests.MockTests
             Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.BTC));
             Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.USD));
             Assert.That(_testCandidate.SupportedCurrencies.Contains(Currency.LTC));
-
         }
 
         [Test]
@@ -63,10 +55,6 @@ namespace BEx.UnitTests.MockTests
         public void MockExchange_Authenticator_Complete()
         {
             Assert.IsNotNull(_testCandidate.Authenticator);
-
         }
-
-
-
     }
 }

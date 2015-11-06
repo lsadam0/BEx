@@ -14,7 +14,7 @@ namespace BEx.UnitTests.BitStampTests
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
+            TestCandidate = ExchangeFactory.GetUnauthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
             Assert.IsInstanceOf<BitStamp>(TestCandidate);
             commandVerification = new ExchangeCommandVerification(TestCandidate);
         }
@@ -22,7 +22,6 @@ namespace BEx.UnitTests.BitStampTests
         [Test]
         public void BitStamp_GetTick_BTCUSD_Success()
         {
-
             commandVerification.VerifyTick(TestCandidate.DefaultPair);
         }
 

@@ -1,6 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx;
 using NUnit.Framework;
 
 namespace BEx.UnitTests.BitfinexTests
@@ -15,7 +14,7 @@ namespace BEx.UnitTests.BitfinexTests
         [TestFixtureSetUp]
         public void SetupTests()
         {
-            TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
+            TestCandidate = ExchangeFactory.GetUnauthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
             Assert.IsInstanceOf<Bitfinex>(TestCandidate);
             commandVerification = new ExchangeCommandVerification(TestCandidate);
         }
@@ -37,18 +36,7 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
         }
-
-        [Test]
-        public void Bitfinex_GetTick_DRKUSD_Success()
-        {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-        }
-
-        [Test]
-        public void Bitfinex_GetTick_DRKBTC_Success()
-        {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
-        }
+        
 
         [Test]
         public void Bitfinex_GetOrderBook_BTCUSD_Success()
@@ -61,18 +49,8 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.USD));
         }
-
-        [Test]
-        public void Bitfinex_GetOrderBook_DRKUSD_Success()
-        {
-            commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-        }
-
-        [Test]
-        public void Bitfinex_GetOrderBook_DRKBTC_Success()
-        {
-            commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
-        }
+        
+        
 
         [Test]
         public void Bitfinex_GetOrderBook_LTCBTC_Success()
@@ -100,6 +78,7 @@ namespace BEx.UnitTests.BitfinexTests
             commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
         }
         */
+
         [Test]
         public void Bitfinex_GetTransactions_LTCBTC_Success()
         {

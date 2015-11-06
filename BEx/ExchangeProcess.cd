@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="BEx.ExchangeEngine.Bitfinex.BitfinexAuthenticator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAgAIAAAAAAAAQAAAAAAAACAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\BitfinexAuthenticator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.BitfinexCommandFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAAAAIEUAAAIIRAJIAAAAAAQAIEFAQAAAARBA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\BitfinexCommandFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.BitfinexConfiguration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="41.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAEQAAAQAAgAAAgAAAAAAAgAABAQAAAAQAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\BitfinexConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.BitfinexErrorInterpreter" Collapsed="true">
+    <Position X="7.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\BitfinexErrorInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.AccountBalanceIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAADACAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\AccountBalanceIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.DepositAddressIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQgAAQACAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\DepositAddressIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.ErrorIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\ErrorIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.Bid" Collapsed="true">
+    <Position X="36.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAACAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\OrderBookIntermediate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.Ask" Collapsed="true">
+    <Position X="34.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAACAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\OrderBookIntermediate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.OrderBookIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAQACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\OrderBookIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.OrderResponseIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAIAAQAAgAAAAARCIAABAAgAAAAAAQAQIAAACBA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\OrderResponseIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.TickIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAGgQCAAAAAAgAQAAAAAIAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\TickIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.TransactionIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="41.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAIAAAAAQAAAAAAgABgAAAAAAAAAAAEAA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\TransactionIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.UserTransactionIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAACQCAACAAEAAAAAAAQAQAAAAAAQ=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\UserTransactionIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates.CancelOrderResponseIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAIAAQAAgAAAAARCIAABAAgAAAAAAQAQIAAACBA=</HashCode>
+      <FileName>ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\CancelOrderResponseIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.BitStampAuthenticator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAgAAAgAIAAAAAAAAQAAAAAAAACAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\BitStampAuthenticator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.BitStampCommandFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAAAAIEUAAAIIRAJIAAAAAAQAIEFAQAAAARBA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\BitStampCommandFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.BitStampConfiguration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAEQAAAQAAAAAAAAAAAAAAAAABAQAAAAQAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\BitStampConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.BitStampErrorInterpreter" Collapsed="true">
+    <Position X="5.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\BitStampErrorInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.AccountBalanceIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAQBAAAAgIAQAAAAACAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\AccountBalanceIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.ErrorIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\ErrorIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.OpenOrdersIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAAAAAAAQAAACAAAAAAAAAAQAAAABAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\OpenOrdersIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.OrderBookIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAQCCAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\OrderBookIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.OrderConfirmationIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAAAAAAAQAAACAAAAAAAAAAQAAAABAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\OrderConfirmationIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.TickIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAIAAAAAAQACAIAAgAAAAAAAEAAAAACAgA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\TickIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.TransactionIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAIAAAAAQAAAAAAAAAgAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\TransactionIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.BitStamp.JSON.UserTransactionIntermediate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAAAgAAQAAAAAAAAUAAAAAQAAEABAAAA=</HashCode>
+      <FileName>ExchangeEngine\BitStamp\JSON\ResponseIntermediates\UserTransactionIntermediate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.AccountBalanceCommand" Collapsed="true">
+    <Position X="1.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\AccountBalanceCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.CancelOrderCommand" Collapsed="true">
+    <Position X="3.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\CancelOrderCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.DepositAddressCommand" Collapsed="true">
+    <Position X="5.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\DepositAddressCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.LimitOrderCommand" Collapsed="true">
+    <Position X="8" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\LimitOrderCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.OpenOrdersCommand" Collapsed="true">
+    <Position X="10.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\OpenOrdersCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.OrderBookCommand" Collapsed="true">
+    <Position X="12.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\OrderBookCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.TickCommand" Collapsed="true">
+    <Position X="14.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\TickCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.TransactionsCommand" Collapsed="true">
+    <Position X="17" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\TransactionsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Commands.UserTransactionsCommand" Collapsed="true">
+    <Position X="19.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\UserTransactionsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ExchangeCommand" Collapsed="true">
+    <Position X="10.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQAAAAAAAAABQAAIAAAAAgAAAAAAAAAIAQAACAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\ExchangeCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ExchangeParameter" Collapsed="true">
+    <Position X="38.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAgQAAAAAAAAAAAAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\ExchangeParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ErrorHandler" Collapsed="true">
+    <Position X="31.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAIAAAAAAAAAAAAAAAgAAACAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\ErrorHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ExchangeErrorInterpreter" Collapsed="true">
+    <Position X="6.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\ErrorInterpreter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ExceptionIdentifier" Collapsed="true">
+    <Position X="36.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\ErrorInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ExecutionEngine" Collapsed="true">
+    <Position X="40" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAQQAAAAAAAAAAAAAABAAAAAAAAEAAAA=</HashCode>
+      <FileName>ExchangeEngine\ExecutionEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.RateLimiter" Collapsed="true">
+    <Position X="41.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAgAAAAAAAABAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\RateLimiter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.RequestDispatcher" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAQAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\RequestDispatcher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BEx.ExchangeEngine.RequestFactory" Collapsed="true">
+    <Position X="33" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAACAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\RequestFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.ResultTranslation" Collapsed="true">
+    <Position X="34.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAiAAAAAAAAAAAEAAAAABA=</HashCode>
+      <FileName>ExchangeEngine\ResultTranslation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Utilities.ExtensionMethods" Collapsed="true">
+    <Position X="41.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Utilities\ExtensionMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Utilities.Conversion" Collapsed="true">
+    <Position X="38.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAgAAAAAAAAAAAAAAAAAAQAEAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Utilities\InvariantConversion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.ExchangeEngine.Utilities.UnixTime" Collapsed="true">
+    <Position X="31.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAABgAAAAAAAEQAAA=</HashCode>
+      <FileName>ExchangeEngine\Utilities\UnixTime.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.AccountBalance" Collapsed="true">
+    <Position X="13" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABQAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\AccountBalance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Balance" Collapsed="true">
+    <Position X="17.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAABAACAIAAAAAAAA=</HashCode>
+      <FileName>Response\Balance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BExError" Collapsed="true">
+    <Position X="19.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Response\BExError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BExResult" Collapsed="true">
+    <Position X="15.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAMAAQAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\BExResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Confirmation" Collapsed="true">
+    <Position X="26.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Response\Confirmation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.DepositAddress" Collapsed="true">
+    <Position X="1.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAQAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Response\DepositAddress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.OpenOrders" Collapsed="true">
+    <Position X="6.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAQAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Response\OpenOrders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Order" Collapsed="true">
+    <Position X="10.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAQgAAAAAQAAAAACAAAAAAAEAAAAAAAAEAAA=</HashCode>
+      <FileName>Response\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.OrderBook" Collapsed="true">
+    <Position X="15.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQgAAAAAQAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\OrderBook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.OrderBookEntry" Collapsed="true">
+    <Position X="33" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\OrderBookEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Tick" Collapsed="true">
+    <Position X="22" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAASgAAAAAAAAgAQAAAAAICAAAAAAA=</HashCode>
+      <FileName>Response\Tick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Transaction" Collapsed="true">
+    <Position X="24.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQgAAAAAQCAAAACAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Response\Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Transactions" Collapsed="true">
+    <Position X="28.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\Transactions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.UserTransaction" Collapsed="true">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAgAAAIASBAAAAAAAAAAAAEAAAABAAggAAg=</HashCode>
+      <FileName>Response\UserTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.UserTransactions" Collapsed="true">
+    <Position X="8.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\UserTransactions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Bitfinex" Collapsed="true">
+    <Position X="0.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bitfinex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.BitStamp" Collapsed="true">
+    <Position X="2.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BitStamp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.EnumExtensions" Collapsed="true">
+    <Position X="41.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Currency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BEx.Exchange" Collapsed="true">
+    <Position X="1.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgAgAQAAIEAIAAAgAAAAAAsAQAAAgEAQAAQBQAA=</HashCode>
+      <FileName>Exchange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="BEx.CurrencyTradingPair" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAEgAAAAAAAAAAAAIAAAAAAAAAQAiA=</HashCode>
+      <FileName>CurrencyTradingPair.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Interface Name="BEx.ExchangeEngine.IExchangeCommand" Collapsed="true">
+    <Position X="33" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQAAAAAAAAABQAAIAAAAAgAAAAAAAAAIAQAACAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\IExchangeCommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BEx.ExchangeEngine.IExchangeErrorInterpreter" Collapsed="true">
+    <Position X="38.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\ErrorInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BEx.ExchangeEngine.IExchangeAuthenticator" Collapsed="true">
+    <Position X="31.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>ExchangeEngine\IExchangeAuthenticator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BEx.ExchangeEngine.IExchangeCommandFactory" Collapsed="true">
+    <Position X="34.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAIAAAAAAIBAIAAAAAAAQAAAFAQAAAARAA=</HashCode>
+      <FileName>ExchangeEngine\IExchangeCommandFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BEx.ExchangeEngine.IExchangeConfiguration" Collapsed="true">
+    <Position X="36.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAEQAAAAAAAAAAAAAAAAAAAAABAQAAAAQAAAA=</HashCode>
+      <FileName>ExchangeEngine\IExchangeConfiguration.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BEx.ExchangeEngine.IExchangeResponse" Collapsed="true">
+    <Position X="40" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\IExchangeResponse.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BEx.ExchangeEngine.IRequestDispatcher" Collapsed="true">
+    <Position X="41.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\IRequestDispatcher.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="BEx.ExchangeEngine.ParameterMethod" Collapsed="true">
+    <Position X="34.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABCAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>ExchangeEngine\Commands\ParameterMethod.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BEx.ExchangeEngine.StandardParameter" Collapsed="true">
+    <Position X="36.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQgAAAAAAAACAQDACQAAAAAAAAAAAAEAQAE=</HashCode>
+      <FileName>ExchangeEngine\Commands\StandardParameter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BEx.OrderType" Collapsed="true">
+    <Position X="33" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Response\Order.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BEx.Currency" Collapsed="true">
+    <Position X="31.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAEAAAEAAAAAAAAAAAAIAAAAEfHAEAAAAAQIAAAAAFw=</HashCode>
+      <FileName>Currency.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

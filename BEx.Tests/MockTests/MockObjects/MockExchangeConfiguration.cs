@@ -1,10 +1,8 @@
-﻿using System;
+﻿using BEx.ExchangeEngine;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Immutable;
 using System.Threading;
-using BEx.ExchangeEngine;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
@@ -12,27 +10,24 @@ namespace BEx.UnitTests.MockTests.MockObjects
     {
         private long _nonce = DateTime.UtcNow.Ticks;
 
-
-
         internal MockExchangeConfiguration()
         {
             Initialize(null);
         }
 
-        
         public CurrencyTradingPair DefaultPair
         {
             get;
             private set;
         }
 
-        public HashSet<CurrencyTradingPair> SupportedPairs
+        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
             private set;
         }
 
-        public HashSet<Currency> SupportedCurrencies
+        public ImmutableHashSet<Currency> SupportedCurrencies
         {
             get;
             private set;
@@ -55,6 +50,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             get;
             private set;
         }
+
         /// <summary>
         /// Consecutively increasing action counter
         /// </summary>
@@ -78,16 +74,15 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 DefaultPair,
                 new CurrencyTradingPair(Currency.LTC, Currency.USD),
                 new CurrencyTradingPair(Currency.LTC, Currency.BTC)
-            };
+            }.ToImmutableHashSet<CurrencyTradingPair>();
 
             SupportedCurrencies = new HashSet<Currency>()
             {
                 DefaultPair.BaseCurrency,
                 DefaultPair.CounterCurrency,
                 Currency.LTC
-            };
-
-
+            }.ToImmutableHashSet<Currency>();
+            
             BaseUri = baseUri ?? new Uri("http://localhost");
         }
     }

@@ -1,9 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx;
-using BEx.Exceptions;
-using NUnit.Framework;
-
 namespace BEx.UnitTests
 {
     public class ExchangeExceptionVerification : ExchangeVerificationBase

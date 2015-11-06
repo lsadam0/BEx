@@ -1,11 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using BEx.ExchangeEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BEx.ExchangeEngine;
-
 
 namespace BEx
 {
@@ -28,19 +27,16 @@ namespace BEx
                                                 .OfType<Balance>()
                                                 .ToList();
 
-
             Initialize(convertedBalances, pair, sourceExchange);
         }
 
         private void Initialize(IEnumerable<Balance> balances, CurrencyTradingPair pair,
             Exchange sourceExchange)
         {
-
             var balanceBuffer = new Dictionary<Currency, Balance>();
 
             foreach (Balance toAdd in balances)
                 balanceBuffer.Add(toAdd.BalanceCurrency, toAdd);
-
 
             if (balanceBuffer.Count < sourceExchange.SupportedCurrencies.Count)
             {
@@ -74,6 +70,8 @@ namespace BEx
 
         protected override string DebugDisplay
         {
+            
+
             get { return string.Format("{0} - Balances: {1}", SourceExchange, BalanceByCurrency.Count); }
         }
     }

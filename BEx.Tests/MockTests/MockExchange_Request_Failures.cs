@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using NUnit.Framework;
-using BEx;
+﻿using NUnit.Framework;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
@@ -13,7 +6,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
     [Category("A.MockExchange.RequestFailures")]
     public class MockExchange_Request_Failures
     {
-
         private MockExchange _failureExchange;
 
         [TestFixtureSetUp]

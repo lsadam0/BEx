@@ -4,12 +4,7 @@ using System;
 
 namespace BEx
 {
-    public enum OrderType
-    {
-        Buy,
-        Sell
-    }
-
+    
     /// <summary>
     /// A Buy or Sell Limit Order for an Exchange
     /// </summary>

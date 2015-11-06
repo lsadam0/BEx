@@ -1,16 +1,13 @@
-﻿using System;
+﻿using BEx.Exceptions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using BEx.Exceptions;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexErrorInterpreter : ExchangeErrorInterpreter
     {
-        private static BitfinexErrorInterpreter _instance;
+        private static object locker = new object();
+        private static BitfinexErrorInterpreter instance;
 
         private BitfinexErrorInterpreter(IList<ExceptionIdentifier> identifiers)
             : base(identifiers)
@@ -19,10 +16,18 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         public static BitfinexErrorInterpreter GetInterpreter()
         {
-            if (_instance == null)
-                _instance = new BitfinexErrorInterpreter(GetIdentifiers());
+            if (instance == null)
+            {
+                lock (locker)
+                {
+                    if (instance == null)
+                    {
+                        instance = new BitfinexErrorInterpreter(GetIdentifiers());
+                    }
+                }
+            }
 
-            return _instance;
+            return instance;
         }
 
         private static IList<ExceptionIdentifier> GetIdentifiers()
@@ -51,7 +56,6 @@ namespace BEx.ExchangeEngine.Bitfinex
                                             typeof(LimitOrderRejectedException)));
 
             return identifiers;
-
         }
     }
 }

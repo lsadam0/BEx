@@ -1,11 +1,6 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
@@ -14,7 +9,6 @@ namespace BEx.ExchangeEngine
         Type ApiResultSubType
         {
             get;
-
         }
 
         ExecutionEngine Executor { get; }

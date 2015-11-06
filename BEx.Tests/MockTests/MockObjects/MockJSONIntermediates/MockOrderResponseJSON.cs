@@ -1,8 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Newtonsoft.Json;
-using BEx.ExchangeEngine.Utilities;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
@@ -61,7 +61,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
                 Pair = pair,
                 Id = Id,
                 Price = Conversion.ToDecimalInvariant(Price),
-                TradeType = (Side == "sell" ? OrderType.Sell :  OrderType.Buy)
+                TradeType = (Side == "sell" ? OrderType.Sell : OrderType.Buy)
             };
         }
     }

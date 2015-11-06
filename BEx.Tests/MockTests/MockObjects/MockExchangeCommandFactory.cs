@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BEx.ExchangeEngine;
+﻿using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
-using BEx.ExchangeEngine.Bitfinex;
 using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
 using RestSharp;
+using System;
+using System.Collections.Generic;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
@@ -174,7 +170,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-                
             };
 
             return new OrderBookCommand(
@@ -184,7 +179,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 false,
                 typeof(MockOrderBookJSON),
                 param);
-
         }
 
         public LimitOrderCommand BuildSellOrderCommand()
@@ -230,7 +224,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
             {
                 new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
                 new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-                
             };
 
             return new TransactionsCommand(

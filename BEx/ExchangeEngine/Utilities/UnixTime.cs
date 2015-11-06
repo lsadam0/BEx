@@ -1,7 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Runtime.CompilerServices;
 
 namespace BEx.ExchangeEngine.Utilities
 {
@@ -39,7 +38,6 @@ namespace BEx.ExchangeEngine.Utilities
             return UnixTimeStampToDateTime(source);
         }
 
-       
         private static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
             return (dateTime.ToUniversalTime() - epoch).TotalSeconds;

@@ -1,8 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
+using System;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
@@ -34,10 +34,8 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
 
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-
             if (string.IsNullOrWhiteSpace(FeeCurrency))
             {
-
                 // Buy Base
                 if (Type == "Buy")
                     FeeCurrency = pair.BaseCurrency.ToString();

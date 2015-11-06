@@ -5,7 +5,7 @@ using RestSharp;
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// Consumes an IRestRequest, Authenticates the Request, and 
+    /// Consumes an IRestRequest, Authenticates the Request, and
     /// sends it to the targeted Exchange
     /// </summary>
     internal class RequestDispatcher : IRequestDispatcher

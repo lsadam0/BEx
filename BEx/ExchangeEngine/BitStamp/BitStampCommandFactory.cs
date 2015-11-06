@@ -1,12 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.BitStamp.JSON;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
-using BEx.ExchangeEngine.BitStamp.JSON;
+using System;
+using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
@@ -208,7 +206,6 @@ namespace BEx.ExchangeEngine.BitStamp
 
         public UserTransactionsCommand BuildUserTransactionsCommand()
         {
-
             var param = new List<ExchangeParameter>()
             {
                 new ExchangeParameter(ParameterMethod.Post, "limit", StandardParameter.None, "50")
@@ -222,6 +219,5 @@ namespace BEx.ExchangeEngine.BitStamp
                                 typeof(List<UserTransactionIntermediate>)
                                 );
         }
-
     }
 }

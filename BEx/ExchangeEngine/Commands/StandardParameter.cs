@@ -11,46 +11,57 @@ namespace BEx.ExchangeEngine
         /// Unknown Type
         /// </summary>
         None,
+
         /// <summary>
         /// Amount of currency
         /// </summary>
         Amount,
+
         /// <summary>
         /// Identifier
         /// </summary>
         Id,
+
         /// <summary>
         /// Buy/Sell Price
         /// </summary>
         Price,
+
         /// <summary>
         /// Base Currency of a Trading Pair
         /// </summary>
         Base,
+
         /// <summary>
         /// Counter Currency of a Trading Pair
         /// </summary>
         Counter,
+
         /// <summary>
         /// Currency abbreviation (e.g. BTC)
         /// </summary>
         Currency,
+
         /// <summary>
         /// The full name of a Currency, e.g. "Bitcoin"
         /// </summary>
         CurrencyFullName,
+
         /// <summary>
         /// Trading Pair
         /// </summary>
         Pair,
+
         /// <summary>
         /// Timestamp in the Unix format
         /// </summary>
         UnixTimestamp,
+
         /// <summary>
         /// Standard Timestamp
         /// </summary>
         Timestamp,
+
         /// <summary>
         /// Integer describing maximum size
         /// </summary>

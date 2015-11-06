@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
@@ -18,6 +15,5 @@ namespace BEx.ExchangeEngine.Commands
             base(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(Transactions), parameters)
         {
         }
-
     }
 }

@@ -1,15 +1,13 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Newtonsoft.Json;
 using System;
 using System.Text;
-using System.Linq;
-using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
     internal class ErrorIntermediate : IExchangeResponse
     {
-
         [JsonConverter(typeof(SingleValueArrayConverter))]
         public Error error { get; set; }
 
@@ -24,14 +22,12 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 
             foreach (string line in error.__all__)
                 sb.Append(line);
-            
+
             return new BExError(ExchangeType.BitStamp)
             {
                 Message = sb.ToString()
             };
         }
-
-
 
         public class SingleValueArrayConverter : JsonConverter
         {
@@ -58,8 +54,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 }
                 else
                     throw new JsonSerializationException("Unable to deserialize BitStamp error messages");
-
-                
             }
 
             public override bool CanConvert(Type objectType)
@@ -69,4 +63,3 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         }
     }
 }
-

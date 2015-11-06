@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp;
+﻿using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
@@ -14,6 +9,6 @@ namespace BEx.ExchangeEngine
             get;
         }
 
-       // void Authenticate(IRestClient client, IRestRequest request);
+        // void Authenticate(IRestClient client, IRestRequest request);
     }
 }

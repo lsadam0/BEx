@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using Newtonsoft.Json;
-using BEx.ExchangeEngine.Utilities;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
+using System;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
@@ -35,10 +35,8 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
-
             if (string.IsNullOrWhiteSpace(FeeCurrency))
             {
-
                 // Buy Base
                 if (Type == "Buy")
                     FeeCurrency = pair.BaseCurrency.ToString();

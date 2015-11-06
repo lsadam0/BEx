@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BEx
+﻿namespace BEx
 {
     public class OrderBookEntry
     {
-
         internal OrderBookEntry(decimal amount, decimal price)
         {
             Amount = amount;
@@ -17,12 +10,13 @@ namespace BEx
 
         public decimal Amount
         {
-            get; 
-            private set; 
+            get;
+            private set;
         }
 
         public decimal Price
         {
-            get; private set; }
+            get; private set;
+        }
     }
 }

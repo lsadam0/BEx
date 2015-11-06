@@ -3,7 +3,6 @@
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
     internal class TickIntermediate : IExchangeResponse

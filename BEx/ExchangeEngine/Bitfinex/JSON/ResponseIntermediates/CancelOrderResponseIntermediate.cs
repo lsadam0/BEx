@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
-using BEx.ExchangeEngine.Utilities;
-using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-
     internal class CancelOrderResponseIntermediate : IExchangeResponse
     {
         [JsonProperty("id", Required = Required.Always)]
@@ -54,7 +47,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         [JsonProperty("executed_amount", Required = Required.Always)]
         public string ExecutedAmount { get; set; }
 
-
         public int OrderId { get; set; }
 
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
@@ -76,4 +68,3 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         }
     }
 }
-

@@ -1,19 +1,14 @@
-﻿using System;
+﻿using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.BitStamp.JSON;
+using BEx.ExchangeEngine.Commands;
+using BEx.ExchangeEngine.Utilities;
+using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
+using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Commands;
-using BEx.ExchangeEngine.Utilities;
-using BEx.ExchangeEngine.BitStamp;
-
-using RestSharp;
-using BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using BEx.ExchangeEngine.BitStamp.JSON;
 
 namespace BEx.UnitTests.MockTests.MockObjects
 {
@@ -45,7 +40,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse AccountBalanceResponse(IRestRequest request, IExchangeCommand command)
         {
-
             var usdBalance = new MockAccountBalanceJSON()
             {
                 Amount = "100.00",
@@ -70,7 +64,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 Type = "exchange"
             };
 
-
             var balances = new List<MockAccountBalanceJSON>()
             {
                 usdBalance,
@@ -90,7 +83,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
         {
             ErrorIntermediate error = new ErrorIntermediate();
             //{
-              //  Error = "blah blah blah"
+            //  Error = "blah blah blah"
             //};
 
             return null;
@@ -103,14 +96,12 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse DepositAddressResponse(IRestRequest request, IExchangeCommand command)
         {
-
             MockDepositAddressJSON deposit = new MockDepositAddressJSON()
             {
                 Address = Guid.NewGuid().ToString(),
                 Currency = "unk",
                 Method = "unknown",
                 Result = "unknown"
-
             };
 
             return new RestResponse()
@@ -123,14 +114,12 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse OpenOrdersResponse(IRestRequest request, IExchangeCommand command)
         {
-
             var OrderOne = new MockOrderResponseJSON()
             {
                 OriginalAmount = "100.00",
                 Id = 100,
                 Price = "234.12",
                 Side = "sell"
-
             };
 
             var OrderTwo = new MockOrderResponseJSON()
@@ -139,7 +128,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 Id = 200,
                 Price = "334.12",
                 Side = "buy"
-
             };
 
             var OrderThree = new MockOrderResponseJSON()
@@ -148,7 +136,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 Id = 300,
                 Price = "434.12",
                 Side = "sell"
-
             };
 
             var orders = new List<MockOrderResponseJSON>()
@@ -164,8 +151,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
                 ResponseStatus = ResponseStatus.Completed,
                 StatusCode = HttpStatusCode.OK
             };
-
-
         }
 
         private IRestResponse OrderBookResponse(IRestRequest request, IExchangeCommand command)
@@ -183,7 +168,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                     Price = "214.34",
                     Amount = "3.332245",
                     Timestamp = DateTime.UtcNow.ToUnixTime().ToString()
-                } 
+                }
             };
 
             var bids = new List<Bid>()
@@ -199,7 +184,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
                     Price = "214.34",
                     Amount = "3.332245",
                     Timestamp = DateTime.UtcNow.ToUnixTime().ToString()
-                } 
+                }
             };
 
             var orderBook = new MockOrderBookJSON()
@@ -225,7 +210,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
         private IRestResponse TickResponse(IRestRequest request, IExchangeCommand command)
         {
             RestClient client = new RestClient("http://nothingnothing");
-
 
             client.Timeout = 0;
             return client.Execute(request);
@@ -280,7 +264,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private IRestResponse UserTransactionsResponse(IRestRequest request, IExchangeCommand command)
         {
-
             var transactions = new List<MockUserTransactionJSON>()
             {
                 new MockUserTransactionJSON()
@@ -312,7 +295,6 @@ namespace BEx.UnitTests.MockTests.MockObjects
                     FeeCurrency = "BTC",
                     Timestamp = DateTime.UtcNow.ToUnixTime().ToString(),
                     Type = "Buy"
-
                 }
             };
 
@@ -324,5 +306,4 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
     }
-
 }
