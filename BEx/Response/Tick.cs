@@ -7,7 +7,7 @@ namespace BEx
     /// <summary>
     /// Exchange Tick
     /// </summary>
-    public sealed class Tick : BExResult
+    public sealed class Tick : BExResult, IEquatable<Tick>
     {
         internal Tick(DateTime exchangeTimeStamp, Exchange sourceExchange)
             : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
@@ -79,6 +79,68 @@ namespace BEx
         protected override string DebugDisplay
         {
             get { return string.Format("{0} {1}: {2}/{3}", SourceExchange, Pair, Bid, Ask); }
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.Ask.GetHashCode()
+                ^ this.Bid.GetHashCode()
+                ^ this.High.GetHashCode()
+                ^ this.Last.GetHashCode()
+                ^ this.Low.GetHashCode()
+                ^ (int)this.Pair.BaseCurrency
+                ^ (int)this.Pair.CounterCurrency
+                ^ (int)this.SourceExchange
+                ^ this.Volume.GetHashCode();
+        }
+
+        public static bool operator !=(Tick a, Tick b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator ==(Tick a, Tick b)
+        {
+            if (a == null || b == null)
+            {
+                return false;
+            }
+
+            return
+                (a.Ask == b.Ask)
+                && (a.Bid == b.Bid)
+                && (a.High == b.High)
+                && (a.Last == b.Last)
+                && (a.Low == b.Low)
+                && (a.Pair == b.Pair)
+                && (a.SourceExchange == b.SourceExchange)
+                && (a.Volume == b.Volume);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is Tick))
+            {
+                return false;
+            }
+
+            return this == (obj as Tick);
+        }
+
+        public bool Equals(Tick b)
+        {
+            if (b == null)
+            {
+                return false;
+            }
+
+            return (this == b);
         }
     }
 }
