@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class UserTransactionIntermediate : IExchangeResponse
+    internal class UserTransactionIntermediate : IExchangeResponse<UserTransaction>
     {
         [JsonProperty("usd", Required = Required.Always)]
         public string Usd { get; set; }
@@ -31,11 +31,12 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("datetime", Required = Required.Always)]
         public string Datetime { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+
+        public UserTransaction Convert(CurrencyTradingPair pair)
         {
             if (OrderId != null && Type == 2)
             {
-                return new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), sourceExchange)
+                return new UserTransaction(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
                 {
                     ExchangeRate = Conversion.ToDecimalInvariant(BtcUsd),
                     BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc),
@@ -51,5 +52,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             else
                 return null;
         }
+
     }
 }

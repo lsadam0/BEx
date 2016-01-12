@@ -2,17 +2,20 @@
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class ErrorIntermediate : IExchangeResponse
+    internal class ErrorIntermediate : IExchangeResponse<BExError>
     {
         [JsonProperty("message")]
         public string message { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+
+        public BExError Convert(CurrencyTradingPair pair)
         {
-            return new BExError(sourceExchange.ExchangeSourceType)
+            return new BExError(ExchangeType.Bitfinex)
             {
                 Message = message
             };
         }
+
+
     }
 }

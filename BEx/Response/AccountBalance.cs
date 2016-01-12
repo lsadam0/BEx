@@ -19,11 +19,11 @@ namespace BEx
             Initialize(balances, pair, sourceExchange);
         }
 
-        internal AccountBalance(IEnumerable<IExchangeResponse> balances, CurrencyTradingPair pair, Exchange sourceExchange)
+        internal AccountBalance(IEnumerable<IExchangeResponse<Balance>> balances, CurrencyTradingPair pair, Exchange sourceExchange)
             : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
         {
             IList<Balance> convertedBalances = balances
-                                                .Select(x => x.ConvertToStandard(pair, sourceExchange) as Balance)
+                                                .Select(x => x.Convert(pair))
                                                 .OfType<Balance>()
                                                 .ToList();
 
@@ -45,7 +45,7 @@ namespace BEx
                 {
                     if (!balanceBuffer.ContainsKey(missingCurrency))
                     {
-                        balanceBuffer.Add(missingCurrency, new Balance(DateTime.UtcNow, sourceExchange)
+                        balanceBuffer.Add(missingCurrency, new Balance(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
                         {
                             BalanceCurrency = missingCurrency,
                             AvailableToTrade = 0,
@@ -70,7 +70,7 @@ namespace BEx
 
         protected override string DebugDisplay
         {
-            
+
 
             get { return string.Format("{0} - Balances: {1}", SourceExchange, BalanceByCurrency.Count); }
         }

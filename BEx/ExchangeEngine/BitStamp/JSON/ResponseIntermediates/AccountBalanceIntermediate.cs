@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class AccountBalanceIntermediate : IExchangeResponse
+    internal class AccountBalanceIntermediate : IExchangeResponse<AccountBalance>
     {
         [JsonProperty("btc_reserved", Required = Required.Always)]
         public string BtcReserved { get; set; }
@@ -30,16 +30,16 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("usd_available", Required = Required.Always)]
         public string UsdAvailable { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public AccountBalance Convert(CurrencyTradingPair pair)
         {
-            Balance btcBalance = new Balance(DateTime.UtcNow, sourceExchange)
+            Balance btcBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
             {
                 BalanceCurrency = Currency.BTC,
                 AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(BtcBalance)
             };
 
-            Balance usdBalance = new Balance(DateTime.UtcNow, sourceExchange)
+            Balance usdBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
             {
                 AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(UsdBalance),
@@ -51,7 +51,9 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 usdBalance
             };
 
-            return new AccountBalance(balances, pair, sourceExchange);
+            return new AccountBalance(balances, pair, null);
         }
+
+
     }
 }

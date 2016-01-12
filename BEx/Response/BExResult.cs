@@ -9,20 +9,20 @@ namespace BEx
     /// Exchange Result Base Class
     /// </summary>
     [DebuggerDisplay("{DebugDisplay,nq}")]
-    public abstract class BExResult
+    public abstract class BExResult : IExchangeResult
     {
         internal BExResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
         {
-            ExchangeTimestamp = exchangeTimeStamp;
-            LocalTimestamp = DateTime.UtcNow;
-            SourceExchange = sourceExchange;
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
+            this.SourceExchange = sourceExchange;
         }
 
         /// <summary>
         /// Exchange reported TimeStamp of the action.  When the Exchange does not provide
         /// a TimeStamp, this value will be equal to LocalTimeStamp.
         /// </summary>
-        public DateTime ExchangeTimestamp
+        public DateTime ExchangeTimeStampUTC
         {
             get;
             private set;
@@ -31,7 +31,7 @@ namespace BEx
         /// <summary>
         /// Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
         /// </summary>
-        public DateTime LocalTimestamp
+        public DateTime LocalTimeStampUTC
         {
             get;
             private set;
@@ -48,7 +48,7 @@ namespace BEx
 
         protected virtual string DebugDisplay
         {
-            get { return string.Format("{0} {1}", SourceExchange, ExchangeTimestamp); }
+            get { return string.Format("{0} {1}", SourceExchange, ExchangeTimeStampUTC); }
         }
     }
 }

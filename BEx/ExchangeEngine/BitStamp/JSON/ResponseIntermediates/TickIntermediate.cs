@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class TickIntermediate : IExchangeResponse
+    internal class TickIntermediate : IExchangeResponse<Tick>
     {
         [JsonProperty("high", Required = Required.Always)]
         public string high
@@ -63,6 +63,21 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             set;
         }
 
+        public Tick Convert(CurrencyTradingPair pair)
+        {
+            return new Tick(timestamp.ToDateTimeUTC(), ExchangeType.BitStamp)
+            {
+                Ask = Conversion.ToDecimalInvariant(ask),
+                Bid = Conversion.ToDecimalInvariant(bid),
+                High = Conversion.ToDecimalInvariant(high),
+                Last = Conversion.ToDecimalInvariant(last),
+                Low = Conversion.ToDecimalInvariant(low),
+                Volume = Conversion.ToDecimalInvariant(volume),
+                Pair = pair
+            };
+        }
+
+        /*
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             return new Tick(timestamp.ToDateTimeUTC(), sourceExchange)
@@ -75,6 +90,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 Volume = Conversion.ToDecimalInvariant(volume),
                 Pair = pair
             };
-        }
+        }*/
     }
 }

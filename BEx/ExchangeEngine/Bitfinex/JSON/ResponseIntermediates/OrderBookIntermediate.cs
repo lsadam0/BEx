@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         public string Timestamp { get; set; }
     }
 
-    internal class OrderBookIntermediate : IExchangeResponse
+    internal class OrderBookIntermediate : IExchangeResponse<OrderBook>
     {
         [JsonProperty("bids", Required = Required.Always)]
         public Bid[] Bids { get; set; }
@@ -40,15 +40,16 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("asks", Required = Required.Always)]
         public Ask[] Asks { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+
+        public OrderBook Convert(CurrencyTradingPair pair)
         {
             IList<OrderBookEntry> convertedBids = Bids.Select(
-                x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
+           x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
 
             IList<OrderBookEntry> convertedAsks = Asks.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
 
-            return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, sourceExchange)
+            return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, ExchangeType.Bitfinex)
             {
                 Pair = pair
             };

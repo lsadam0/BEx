@@ -6,8 +6,8 @@ namespace BEx
 {
     public sealed class Confirmation : BExResult
     {
-        internal Confirmation(DateTime exchangeTimestamp, Exchange sourceExchange)
-             : base(exchangeTimestamp, sourceExchange.ExchangeSourceType)
+        internal Confirmation(DateTime exchangeTimestamp, ExchangeType sourceExchange)
+             : base(exchangeTimestamp, sourceExchange)
         { }
 
         public bool IsConfirmed

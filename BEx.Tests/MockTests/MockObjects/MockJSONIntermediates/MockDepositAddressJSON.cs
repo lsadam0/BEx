@@ -6,7 +6,7 @@ using System;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
-    internal class MockDepositAddressJSON : IExchangeResponse
+    internal class MockDepositAddressJSON : IExchangeResponse<DepositAddress>
     {
         [JsonProperty("result")]
         public string Result { get; set; }
@@ -20,9 +20,10 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("address")]
         public string Address { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public DepositAddress Convert(CurrencyTradingPair pair)
         {
-            return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, sourceExchange);
+            return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, ExchangeType.Mock);
+            //  return new DepositAddress(Address, DateTime.UtcNow,  ExchangeType.Mock, pair);
         }
     }
 }

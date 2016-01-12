@@ -5,7 +5,7 @@ using System;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class DepositAddressIntermediate : IExchangeResponse
+    internal class DepositAddressIntermediate : IExchangeResponse<DepositAddress>
     {
         [JsonProperty("result", Required = Required.Always)]
         public string Result { get; set; }
@@ -19,9 +19,11 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("address", Required = Required.Always)]
         public string Address { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+
+        public DepositAddress Convert(CurrencyTradingPair pair)
         {
-            return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, sourceExchange);
+            return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, ExchangeType.Bitfinex);
         }
+
     }
 }

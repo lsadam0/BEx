@@ -4,14 +4,14 @@ using System;
 
 namespace BEx
 {
-    
+
     /// <summary>
     /// A Buy or Sell Limit Order for an Exchange
     /// </summary>
     public sealed class Order : BExResult
     {
-        internal Order(DateTime exchangeTimeStamp, Exchange sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
+        internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
         }
 

@@ -6,7 +6,7 @@ using System;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class UserTransactionIntermediate : IExchangeResponse
+    internal class UserTransactionIntermediate : IExchangeResponse<UserTransaction>
     {
         [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("tid", Required = Required.Always)]
         public int Tid { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public UserTransaction Convert(CurrencyTradingPair pair)
         {
             if (string.IsNullOrWhiteSpace(FeeCurrency))
             {
@@ -45,7 +45,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 // Sell Counter
             }
 
-            return new UserTransaction(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new UserTransaction(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
             {
                 OrderId = Tid,
                 ExchangeRate = Conversion.ToDecimalInvariant(Price),
@@ -58,5 +58,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 CompletedTime = Timestamp.ToDateTimeUTC()
             };
         }
+
+
     }
 }

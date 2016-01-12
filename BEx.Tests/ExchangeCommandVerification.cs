@@ -34,16 +34,16 @@ namespace BEx.UnitTests
             }
         }
 
-        public void VerifyAPIResult(BExResult toVerify)
+        public void VerifyAPIResult(IExchangeResult toVerify)
         {
             Assert.IsNotNull(toVerify);
             Assert.That(toVerify.SourceExchange == base.TestCandidate.ExchangeSourceType);
 
-            Assert.That(toVerify.ExchangeTimestamp > DateTime.MinValue);
-            Assert.That(toVerify.ExchangeTimestamp < DateTime.MaxValue);
+            Assert.That(toVerify.ExchangeTimeStampUTC > DateTime.MinValue);
+            Assert.That(toVerify.ExchangeTimeStampUTC < DateTime.MaxValue);
 
-            Assert.That(toVerify.LocalTimestamp > DateTime.MinValue);
-            Assert.That(toVerify.LocalTimestamp < DateTime.MaxValue);
+            Assert.That(toVerify.LocalTimeStampUTC > DateTime.MinValue);
+            Assert.That(toVerify.LocalTimeStampUTC < DateTime.MaxValue);
         }
 
         public void VerifyBuyOrder()

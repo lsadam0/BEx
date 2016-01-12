@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
-    internal class MockAccountBalanceJSON : IExchangeResponse
+    internal class MockAccountBalanceJSON : IExchangeResponse<Balance>
     {
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -22,13 +22,13 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("available")]
         public string Available { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Balance Convert(CurrencyTradingPair pair)
         {
             Balance res = null;
 
             if (Type == "exchange")
             {
-                res = new Balance(DateTime.UtcNow, sourceExchange);
+                res = new Balance(DateTime.UtcNow, ExchangeType.Mock);
                 Currency balanceCurrency;
 
                 if (Enum.TryParse(Currency.ToUpper(CultureInfo.InvariantCulture), out balanceCurrency))
@@ -41,5 +41,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 
             return res;
         }
+
+
     }
 }

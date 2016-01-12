@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class CancelOrderResponseIntermediate : IExchangeResponse
+    internal class CancelOrderResponseIntermediate : IExchangeResponse<Confirmation>
     {
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
@@ -49,22 +49,14 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public int OrderId { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Confirmation Convert(CurrencyTradingPair pair)
         {
-            return new Confirmation(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new Confirmation(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
             {
                 IsConfirmed = true
             };
-
-            /*
-            return new Order(Timestamp.ToDateTimeUTC(), sourceExchange)
-            {
-                Amount = Conversion.ToDecimalInvariant(OriginalAmount),
-                Pair = pair,
-                Id = Id,
-                Price = Conversion.ToDecimalInvariant(Price),
-                TradeType = (Side == "sell" ? OrderType.Sell : OrderType.Buy)
-            };*/
         }
+
+
     }
 }

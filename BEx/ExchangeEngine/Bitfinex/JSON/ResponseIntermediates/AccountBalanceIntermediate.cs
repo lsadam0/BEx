@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class AccountBalanceIntermediate : IExchangeResponse
+    internal class AccountBalanceIntermediate : IExchangeResponse<Balance>
     {
         [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
@@ -21,6 +21,27 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("available", Required = Required.Always)]
         public string Available { get; set; }
 
+        public Balance Convert(CurrencyTradingPair pair)
+        {
+            Balance res = null;
+
+            if (Type == "exchange")
+            {
+                res = new Balance(DateTime.UtcNow, ExchangeType.Bitfinex);
+                Currency balanceCurrency;
+
+                if (Enum.TryParse(Currency.ToUpper(CultureInfo.InvariantCulture), out balanceCurrency))
+                {
+                    res.BalanceCurrency = balanceCurrency;
+                    res.AvailableToTrade = Conversion.ToDecimalInvariant(Available);
+                    res.TotalBalance = Conversion.ToDecimalInvariant(Amount);
+                }
+            }
+
+            return res;
+        }
+
+        /*
         public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
         {
             Balance res = null;
@@ -39,6 +60,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
             }
 
             return res;
-        }
+        }*/
     }
 }

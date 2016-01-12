@@ -11,8 +11,8 @@ namespace BEx
     /// </summary>
     public sealed class OrderBook : BExResult
     {
-        internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp, Exchange sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
+        internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
             Asks = new ReadOnlyCollection<OrderBookEntry>(asks);
             Bids = new ReadOnlyCollection<OrderBookEntry>(bids);

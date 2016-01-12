@@ -105,6 +105,7 @@
     <Compile Include="ExchangeEngine\BitStamp\JSON\ResponseIntermediates\TransactionIntermediate.cs" />
     <Compile Include="ExchangeEngine\BitStamp\JSON\ResponseIntermediates\UserTransactionIntermediate.cs" />
     <Compile Include="ExchangeEngine\IExchangeAuthenticator.cs" />
+    <Compile Include="ExchangeEngine\IExchangeResult.cs" />
     <Compile Include="ExchangeEngine\IRequestDispatcher.cs" />
     <Compile Include="ExchangeEngine\RateLimiter.cs" />
     <Compile Include="ExchangeEngine\IExchangeResponse.cs" />

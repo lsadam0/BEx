@@ -9,8 +9,8 @@ namespace BEx
     /// </summary>
     public sealed class UserTransaction : BExResult
     {
-        internal UserTransaction(DateTime exchangeTimeStamp, Exchange sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
+        internal UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         { }
 
         private OrderType _transactionType;

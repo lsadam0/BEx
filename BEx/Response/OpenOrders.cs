@@ -13,10 +13,10 @@ namespace BEx
     /// </summary>
     public sealed class OpenOrders : BExResult
     {
-        internal OpenOrders(IEnumerable<IExchangeResponse> orders, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
+        internal OpenOrders(IEnumerable<IExchangeResponse<Order>> orders, CurrencyTradingPair pair, ExchangeType sourceExchange)
+            : base(DateTime.UtcNow, sourceExchange)
         {
-            IEnumerable<Order> allOrders = orders.Select(x => x.ConvertToStandard(pair, sourceExchange) as Order);
+            IEnumerable<Order> allOrders = orders.Select(x => x.Convert(pair));
 
             BuyOrders =
                 new ReadOnlyDictionary<int, Order>(

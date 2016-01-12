@@ -9,15 +9,15 @@ namespace BEx
     /// </summary>
     public sealed class DepositAddress : BExResult
     {
-        internal DepositAddress(string address, Exchange sourceExchange, CurrencyTradingPair pair)
-            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
+        internal DepositAddress(string address, ExchangeType sourceExchange, CurrencyTradingPair pair)
+            : base(DateTime.UtcNow, sourceExchange)
         {
             Address = address;
             DepositCurrency = pair.BaseCurrency;
         }
 
-        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency, Exchange sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
+        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency, ExchangeType sourceExchange)
+            : base(exchangeTimeStamp, sourceExchange)
         {
             Address = address;
             DepositCurrency = depositCurrency;

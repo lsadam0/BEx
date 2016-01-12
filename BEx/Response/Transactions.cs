@@ -10,14 +10,14 @@ namespace BEx
 {
     public sealed class Transactions : BExResult
     {
-        internal Transactions(IEnumerable<IExchangeResponse> transactions, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
+        internal Transactions(IEnumerable<IExchangeResponse<Transaction>> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
+            : base(DateTime.UtcNow, sourceExchange)
         {
             Pair = pair;
 
             TransactionsCollection =
                 new ReadOnlyCollection<Transaction>(
-                    transactions.Select(x => x.ConvertToStandard(pair, sourceExchange) as Transaction)
+                    transactions.Select(x => x.Convert(pair))
                     .OfType<Transaction>()
                     .ToList());
         }

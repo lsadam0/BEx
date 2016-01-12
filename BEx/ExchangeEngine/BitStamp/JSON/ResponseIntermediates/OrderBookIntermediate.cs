@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class OrderBookIntermediate : IExchangeResponse
+    internal class OrderBookIntermediate : IExchangeResponse<OrderBook>
     {
         [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
@@ -18,12 +18,12 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("asks", Required = Required.Always)]
         public string[][] Asks { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public OrderBook Convert(CurrencyTradingPair pair)
         {
             IList<OrderBookEntry> convertedBids = Bids
-                .Select(
-                    x =>
-                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0]))).ToList();
+              .Select(
+                  x =>
+                      new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0]))).ToList();
 
             IList<OrderBookEntry> convertedAsks = Asks
                 .Select(
@@ -34,10 +34,11 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 convertedBids,
                 convertedAsks,
                 Timestamp.ToDateTimeUTC(),
-                sourceExchange)
+                ExchangeType.BitStamp)
             {
                 Pair = pair
             };
         }
+
     }
 }

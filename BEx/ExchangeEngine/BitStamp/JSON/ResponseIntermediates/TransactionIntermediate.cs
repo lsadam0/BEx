@@ -6,7 +6,7 @@ using System;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class TransactionIntermediate : IExchangeResponse
+    internal class TransactionIntermediate : IExchangeResponse<Transaction>
     {
         [JsonProperty("date", Required = Required.Always)]
         public string date { get; set; }
@@ -20,9 +20,9 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("amount", Required = Required.Always)]
         public string amount { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Transaction Convert(CurrencyTradingPair pair)
         {
-            return new Transaction(DateTime.UtcNow, sourceExchange)
+            return new Transaction(DateTime.UtcNow, ExchangeType.BitStamp)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),
@@ -31,5 +31,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 CompletedTime = date.ToDateTimeUTC()
             };
         }
+
+
     }
 }

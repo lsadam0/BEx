@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class OpenOrdersIntermediate : IExchangeResponse
+    internal class OpenOrdersIntermediate : IExchangeResponse<Order>
     {
         [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
@@ -22,9 +22,11 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("datetime", Required = Required.Always)]
         public string Datetime { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+
+
+        public Order Convert(CurrencyTradingPair pair)
         {
-            return new Order(Conversion.ToDateTimeInvariant(Datetime), sourceExchange)
+            return new Order(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
             {
                 Amount = Conversion.ToDecimalInvariant(Amount),
                 Price = Conversion.ToDecimalInvariant(Price),
@@ -33,5 +35,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 Pair = pair
             };
         }
+
     }
 }

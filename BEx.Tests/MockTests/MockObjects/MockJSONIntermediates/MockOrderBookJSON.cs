@@ -33,7 +33,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         public string Timestamp { get; set; }
     }
 
-    internal class MockOrderBookJSON : IExchangeResponse
+    internal class MockOrderBookJSON : IExchangeResponse<OrderBook>
     {
         [JsonProperty("bids")]
         public Bid[] Bids { get; set; }
@@ -41,7 +41,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public OrderBook Convert(CurrencyTradingPair pair)
         {
             IList<OrderBookEntry> convertedBids = Bids.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
@@ -49,7 +49,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
             IList<OrderBookEntry> convertedAsks = Asks.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();
 
-            return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, sourceExchange)
+            return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, ExchangeType.Mock)
             {
                 Pair = pair
             };

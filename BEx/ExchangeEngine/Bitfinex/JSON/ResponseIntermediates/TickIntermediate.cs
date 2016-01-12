@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class TickIntermediate : IExchangeResponse
+    internal class TickIntermediate : IExchangeResponse<Tick>
     {
         [JsonProperty("mid", Required = Required.Always)]
         public string Mid { get; set; }
@@ -31,9 +31,9 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Tick Convert(CurrencyTradingPair pair)
         {
-            return new Tick(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new Tick(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
             {
                 Pair = pair,
                 Ask = Conversion.ToDecimalInvariant(Ask),
@@ -44,5 +44,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 Volume = Conversion.ToDecimalInvariant(Volume)
             };
         }
+
+
     }
 }

@@ -34,12 +34,13 @@ namespace BEx.ExchangeEngine
         {
             if (!string.IsNullOrWhiteSpace(json))
             {
-                var deserialized = JsonConvert.DeserializeObject(
+                throw new NotImplementedException();
+              /*  var deserialized = JsonConvert.DeserializeObject(
                                         json,
                                         _sourceExchange.Configuration.ErrorJsonType
                                         ) as IExchangeResponse;
 
-                return deserialized.ConvertToStandard(pair, _sourceExchange) as BExError;
+                return deserialized.ConvertToStandard(pair, _sourceExchange) as BExError;*/
             }
             else
                 return new BExError(_sourceExchange.ExchangeSourceType)

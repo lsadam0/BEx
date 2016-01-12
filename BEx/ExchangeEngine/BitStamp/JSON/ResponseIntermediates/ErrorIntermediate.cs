@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
-    internal class ErrorIntermediate : IExchangeResponse
+    internal class ErrorIntermediate : IExchangeResponse<BExError>
     {
         [JsonConverter(typeof(SingleValueArrayConverter))]
         public Error error { get; set; }
@@ -16,7 +16,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             public string[] __all__ { get; set; }
         }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public BExError Convert(CurrencyTradingPair pair)
         {
             StringBuilder sb = new StringBuilder();
 

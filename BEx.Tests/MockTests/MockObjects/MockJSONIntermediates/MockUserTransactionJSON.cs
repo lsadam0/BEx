@@ -7,7 +7,7 @@ using System;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
-    internal class MockUserTransactionJSON : IExchangeResponse
+    internal class MockUserTransactionJSON : IExchangeResponse<UserTransaction>
     {
         [JsonProperty("price")]
         public string Price { get; set; }
@@ -33,7 +33,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("tid")]
         public int Tid { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public UserTransaction Convert(CurrencyTradingPair pair)
         {
             if (string.IsNullOrWhiteSpace(FeeCurrency))
             {
@@ -46,7 +46,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
                 // Sell Counter
             }
 
-            return new UserTransaction(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new UserTransaction(Timestamp.ToDateTimeUTC(), ExchangeType.Mock)
             {
                 OrderId = Tid,
                 ExchangeRate = Conversion.ToDecimalInvariant(Price),

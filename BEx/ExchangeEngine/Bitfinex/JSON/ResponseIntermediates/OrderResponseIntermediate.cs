@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class OrderResponseIntermediate : IExchangeResponse
+    internal class OrderResponseIntermediate : IExchangeResponse<Order>
     {
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
@@ -52,9 +52,9 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Order Convert(CurrencyTradingPair pair)
         {
-            return new Order(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new Order(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
             {
                 Amount = Conversion.ToDecimalInvariant(OriginalAmount),
                 Pair = pair,
@@ -63,5 +63,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 TradeType = (Side == "sell" ? OrderType.Sell : OrderType.Buy)
             };
         }
+
+
     }
 }

@@ -6,7 +6,7 @@ using System;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
-    internal class TransactionIntermediate : IExchangeResponse
+    internal class TransactionIntermediate : IExchangeResponse<Transaction>
     {
         [JsonProperty("timestamp", Required = Required.Always)]
         public long timestamp { get; set; }
@@ -26,16 +26,18 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("type", Required = Required.Always)]
         public string type { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourcExchange)
+        public Transaction Convert(CurrencyTradingPair pair)
         {
-            return new Transaction(DateTime.UtcNow, sourcExchange)
+            return new Transaction(DateTime.UtcNow, ExchangeType.Bitfinex)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),
                 TransactionId = tid,
-                CompletedTime = Convert.ToDouble(timestamp).ToDateTimeUTC(),
+                CompletedTime = System.Convert.ToDouble(timestamp).ToDateTimeUTC(),
                 Pair = pair,
             };
         }
+
+
     }
 }

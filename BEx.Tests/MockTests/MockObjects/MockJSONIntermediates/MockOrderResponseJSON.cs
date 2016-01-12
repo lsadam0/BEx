@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
-    internal class MockOrderResponseJSON : IExchangeResponse
+    internal class MockOrderResponseJSON : IExchangeResponse<Order>
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -53,9 +53,9 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("order_id")]
         public int OrderId { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Order Convert(CurrencyTradingPair pair)
         {
-            return new Order(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new Order(Timestamp.ToDateTimeUTC(), ExchangeType.Mock)
             {
                 Amount = Conversion.ToDecimalInvariant(OriginalAmount),
                 Pair = pair,

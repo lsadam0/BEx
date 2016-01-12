@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
-    internal class MockTickJSON : IExchangeResponse
+    internal class MockTickJSON : IExchangeResponse<Tick>
     {
         [JsonProperty("mid")]
         public string Mid { get; set; }
@@ -32,18 +32,23 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("timestamp")]
         public string Timestamp { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        public Tick Convert(CurrencyTradingPair pair)
         {
-            return new Tick(Timestamp.ToDateTimeUTC(), sourceExchange)
+            return new Tick(Timestamp.ToDateTimeUTC(), ExchangeType.Mock)
             {
-                Pair = pair,
                 Ask = Conversion.ToDecimalInvariant(Ask),
                 Bid = Conversion.ToDecimalInvariant(Bid),
                 High = Conversion.ToDecimalInvariant(High),
                 Last = Conversion.ToDecimalInvariant(LastPrice),
                 Low = Conversion.ToDecimalInvariant(Low),
-                Volume = Conversion.ToDecimalInvariant(Volume)
+                Volume = Conversion.ToDecimalInvariant(Volume),
+                Pair = pair
             };
+        }
+
+        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
+        {
+            return null;
         }
     }
 }

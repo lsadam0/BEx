@@ -7,7 +7,7 @@ using System;
 
 namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
 {
-    internal class MockTransactionJSON : IExchangeResponse
+    internal class MockTransactionJSON : IExchangeResponse<Transaction>
     {
         [JsonProperty("timestamp")]
         public long timestamp { get; set; }
@@ -27,14 +27,14 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("type")]
         public string type { get; set; }
 
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourcExchange)
+        public Transaction Convert(CurrencyTradingPair pair)
         {
-            return new Transaction(DateTime.UtcNow, sourcExchange)
+            return new Transaction(DateTime.UtcNow, ExchangeType.Mock)
             {
                 Amount = Conversion.ToDecimalInvariant(amount),
                 Price = Conversion.ToDecimalInvariant(price),
                 TransactionId = tid,
-                CompletedTime = Convert.ToDouble(timestamp).ToDateTimeUTC(),
+                CompletedTime = System.Convert.ToDouble(timestamp).ToDateTimeUTC(),
                 Pair = pair,
             };
         }

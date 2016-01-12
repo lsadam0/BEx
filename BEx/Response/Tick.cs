@@ -7,10 +7,10 @@ namespace BEx
     /// <summary>
     /// Exchange Tick
     /// </summary>
-    public sealed class Tick : BExResult, IEquatable<Tick>
+    public struct Tick : IEquatable<Tick>, IExchangeResult
     {
-        internal Tick(DateTime exchangeTimeStamp, Exchange sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange.ExchangeSourceType)
+        internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+          : this()
         { }
 
         /// <summary>
@@ -76,11 +76,16 @@ namespace BEx
             internal set;
         }
 
+        /*
         protected override string DebugDisplay
         {
-            get { return string.Format("{0} {1}: {2}/{3}", SourceExchange, Pair, Bid, Ask); }
-        }
+            get { return ; }
+        }*/
 
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}/{2}", Pair, Bid, Ask);
+        }
         public override int GetHashCode()
         {
             return
@@ -91,7 +96,6 @@ namespace BEx
                 ^ this.Low.GetHashCode()
                 ^ (int)this.Pair.BaseCurrency
                 ^ (int)this.Pair.CounterCurrency
-                ^ (int)this.SourceExchange
                 ^ this.Volume.GetHashCode();
         }
 
@@ -102,9 +106,10 @@ namespace BEx
 
         public static bool operator ==(Tick a, Tick b)
         {
-            if (a == null || b == null)
+            if (((object)a) == null
+                || ((object)b) == null)
             {
-                return false;
+                return Object.Equals(a, b);
             }
 
             return
@@ -114,10 +119,10 @@ namespace BEx
                 && (a.Last == b.Last)
                 && (a.Low == b.Low)
                 && (a.Pair == b.Pair)
-                && (a.SourceExchange == b.SourceExchange)
                 && (a.Volume == b.Volume);
         }
 
+        /*
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -131,7 +136,7 @@ namespace BEx
             }
 
             return this == (obj as Tick);
-        }
+        }*/
 
         public bool Equals(Tick b)
         {
@@ -141,6 +146,27 @@ namespace BEx
             }
 
             return (this == b);
+        }
+
+        public DateTime ExchangeTimeStampUTC
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC
+        {
+            get;
+            private set;
+        }
+
+        public ExchangeType SourceExchange
+        {
+            get;
+            private set;
         }
     }
 }
