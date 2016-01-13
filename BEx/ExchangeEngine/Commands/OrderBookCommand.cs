@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class OrderBookCommand : ExchangeCommand
+    internal class OrderBookCommand : ExchangeCommand<OrderBook>
     {
         public OrderBookCommand(ExecutionEngine executor,
             Method httpMethod,

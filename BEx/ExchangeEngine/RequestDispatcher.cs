@@ -29,7 +29,7 @@ namespace BEx.ExchangeEngine
         /// <param name="request">To Dispatch</param>
         /// <param name="commandReference">Reference Command</param>
         /// <returns>IRestResponse</returns>
-        public IRestResponse Dispatch(IRestRequest request, IExchangeCommand commandReference)
+        public IRestResponse Dispatch<T>(IRestRequest request, IExchangeCommand<T> commandReference) where T : IExchangeResult
         {
             var client = new RestClient(_sourceExchange.Configuration.BaseUri);
 

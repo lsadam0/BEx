@@ -234,8 +234,9 @@ namespace BEx
         /// <returns>BEx.Tick</returns>
         public Tick GetTick(CurrencyTradingPair pair)
         {
-            return Commands.Tick.Execute(pair) as Tick;
+            return Commands.Tick.Execute(pair);
         }
+        
 
         /// <summary>
         /// Return BTC/USD general Transactions for past hour.

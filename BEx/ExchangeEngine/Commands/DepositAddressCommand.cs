@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class DepositAddressCommand : ExchangeCommand
+    internal class DepositAddressCommand : ExchangeCommand<DepositAddress>
     {
         public DepositAddressCommand(ExecutionEngine executor,
             Method httpMethod,

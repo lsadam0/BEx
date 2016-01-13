@@ -33,30 +33,30 @@ namespace BEx.ExchangeEngine
             _errorHandler = new ErrorHandler(targetExchange);
         }
 
-        public BExResult Execute(IExchangeCommand toExecute)
+        public T Execute<T>(IExchangeCommand<T> toExecute) where T : IExchangeResult
         {
             return ExecutionPipeline(toExecute, default(CurrencyTradingPair));
         }
 
-        public BExResult Execute(IExchangeCommand toExecute, IDictionary<StandardParameter, string> parameters)
+        public T Execute<T>(IExchangeCommand<T> toExecute, IDictionary<StandardParameter, string> parameters) where T : IExchangeResult
         {
             return ExecutionPipeline(toExecute, default(CurrencyTradingPair), parameters);
         }
 
-        public BExResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair)
+        public T Execute<T>(IExchangeCommand<T> toExecute, CurrencyTradingPair pair) where T : IExchangeResult
         {
             return ExecutionPipeline(toExecute, pair);
         }
 
-        public BExResult Execute(IExchangeCommand toExecute, CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        public T Execute<T>(IExchangeCommand<T> toExecute, CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters) where T : IExchangeResult
         {
             return ExecutionPipeline(toExecute, pair, parameters);
         }
 
-        private BExResult ExecutionPipeline(
-                                        IExchangeCommand toExecute,
+        private  T ExecutionPipeline<T>(
+                                        IExchangeCommand<T> toExecute,
                                         CurrencyTradingPair pair,
-                                        IDictionary<StandardParameter, string> paramCollection = null)
+                                        IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
         {
             IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 

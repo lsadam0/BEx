@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class OpenOrdersCommand : ExchangeCommand
+    internal class OpenOrdersCommand : ExchangeCommand<OpenOrders>
     {
         public OpenOrdersCommand(ExecutionEngine executor,
             Method httpMethod,

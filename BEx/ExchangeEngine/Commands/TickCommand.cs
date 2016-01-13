@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class TickCommand : ExchangeCommand
+    internal class TickCommand : ExchangeCommand<Tick>
     {
         public TickCommand(ExecutionEngine executor,
             Method httpMethod,

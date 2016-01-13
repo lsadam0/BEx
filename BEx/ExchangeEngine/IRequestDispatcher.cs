@@ -4,6 +4,6 @@ namespace BEx.ExchangeEngine
 {
     internal interface IRequestDispatcher
     {
-        IRestResponse Dispatch(IRestRequest request, IExchangeCommand referenceCommand);
+        IRestResponse Dispatch<T>(IRestRequest request, IExchangeCommand<T> referenceCommand) where T : IExchangeResult;
     }
 }

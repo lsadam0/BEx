@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class CancelOrderCommand : ExchangeCommand
+    internal class CancelOrderCommand : ExchangeCommand<Confirmation>
     {
         public CancelOrderCommand(ExecutionEngine executor,
             Method httpMethod,

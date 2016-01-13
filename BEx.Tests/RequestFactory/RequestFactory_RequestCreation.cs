@@ -15,7 +15,7 @@ namespace BEx.UnitTests.RequestFactoryTests
     public class RequestFactory_RequestCreation
     {
         private IRestRequest toTest;
-        private ExchangeCommand command;
+        private ExchangeCommand<Order> command;
         private CurrencyTradingPair pair;
 
         [TestFixtureSetUp]

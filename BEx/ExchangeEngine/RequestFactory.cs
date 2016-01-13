@@ -26,10 +26,10 @@ namespace BEx.ExchangeEngine
         /// <param name="pair">Trading Pair.  If ExchangeCommand only uses a Currency value, we will use pair.BaseCurrency (e.g. GetDepositAddress)</param>
         /// <param name="parameters">Parameter values</param>
         /// <returns>IRestRequest, ready for dispatch</returns>
-        public static IRestRequest GetRequest(
-                                        IExchangeCommand command,
+        public static IRestRequest GetRequest<T>(
+                                        IExchangeCommand<T> command,
                                         CurrencyTradingPair pair,
-                                        IDictionary<StandardParameter, string> parameters = null)
+                                        IDictionary<StandardParameter, string> parameters = null) where T : IExchangeResult
         {
             IRestRequest result = CreateRequest(command);
 
@@ -43,7 +43,7 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <param name="command">Reference Command</param>
         /// <returns>Unpopulated request object</returns>
-        private static IRestRequest CreateRequest(IExchangeCommand command)
+        private static IRestRequest CreateRequest<T>(IExchangeCommand<T> command) where T : IExchangeResult
         {
             return new RestRequest(command.RelativeUri, command.HttpMethod)
             {
@@ -59,7 +59,7 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <param name="values">Explicitly supplied parameter values</param>
-        private static void PopulateCommandParameters(IRestRequest request, IExchangeCommand command, CurrencyTradingPair pair, IDictionary<StandardParameter, string> values)
+        private static void PopulateCommandParameters<T>(IRestRequest request, IExchangeCommand<T> command, CurrencyTradingPair pair, IDictionary<StandardParameter, string> values) where T : IExchangeResult
         {
             foreach (var param in command.Parameters)
             {

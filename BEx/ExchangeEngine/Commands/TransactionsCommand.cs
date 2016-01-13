@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class TransactionsCommand : ExchangeCommand
+    internal class TransactionsCommand : ExchangeCommand<Transactions>
     {
         public TransactionsCommand(ExecutionEngine executor,
             Method httpMethod,

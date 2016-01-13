@@ -30,7 +30,7 @@ namespace BEx.ExchangeEngine
         /// <param name="executedCommand">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        internal BExResult Translate(string source, IExchangeCommand executedCommand, CurrencyTradingPair pair)
+        internal T Translate<T>(string source, IExchangeCommand<T> executedCommand, CurrencyTradingPair pair) where T : IExchangeResult
         {
             if (executedCommand.ReturnsValueType)
                 return GetValueType(source, executedCommand, pair);
@@ -46,13 +46,13 @@ namespace BEx.ExchangeEngine
         /// <param name="commandReference">Reference ExchangeCommand</param>
         /// <param name="pair">Trading Pair</param>
 
-        private BExResult DeserializeObject(string content, IExchangeCommand commandReference, CurrencyTradingPair pair)
+        private T DeserializeObject<T>(string content, IExchangeCommand<T> commandReference, CurrencyTradingPair pair) where T : IExchangeResult
         {
             if (commandReference.ReturnsCollection)
             {
-                IEnumerable<IExchangeResponse> responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IEnumerable<IExchangeResponse>;
+                var responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);// as IEnumerable<IExchangeResponse>;
 
-                return (BExResult)Activator.CreateInstance(
+                return (T)Activator.CreateInstance(
                                                     commandReference.ApiResultSubType,
                                                     BindingFlags.NonPublic | BindingFlags.Instance,
                                                     null,
@@ -61,9 +61,9 @@ namespace BEx.ExchangeEngine
             }
             else
             {
-                IExchangeResponse deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse;
+               var deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse<T>;
 
-                return deserialized.ConvertToStandard(pair, _sourceExchange);
+                return deserialized.Convert(pair);
             }
         }
 
@@ -75,16 +75,16 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        private BExResult GetValueType(string content, IExchangeCommand command, CurrencyTradingPair pair)
+        private T GetValueType<T>(string content, IExchangeCommand<T> command, CurrencyTradingPair pair) where T : IExchangeResult
         {
-            BExResult res = null;
+            T res = default(T);
 
             // boxing
             object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);
 
             if (deserialized.GetType() != command.ApiResultSubType)
             {
-                res = (BExResult)Activator.CreateInstance(
+                res = (T)Activator.CreateInstance(
                                                     command.ApiResultSubType,
                                                     BindingFlags.NonPublic | BindingFlags.Instance,
                                                     null,

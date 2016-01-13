@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine
 {
-    internal interface IExchangeCommand
+    internal interface IExchangeCommand<T> where T : IExchangeResult
     {
         Type ApiResultSubType
         {
@@ -27,6 +27,6 @@ namespace BEx.ExchangeEngine
 
         bool ReturnsValueType { get; }
 
-        BExResult Execute(IDictionary<StandardParameter, string> parameters);
+        T Execute(IDictionary<StandardParameter, string> parameters);
     }
 }

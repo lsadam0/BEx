@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class AccountBalanceCommand : ExchangeCommand
+    internal class AccountBalanceCommand : ExchangeCommand<AccountBalance>
     {
         public AccountBalanceCommand(
             ExecutionEngine executor,

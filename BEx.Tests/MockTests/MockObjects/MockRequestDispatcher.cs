@@ -13,7 +13,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
 {
     internal class MockRequestDispatcher : IRequestDispatcher
     {
-        public IRestResponse Dispatch(IRestRequest request, IExchangeCommand referenceCommand)
+        public IRestResponse Dispatch<T>(IRestRequest request, IExchangeCommand<T> referenceCommand) where T : IExchangeResult
         {
             if (referenceCommand is AccountBalanceCommand)
                 return AccountBalanceResponse(request, referenceCommand);
@@ -37,7 +37,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             return null;
         }
 
-        private IRestResponse AccountBalanceResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse AccountBalanceResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             var usdBalance = new MockAccountBalanceJSON()
             {
@@ -78,17 +78,17 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
-        private IRestResponse LimitOrderResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse LimitOrderResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             return null;
         }
 
-        private IRestResponse CancelOrderResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse CancelOrderResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             return null;
         }
 
-        private IRestResponse DepositAddressResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse DepositAddressResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             MockDepositAddressJSON deposit = new MockDepositAddressJSON()
             {
@@ -106,7 +106,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
-        private IRestResponse OpenOrdersResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse OpenOrdersResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             var OrderOne = new MockOrderResponseJSON()
             {
@@ -147,7 +147,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
-        private IRestResponse OrderBookResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse OrderBookResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             var asks = new List<Ask>()
             {
@@ -195,7 +195,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
-        private IRestResponse TickResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse TickResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             MockTickJSON tick = new MockTickJSON()
             {
@@ -217,7 +217,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
-        private IRestResponse TransactionsResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse TransactionsResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             var firstTransaction = new MockTransactionJSON()
             {
@@ -264,7 +264,7 @@ namespace BEx.UnitTests.MockTests.MockObjects
             };
         }
 
-        private IRestResponse UserTransactionsResponse(IRestRequest request, IExchangeCommand command)
+        private IRestResponse UserTransactionsResponse<T>(IRestRequest request, IExchangeCommand<T> command) where T : IExchangeResult
         {
             var transactions = new List<MockUserTransactionJSON>()
             {

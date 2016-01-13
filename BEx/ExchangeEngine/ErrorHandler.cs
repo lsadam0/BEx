@@ -49,11 +49,11 @@ namespace BEx.ExchangeEngine
                 };
         }
 
-        public Exception HandleErrorResponse(
-                                        IExchangeCommand referenceCommand,
+        public Exception HandleErrorResponse<T>(
+                                        IExchangeCommand<T> referenceCommand,
                                         IRestResponse response,
                                         IRestRequest request,
-                                        CurrencyTradingPair pair)
+                                        CurrencyTradingPair pair) where T : IExchangeResult
         {
             var errorObject = GetErrorObject(response.Content, pair);
 
@@ -69,7 +69,7 @@ namespace BEx.ExchangeEngine
             return res;
         }
 
-        private Exception DetermineExceptionType(BExError errorObject, IExchangeCommand referenceCommand, Exception inner)
+        private Exception DetermineExceptionType<T>(BExError errorObject, IExchangeCommand<T> referenceCommand, Exception inner) where T : IExchangeResult
         {
             Type exceptionType = _sourceExchange.ErrorInterpreter.Interpret(errorObject);
 

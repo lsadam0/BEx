@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class LimitOrderCommand : ExchangeCommand
+    internal class LimitOrderCommand : ExchangeCommand<Order>
     {
         public LimitOrderCommand(ExecutionEngine executor,
             Method httpMethod,

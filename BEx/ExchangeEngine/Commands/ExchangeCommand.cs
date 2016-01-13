@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BEx.ExchangeEngine
 {
-    internal abstract class ExchangeCommand : IExchangeCommand
+    internal abstract class ExchangeCommand<T> : IExchangeCommand<T> where T : IExchangeResult
     {
         /// <summary>
         /// Initialize ExchangeCommand Instance
@@ -83,25 +83,30 @@ namespace BEx.ExchangeEngine
 
         public ExecutionEngine Executor { get; private set; }
 
-        public BExResult Execute(IDictionary<StandardParameter, string> parameters)
+        
+        public T Execute(IDictionary<StandardParameter, string> parameters)
         {
-            return Executor.Execute(this, parameters);
+            return Executor.Execute<T>(this, parameters);
         }
 
-        public BExResult Execute()
+        public T Execute()
         {
             return Executor.Execute(this);
         }
 
-        public BExResult Execute(CurrencyTradingPair pair)
+
+
+        public T Execute(CurrencyTradingPair pair)
         {
             return Executor.Execute(this, pair);
         }
 
-        public BExResult Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        public T Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
         {
             return Executor.Execute(this, pair, parameters);
         }
+
+
 
         /// <summary>
         /// BEx.ApiResult Sub-Type
@@ -164,6 +169,48 @@ namespace BEx.ExchangeEngine
         {
             get;
             private set;
+        }
+
+        private IRequestDispatcher Dispatcher
+        {
+            get;
+            set;
+        }
+
+        private ResultTranslation Translator
+        {
+            get;
+            set;
+        }
+
+
+        private IExchangeResult ExecutionPipeline<T>(
+                                IExchangeCommand<T> toExecute,
+                                CurrencyTradingPair pair,
+                                IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
+        {
+            IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
+
+            IRestResponse result = Dispatcher.Dispatch(request, toExecute);
+
+            // if (result.ErrorException == null && result.StatusCode == System.Net.HttpStatusCode.OK)
+            // {
+            // try
+            // {
+            return Translator.Translate(
+                                     result.Content,
+                                     toExecute,
+                                     pair);
+            // }
+            // catch (JsonSerializationException jsonEx)
+            // {
+            //  throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
+            // }
+            // }
+            // else
+            // {
+            // throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
+            // }
         }
     }
 }
