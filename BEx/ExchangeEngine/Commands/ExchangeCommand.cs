@@ -73,9 +73,9 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// Is the Intermediate Type a Collection?
+        /// BEx.ApiResult Sub-Type
         /// </summary>
-        public bool ReturnsCollection
+        public Type ApiResultSubType
         {
             get;
             private set;
@@ -83,35 +83,10 @@ namespace BEx.ExchangeEngine
 
         public ExecutionEngine Executor { get; private set; }
 
-        
-        public T Execute(IDictionary<StandardParameter, string> parameters)
-        {
-            return Executor.Execute<T>(this, parameters);
-        }
-
-        public T Execute()
-        {
-            return Executor.Execute(this);
-        }
-
-
-
-        public T Execute(CurrencyTradingPair pair)
-        {
-            return Executor.Execute(this, pair);
-        }
-
-        public T Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
-        {
-            return Executor.Execute(this, pair, parameters);
-        }
-
-
-
         /// <summary>
-        /// BEx.ApiResult Sub-Type
+        /// Http Execution Method (GET, POST, PUT, etc.)
         /// </summary>
-        public Type ApiResultSubType
+        public Method HttpMethod
         {
             get;
             private set;
@@ -127,18 +102,18 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// Http Execution Method (GET, POST, PUT, etc.)
+        /// Flags if this command requires authentication with the target Exchange
         /// </summary>
-        public Method HttpMethod
+        public bool IsAuthenticated
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Flags if this command requires authentication with the target Exchange
+        /// Command Parameters, including default values
         /// </summary>
-        public bool IsAuthenticated
+        public IReadOnlyDictionary<string, ExchangeParameter> Parameters
         {
             get;
             private set;
@@ -154,18 +129,18 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// Is the IntermediateType a Value Type (or string)
+        /// Is the Intermediate Type a Collection?
         /// </summary>
-        public bool ReturnsValueType
+        public bool ReturnsCollection
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Command Parameters, including default values
+        /// Is the IntermediateType a Value Type (or string)
         /// </summary>
-        public IReadOnlyDictionary<string, ExchangeParameter> Parameters
+        public bool ReturnsValueType
         {
             get;
             private set;
@@ -183,6 +158,25 @@ namespace BEx.ExchangeEngine
             set;
         }
 
+        public T Execute(IDictionary<StandardParameter, string> parameters)
+        {
+            return Executor.Execute<T>(this, parameters);
+        }
+
+        public T Execute()
+        {
+            return Executor.Execute(this);
+        }
+
+        public T Execute(CurrencyTradingPair pair)
+        {
+            return Executor.Execute(this, pair);
+        }
+
+        public T Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        {
+            return Executor.Execute(this, pair, parameters);
+        }
 
         private IExchangeResult ExecutionPipeline<T>(
                                 IExchangeCommand<T> toExecute,

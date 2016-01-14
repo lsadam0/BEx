@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 
 namespace BEx
 {
-    public abstract class Exchange
+    public abstract class Exchange : IExchange
     {
         internal Exchange(
                     IExchangeConfiguration configuration,
@@ -236,7 +236,7 @@ namespace BEx
         {
             return Commands.Tick.Execute(pair);
         }
-        
+
 
         /// <summary>
         /// Return BTC/USD general Transactions for past hour.

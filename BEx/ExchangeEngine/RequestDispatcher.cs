@@ -12,15 +12,9 @@ namespace BEx.ExchangeEngine
     {
         private readonly Exchange _sourceExchange;
 
-        /// <summary>
-        /// Don't allow burst requests
-        /// </summary>
-        private readonly RateLimiter _throttler;
-
         internal RequestDispatcher(Exchange sourceExchange)
         {
             _sourceExchange = sourceExchange;
-            _throttler = new RateLimiter(_sourceExchange.ExchangeSourceType);
         }
 
         /// <summary>
@@ -37,7 +31,6 @@ namespace BEx.ExchangeEngine
 
             if (commandReference.IsAuthenticated)
             {
-                _throttler.Throttle();
                 lock (this)
                 {
                     // Exchanges strictly enforce sequential nonce values
@@ -49,7 +42,6 @@ namespace BEx.ExchangeEngine
             }
             else
             {
-                _throttler.Throttle();
                 response = client.Execute(request);
             }
 

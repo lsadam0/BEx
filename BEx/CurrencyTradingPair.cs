@@ -24,15 +24,15 @@ namespace BEx
             private set;
         }
 
-        public static bool operator ==(CurrencyTradingPair x, CurrencyTradingPair y)
-        {
-            return (x.BaseCurrency == y.BaseCurrency) 
-                && (x.CounterCurrency == y.CounterCurrency);
-        }
-
         public static bool operator !=(CurrencyTradingPair x, CurrencyTradingPair y)
         {
             return !(x == y);
+        }
+
+        public static bool operator ==(CurrencyTradingPair x, CurrencyTradingPair y)
+        {
+            return (x.BaseCurrency == y.BaseCurrency)
+                && (x.CounterCurrency == y.CounterCurrency);
         }
 
         public bool Equals(CurrencyTradingPair other)

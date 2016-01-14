@@ -25,6 +25,12 @@ namespace BEx.ExchangeEngine.Bitfinex
             private set;
         }
 
+        public Uri BaseUri
+        {
+            get;
+            private set;
+        }
+
         public string ClientId
         {
             get;
@@ -37,25 +43,7 @@ namespace BEx.ExchangeEngine.Bitfinex
             private set;
         }
 
-        public string SecretKey
-        {
-            get;
-            set;
-        }
-
-        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
-        {
-            get;
-            private set;
-        }
-
-        public ImmutableHashSet<Currency> SupportedCurrencies
-        {
-            get;
-            private set;
-        }
-
-        public Uri BaseUri
+        public Type ErrorJsonType
         {
             get;
             private set;
@@ -67,7 +55,19 @@ namespace BEx.ExchangeEngine.Bitfinex
             private set;
         }
 
-        public Type ErrorJsonType
+        public string SecretKey
+        {
+            get;
+            set;
+        }
+
+        public ImmutableHashSet<Currency> SupportedCurrencies
+        {
+            get;
+            private set;
+        }
+
+        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
             private set;
@@ -79,7 +79,6 @@ namespace BEx.ExchangeEngine.Bitfinex
             DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;
-
 
             SupportedPairs = ImmutableHashSet.Create<CurrencyTradingPair>(
                 DefaultPair,

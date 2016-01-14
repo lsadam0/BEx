@@ -2,7 +2,6 @@
 
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace BEx.ExchangeEngine
@@ -61,7 +60,7 @@ namespace BEx.ExchangeEngine
             }
             else
             {
-               var deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse<T>;
+                var deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse<T>;
 
                 return deserialized.Convert(pair);
             }

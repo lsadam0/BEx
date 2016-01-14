@@ -6,8 +6,8 @@ namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexErrorInterpreter : ExchangeErrorInterpreter
     {
-        private static object locker = new object();
         private static BitfinexErrorInterpreter instance;
+        private static object locker = new object();
 
         private BitfinexErrorInterpreter(IList<ExceptionIdentifier> identifiers)
             : base(identifiers)

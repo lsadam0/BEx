@@ -8,7 +8,6 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal interface IExchangeResponse<T> where T : IExchangeResult
     {
-
         T Convert(CurrencyTradingPair pair);
     }
 }

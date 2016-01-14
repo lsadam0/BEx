@@ -4,6 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace BEx.ExchangeEngine
 {
+    internal interface IExchangeErrorInterpreter
+    {
+        Type Interpret(BExError error);
+    }
+
     public abstract class ExchangeErrorInterpreter : IExchangeErrorInterpreter
     {
         private readonly IList<ExceptionIdentifier> _associations;
@@ -27,10 +32,10 @@ namespace BEx.ExchangeEngine
 
     internal class ExceptionIdentifier
     {
-        public Regex Pattern
+        internal ExceptionIdentifier(Regex pattern, Type exceptionType)
         {
-            get;
-            private set;
+            Pattern = pattern;
+            ExceptionType = exceptionType;
         }
 
         public Type ExceptionType
@@ -39,15 +44,10 @@ namespace BEx.ExchangeEngine
             private set;
         }
 
-        internal ExceptionIdentifier(Regex pattern, Type exceptionType)
+        public Regex Pattern
         {
-            Pattern = pattern;
-            ExceptionType = exceptionType;
+            get;
+            private set;
         }
-    }
-
-    internal interface IExchangeErrorInterpreter
-    {
-        Type Interpret(BExError error);
     }
 }

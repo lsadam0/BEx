@@ -1,7 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace BEx.ExchangeEngine
@@ -12,9 +11,32 @@ namespace BEx.ExchangeEngine
     public interface IExchangeConfiguration
     {
         /// <summary>
+        /// Base Address of the Exchange Api
+        /// </summary>
+        Uri BaseUri
+        {
+            get;
+        }
+
+        /// <summary>
         /// Default Trading Pair for the Exchange
         /// </summary>
         CurrencyTradingPair DefaultPair
+        {
+            get;
+        }
+
+        Type ErrorJsonType
+        {
+            get;
+        }
+
+        ExchangeType ExchangeSourceType { get; }
+
+        /// <summary>
+        /// All Currency values supported by the Exchange
+        /// </summary>
+        ImmutableHashSet<Currency> SupportedCurrencies
         {
             get;
         }
@@ -26,28 +48,5 @@ namespace BEx.ExchangeEngine
         {
             get;
         }
-
-        /// <summary>
-        /// All Currency values supported by the Exchange
-        /// </summary>
-        ImmutableHashSet<Currency> SupportedCurrencies
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Base Address of the Exchange Api
-        /// </summary>
-        Uri BaseUri
-        {
-            get;
-        }
-
-        Type ErrorJsonType
-        {
-            get;
-        }
-
-        ExchangeType ExchangeSourceType { get; }
     }
 }

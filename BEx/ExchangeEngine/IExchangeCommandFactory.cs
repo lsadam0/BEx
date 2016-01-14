@@ -12,8 +12,6 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal interface IExchangeCommandFactory
     {
-        void BuildCommands(ExecutionEngine executor);
-
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
         /// </summary>
@@ -73,5 +71,7 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <returns></returns>
         UserTransactionsCommand UserTransactions { get; }
+
+        void BuildCommands(ExecutionEngine executor);
     }
 }

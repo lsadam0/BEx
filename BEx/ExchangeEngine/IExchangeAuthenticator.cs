@@ -8,7 +8,5 @@ namespace BEx.ExchangeEngine
         {
             get;
         }
-
-        // void Authenticate(IRestClient client, IRestRequest request);
     }
 }

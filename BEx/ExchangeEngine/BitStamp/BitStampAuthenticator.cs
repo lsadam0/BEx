@@ -17,18 +17,6 @@ namespace BEx.ExchangeEngine.BitStamp
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
-        /// <summary>
-        /// Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
-        public long Nonce
-        {
-            get
-            {
-                return Interlocked.Increment(ref _nonce);
-            }
-        }
-
         private readonly string ApiKey;
 
         private readonly string ClientId;
@@ -48,6 +36,18 @@ namespace BEx.ExchangeEngine.BitStamp
             ClientId = clientId;
 
             Hasher = new HMACSHA256(Encoding.ASCII.GetBytes(secretKey));
+        }
+
+        /// <summary>
+        /// Consecutively increasing action counter
+        /// </summary>
+        /// <value>0</value>
+        public long Nonce
+        {
+            get
+            {
+                return Interlocked.Increment(ref _nonce);
+            }
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)

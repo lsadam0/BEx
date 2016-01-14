@@ -6,8 +6,8 @@ namespace BEx.ExchangeEngine.BitStamp
 {
     internal class BitStampErrorInterpreter : ExchangeErrorInterpreter
     {
-        private static object locker = new object();
         private static BitStampErrorInterpreter instance;
+        private static object locker = new object();
 
         private BitStampErrorInterpreter(IList<ExceptionIdentifier> identifiers)
             : base(identifiers)

@@ -16,18 +16,6 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
-        /// <summary>
-        /// Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
-        public long Nonce
-        {
-            get
-            {
-                return Interlocked.Increment(ref _nonce);
-            }
-        }
-
         private readonly string ApiKey;
 
         public BitfinexAuthenticator(string secretKey, string apiKey)
@@ -41,6 +29,18 @@ namespace BEx.ExchangeEngine.Bitfinex
             ApiKey = apiKey;
 
             Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
+        }
+
+        /// <summary>
+        /// Consecutively increasing action counter
+        /// </summary>
+        /// <value>0</value>
+        public long Nonce
+        {
+            get
+            {
+                return Interlocked.Increment(ref _nonce);
+            }
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)

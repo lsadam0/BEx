@@ -9,16 +9,6 @@ namespace BEx.ExchangeEngine.Utilities
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
-        /// Converts DateTime to UTC, and returns the Unix Time representation
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns>Unix Time</returns>
-        internal static double ToUnixTime(this DateTime source)
-        {
-            return UnixTime.DateTimeToUnixTimestamp(source);
-        }
-
-        /// <summary>
         /// Convert Unix Time value to a UTC DateTime object
         /// </summary>
         /// <param name="source"></param>
@@ -36,6 +26,16 @@ namespace BEx.ExchangeEngine.Utilities
         internal static DateTime ToDateTimeUTC(this string source)
         {
             return UnixTimeStampToDateTime(source);
+        }
+
+        /// <summary>
+        /// Converts DateTime to UTC, and returns the Unix Time representation
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns>Unix Time</returns>
+        internal static double ToUnixTime(this DateTime source)
+        {
+            return UnixTime.DateTimeToUnixTimestamp(source);
         }
 
         private static double DateTimeToUnixTimestamp(DateTime dateTime)

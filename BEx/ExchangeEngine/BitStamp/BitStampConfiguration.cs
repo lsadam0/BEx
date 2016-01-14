@@ -19,25 +19,19 @@ namespace BEx.ExchangeEngine.BitStamp
             Initialize(null);
         }
 
+        public Uri BaseUri
+        {
+            get;
+            private set;
+        }
+
         public CurrencyTradingPair DefaultPair
         {
             get;
             private set;
         }
 
-        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
-        {
-            get;
-            private set;
-        }
-
-        public ImmutableHashSet<Currency> SupportedCurrencies
-        {
-            get;
-            private set;
-        }
-
-        public Uri BaseUri
+        public Type ErrorJsonType
         {
             get;
             private set;
@@ -49,7 +43,13 @@ namespace BEx.ExchangeEngine.BitStamp
             private set;
         }
 
-        public Type ErrorJsonType
+        public ImmutableHashSet<Currency> SupportedCurrencies
+        {
+            get;
+            private set;
+        }
+
+        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
         {
             get;
             private set;

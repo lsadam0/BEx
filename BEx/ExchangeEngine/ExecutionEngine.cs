@@ -13,9 +13,8 @@ namespace BEx.ExchangeEngine
     {
         private readonly IRequestDispatcher _dispatcher;
 
-        private readonly ResultTranslation _translator;
-
         private readonly ErrorHandler _errorHandler;
+        private readonly ResultTranslation _translator;
 
         internal ExecutionEngine(Exchange targetExchange, IRequestDispatcher dispatcher)
         {
@@ -53,7 +52,7 @@ namespace BEx.ExchangeEngine
             return ExecutionPipeline(toExecute, pair, parameters);
         }
 
-        private  T ExecutionPipeline<T>(
+        private T ExecutionPipeline<T>(
                                         IExchangeCommand<T> toExecute,
                                         CurrencyTradingPair pair,
                                         IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult

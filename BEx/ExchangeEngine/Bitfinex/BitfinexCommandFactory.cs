@@ -10,6 +10,8 @@ namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexCommandFactory : IExchangeCommandFactory
     {
+        private ExecutionEngine _engine;
+
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
         /// </summary>
@@ -70,24 +72,6 @@ namespace BEx.ExchangeEngine.Bitfinex
         /// <returns></returns>
         public UserTransactionsCommand UserTransactions { get; private set; }
 
-        private ExecutionEngine _engine;
-
-        public void BuildCommands(ExecutionEngine executor)
-        {
-            _engine = executor;
-
-            this.AccountBalance = BuildAccountBalanceCommand();
-            this.BuyOrder = BuildBuyOrderCommand();
-            this.CancelOrder = BuildCancelOrderCommand();
-            this.DepositAddress = BuildDepositAddressCommand();
-            this.OpenOrders = BuildOpenOrdersCommand();
-            this.OrderBook = BuildOrderBookCommand();
-            this.SellOrder = BuildSellOrderCommand();
-            this.Tick = BuildTickCommand();
-            this.Transactions = BuildTransactionsCommand();
-            this.UserTransactions = BuildUserTransactionsCommand();
-        }
-
         public AccountBalanceCommand BuildAccountBalanceCommand()
         {
             return new AccountBalanceCommand(
@@ -133,6 +117,22 @@ namespace BEx.ExchangeEngine.Bitfinex
                                 true,
                                 typeof(Confirmation),
                                 param);
+        }
+
+        public void BuildCommands(ExecutionEngine executor)
+        {
+            _engine = executor;
+
+            this.AccountBalance = BuildAccountBalanceCommand();
+            this.BuyOrder = BuildBuyOrderCommand();
+            this.CancelOrder = BuildCancelOrderCommand();
+            this.DepositAddress = BuildDepositAddressCommand();
+            this.OpenOrders = BuildOpenOrdersCommand();
+            this.OrderBook = BuildOrderBookCommand();
+            this.SellOrder = BuildSellOrderCommand();
+            this.Tick = BuildTickCommand();
+            this.Transactions = BuildTransactionsCommand();
+            this.UserTransactions = BuildUserTransactionsCommand();
         }
 
         public DepositAddressCommand BuildDepositAddressCommand()

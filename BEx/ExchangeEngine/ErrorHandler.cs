@@ -1,6 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Reflection;
@@ -14,39 +13,6 @@ namespace BEx.ExchangeEngine
         internal ErrorHandler(Exchange sourceExchange)
         {
             _sourceExchange = sourceExchange;
-        }
-
-        private static void ThrowException<TE>(BExError source) where TE : Exception
-        {
-            TE exception = (TE)Activator.CreateInstance(
-                                                typeof(TE),
-                                                BindingFlags.Public | BindingFlags.Instance,
-                                                null,
-                                                new object[] { source.Message },
-                                                null);
-
-            exception.Data.Add("BExError", source);
-
-            throw exception;
-        }
-
-        private BExError GetErrorObject(string json, CurrencyTradingPair pair)
-        {
-            if (!string.IsNullOrWhiteSpace(json))
-            {
-                throw new NotImplementedException();
-              /*  var deserialized = JsonConvert.DeserializeObject(
-                                        json,
-                                        _sourceExchange.Configuration.ErrorJsonType
-                                        ) as IExchangeResponse;
-
-                return deserialized.ConvertToStandard(pair, _sourceExchange) as BExError;*/
-            }
-            else
-                return new BExError(_sourceExchange.ExchangeSourceType)
-                {
-                    Message = json
-                };
         }
 
         public Exception HandleErrorResponse<T>(
@@ -69,6 +35,20 @@ namespace BEx.ExchangeEngine
             return res;
         }
 
+        private static void ThrowException<TE>(BExError source) where TE : Exception
+        {
+            TE exception = (TE)Activator.CreateInstance(
+                                                typeof(TE),
+                                                BindingFlags.Public | BindingFlags.Instance,
+                                                null,
+                                                new object[] { source.Message },
+                                                null);
+
+            exception.Data.Add("BExError", source);
+
+            throw exception;
+        }
+
         private Exception DetermineExceptionType<T>(BExError errorObject, IExchangeCommand<T> referenceCommand, Exception inner) where T : IExchangeResult
         {
             Type exceptionType = _sourceExchange.ErrorInterpreter.Interpret(errorObject);
@@ -79,6 +59,25 @@ namespace BEx.ExchangeEngine
                                                 null,
                                                 new object[] { errorObject.Message, inner },
                                                 null);
+        }
+
+        private BExError GetErrorObject(string json, CurrencyTradingPair pair)
+        {
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                throw new NotImplementedException();
+                /*  var deserialized = JsonConvert.DeserializeObject(
+                                          json,
+                                          _sourceExchange.Configuration.ErrorJsonType
+                                          ) as IExchangeResponse;
+
+                  return deserialized.ConvertToStandard(pair, _sourceExchange) as BExError;*/
+            }
+            else
+                return new BExError(_sourceExchange.ExchangeSourceType)
+                {
+                    Message = json
+                };
         }
     }
 }

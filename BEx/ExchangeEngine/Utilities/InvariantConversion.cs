@@ -11,26 +11,6 @@ namespace BEx.ExchangeEngine.Utilities
     internal static class Conversion
     {
         /// <summary>
-        /// Convert using CultureInfo.InvariantCulture
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static decimal ToDecimalInvariant(string source)
-        {
-            return Convert.ToDecimal(source, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Convert using CultureInfo.InvariantCulture
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static long ToInt64Invariant(string source)
-        {
-            return Convert.ToInt64(source, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
         /// Convert using CultureInfo.InvariantCulture to UTC Time
         /// </summary>
         /// <param name="source"></param>
@@ -45,9 +25,29 @@ namespace BEx.ExchangeEngine.Utilities
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
+        public static decimal ToDecimalInvariant(string source)
+        {
+            return Convert.ToDecimal(source, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Convert using CultureInfo.InvariantCulture
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static double ToDoubleInvariant(string source)
         {
             return Convert.ToDouble(source, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Convert using CultureInfo.InvariantCulture
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static long ToInt64Invariant(string source)
+        {
+            return Convert.ToInt64(source, CultureInfo.InvariantCulture);
         }
     }
 }
