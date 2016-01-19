@@ -33,7 +33,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("tid")]
         public int Tid { get; set; }
 
-        public UserTransaction Convert(CurrencyTradingPair pair)
+        public UserTransaction Convert(TradingPair pair)
         {
             if (string.IsNullOrWhiteSpace(FeeCurrency))
             {

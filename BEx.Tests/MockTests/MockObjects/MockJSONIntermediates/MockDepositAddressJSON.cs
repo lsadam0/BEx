@@ -20,7 +20,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("address")]
         public string Address { get; set; }
 
-        public DepositAddress Convert(CurrencyTradingPair pair)
+        public DepositAddress Convert(TradingPair pair)
         {
             return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, ExchangeType.Mock);
             //  return new DepositAddress(Address, DateTime.UtcNow,  ExchangeType.Mock, pair);

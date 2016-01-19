@@ -24,7 +24,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 
 
 
-        public Order Convert(CurrencyTradingPair pair)
+        public Order Convert(TradingPair pair)
         {
             return new Order(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
             {

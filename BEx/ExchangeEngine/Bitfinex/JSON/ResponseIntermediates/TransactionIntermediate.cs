@@ -26,7 +26,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("type", Required = Required.Always)]
         public string type { get; set; }
 
-        public Transaction Convert(CurrencyTradingPair pair)
+        public Transaction Convert(TradingPair pair)
         {
             return new Transaction(DateTime.UtcNow, ExchangeType.Bitfinex)
             {

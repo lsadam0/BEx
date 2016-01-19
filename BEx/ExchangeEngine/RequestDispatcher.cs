@@ -1,5 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using RestSharp;
 
 namespace BEx.ExchangeEngine
@@ -10,11 +11,19 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal class RequestDispatcher : IRequestDispatcher
     {
-        private readonly Exchange _sourceExchange;
+        private IExchangeAuthenticator authenticator;
+        private Uri baseUri;
 
-        internal RequestDispatcher(Exchange sourceExchange)
+        internal RequestDispatcher(Uri baseUri, IExchangeAuthenticator authenticator)
         {
-            _sourceExchange = sourceExchange;
+            this.baseUri = baseUri;
+            this.authenticator = authenticator;
+        }
+
+        internal RequestDispatcher(Uri baseUri)
+        {
+            this.baseUri = baseUri;
+            this.authenticator = null;
         }
 
         /// <summary>
@@ -25,7 +34,7 @@ namespace BEx.ExchangeEngine
         /// <returns>IRestResponse</returns>
         public IRestResponse Dispatch<T>(IRestRequest request, IExchangeCommand<T> commandReference) where T : IExchangeResult
         {
-            var client = new RestClient(_sourceExchange.Configuration.BaseUri);
+            var client = new RestClient(this.baseUri);
 
             IRestResponse response;
 
@@ -36,7 +45,7 @@ namespace BEx.ExchangeEngine
                     // Exchanges strictly enforce sequential nonce values
                     // this lock insures that authenticated requests always
                     // contain a correct sequential nonce value.
-                    client.Authenticator = _sourceExchange.Authenticator;
+                    client.Authenticator = this.authenticator;
                     response = client.Execute(request);
                 }
             }

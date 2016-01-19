@@ -30,7 +30,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("usd_available", Required = Required.Always)]
         public string UsdAvailable { get; set; }
 
-        public AccountBalance Convert(CurrencyTradingPair pair)
+        public AccountBalance Convert(TradingPair pair)
         {
             Balance btcBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
             {

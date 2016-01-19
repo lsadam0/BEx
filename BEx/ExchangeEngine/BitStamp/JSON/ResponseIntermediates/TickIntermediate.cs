@@ -63,7 +63,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             set;
         }
 
-        public Tick Convert(CurrencyTradingPair pair)
+        public Tick Convert(TradingPair pair)
         {
             return new Tick(timestamp.ToDateTimeUTC(), ExchangeType.BitStamp)
             {
@@ -76,20 +76,5 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 Pair = pair
             };
         }
-
-        /*
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
-        {
-            return new Tick(timestamp.ToDateTimeUTC(), sourceExchange)
-            {
-                Ask = Conversion.ToDecimalInvariant(ask),
-                Bid = Conversion.ToDecimalInvariant(bid),
-                High = Conversion.ToDecimalInvariant(high),
-                Last = Conversion.ToDecimalInvariant(last),
-                Low = Conversion.ToDecimalInvariant(low),
-                Volume = Conversion.ToDecimalInvariant(volume),
-                Pair = pair
-            };
-        }*/
     }
 }

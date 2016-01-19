@@ -41,7 +41,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("asks")]
         public Ask[] Asks { get; set; }
 
-        public OrderBook Convert(CurrencyTradingPair pair)
+        public OrderBook Convert(TradingPair pair)
         {
             IList<OrderBookEntry> convertedBids = Bids.Select(
                 x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price))).ToList();

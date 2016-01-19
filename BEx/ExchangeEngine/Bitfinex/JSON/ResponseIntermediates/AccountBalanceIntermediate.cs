@@ -21,7 +21,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("available", Required = Required.Always)]
         public string Available { get; set; }
 
-        public Balance Convert(CurrencyTradingPair pair)
+        public Balance Convert(TradingPair pair)
         {
             Balance res = null;
 

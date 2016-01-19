@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         public string Datetime { get; set; }
 
 
-        public UserTransaction Convert(CurrencyTradingPair pair)
+        public UserTransaction Convert(TradingPair pair)
         {
             if (OrderId != null && Type == 2)
             {

@@ -13,14 +13,14 @@ namespace BEx
     /// </summary>
     public sealed class AccountBalance : BExResult
     {
-        internal AccountBalance(IEnumerable<Balance> balances, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
+        internal AccountBalance(IEnumerable<Balance> balances, TradingPair pair, ExchangeType sourceExchange)
+            : base(DateTime.UtcNow, sourceExchange)
         {
             Initialize(balances, pair, sourceExchange);
         }
 
-        internal AccountBalance(IEnumerable<IExchangeResponse<Balance>> balances, CurrencyTradingPair pair, Exchange sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
+        internal AccountBalance(IEnumerable<IExchangeResponse<Balance>> balances, TradingPair pair, ExchangeType sourceExchange)
+            : base(DateTime.UtcNow, sourceExchange)
         {
             IList<Balance> convertedBalances = balances
                                                 .Select(x => x.Convert(pair))
@@ -30,7 +30,7 @@ namespace BEx
             Initialize(convertedBalances, pair, sourceExchange);
         }
 
-        private void Initialize(IEnumerable<Balance> balances, CurrencyTradingPair pair,
+        private void Initialize(IEnumerable<Balance> balances, TradingPair pair,
             Exchange sourceExchange)
         {
             var balanceBuffer = new Dictionary<Currency, Balance>();

@@ -15,13 +15,13 @@ namespace BEx.UnitTests.MockTests.MockObjects
             Initialize(null);
         }
 
-        public CurrencyTradingPair DefaultPair
+        public TradingPair DefaultPair
         {
             get;
             private set;
         }
 
-        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
+        public ImmutableHashSet<TradingPair> SupportedPairs
         {
             get;
             private set;
@@ -65,16 +65,16 @@ namespace BEx.UnitTests.MockTests.MockObjects
 
         private void Initialize(Uri baseUri)
         {
-            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
+            DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
 
             ExchangeSourceType = ExchangeType.Mock;
 
-            SupportedPairs = new HashSet<CurrencyTradingPair>()
+            SupportedPairs = new HashSet<TradingPair>()
             {
                 DefaultPair,
-                new CurrencyTradingPair(Currency.LTC, Currency.USD),
-                new CurrencyTradingPair(Currency.LTC, Currency.BTC)
-            }.ToImmutableHashSet<CurrencyTradingPair>();
+                new TradingPair(Currency.LTC, Currency.USD),
+                new TradingPair(Currency.LTC, Currency.BTC)
+            }.ToImmutableHashSet<TradingPair>();
 
             SupportedCurrencies = new HashSet<Currency>()
             {

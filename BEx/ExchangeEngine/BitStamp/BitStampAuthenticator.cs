@@ -21,6 +21,7 @@ namespace BEx.ExchangeEngine.BitStamp
 
         private readonly string ClientId;
 
+
         public BitStampAuthenticator(string apiKey, string secretKey, string clientId)
         {
             if (string.IsNullOrWhiteSpace(apiKey))

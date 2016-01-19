@@ -19,7 +19,7 @@ namespace BEx.ExchangeEngine
                                         IExchangeCommand<T> referenceCommand,
                                         IRestResponse response,
                                         IRestRequest request,
-                                        CurrencyTradingPair pair) where T : IExchangeResult
+                                        TradingPair pair) where T : IExchangeResult
         {
             var errorObject = GetErrorObject(response.Content, pair);
 
@@ -61,7 +61,7 @@ namespace BEx.ExchangeEngine
                                                 null);
         }
 
-        private BExError GetErrorObject(string json, CurrencyTradingPair pair)
+        private BExError GetErrorObject(string json, TradingPair pair)
         {
             if (!string.IsNullOrWhiteSpace(json))
             {

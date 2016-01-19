@@ -22,7 +22,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("type", Required = Required.Always)]
         public int Type { get; set; }
 
-        public Order Convert(CurrencyTradingPair pair)
+        public Order Convert(TradingPair pair)
         {
             return new Order(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
             {

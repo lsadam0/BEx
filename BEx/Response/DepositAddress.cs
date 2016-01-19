@@ -9,7 +9,7 @@ namespace BEx
     /// </summary>
     public sealed class DepositAddress : BExResult
     {
-        internal DepositAddress(string address, ExchangeType sourceExchange, CurrencyTradingPair pair)
+        internal DepositAddress(string address, TradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
             Address = address;

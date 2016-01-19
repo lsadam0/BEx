@@ -22,19 +22,19 @@ namespace BEx.UnitTests.BitfinexTests
         [Test]
         public void Bitfinex_GetTick_BTCUSD_Success()
         {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            commandVerification.VerifyTick(new TradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]
         public void Bitfinex_GetTick_LTCUSD_Success()
         {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyTick(new TradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]
         public void Bitfinex_GetTick_LTCBTC_Success()
         {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyTick(new TradingPair(Currency.LTC, Currency.BTC));
         }
         
 
@@ -47,7 +47,7 @@ namespace BEx.UnitTests.BitfinexTests
         [Test]
         public void Bitfinex_GetOrderBook_LTCUSD_Success()
         {
-            commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyOrderBook(new TradingPair(Currency.LTC, Currency.USD));
         }
         
         
@@ -55,13 +55,13 @@ namespace BEx.UnitTests.BitfinexTests
         [Test]
         public void Bitfinex_GetOrderBook_LTCBTC_Success()
         {
-            commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyOrderBook(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void Bitfinex_GetTransactions_BTCUSD_Success()
         {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            commandVerification.VerifyTransactions(new TradingPair(Currency.BTC, Currency.USD));
         }
 
         /*
@@ -82,13 +82,13 @@ namespace BEx.UnitTests.BitfinexTests
         [Test]
         public void Bitfinex_GetTransactions_LTCBTC_Success()
         {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void Bitfinex_GetTransactions_LTCUSD_Success()
         {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.USD));
         }
     }
 }

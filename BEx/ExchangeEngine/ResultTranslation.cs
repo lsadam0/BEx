@@ -14,11 +14,12 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal class ResultTranslation
     {
-        private readonly Exchange _sourceExchange;
 
-        internal ResultTranslation(Exchange source)
+        private ExchangeType sourceExchange;
+
+        internal ResultTranslation(ExchangeType sourceExchange)
         {
-            _sourceExchange = source;
+            this.sourceExchange = sourceExchange;
         }
 
         /// <summary>
@@ -29,12 +30,16 @@ namespace BEx.ExchangeEngine
         /// <param name="executedCommand">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        internal T Translate<T>(string source, IExchangeCommand<T> executedCommand, CurrencyTradingPair pair) where T : IExchangeResult
+        internal T Translate<T>(string source, IExchangeCommand<T> executedCommand, TradingPair pair) where T : IExchangeResult
         {
             if (executedCommand.ReturnsValueType)
+            {
                 return GetValueType(source, executedCommand, pair);
+            }
             else
+            {
                 return DeserializeObject(source, executedCommand, pair);
+            }
         }
 
         /// <summary>
@@ -45,7 +50,7 @@ namespace BEx.ExchangeEngine
         /// <param name="commandReference">Reference ExchangeCommand</param>
         /// <param name="pair">Trading Pair</param>
 
-        private T DeserializeObject<T>(string content, IExchangeCommand<T> commandReference, CurrencyTradingPair pair) where T : IExchangeResult
+        private T DeserializeObject<T>(string content, IExchangeCommand<T> commandReference, TradingPair pair) where T : IExchangeResult
         {
             if (commandReference.ReturnsCollection)
             {
@@ -55,7 +60,7 @@ namespace BEx.ExchangeEngine
                                                     commandReference.ApiResultSubType,
                                                     BindingFlags.NonPublic | BindingFlags.Instance,
                                                     null,
-                                                    new object[] { responseCollection, pair, _sourceExchange },
+                                                    new object[] { responseCollection, pair, sourceExchange },
                                                     null);
             }
             else
@@ -74,7 +79,7 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <returns>Specific ApiResult Sub-Type</returns>
-        private T GetValueType<T>(string content, IExchangeCommand<T> command, CurrencyTradingPair pair) where T : IExchangeResult
+        private T GetValueType<T>(string content, IExchangeCommand<T> command, TradingPair pair) where T : IExchangeResult
         {
             T res = default(T);
 
@@ -87,7 +92,7 @@ namespace BEx.ExchangeEngine
                                                     command.ApiResultSubType,
                                                     BindingFlags.NonPublic | BindingFlags.Instance,
                                                     null,
-                                                    new[] { deserialized, _sourceExchange, pair },
+                                                    new[] { deserialized, pair, sourceExchange },
                                                     null);
             }
 

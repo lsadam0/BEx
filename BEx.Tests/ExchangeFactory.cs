@@ -12,7 +12,7 @@ namespace BEx.UnitTests
 
         private static void LoadAPIKeys()
         {
-            XElement keys = XElement.Load(@"C:\Users\LarrySAdams\Desktop\To Save\BEx\TestingKeys.xml");
+            XElement keys = XElement.Load(@"E:\_Work\To Save\BEx\TestingKeys.xml");
 
             XElement exchangeElement;
 

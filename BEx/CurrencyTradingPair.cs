@@ -3,9 +3,9 @@ using System;
 
 namespace BEx
 {
-    public struct CurrencyTradingPair : IEquatable<CurrencyTradingPair>
+    public struct TradingPair : IEquatable<TradingPair>
     {
-        public CurrencyTradingPair(Currency pairBase, Currency pairCounter)
+        public TradingPair(Currency pairBase, Currency pairCounter)
             : this()
         {
             BaseCurrency = pairBase;
@@ -24,25 +24,25 @@ namespace BEx
             private set;
         }
 
-        public static bool operator !=(CurrencyTradingPair x, CurrencyTradingPair y)
+        public static bool operator !=(TradingPair x, TradingPair y)
         {
             return !(x == y);
         }
 
-        public static bool operator ==(CurrencyTradingPair x, CurrencyTradingPair y)
+        public static bool operator ==(TradingPair x, TradingPair y)
         {
             return (x.BaseCurrency == y.BaseCurrency)
                 && (x.CounterCurrency == y.CounterCurrency);
         }
 
-        public bool Equals(CurrencyTradingPair other)
+        public bool Equals(TradingPair other)
         {
             return (this == other);
         }
 
         public override bool Equals(object obj)
         {
-            return obj is CurrencyTradingPair && this == (CurrencyTradingPair)obj;
+            return obj is TradingPair && this == (TradingPair)obj;
         }
 
         public override int GetHashCode()

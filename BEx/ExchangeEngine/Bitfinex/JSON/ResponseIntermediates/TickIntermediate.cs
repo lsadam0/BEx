@@ -31,7 +31,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("timestamp", Required = Required.Always)]
         public string Timestamp { get; set; }
 
-        public Tick Convert(CurrencyTradingPair pair)
+        public Tick Convert(TradingPair pair)
         {
             return new Tick(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
             {

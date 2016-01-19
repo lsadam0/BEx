@@ -13,7 +13,7 @@ namespace BEx
     /// </summary>
     public sealed class UserTransactions : BExResult
     {
-        internal UserTransactions(IEnumerable<IExchangeResponse<UserTransaction>> transactions, CurrencyTradingPair pair, ExchangeType sourceExchange)
+        internal UserTransactions(IEnumerable<IExchangeResponse<UserTransaction>> transactions, TradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
             Pair = pair;
@@ -29,7 +29,7 @@ namespace BEx
         /// <summary>
         /// Trading Pair for all contained Transactions
         /// </summary>
-        public CurrencyTradingPair Pair
+        public TradingPair Pair
         {
             get;
             private set;

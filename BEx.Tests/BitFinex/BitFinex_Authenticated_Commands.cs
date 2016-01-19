@@ -53,13 +53,13 @@ namespace BEx.UnitTests.BitfinexTests
         [Test]
         public void Bitfinex_GetUserTransactions_LTCBTC_Success()
         {
-            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyUserTransactions(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void Bitfinex_GetUserTransactions_LTCUSD_Success()
         {
-            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyUserTransactions(new TradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]

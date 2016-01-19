@@ -16,7 +16,7 @@ namespace BEx.UnitTests.RequestFactoryTests
     {
         private IRestRequest toTest;
         private ExchangeCommand<Order> command;
-        private CurrencyTradingPair pair;
+        private TradingPair pair;
 
         [TestFixtureSetUp]
         public void Setup()
@@ -36,17 +36,19 @@ namespace BEx.UnitTests.RequestFactoryTests
                 { StandardParameter.Price, "100.00"}
             };
 
+            Assert.Fail();
+            /*
             command = new LimitOrderCommand(
-                                 new ExecutionEngine(new Bitfinex()),
+                                 new ExecutionEngine(,
                                  Method.POST,
                                  new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                                  true,
                                  typeof(object),
                                  param);
 
-            pair = new CurrencyTradingPair(Currency.LTC, Currency.BTC);
+            pair = new TradingPair(Currency.LTC, Currency.BTC);
 
-            toTest = BEx.ExchangeEngine.RequestFactory.GetRequest(command, pair, values);
+            toTest = BEx.ExchangeEngine.RequestFactory.GetRequest(command, pair, values);*/
         }
 
         [Test]

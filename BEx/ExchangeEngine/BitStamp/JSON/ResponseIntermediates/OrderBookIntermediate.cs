@@ -18,7 +18,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("asks", Required = Required.Always)]
         public string[][] Asks { get; set; }
 
-        public OrderBook Convert(CurrencyTradingPair pair)
+        public OrderBook Convert(TradingPair pair)
         {
             IList<OrderBookEntry> convertedBids = Bids
               .Select(

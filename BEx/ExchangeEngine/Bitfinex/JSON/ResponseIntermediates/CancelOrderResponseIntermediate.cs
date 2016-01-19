@@ -49,7 +49,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public int OrderId { get; set; }
 
-        public Confirmation Convert(CurrencyTradingPair pair)
+        public Confirmation Convert(TradingPair pair)
         {
             return new Confirmation(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
             {

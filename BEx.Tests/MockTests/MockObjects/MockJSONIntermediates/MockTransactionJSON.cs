@@ -27,7 +27,7 @@ namespace BEx.UnitTests.MockTests.MockObjects.MockJSONIntermediates
         [JsonProperty("type")]
         public string type { get; set; }
 
-        public Transaction Convert(CurrencyTradingPair pair)
+        public Transaction Convert(TradingPair pair)
         {
             return new Transaction(DateTime.UtcNow, ExchangeType.Mock)
             {

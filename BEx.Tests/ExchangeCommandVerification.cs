@@ -98,7 +98,7 @@ namespace BEx.UnitTests
             }
         }
 
-        public void VerifyOrderBook(CurrencyTradingPair pair)
+        public void VerifyOrderBook(TradingPair pair)
         {
             OrderBook toVerify = TestCandidate.GetOrderBook(pair);
 
@@ -144,7 +144,7 @@ namespace BEx.UnitTests
             VerifyOrder(toVerify, TestCandidate.DefaultPair, OrderType.Sell);
         }
 
-        public void VerifyTick(CurrencyTradingPair pair)
+        public void VerifyTick(TradingPair pair)
         {
             Tick toVerify = TestCandidate.GetTick(pair);
 
@@ -159,7 +159,7 @@ namespace BEx.UnitTests
             Assert.That(toVerify.Volume > 0.0m);
         }
 
-        public void VerifyTransactions(CurrencyTradingPair pair)
+        public void VerifyTransactions(TradingPair pair)
         {
             DateTime current = DateTime.UtcNow;
             Transactions toVerify = TestCandidate.GetTransactions(pair);
@@ -193,7 +193,7 @@ namespace BEx.UnitTests
             }
         }
 
-        public void VerifyUserTransactions(CurrencyTradingPair pair)
+        public void VerifyUserTransactions(TradingPair pair)
         {
             UserTransactions toVerify = TestCandidate.GetUserTransactions(pair);
 
@@ -245,7 +245,7 @@ namespace BEx.UnitTests
             }
         }
 
-        private void VerifyOrder(Order toVerify, CurrencyTradingPair pair, OrderType requestedOrderType)
+        private void VerifyOrder(Order toVerify, TradingPair pair, OrderType requestedOrderType)
         {
             VerifyAPIResult(toVerify);
 

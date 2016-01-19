@@ -25,7 +25,7 @@ namespace BEx.ExchangeEngine.BitStamp
             private set;
         }
 
-        public CurrencyTradingPair DefaultPair
+        public TradingPair DefaultPair
         {
             get;
             private set;
@@ -49,7 +49,7 @@ namespace BEx.ExchangeEngine.BitStamp
             private set;
         }
 
-        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
+        public ImmutableHashSet<TradingPair> SupportedPairs
         {
             get;
             private set;
@@ -58,13 +58,13 @@ namespace BEx.ExchangeEngine.BitStamp
         private void Initialize(Uri baseUri)
         {
             ErrorJsonType = typeof(ErrorIntermediate);
-            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
+            DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.BitStamp;
 
-            SupportedPairs = new HashSet<CurrencyTradingPair>()
+            SupportedPairs = new HashSet<TradingPair>()
             {
                 DefaultPair
-            }.ToImmutableHashSet<CurrencyTradingPair>();
+            }.ToImmutableHashSet<TradingPair>();
 
             SupportedCurrencies = new HashSet<Currency>()
             {

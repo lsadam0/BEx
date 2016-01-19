@@ -28,10 +28,10 @@ namespace BEx.UnitTests.BitfinexTests
         {
             Assert.That(testCandidate.SupportedTradingPairs.Count == 3);
 
-            Assert.That(testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.BTC, Currency.USD)));
-            Assert.That(testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.USD)));
-            Assert.That(testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.BTC)));
-            Assert.That(testCandidate.DefaultPair == new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            Assert.That(testCandidate.IsTradingPairSupported(new TradingPair(Currency.BTC, Currency.USD)));
+            Assert.That(testCandidate.IsTradingPairSupported(new TradingPair(Currency.LTC, Currency.USD)));
+            Assert.That(testCandidate.IsTradingPairSupported(new TradingPair(Currency.LTC, Currency.BTC)));
+            Assert.That(testCandidate.DefaultPair == new TradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]

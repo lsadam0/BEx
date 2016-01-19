@@ -29,10 +29,10 @@ namespace BEx.UnitTests.MockTests
         {
             Assert.That(_testCandidate.SupportedTradingPairs.Count == 3);
 
-            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.BTC, Currency.USD)));
-            Assert.That(_testCandidate.DefaultPair == new CurrencyTradingPair(Currency.BTC, Currency.USD));
-            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.USD)));
-            Assert.That(_testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.LTC, Currency.BTC)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new TradingPair(Currency.BTC, Currency.USD)));
+            Assert.That(_testCandidate.DefaultPair == new TradingPair(Currency.BTC, Currency.USD));
+            Assert.That(_testCandidate.IsTradingPairSupported(new TradingPair(Currency.LTC, Currency.USD)));
+            Assert.That(_testCandidate.IsTradingPairSupported(new TradingPair(Currency.LTC, Currency.BTC)));
         }
 
         [Test]

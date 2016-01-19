@@ -20,19 +20,19 @@ namespace BEx.UnitTests.MockTests
         [Test]
         public void MockExchange_GetTick_BTCUSD_Success()
         {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            commandVerification.VerifyTick(new TradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]
         public void MockExchange_GetTick_LTCUSD_Success()
         {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyTick(new TradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]
         public void MockExchange_GetTick_LTCBTC_Success()
         {
-            commandVerification.VerifyTick(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyTick(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
@@ -44,31 +44,31 @@ namespace BEx.UnitTests.MockTests
         [Test]
         public void MockExchange_GetOrderBook_LTCUSD_Success()
         {
-            commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyOrderBook(new TradingPair(Currency.LTC, Currency.USD));
         }
 
         [Test]
         public void MockExchange_GetOrderBook_LTCBTC_Success()
         {
-            commandVerification.VerifyOrderBook(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyOrderBook(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void MockExchange_GetTransactions_BTCUSD_Success()
         {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            commandVerification.VerifyTransactions(new TradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]
         public void MockExchange_GetTransactions_LTCBTC_Success()
         {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void MockExchange_GetTransactions_LTCUSD_Success()
         {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.LTC, Currency.USD));
+            commandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.USD));
         }
     }
 }

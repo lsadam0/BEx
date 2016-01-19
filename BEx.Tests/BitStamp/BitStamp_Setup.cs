@@ -27,8 +27,8 @@ namespace BEx.UnitTests.BitStampTests
         {
             Assert.That(testCandidate.SupportedTradingPairs.Count == 1);
 
-            Assert.That(testCandidate.IsTradingPairSupported(new CurrencyTradingPair(Currency.BTC, Currency.USD)));
-            Assert.That(testCandidate.DefaultPair == new CurrencyTradingPair(Currency.BTC, Currency.USD));
+            Assert.That(testCandidate.IsTradingPairSupported(new TradingPair(Currency.BTC, Currency.USD)));
+            Assert.That(testCandidate.DefaultPair == new TradingPair(Currency.BTC, Currency.USD));
         }
 
         [Test]

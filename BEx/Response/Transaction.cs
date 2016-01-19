@@ -26,7 +26,7 @@ namespace BEx
         /// <summary>
         /// Trading Pair
         /// </summary>
-        public CurrencyTradingPair Pair
+        public TradingPair Pair
         {
             get;
             internal set;

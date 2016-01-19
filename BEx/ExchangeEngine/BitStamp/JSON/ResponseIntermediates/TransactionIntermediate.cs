@@ -20,7 +20,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("amount", Required = Required.Always)]
         public string amount { get; set; }
 
-        public Transaction Convert(CurrencyTradingPair pair)
+        public Transaction Convert(TradingPair pair)
         {
             return new Transaction(DateTime.UtcNow, ExchangeType.BitStamp)
             {

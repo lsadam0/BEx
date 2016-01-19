@@ -8,7 +8,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         public string message { get; set; }
 
 
-        public BExError Convert(CurrencyTradingPair pair)
+        public BExError Convert(TradingPair pair)
         {
             return new BExError(ExchangeType.Bitfinex)
             {

@@ -21,7 +21,7 @@ namespace BEx.ExchangeEngine
         /// <summary>
         /// Default Trading Pair for the Exchange
         /// </summary>
-        CurrencyTradingPair DefaultPair
+        TradingPair DefaultPair
         {
             get;
         }
@@ -44,7 +44,7 @@ namespace BEx.ExchangeEngine
         /// <summary>
         /// All Trading pairs supported by the Exchange
         /// </summary>
-        ImmutableHashSet<CurrencyTradingPair> SupportedPairs
+        ImmutableHashSet<TradingPair> SupportedPairs
         {
             get;
         }

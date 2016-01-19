@@ -146,18 +146,6 @@ namespace BEx.ExchangeEngine
             private set;
         }
 
-        private IRequestDispatcher Dispatcher
-        {
-            get;
-            set;
-        }
-
-        private ResultTranslation Translator
-        {
-            get;
-            set;
-        }
-
         public T Execute(IDictionary<StandardParameter, string> parameters)
         {
             return Executor.Execute<T>(this, parameters);
@@ -168,43 +156,14 @@ namespace BEx.ExchangeEngine
             return Executor.Execute(this);
         }
 
-        public T Execute(CurrencyTradingPair pair)
+        public T Execute(TradingPair pair)
         {
             return Executor.Execute(this, pair);
         }
 
-        public T Execute(CurrencyTradingPair pair, IDictionary<StandardParameter, string> parameters)
+        public T Execute(TradingPair pair, IDictionary<StandardParameter, string> parameters)
         {
             return Executor.Execute(this, pair, parameters);
-        }
-
-        private IExchangeResult ExecutionPipeline<T>(
-                                IExchangeCommand<T> toExecute,
-                                CurrencyTradingPair pair,
-                                IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
-        {
-            IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
-
-            IRestResponse result = Dispatcher.Dispatch(request, toExecute);
-
-            // if (result.ErrorException == null && result.StatusCode == System.Net.HttpStatusCode.OK)
-            // {
-            // try
-            // {
-            return Translator.Translate(
-                                     result.Content,
-                                     toExecute,
-                                     pair);
-            // }
-            // catch (JsonSerializationException jsonEx)
-            // {
-            //  throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
-            // }
-            // }
-            // else
-            // {
-            // throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
-            // }
         }
     }
 }

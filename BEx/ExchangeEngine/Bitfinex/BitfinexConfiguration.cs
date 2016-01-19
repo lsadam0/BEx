@@ -37,7 +37,7 @@ namespace BEx.ExchangeEngine.Bitfinex
             private set;
         }
 
-        public CurrencyTradingPair DefaultPair
+        public TradingPair DefaultPair
         {
             get;
             private set;
@@ -67,7 +67,7 @@ namespace BEx.ExchangeEngine.Bitfinex
             private set;
         }
 
-        public ImmutableHashSet<CurrencyTradingPair> SupportedPairs
+        public ImmutableHashSet<TradingPair> SupportedPairs
         {
             get;
             private set;
@@ -76,14 +76,14 @@ namespace BEx.ExchangeEngine.Bitfinex
         private void Initialize(Uri baseUri)
         {
             ErrorJsonType = typeof(ErrorIntermediate);
-            DefaultPair = new CurrencyTradingPair(Currency.BTC, Currency.USD);
+            DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;
 
-            SupportedPairs = ImmutableHashSet.Create<CurrencyTradingPair>(
+            SupportedPairs = ImmutableHashSet.Create<TradingPair>(
                 DefaultPair,
-                new CurrencyTradingPair(Currency.LTC, Currency.USD),
-                new CurrencyTradingPair(Currency.LTC, Currency.BTC)
+                new TradingPair(Currency.LTC, Currency.USD),
+                new TradingPair(Currency.LTC, Currency.BTC)
 
                 );
 

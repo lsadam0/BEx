@@ -28,7 +28,7 @@ namespace BEx.ExchangeEngine
         /// <returns>IRestRequest, ready for dispatch</returns>
         public static IRestRequest GetRequest<T>(
                                         IExchangeCommand<T> command,
-                                        CurrencyTradingPair pair,
+                                        TradingPair pair,
                                         IDictionary<StandardParameter, string> parameters = null) where T : IExchangeResult
         {
             IRestRequest result = CreateRequest(command);
@@ -59,7 +59,7 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <param name="values">Explicitly supplied parameter values</param>
-        private static void PopulateCommandParameters<T>(IRestRequest request, IExchangeCommand<T> command, CurrencyTradingPair pair, IDictionary<StandardParameter, string> values) where T : IExchangeResult
+        private static void PopulateCommandParameters<T>(IRestRequest request, IExchangeCommand<T> command, TradingPair pair, IDictionary<StandardParameter, string> values) where T : IExchangeResult
         {
             foreach (var param in command.Parameters)
             {

@@ -44,7 +44,7 @@ namespace BEx.UnitTests.MockTests
         [Test]
         public void MockExchange_GetUserTransactions_LTCBTC_Success()
         {
-            commandVerification.VerifyUserTransactions(new CurrencyTradingPair(Currency.LTC, Currency.BTC));
+            commandVerification.VerifyUserTransactions(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]

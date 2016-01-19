@@ -16,7 +16,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
             public string[] __all__ { get; set; }
         }
 
-        public BExError Convert(CurrencyTradingPair pair)
+        public BExError Convert(TradingPair pair)
         {
             StringBuilder sb = new StringBuilder();
 

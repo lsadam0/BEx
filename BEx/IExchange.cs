@@ -4,10 +4,10 @@ namespace BEx
 {
     public interface IExchange
     {
-        CurrencyTradingPair DefaultPair { get; }
+        TradingPair DefaultPair { get; }
         ExchangeType ExchangeSourceType { get; }
         ImmutableHashSet<Currency> SupportedCurrencies { get; }
-        ImmutableHashSet<CurrencyTradingPair> SupportedTradingPairs { get; }
+        ImmutableHashSet<TradingPair> SupportedTradingPairs { get; }
 
         Confirmation CancelOrder(Order toCancel);
 
@@ -15,11 +15,11 @@ namespace BEx
 
         Order CreateBuyLimitOrder(decimal amount, decimal price);
 
-        Order CreateBuyLimitOrder(CurrencyTradingPair pair, decimal amount, decimal price);
+        Order CreateBuyLimitOrder(TradingPair pair, decimal amount, decimal price);
 
         Order CreateSellLimitOrder(decimal amount, decimal price);
 
-        Order CreateSellLimitOrder(CurrencyTradingPair pair, decimal amount, decimal price);
+        Order CreateSellLimitOrder(TradingPair pair, decimal amount, decimal price);
 
         AccountBalance GetAccountBalance();
 
@@ -27,24 +27,24 @@ namespace BEx
 
         OpenOrders GetOpenOrders();
 
-        OpenOrders GetOpenOrders(CurrencyTradingPair pair);
+        OpenOrders GetOpenOrders(TradingPair pair);
 
         OrderBook GetOrderBook();
 
-        OrderBook GetOrderBook(CurrencyTradingPair pair);
+        OrderBook GetOrderBook(TradingPair pair);
 
         Tick GetTick();
 
-        Tick GetTick(CurrencyTradingPair pair);
+        Tick GetTick(TradingPair pair);
 
         Transactions GetTransactions();
 
-        Transactions GetTransactions(CurrencyTradingPair pair);
+        Transactions GetTransactions(TradingPair pair);
 
         UserTransactions GetUserTransactions();
 
-        UserTransactions GetUserTransactions(CurrencyTradingPair pair);
+        UserTransactions GetUserTransactions(TradingPair pair);
 
-        bool IsTradingPairSupported(CurrencyTradingPair pair);
+        bool IsTradingPairSupported(TradingPair pair);
     }
 }
