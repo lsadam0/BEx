@@ -1,13 +1,13 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.Exceptions;
-using BEx.ExchangeEngine.Utilities;
-using RestSharp;
 using System;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using BEx.Exceptions;
+using BEx.ExchangeEngine.Utilities;
+using RestSharp;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
@@ -20,7 +20,6 @@ namespace BEx.ExchangeEngine.BitStamp
         private readonly string ApiKey;
 
         private readonly string ClientId;
-
 
         public BitStampAuthenticator(string apiKey, string secretKey, string clientId)
         {

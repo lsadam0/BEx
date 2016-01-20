@@ -1,7 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-using BEx.Exceptions;
 using NUnit.Framework;
-using System;
 
 namespace BEx.UnitTests.BitfinexTests
 {
@@ -17,6 +15,7 @@ namespace BEx.UnitTests.BitfinexTests
             exchange = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
         }
 
+        /*
         [Test]
         public void CreateBuyOrder_InsufficientFunds_LimitOrderRejectedException()
         {
@@ -64,7 +63,6 @@ namespace BEx.UnitTests.BitfinexTests
             });
         }
 
-        /*
         [Test]
         public void AuthenticatedCommand_IncorrectAPIKey_ExchangeAuthorizationException()
         {

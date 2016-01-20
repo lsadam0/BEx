@@ -1,6 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.UnitTests.MockTests.MockObjects;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -46,8 +45,6 @@ namespace BEx.UnitTests
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
 
-                case ExchangeType.Mock:
-                    return new MockExchange(new MockRequestDispatcher());
 
                 default:
                     return null;
@@ -76,8 +73,6 @@ namespace BEx.UnitTests
                         token.ApiKey,
                         token.Secret);
 
-                case ExchangeType.Mock:
-                    return new MockExchange(new MockRequestDispatcher());
 
                 default:
                     return null;

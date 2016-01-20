@@ -1,11 +1,11 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.Exceptions;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using BEx.Exceptions;
+using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
@@ -13,26 +13,19 @@ namespace BEx
     {
         internal Exchange(
                     IExchangeConfiguration configuration,
-                    IExchangeCommandFactory commands,
-                    IExchangeErrorInterpreter errorInterpreter)
+                    IExchangeCommandFactory commands)
         {
-            ErrorInterpreter = errorInterpreter;
             Configuration = configuration;
             Commands = commands;
-
-            Commands.BuildCommands(new ExecutionEngine(configuration.BaseUri, this.ExchangeSourceType));
         }
 
         internal Exchange(
                     IExchangeConfiguration configuration,
                     IExchangeCommandFactory commands,
-                    IExchangeErrorInterpreter errorInterpreter,
                     IExchangeAuthenticator authenticator)
         {
-            ErrorInterpreter = errorInterpreter;
             Configuration = configuration;
             Commands = commands;
-            Commands.BuildCommands(new ExecutionEngine(configuration.BaseUri, authenticator, this.ExchangeSourceType));
             Authenticator = authenticator;
         }
 
@@ -75,12 +68,6 @@ namespace BEx
         {
             get;
             set;
-        }
-
-        internal IExchangeErrorInterpreter ErrorInterpreter
-        {
-            get;
-            private set;
         }
 
         protected internal IExchangeConfiguration Configuration
@@ -199,6 +186,11 @@ namespace BEx
             return GetOpenOrders(DefaultPair);
         }
 
+        public OpenOrders GetOpenOrders(TradingPair pair)
+        {
+            return Commands.OpenOrders.Execute(pair) as OpenOrders;
+        }
+
         /// <summary>
         /// Url the current BTC/USD Order Book.
         /// </summary>
@@ -236,7 +228,6 @@ namespace BEx
         {
             return Commands.Tick.Execute(pair);
         }
-
 
         /// <summary>
         /// Return BTC/USD general Transactions for past hour.
@@ -291,11 +282,6 @@ namespace BEx
         public bool IsTradingPairSupported(TradingPair pair)
         {
             return Configuration.SupportedPairs.Contains(pair);
-        }
-
-        public OpenOrders GetOpenOrders(TradingPair pair)
-        {
-            return Commands.OpenOrders.Execute(pair) as OpenOrders;
         }
     }
 }

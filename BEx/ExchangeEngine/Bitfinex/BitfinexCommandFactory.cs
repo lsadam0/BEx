@@ -1,16 +1,31 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using System.Collections.Generic;
 using BEx.ExchangeEngine.Bitfinex.JSON;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
-using System;
-using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexCommandFactory : IExchangeCommandFactory
     {
+        private static BitfinexCommandFactory instance = new BitfinexCommandFactory();
+
         private ExecutionEngine _engine;
+
+        private BitfinexCommandFactory()
+        {
+            this.BuildCommands(new ExecutionEngine(new Uri("https://api.bitfinex.com"), ExchangeType.Bitfinex));
+        }
+
+        public static IExchangeCommandFactory Singleton
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         /// <summary>
         /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()

@@ -12,28 +12,22 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal class ExecutionEngine
     {
-        private readonly IRequestDispatcher _dispatcher;
+        private readonly IRequestDispatcher dispatcher;
 
-        private readonly ResultTranslation _translator;
-
-        internal ExecutionEngine(IExchangeAuthenticator authenticator, IRequestDispatcher dispatcher, ExchangeType sourceExchange)
-        {
-            _dispatcher = dispatcher;
-            _translator = new ResultTranslation(sourceExchange);
-        }
+        private readonly ResultTranslation translator;
 
         internal ExecutionEngine(Uri baseUri, ExchangeType sourceExchange)
         {
-            _dispatcher = new RequestDispatcher(baseUri);
-            _translator = new ResultTranslation(sourceExchange);
+            dispatcher = new RequestDispatcher(baseUri);
+            translator = new ResultTranslation(sourceExchange);
 
         }
 
         internal ExecutionEngine(Uri baseUri, IExchangeAuthenticator authenticator, ExchangeType sourceExchange)
         {
-            _dispatcher = new RequestDispatcher(baseUri, authenticator);
+            dispatcher = new RequestDispatcher(baseUri, authenticator);
 
-            _translator = new ResultTranslation(sourceExchange);
+            translator = new ResultTranslation(sourceExchange);
         }
 
         public T Execute<T>(IExchangeCommand<T> toExecute) where T : IExchangeResult
@@ -61,22 +55,25 @@ namespace BEx.ExchangeEngine
                                         TradingPair pair,
                                         IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
         {
-            IRestRequest request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
+            var request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
-            IRestResponse result = _dispatcher.Dispatch(request, toExecute);
+            var result = dispatcher.Dispatch(request, toExecute);
 
-            if (result.ErrorException == null && result.StatusCode == System.Net.HttpStatusCode.OK)
+            if (result.ErrorException == null 
+                && result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return _translator.Translate(
+                return translator.Translate(
                                          result.Content,
                                          toExecute,
                                          pair);
             }
+            else if (result.ErrorException != null)
+            {
+                throw result.ErrorException;
+            }
             else
             {
-
                 throw new NotImplementedException();
-                //   throw _errorHandler.HandleErrorResponse(toExecute, result, request, pair);
             }
         }
     }

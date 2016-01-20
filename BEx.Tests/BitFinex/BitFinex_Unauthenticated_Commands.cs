@@ -36,7 +36,6 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyTick(new TradingPair(Currency.LTC, Currency.BTC));
         }
-        
 
         [Test]
         public void Bitfinex_GetOrderBook_BTCUSD_Success()
@@ -49,8 +48,6 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyOrderBook(new TradingPair(Currency.LTC, Currency.USD));
         }
-        
-        
 
         [Test]
         public void Bitfinex_GetOrderBook_LTCBTC_Success()
@@ -63,21 +60,6 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyTransactions(new TradingPair(Currency.BTC, Currency.USD));
         }
-
-        /*
-        [Test]
-        public void Bitfinex_GetTransactions_DRKBTC_Success()
-        {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.DRK, Currency.BTC));
-        }*/
-
-        /*
-        [Test]
-        public void Bitfinex_GetTransactions_DRKUSD_Success()
-        {
-            commandVerification.VerifyTransactions(new CurrencyTradingPair(Currency.DRK, Currency.USD));
-        }
-        */
 
         [Test]
         public void Bitfinex_GetTransactions_LTCBTC_Success()

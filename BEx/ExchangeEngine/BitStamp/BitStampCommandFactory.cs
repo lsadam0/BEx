@@ -1,15 +1,30 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using System.Collections.Generic;
 using BEx.ExchangeEngine.BitStamp.JSON;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
-using System;
-using System.Collections.Generic;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
     internal class BitStampCommandFactory : IExchangeCommandFactory
     {
+        private static BitStampCommandFactory instance = new BitStampCommandFactory();
+
+        public static IExchangeCommandFactory Singleton
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        private BitStampCommandFactory()
+        {
+            this.BuildCommands(new ExecutionEngine(new Uri("https://www.bitstamp.net/api"), ExchangeType.BitStamp));
+        }
+
         private ExecutionEngine _engine;
 
         /// <summary>

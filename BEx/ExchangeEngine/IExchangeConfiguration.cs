@@ -10,6 +10,8 @@ namespace BEx.ExchangeEngine
     /// </summary>
     public interface IExchangeConfiguration
     {
+
+
         /// <summary>
         /// Base Address of the Exchange Api
         /// </summary>

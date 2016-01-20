@@ -1,7 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-using BEx.Exceptions;
 using NUnit.Framework;
-using System;
 
 namespace BEx.UnitTests.BitStampTests
 {
@@ -17,6 +15,7 @@ namespace BEx.UnitTests.BitStampTests
             testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
         }
 
+        /*
         [Test]
         public void CreateBuyOrder_InsufficientFunds_LimitOrderRejectedException()
         {
@@ -77,9 +76,6 @@ namespace BEx.UnitTests.BitStampTests
             });
         }
 
-        /*
-         *
-         *
         public BitStamp_Exceptions()
             : base(typeof(BEx.BitStamp))
         {

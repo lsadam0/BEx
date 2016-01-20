@@ -74,23 +74,6 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="MockTests\MockExchange_AuthenticatedCommands.cs" />
-    <Compile Include="MockTests\MockExchange_UnauthenticatedCommands.cs" />
-    <Compile Include="MockTests\MockObjects\MockExchange.cs" />
-    <Compile Include="MockTests\MockObjects\MockExchangeAuthenticator.cs" />
-    <Compile Include="MockTests\MockObjects\MockExchangeCommandFactory.cs" />
-    <Compile Include="MockTests\MockObjects\MockExchangeConfiguration.cs" />
-    <Compile Include="MockTests\MockObjects\MockFailedRequestDispatcher.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockAccountBalanceJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockDepositAddressJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockOrderBookJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockOrderResponseJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockTickJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockTransactionJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockJSONIntermediates\MockUserTransactionJSON.cs" />
-    <Compile Include="MockTests\MockObjects\MockRequestDispatcher.cs" />
-    <Compile Include="MockTests\MockExchange_Setup.cs" />
-    <Compile Include="MockTests\MockExchange_Request_Failures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestFactory\RequestFactory_RequestCreation.cs" />
     <Compile Include="Scratch.cs" />
@@ -107,9 +90,7 @@
       <Name>BEx</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RequestDispatcher\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

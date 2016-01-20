@@ -1,18 +1,30 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.BitStamp.JSON;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using BEx.ExchangeEngine.BitStamp.JSON;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
     public class BitStampConfiguration : IExchangeConfiguration
     {
+        private static BitStampConfiguration instance = new BitStampConfiguration();
+
+        public static IExchangeConfiguration Singleton
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        /*
         public BitStampConfiguration(Uri baseUri)
         {
             Initialize(baseUri);
         }
+        */
 
         internal BitStampConfiguration()
         {

@@ -1,12 +1,12 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
 using NUnit.Framework;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BEx.UnitTests.RequestFactoryTests
 {
@@ -36,10 +36,11 @@ namespace BEx.UnitTests.RequestFactoryTests
                 { StandardParameter.Price, "100.00"}
             };
 
-            Assert.Fail();
-            /*
+            var configuration = BEx.ExchangeEngine.BitStamp.BitStampConfiguration.Singleton;
+
             command = new LimitOrderCommand(
-                                 new ExecutionEngine(,
+                                 new ExecutionEngine(configuration.BaseUri, ExchangeType.BitStamp),
+
                                  Method.POST,
                                  new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                                  true,
@@ -48,7 +49,7 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             pair = new TradingPair(Currency.LTC, Currency.BTC);
 
-            toTest = BEx.ExchangeEngine.RequestFactory.GetRequest(command, pair, values);*/
+            toTest = BEx.ExchangeEngine.RequestFactory.GetRequest(command, pair, values);
         }
 
         [Test]

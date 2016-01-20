@@ -1,18 +1,30 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.Bitfinex.JSON;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using BEx.ExchangeEngine.Bitfinex.JSON;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
+        private static BitfinexConfiguration instance = new BitfinexConfiguration();
+
+        public static IExchangeConfiguration Singleton
+
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        /*
         public BitfinexConfiguration(Uri baseUri)
         {
             Initialize(baseUri);
-        }
+        }*/
 
         internal BitfinexConfiguration()
         {

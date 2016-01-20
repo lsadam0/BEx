@@ -11,7 +11,11 @@ namespace BEx
     {
         internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
           : this()
-        { }
+        {
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.SourceExchange = sourceExchange;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
+        }
 
         /// <summary>
         /// Lowest Sell Price

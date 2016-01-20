@@ -51,7 +51,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 usdBalance
             };
 
-            return new AccountBalance(balances, pair, null);
+            return new AccountBalance(balances, pair, ExchangeType.BitStamp);
         }
 
 

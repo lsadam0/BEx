@@ -71,7 +71,5 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <returns></returns>
         UserTransactionsCommand UserTransactions { get; }
-
-        void BuildCommands(ExecutionEngine executor);
     }
 }

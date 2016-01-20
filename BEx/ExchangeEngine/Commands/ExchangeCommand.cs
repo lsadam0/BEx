@@ -1,10 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
@@ -50,23 +50,23 @@ namespace BEx.ExchangeEngine
             if (intermediateType == null)
                 throw new ArgumentNullException("intermediateType");
 
-            Executor = executor;
-            ApiResultSubType = apiResultType;
-            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
+            this.Executor = executor;
+            this.ApiResultSubType = apiResultType;
+            this.ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
 
             if (intermediateType.IsGenericType)
-                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
+                this.ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
             else
-                ReturnsCollection = false;
+                this.ReturnsCollection = false;
 
-            HttpMethod = httpMethod;
+            this.HttpMethod = httpMethod;
 
-            IsAuthenticated = isAuthenticated;
-            RelativeUri = relativeUri;
+            this.IsAuthenticated = isAuthenticated;
+            this.RelativeUri = relativeUri;
 
-            IntermediateType = intermediateType;
+            this.IntermediateType = intermediateType;
 
-            Parameters =
+            this.Parameters =
                 new ReadOnlyDictionary<string, ExchangeParameter>(
                     parameters.ToDictionary(x => x.ExchangeParameterName, x => x)
                     );

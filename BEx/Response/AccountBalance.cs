@@ -16,7 +16,7 @@ namespace BEx
         internal AccountBalance(IEnumerable<Balance> balances, TradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
-            Initialize(balances, pair, sourceExchange);
+            Initialize(balances, pair);
         }
 
         internal AccountBalance(IEnumerable<IExchangeResponse<Balance>> balances, TradingPair pair, ExchangeType sourceExchange)
@@ -27,17 +27,19 @@ namespace BEx
                                                 .OfType<Balance>()
                                                 .ToList();
 
-            Initialize(convertedBalances, pair, sourceExchange);
+            Initialize(convertedBalances, pair);
         }
 
-        private void Initialize(IEnumerable<Balance> balances, TradingPair pair,
-            Exchange sourceExchange)
+        private void Initialize(IEnumerable<Balance> balances, TradingPair pair)
         {
             var balanceBuffer = new Dictionary<Currency, Balance>();
 
             foreach (Balance toAdd in balances)
+            {
                 balanceBuffer.Add(toAdd.BalanceCurrency, toAdd);
+            }
 
+            /*
             if (balanceBuffer.Count < sourceExchange.SupportedCurrencies.Count)
             {
                 // Insure an entry exists for every supported currency
@@ -53,7 +55,7 @@ namespace BEx
                         });
                     }
                 }
-            }
+            }*/
 
             BalanceByCurrency = new ReadOnlyDictionary<Currency, Balance>(balanceBuffer);
         }
