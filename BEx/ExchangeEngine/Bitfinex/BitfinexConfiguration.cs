@@ -11,7 +11,6 @@ namespace BEx.ExchangeEngine.Bitfinex
     {
         private static readonly BitfinexConfiguration instance = new BitfinexConfiguration();
 
-
         internal BitfinexConfiguration()
         {
             Initialize(null);
@@ -24,14 +23,14 @@ namespace BEx.ExchangeEngine.Bitfinex
         }
 
         public string ApiKey { get; private set; }
+        public string ClientId { get; private set; }
+        public string SecretKey { get; set; }
 
         public Uri BaseUri { get; private set; }
-        public string ClientId { get; private set; }
 
         public TradingPair DefaultPair { get; private set; }
         public Type ErrorJsonType { get; private set; }
         public ExchangeType ExchangeSourceType { get; private set; }
-        public string SecretKey { get; set; }
         public ImmutableHashSet<Currency> SupportedCurrencies { get; private set; }
 
         public ImmutableHashSet<TradingPair> SupportedPairs { get; private set; }

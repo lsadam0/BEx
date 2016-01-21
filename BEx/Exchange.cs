@@ -50,7 +50,6 @@ namespace BEx
 
         public Confirmation CancelOrder(Order toCancel)
         {
-            
             return CancelOrder(toCancel.Id);
         }
 
@@ -129,7 +128,6 @@ namespace BEx
         /// <returns>BEx.AccountBalance</returns>
         public AccountBalance GetAccountBalance() => _executor.Execute(_commands.AccountBalance);
 
-
         /// <summary>
         ///     Retrieve the your account Deposit Address for the requested currency
         /// </summary>
@@ -144,9 +142,7 @@ namespace BEx
 
         public OpenOrders GetOpenOrders() => GetOpenOrders(DefaultPair);
 
-
         public OpenOrders GetOpenOrders(TradingPair pair) => _executor.Execute(_commands.OpenOrders, pair);
-
 
         /// <summary>
         ///     Url the current BTC/USD Order Book.
@@ -154,14 +150,12 @@ namespace BEx
         /// <returns></returns>
         public OrderBook GetOrderBook() => GetOrderBook(DefaultPair);
 
-
         /// <summary>
         ///     Url the current Order Book for the specified Currency pair.
         /// </summary>
         /// <param name="pair"></param>
         /// <returns></returns>
         public OrderBook GetOrderBook(TradingPair pair) => _executor.Execute(_commands.OrderBook, pair);
-
 
         /// <summary>
         ///     Retrieve the last Tick for the Exchange for the Default Trading Pair
@@ -175,7 +169,6 @@ namespace BEx
         /// <param name="pair">Retrieve Tick for this Trading Pair</param>
         /// <returns>BEx.Tick</returns>
         public Tick GetTick(TradingPair pair) => _executor.Execute(_commands.Tick, pair);
-
 
         /// <summary>
         ///     Return BTC/USD general Transactions for past hour.
@@ -206,7 +199,6 @@ namespace BEx
         /// </summary>
         /// <returns>UserTransactions, non-null</returns>
         public UserTransactions GetUserTransactions() => GetUserTransactions(DefaultPair);
-
 
         /// <summary>
         ///     Return your last 50 Order Transactions for the Default Trading Pair

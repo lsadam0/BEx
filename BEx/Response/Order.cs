@@ -10,11 +10,11 @@ namespace BEx
     public struct Order : IEquatable<Order>, IExchangeResult
     {
         internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            :this()
+            : this()
         {
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.SourceExchange = sourceExchange;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            SourceExchange = sourceExchange;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -58,7 +58,6 @@ namespace BEx
         /// </summary>
         public OrderType TradeType { get; internal set; }
 
-
         public DateTime ExchangeTimeStampUTC { get; }
 
         /// <summary>
@@ -75,8 +74,8 @@ namespace BEx
 
         public static bool operator ==(Order a, Order b)
         {
-            if ((object)a == null
-                || (object)b == null)
+            if ((object) a == null
+                || (object) b == null)
             {
                 return Equals(a, b);
             }
@@ -88,8 +87,6 @@ namespace BEx
                 && a.Price == b.Price
                 && a.SourceExchange == b.SourceExchange
                 && a.TradeType == b.TradeType;
-
-
         }
 
         public override bool Equals(object obj)
@@ -104,7 +101,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Order)obj;
+            return this == (Order) obj;
         }
 
         public bool Equals(Order b)
@@ -115,14 +112,12 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                this.Id.GetHashCode()
-                ^ this.Amount.GetHashCode()
-                ^ this.Pair.GetHashCode()
-                ^ this.Price.GetHashCode()
-                ^ this.SourceExchange.GetHashCode()
-                ^ this.TradeType.GetHashCode();
-
-
+                Id.GetHashCode()
+                ^ Amount.GetHashCode()
+                ^ Pair.GetHashCode()
+                ^ Price.GetHashCode()
+                ^ SourceExchange.GetHashCode()
+                ^ TradeType.GetHashCode();
         }
 
         public override string ToString()

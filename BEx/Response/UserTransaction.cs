@@ -14,9 +14,9 @@ namespace BEx
         internal UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : this()
         {
-            this.SourceExchange = sourceExchange;
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            SourceExchange = sourceExchange;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -29,13 +29,13 @@ namespace BEx
             {
                 if (value == OrderType.Sell)
                 {
-                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount) * -1;
+                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount)*-1;
                     CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount);
                 }
                 else
                 {
                     BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount);
-                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount) * -1;
+                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount)*-1;
                 }
 
                 _transactionType = value;
@@ -91,12 +91,7 @@ namespace BEx
         /// </summary>
         public DateTime LocalTimeStampUTC { get; }
 
-
-
-
         public ExchangeType SourceExchange { get; }
-
-
 
         public static bool operator !=(UserTransaction a, UserTransaction b)
         {
@@ -105,8 +100,8 @@ namespace BEx
 
         public static bool operator ==(UserTransaction a, UserTransaction b)
         {
-            if ((object)a == null
-                || (object)b == null)
+            if ((object) a == null
+                || (object) b == null)
             {
                 return Equals(a, b);
             }
@@ -120,7 +115,6 @@ namespace BEx
                 && a.Pair == b.Pair
                 && a.SourceExchange == b.SourceExchange
                 && a.TransactionType == b.TransactionType;
-
         }
 
         public override bool Equals(object obj)
@@ -135,7 +129,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (UserTransaction)obj;
+            return this == (UserTransaction) obj;
         }
 
         public bool Equals(UserTransaction b)
@@ -147,22 +141,18 @@ namespace BEx
         {
             return
                 TransactionType.GetHashCode()
-                ^ this.OrderId.GetHashCode()
-                ^ this.BaseCurrencyAmount.GetHashCode()
-                ^ this.CompletedTime.GetHashCode()
-                ^ this.CounterCurrencyAmount.GetHashCode()
-                ^ this.ExchangeRate.GetHashCode()
-                ^ this.Pair.GetHashCode()
-                ^ this.SourceExchange.GetHashCode()
-                ^ this.TransactionType.GetHashCode()
-                ^ this.ExchangeTimeStampUTC.GetHashCode()
-                ^ this.LocalTimeStampUTC.GetHashCode()
-                ^ this.TradeFee.GetHashCode()
-                ^ this.TradeFeeCurrency.GetHashCode();
-
+                ^ OrderId.GetHashCode()
+                ^ BaseCurrencyAmount.GetHashCode()
+                ^ CompletedTime.GetHashCode()
+                ^ CounterCurrencyAmount.GetHashCode()
+                ^ ExchangeRate.GetHashCode()
+                ^ Pair.GetHashCode()
+                ^ SourceExchange.GetHashCode()
+                ^ TransactionType.GetHashCode()
+                ^ ExchangeTimeStampUTC.GetHashCode()
+                ^ LocalTimeStampUTC.GetHashCode()
+                ^ TradeFee.GetHashCode()
+                ^ TradeFeeCurrency.GetHashCode();
         }
-
-
-
     }
 }

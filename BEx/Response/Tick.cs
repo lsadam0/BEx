@@ -27,8 +27,6 @@ namespace BEx
         /// </summary>
         public decimal Bid { get; internal set; }
 
-
-
         /// <summary>
         ///     Highest trade price of the last 24 hours
         /// </summary>
@@ -70,8 +68,8 @@ namespace BEx
 
         public static bool operator ==(Tick a, Tick b)
         {
-            if ((object)a == null
-                || (object)b == null)
+            if ((object) a == null
+                || (object) b == null)
             {
                 return Equals(a, b);
             }
@@ -98,7 +96,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Tick)obj;
+            return this == (Tick) obj;
         }
 
         public bool Equals(Tick b)
@@ -114,8 +112,8 @@ namespace BEx
                 ^ High.GetHashCode()
                 ^ Last.GetHashCode()
                 ^ Low.GetHashCode()
-                ^ (int)Pair.BaseCurrency
-                ^ (int)Pair.CounterCurrency
+                ^ (int) Pair.BaseCurrency
+                ^ (int) Pair.CounterCurrency
                 ^ Volume.GetHashCode();
         }
 

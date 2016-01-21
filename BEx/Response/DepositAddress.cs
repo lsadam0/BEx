@@ -9,17 +9,15 @@ namespace BEx
     /// </summary>
     public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
-        
-
         internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency,
             ExchangeType sourceExchange)
             : this()
         {
             Address = address;
             DepositCurrency = depositCurrency;
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.SourceExchange = sourceExchange;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            SourceExchange = sourceExchange;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -53,8 +51,8 @@ namespace BEx
 
         public static bool operator ==(DepositAddress a, DepositAddress b)
         {
-            if ((object)a == null
-                || (object)b == null)
+            if ((object) a == null
+                || (object) b == null)
             {
                 return Equals(a, b);
             }
@@ -63,8 +61,6 @@ namespace BEx
                 a.Address == b.Address
                 && a.DepositCurrency == b.DepositCurrency
                 && a.SourceExchange == b.SourceExchange;
-
-
         }
 
         public override bool Equals(object obj)
@@ -79,7 +75,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (DepositAddress)obj;
+            return this == (DepositAddress) obj;
         }
 
         public bool Equals(DepositAddress b)
@@ -90,10 +86,9 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                this.SourceExchange.GetHashCode()
-                ^ this.Address.GetHashCode()
-                ^ this.DepositCurrency.GetHashCode();
-
+                SourceExchange.GetHashCode()
+                ^ Address.GetHashCode()
+                ^ DepositCurrency.GetHashCode();
         }
     }
 }

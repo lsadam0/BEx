@@ -12,9 +12,9 @@ namespace BEx
         internal Balance(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : this()
         {
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.SourceExchange = sourceExchange;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            SourceExchange = sourceExchange;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -34,10 +34,8 @@ namespace BEx
 
         public override string ToString()
         {
-         
-                return string.Format("{0} {1} - Available: {2} - Total: {3}", SourceExchange, BalanceCurrency,
-                    AvailableToTrade, TotalBalance);
-            
+            return string.Format("{0} {1} - Available: {2} - Total: {3}", SourceExchange, BalanceCurrency,
+                AvailableToTrade, TotalBalance);
         }
 
         public DateTime ExchangeTimeStampUTC { get; }
@@ -56,8 +54,8 @@ namespace BEx
 
         public static bool operator ==(Balance a, Balance b)
         {
-            if ((object)a == null
-                || (object)b == null)
+            if ((object) a == null
+                || (object) b == null)
             {
                 return Equals(a, b);
             }
@@ -67,7 +65,6 @@ namespace BEx
                 && a.BalanceCurrency == b.BalanceCurrency
                 && a.SourceExchange == b.SourceExchange
                 && a.TotalBalance == b.TotalBalance;
-
         }
 
         public override bool Equals(object obj)
@@ -82,7 +79,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Balance)obj;
+            return this == (Balance) obj;
         }
 
         public bool Equals(Balance b)
@@ -93,11 +90,10 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                this.AvailableToTrade.GetHashCode()
-                ^ this.BalanceCurrency.GetHashCode()
-                ^ this.SourceExchange.GetHashCode()
-                ^ this.TotalBalance.GetHashCode();
-
+                AvailableToTrade.GetHashCode()
+                ^ BalanceCurrency.GetHashCode()
+                ^ SourceExchange.GetHashCode()
+                ^ TotalBalance.GetHashCode();
         }
     }
 }

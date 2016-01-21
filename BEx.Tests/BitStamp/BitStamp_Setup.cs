@@ -14,9 +14,6 @@ namespace BEx.UnitTests.BitStampTests
             testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
         }
 
-
-
-
         [Test]
         public void BitStamp_SupportedCurrencies_Complete()
         {

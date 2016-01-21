@@ -14,9 +14,6 @@ namespace BEx.UnitTests.BitfinexTests
             testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
         }
 
-        
-
-
         [Test]
         public void Bitfinex_SupportedCurrencies_Complete()
         {

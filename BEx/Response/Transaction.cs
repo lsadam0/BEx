@@ -12,9 +12,9 @@ namespace BEx
         internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : this()
         {
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.SourceExchange = sourceExchange;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            SourceExchange = sourceExchange;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace BEx
 
         public static bool operator ==(Transaction a, Transaction b)
         {
-            if ((object)a == null
-                || (object)b == null)
+            if ((object) a == null
+                || (object) b == null)
             {
                 return Equals(a, b);
             }
@@ -75,8 +75,6 @@ namespace BEx
                 && a.SourceExchange == b.SourceExchange
                 && a.Pair == b.Pair
                 && a.Price == b.Price;
-
-
         }
 
         public override bool Equals(object obj)
@@ -91,7 +89,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Transaction)obj;
+            return this == (Transaction) obj;
         }
 
         public bool Equals(Transaction b)
@@ -102,14 +100,11 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                this.SourceExchange.GetHashCode()
-                ^ this.Amount.GetHashCode()
-                ^ this.Pair.GetHashCode()
-                ^ this.Price.GetHashCode()
-                ^ this.TransactionId.GetHashCode();
-
+                SourceExchange.GetHashCode()
+                ^ Amount.GetHashCode()
+                ^ Pair.GetHashCode()
+                ^ Price.GetHashCode()
+                ^ TransactionId.GetHashCode();
         }
-
-
     }
 }

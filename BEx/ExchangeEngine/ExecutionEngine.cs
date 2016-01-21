@@ -64,14 +64,11 @@ namespace BEx.ExchangeEngine
                     toExecute,
                     pair);
             }
-            else if (result.ErrorException != null)
+            if (result.ErrorException != null)
             {
                 throw result.ErrorException;
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
     }
 }
