@@ -32,15 +32,21 @@ namespace BEx.UnitTests.BitfinexTests
         }
 
         [Test]
+        public void Bitfinex_GetDepositAddress_DRK_Success()
+        {
+            commandVerification.VerifyDepositAddress(Currency.DRK);
+        }
+
+        [Test]
         public void Bitfinex_GetDepositAddress_LTC_Success()
         {
             commandVerification.VerifyDepositAddress(Currency.LTC);
         }
 
         [Test]
-        public void Bitfinex_GetDepositAddress_DRK_Success()
+        public void Bitfinex_GetOpenOrders_Success()
         {
-            commandVerification.VerifyDepositAddress(Currency.DRK);
+            commandVerification.VerifyOpenOrders();
         }
 
         [Test]
@@ -48,7 +54,6 @@ namespace BEx.UnitTests.BitfinexTests
         {
             commandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
         }
-        
 
         [Test]
         public void Bitfinex_GetUserTransactions_LTCBTC_Success()
@@ -60,12 +65,6 @@ namespace BEx.UnitTests.BitfinexTests
         public void Bitfinex_GetUserTransactions_LTCUSD_Success()
         {
             commandVerification.VerifyUserTransactions(new TradingPair(Currency.LTC, Currency.USD));
-        }
-
-        [Test]
-        public void Bitfinex_GetOpenOrders_Success()
-        {
-            commandVerification.VerifyOpenOrders();
         }
     }
 }

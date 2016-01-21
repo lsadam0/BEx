@@ -1,8 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using NUnit.Framework;
 using System;
 using System.Linq;
+using NUnit.Framework;
 
 namespace BEx.UnitTests
 {
@@ -15,17 +15,17 @@ namespace BEx.UnitTests
 
         public void VerifyAccountBalance()
         {
-            AccountBalance toVerify = TestCandidate.GetAccountBalance();
+            var toVerify = TestCandidate.GetAccountBalance();
 
             VerifyAPIResult(toVerify);
 
             CollectionAssert.IsNotEmpty(toVerify.BalanceByCurrency);
 
-            foreach (Currency c in TestCandidate.SupportedCurrencies)
+            foreach (var c in TestCandidate.SupportedCurrencies)
             {
                 Assert.That(toVerify.BalanceByCurrency.ContainsKey(c));
 
-                Balance individualBalance = toVerify.BalanceByCurrency[c];
+                var individualBalance = toVerify.BalanceByCurrency[c];
 
                 VerifyAPIResult(individualBalance);
                 Assert.That(individualBalance.BalanceCurrency == c);
@@ -37,7 +37,7 @@ namespace BEx.UnitTests
         public void VerifyAPIResult(IExchangeResult toVerify)
         {
             Assert.IsNotNull(toVerify);
-            Assert.That(toVerify.SourceExchange == base.TestCandidate.ExchangeSourceType);
+            Assert.That(toVerify.SourceExchange == TestCandidate.ExchangeSourceType);
 
             Assert.That(toVerify.ExchangeTimeStampUTC > DateTime.MinValue);
             Assert.That(toVerify.ExchangeTimeStampUTC < DateTime.MaxValue);
@@ -48,7 +48,7 @@ namespace BEx.UnitTests
 
         public void VerifyBuyOrder()
         {
-            Order toVerify = TestCandidate.CreateBuyLimitOrder(1m, 5m);
+            var toVerify = TestCandidate.CreateBuyLimitOrder(1m, 5m);
 
             VerifyAPIResult(toVerify);
 
@@ -57,7 +57,7 @@ namespace BEx.UnitTests
 
         public void VerifyDepositAddress(Currency depositCurrency)
         {
-            DepositAddress address = TestCandidate.GetDepositAddress(depositCurrency);
+            var address = TestCandidate.GetDepositAddress(depositCurrency);
 
             VerifyAPIResult(address);
 
@@ -67,7 +67,7 @@ namespace BEx.UnitTests
 
         public void VerifyOpenOrders()
         {
-            OpenOrders toVerify = TestCandidate.GetOpenOrders();
+            var toVerify = TestCandidate.GetOpenOrders();
 
             VerifyAPIResult(toVerify);
 
@@ -100,7 +100,7 @@ namespace BEx.UnitTests
 
         public void VerifyOrderBook(TradingPair pair)
         {
-            OrderBook toVerify = TestCandidate.GetOrderBook(pair);
+            var toVerify = TestCandidate.GetOrderBook(pair);
 
             VerifyAPIResult(toVerify);
 
@@ -108,12 +108,12 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.Asks);
             CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof (OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Asks);
 
             CollectionAssert.IsNotEmpty(toVerify.Bids);
             CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof (OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Bids);
 
             var orderedAsks = toVerify.Asks.OrderBy(x => x.Price);
@@ -137,7 +137,7 @@ namespace BEx.UnitTests
 
         public void VerifySellOrder()
         {
-            Order toVerify = TestCandidate.CreateSellLimitOrder(0.02m, 10000m);
+            var toVerify = TestCandidate.CreateSellLimitOrder(0.02m, 10000m);
 
             VerifyAPIResult(toVerify);
 
@@ -146,7 +146,7 @@ namespace BEx.UnitTests
 
         public void VerifyTick(TradingPair pair)
         {
-            Tick toVerify = TestCandidate.GetTick(pair);
+            var toVerify = TestCandidate.GetTick(pair);
 
             VerifyAPIResult(toVerify);
 
@@ -161,8 +161,8 @@ namespace BEx.UnitTests
 
         public void VerifyTransactions(TradingPair pair)
         {
-            DateTime current = DateTime.UtcNow;
-            Transactions toVerify = TestCandidate.GetTransactions(pair);
+            var current = DateTime.UtcNow;
+            var toVerify = TestCandidate.GetTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
@@ -170,16 +170,16 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(BEx.Transaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (Transaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
 
             var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
             Assert.That(ordered.SequenceEqual(toVerify.TransactionsCollection));
 
-            DateTime minimumTime = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
+            var minimumTime = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
             Assert.That(minimumTime, Is.InRange(current.AddMinutes(-61), current));
 
-            foreach (Transaction t in toVerify.TransactionsCollection)
+            foreach (var t in toVerify.TransactionsCollection)
             {
                 VerifyAPIResult(t);
 
@@ -195,7 +195,7 @@ namespace BEx.UnitTests
 
         public void VerifyUserTransactions(TradingPair pair)
         {
-            UserTransactions toVerify = TestCandidate.GetUserTransactions(pair);
+            var toVerify = TestCandidate.GetUserTransactions(pair);
 
             VerifyAPIResult(toVerify);
 
@@ -203,7 +203,7 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(BEx.UserTransaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (UserTransaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
 
             var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
@@ -211,7 +211,7 @@ namespace BEx.UnitTests
 
             Assert.That(toVerify.TransactionsCollection.Count <= 50);
 
-            foreach (UserTransaction transaction in toVerify.TransactionsCollection)
+            foreach (var transaction in toVerify.TransactionsCollection)
             {
                 VerifyAPIResult(transaction);
 
@@ -233,13 +233,13 @@ namespace BEx.UnitTests
 
                 // Check that transaction balances
 
-                Assert.That(Math.Round(((transaction.BaseCurrencyAmount * transaction.ExchangeRate) +
-                               transaction.CounterCurrencyAmount), 2) == 0);
+                Assert.That(Math.Round(transaction.BaseCurrencyAmount*transaction.ExchangeRate +
+                                       transaction.CounterCurrencyAmount, 2) == 0);
 
                 // Trade Fee Currency belongs to Trading Pair
                 Assert.That((transaction.Pair.BaseCurrency == transaction.TradeFeeCurrency)
-                                ||
-                                (transaction.Pair.CounterCurrency == transaction.TradeFeeCurrency));
+                            ||
+                            (transaction.Pair.CounterCurrency == transaction.TradeFeeCurrency));
 
                 Assert.That(transaction.OrderId > 0);
             }

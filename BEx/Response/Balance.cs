@@ -5,7 +5,7 @@ using System;
 namespace BEx
 {
     /// <summary>
-    /// Complete Balance Information for a specific Currency.
+    ///     Complete Balance Information for a specific Currency.
     /// </summary>
     public sealed class Balance : BExResult
     {
@@ -15,31 +15,19 @@ namespace BEx
         }
 
         /// <summary>
-        /// The Un-reserved Available Balance
+        ///     The Un-reserved Available Balance
         /// </summary>
-        public decimal AvailableToTrade
-        {
-            get;
-            internal set;
-        }
+        public decimal AvailableToTrade { get; internal set; }
 
         /// <summary>
-        /// Source Currency
+        ///     Source Currency
         /// </summary>
-        public Currency BalanceCurrency
-        {
-            get;
-            internal set;
-        }
+        public Currency BalanceCurrency { get; internal set; }
 
         /// <summary>
-        /// Total Exchange Balance for BalanceCurrency, include amounts reserved in open trades
+        ///     Total Exchange Balance for BalanceCurrency, include amounts reserved in open trades
         /// </summary>
-        public decimal TotalBalance
-        {
-            get;
-            internal set;
-        }
+        public decimal TotalBalance { get; internal set; }
 
         protected override string DebugDisplay
         {

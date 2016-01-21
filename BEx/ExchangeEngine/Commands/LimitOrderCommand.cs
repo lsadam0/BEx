@@ -1,18 +1,18 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
     internal class LimitOrderCommand : ExchangeCommand<Order>
     {
-        public LimitOrderCommand(ExecutionEngine executor,
+        public LimitOrderCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
             Type intermediateType,
             IList<ExchangeParameter> parameters) :
-            base(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(Order), parameters)
+                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (Order), parameters)
         {
         }
     }

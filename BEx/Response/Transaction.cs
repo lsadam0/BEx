@@ -5,7 +5,7 @@ using System;
 namespace BEx
 {
     /// <summary>
-    /// Individual Transaction
+    ///     Individual Transaction
     /// </summary>
     public sealed class Transaction : BExResult
     {
@@ -15,49 +15,29 @@ namespace BEx
         }
 
         /// <summary>
-        /// Transaction Amount
+        ///     Transaction Amount
         /// </summary>
-        public decimal Amount
-        {
-            get;
-            internal set;
-        }
+        public decimal Amount { get; internal set; }
 
         /// <summary>
-        /// Trading Pair
+        ///     Trading Pair
         /// </summary>
-        public TradingPair Pair
-        {
-            get;
-            internal set;
-        }
+        public TradingPair Pair { get; internal set; }
 
         /// <summary>
-        /// Execution Time
+        ///     Execution Time
         /// </summary>
-        public DateTime CompletedTime
-        {
-            get;
-            internal set;
-        }
+        public DateTime CompletedTime { get; internal set; }
 
         /// <summary>
-        /// Execution Price
+        ///     Execution Price
         /// </summary>
-        public decimal Price
-        {
-            get;
-            internal set;
-        }
+        public decimal Price { get; internal set; }
 
         /// <summary>
-        /// Exchange assigned identifier
+        ///     Exchange assigned identifier
         /// </summary>
-        public long TransactionId
-        {
-            get;
-            internal set;
-        }
+        public long TransactionId { get; internal set; }
 
         protected override string DebugDisplay
         {

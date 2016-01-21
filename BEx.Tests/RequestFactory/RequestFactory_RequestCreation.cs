@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.BitStamp;
 using BEx.ExchangeEngine.Commands;
 using NUnit.Framework;
 using RestSharp;
@@ -21,7 +22,7 @@ namespace BEx.UnitTests.RequestFactoryTests
         [TestFixtureSetUp]
         public void Setup()
         {
-            var param = new List<ExchangeParameter>()
+            var param = new List<ExchangeParameter>
             {
                 new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair),
@@ -31,32 +32,23 @@ namespace BEx.UnitTests.RequestFactoryTests
                 new ExchangeParameter(ParameterMethod.Url, "side", StandardParameter.None, "sell")
             };
 
-            var values = new Dictionary<StandardParameter, string>()
+            var values = new Dictionary<StandardParameter, string>
             {
-                { StandardParameter.Price, "100.00"}
+                {StandardParameter.Price, "100.00"}
             };
 
-            var configuration = BEx.ExchangeEngine.BitStamp.BitStampConfiguration.Singleton;
+            var configuration = BitStampConfiguration.Singleton;
 
             command = new LimitOrderCommand(
-                                 new ExecutionEngine(configuration.BaseUri, ExchangeType.BitStamp),
-
-                                 Method.POST,
-                                 new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
-                                 true,
-                                 typeof(object),
-                                 param);
+                Method.POST,
+                new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
+                true,
+                typeof (object),
+                param);
 
             pair = new TradingPair(Currency.LTC, Currency.BTC);
 
-            toTest = BEx.ExchangeEngine.RequestFactory.GetRequest(command, pair, values);
-        }
-
-        [Test]
-        public void Request_Configuration_Success()
-        {
-            Assert.That(toTest.Method == Method.POST);
-            Assert.That(toTest.Resource == "/v1/order/new/{pair}/{side}");
+            toTest = RequestFactory.GetRequest(command, pair, values);
         }
 
         [Test]
@@ -71,17 +63,10 @@ namespace BEx.UnitTests.RequestFactoryTests
         }
 
         [Test]
-        public void Request_UrlParameters_Populated()
+        public void Request_Configuration_Success()
         {
-            var urlParams = toTest.Parameters.Where(x => x.Type == ParameterType.UrlSegment).ToList();
-
-            Assert.That(urlParams.Count == 2);
-
-            Assert.That(urlParams[0].Name == "pair");
-            Assert.That(urlParams[0].Value.ToString() == pair.ToString());
-
-            Assert.That(urlParams[1].Name == "side");
-            Assert.That(urlParams[1].Value.ToString() == "sell");
+            Assert.That(toTest.Method == Method.POST);
+            Assert.That(toTest.Resource == "/v1/order/new/{pair}/{side}");
         }
 
         [Test]
@@ -110,6 +95,20 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             Assert.That(queryParams[1].Name == "type");
             Assert.That(queryParams[1].Value.ToString() == "exchange limit");
+        }
+
+        [Test]
+        public void Request_UrlParameters_Populated()
+        {
+            var urlParams = toTest.Parameters.Where(x => x.Type == ParameterType.UrlSegment).ToList();
+
+            Assert.That(urlParams.Count == 2);
+
+            Assert.That(urlParams[0].Name == "pair");
+            Assert.That(urlParams[0].Value.ToString() == pair.ToString());
+
+            Assert.That(urlParams[1].Name == "side");
+            Assert.That(urlParams[1].Value.ToString() == "sell");
         }
     }
 }

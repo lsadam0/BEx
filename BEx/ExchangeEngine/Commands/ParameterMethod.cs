@@ -3,22 +3,22 @@
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// Token that describes how a parameter will be delivered to the targeted exchange
+    ///     Token that describes how a parameter will be delivered to the targeted exchange
     /// </summary>
     public enum ParameterMethod
     {
         /// <summary>
-        /// Parameter is part of the address e.g. /Tick/{Pair}
+        ///     Parameter is part of the address e.g. /Tick/{Pair}
         /// </summary>
         Url,
 
         /// <summary>
-        /// POST Parameter
+        ///     POST Parameter
         /// </summary>
         Post,
 
         /// <summary>
-        /// Parameter is part of the Query String e.g. /GetTick/?pair={Pair}
+        ///     Parameter is part of the Query String e.g. /GetTick/?pair={Pair}
         /// </summary>
         QueryString
     }

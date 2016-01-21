@@ -5,7 +5,7 @@ using System;
 namespace BEx
 {
     /// <summary>
-    /// Deposit Information
+    ///     Deposit Information
     /// </summary>
     public sealed class DepositAddress : BExResult
     {
@@ -16,7 +16,8 @@ namespace BEx
             DepositCurrency = pair.BaseCurrency;
         }
 
-        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency, ExchangeType sourceExchange)
+        internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency,
+            ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
         {
             Address = address;
@@ -24,22 +25,14 @@ namespace BEx
         }
 
         /// <summary>
-        /// Deposit Url
+        ///     Deposit Url
         /// </summary>
-        public string Address
-        {
-            get;
-            private set;
-        }
+        public string Address { get; }
 
         /// <summary>
-        /// Currency to be Deposited.
+        ///     Currency to be Deposited.
         /// </summary>
-        public Currency DepositCurrency
-        {
-            get;
-            private set;
-        }
+        public Currency DepositCurrency { get; }
 
         protected override string DebugDisplay
         {

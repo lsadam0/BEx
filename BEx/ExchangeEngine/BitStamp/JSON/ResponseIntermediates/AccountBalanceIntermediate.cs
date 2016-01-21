@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.Utilities;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
@@ -32,20 +32,20 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 
         public AccountBalance Convert(TradingPair pair)
         {
-            Balance btcBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
+            var btcBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
             {
                 BalanceCurrency = Currency.BTC,
                 AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(BtcBalance)
             };
 
-            Balance usdBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
+            var usdBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
             {
                 AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable),
                 TotalBalance = Conversion.ToDecimalInvariant(UsdBalance),
                 BalanceCurrency = Currency.USD
             };
-            List<Balance> balances = new List<Balance>()
+            var balances = new List<Balance>
             {
                 btcBalance,
                 usdBalance
@@ -53,7 +53,5 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
 
             return new AccountBalance(balances, pair, ExchangeType.BitStamp);
         }
-
-
     }
 }

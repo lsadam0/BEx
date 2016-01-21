@@ -5,7 +5,6 @@ namespace BEx.UnitTests
     public class ExchangeExceptionVerification : ExchangeVerificationBase
     {
         public ExchangeExceptionVerification(Exchange testCandidate)
-            : base()
         {
         }
 

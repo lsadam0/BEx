@@ -1,8 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
-using System;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
@@ -50,15 +50,13 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 OrderId = Tid,
                 ExchangeRate = Conversion.ToDecimalInvariant(Price),
                 BaseCurrencyAmount = Conversion.ToDecimalInvariant(Amount),
-                CounterCurrencyAmount = Conversion.ToDecimalInvariant(Price) * Conversion.ToDecimalInvariant(Amount),
+                CounterCurrencyAmount = Conversion.ToDecimalInvariant(Price)*Conversion.ToDecimalInvariant(Amount),
                 TradeFee = Conversion.ToDecimalInvariant(FeeAmount),
-                TradeFeeCurrency = (Currency)Enum.Parse(typeof(Currency), FeeCurrency),
-                TransactionType = (OrderType)Enum.Parse(typeof(OrderType), Type),
+                TradeFeeCurrency = (Currency) Enum.Parse(typeof (Currency), FeeCurrency),
+                TransactionType = (OrderType) Enum.Parse(typeof (OrderType), Type),
                 Pair = pair,
                 CompletedTime = Timestamp.ToDateTimeUTC()
             };
         }
-
-
     }
 }

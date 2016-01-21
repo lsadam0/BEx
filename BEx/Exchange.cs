@@ -11,30 +11,44 @@ namespace BEx
 {
     public abstract class Exchange : IExchange
     {
+        private readonly ExecutionEngine executor;
+
         internal Exchange(
-                    IExchangeConfiguration configuration,
-                    IExchangeCommandFactory commands)
+            IExchangeConfiguration configuration,
+            IExchangeCommandFactory commands)
         {
             Configuration = configuration;
             Commands = commands;
+
+            executor = new ExecutionEngine(
+                configuration.BaseUri,
+                configuration.ExchangeSourceType);
         }
 
         internal Exchange(
-                    IExchangeConfiguration configuration,
-                    IExchangeCommandFactory commands,
-                    IExchangeAuthenticator authenticator)
+            IExchangeConfiguration configuration,
+            IExchangeCommandFactory commands,
+            IExchangeAuthenticator authenticator)
         {
             Configuration = configuration;
             Commands = commands;
             Authenticator = authenticator;
+
+            executor = new ExecutionEngine(
+                configuration.BaseUri,
+                authenticator,
+                configuration.ExchangeSourceType);
         }
+
+        internal IExchangeAuthenticator Authenticator { get; private set; }
+
+        internal IExchangeCommandFactory Commands { get; set; }
+
+        protected internal IExchangeConfiguration Configuration { get; }
 
         public TradingPair DefaultPair
         {
-            get
-            {
-                return Configuration.DefaultPair;
-            }
+            get { return Configuration.DefaultPair; }
         }
 
         public ExchangeType ExchangeSourceType
@@ -44,36 +58,12 @@ namespace BEx
 
         public ImmutableHashSet<Currency> SupportedCurrencies
         {
-            get
-            {
-                return Configuration.SupportedCurrencies;
-            }
+            get { return Configuration.SupportedCurrencies; }
         }
 
         public ImmutableHashSet<TradingPair> SupportedTradingPairs
         {
-            get
-            {
-                return Configuration.SupportedPairs;
-            }
-        }
-
-        internal IExchangeAuthenticator Authenticator
-        {
-            get;
-            private set;
-        }
-
-        internal IExchangeCommandFactory Commands
-        {
-            get;
-            set;
-        }
-
-        protected internal IExchangeConfiguration Configuration
-        {
-            get;
-            private set;
+            get { return Configuration.SupportedPairs; }
         }
 
         public Confirmation CancelOrder(Order toCancel)
@@ -86,99 +76,100 @@ namespace BEx
 
         public Confirmation CancelOrder(int id)
         {
-            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
+            var values = new Dictionary<StandardParameter, string>
             {
-                { StandardParameter.Id, id.ToStringInvariant() }
+                {StandardParameter.Id, id.ToStringInvariant()}
             };
 
-            return Commands.CancelOrder.Execute(values) as Confirmation;
+            return executor.Execute(
+                Commands.CancelOrder,
+                values);
         }
 
         /// <summary>
-        /// Create a Limit Order to buy "amount" of base currency at the counter currency "price" using the default trading pair.
+        ///     Create a Limit Order to buy "amount" of base currency at the counter currency "price" using the default trading
+        ///     pair.
         /// </summary>
         /// <param name="amount">Amount of Base Currency to Buy</param>
         /// <param name="price">Counter Currency Purchase Price</param>
         /// <returns>BEx.Order</returns>
-        /// <exception cref="LimitOrderRejectedException">Thrown when the requested
-        /// order amount exceeds your available balance</exception>
+      
         public Order CreateBuyLimitOrder(decimal amount, decimal price)
         {
             return CreateBuyLimitOrder(DefaultPair, amount, price);
         }
 
         /// <summary>
-        /// Create a Limit Order to buy "amount" of base currency at the counter currency "price"
+        ///     Create a Limit Order to buy "amount" of base currency at the counter currency "price"
         /// </summary>
         /// <param name="pair">Trading Pair</param>
         /// <param name="amount">Amount of Base Currency to Buy</param>
         /// <param name="price">Counter Currency Purchase Price</param>
         /// <returns>BEx.Order</returns>
-        /// <exception cref="LimitOrderRejectedException">Thrown when the requested
-        /// order amount exceeds your available balance</exception>
+    
         public Order CreateBuyLimitOrder(TradingPair pair, decimal amount, decimal price)
         {
-            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
+            var values = new Dictionary<StandardParameter, string>
             {
                 {StandardParameter.Amount, amount.ToStringInvariant()},
                 {StandardParameter.Price, price.ToStringInvariant()}
             };
 
-            return Commands.BuyOrder.Execute(pair, values) as Order;
+            return executor.Execute(Commands.BuyOrder, pair, values);
         }
 
         /// <summary>
-        /// Create a Limit Order to sell "amount" of base currency at the counter currency "price" using the default trading pair.
+        ///     Create a Limit Order to sell "amount" of base currency at the counter currency "price" using the default trading
+        ///     pair.
         /// </summary>
         /// <param name="amount">Amount of Base Currency to Sell</param>
         /// <param name="price">Counter Currency Sell Price</param>
         /// <returns>BEx.Order</returns>
-        /// <exception cref="LimitOrderRejectedException">Thrown when the requested
-        /// order amount exceeds your available balance</exception>
+     
         public Order CreateSellLimitOrder(decimal amount, decimal price)
         {
             return CreateSellLimitOrder(DefaultPair, amount, price);
         }
 
         /// <summary>
-        /// Create a Limit Order to sell "amount" of base currency at the counter currency "price" using the default trading pair.
+        ///     Create a Limit Order to sell "amount" of base currency at the counter currency "price" using the default trading
+        ///     pair.
         /// </summary>
         /// <param name="pair">Trading Pair</param>
         /// <param name="amount">Amount of Base Currency to Sell</param>
         /// <param name="price">Counter Currency Sell Price</param>
         /// <returns>BEx.Order</returns>
-        /// <exception cref="LimitOrderRejectedException">Thrown when the requested
-        /// order amount exceeds your available balance</exception>
+     
         public Order CreateSellLimitOrder(TradingPair pair, decimal amount, decimal price)
         {
-            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
+            var values = new Dictionary<StandardParameter, string>
             {
-                { StandardParameter.Amount, amount.ToStringInvariant() },
-                { StandardParameter.Price, price.ToStringInvariant() }
+                {StandardParameter.Amount, amount.ToStringInvariant()},
+                {StandardParameter.Price, price.ToStringInvariant()}
             };
 
-            return Commands.SellOrder.Execute(pair, values) as Order;
+            return executor.Execute(Commands.SellOrder, pair, values);
         }
 
         /// <summary>
-        /// Retrieve all Balance information for your account.
+        ///     Retrieve all Balance information for your account.
         /// </summary>
         /// <returns>BEx.AccountBalance</returns>
         public AccountBalance GetAccountBalance()
         {
-            return Commands.AccountBalance.Execute() as AccountBalance;
+            return executor.Execute(Commands.AccountBalance);
         }
 
         /// <summary>
-        /// Retrieve the your account Deposit Address for the requested currency
+        ///     Retrieve the your account Deposit Address for the requested currency
         /// </summary>
         /// <param name="toDeposit">CryptoCurrency to deposit</param>
         /// <returns>BEx.DepositAddress</returns>
         public DepositAddress GetDepositAddress(Currency toDeposit)
         {
-            TradingPair pair = new TradingPair(toDeposit, toDeposit);
+            var pair = new TradingPair(toDeposit, toDeposit);
 
-            return Commands.DepositAddress.Execute(pair) as DepositAddress;
+            return executor.Execute(Commands.DepositAddress, pair);
         }
 
         public OpenOrders GetOpenOrders()
@@ -188,11 +179,11 @@ namespace BEx
 
         public OpenOrders GetOpenOrders(TradingPair pair)
         {
-            return Commands.OpenOrders.Execute(pair) as OpenOrders;
+            return executor.Execute(Commands.OpenOrders, pair);
         }
 
         /// <summary>
-        /// Url the current BTC/USD Order Book.
+        ///     Url the current BTC/USD Order Book.
         /// </summary>
         /// <returns></returns>
         public OrderBook GetOrderBook()
@@ -201,17 +192,17 @@ namespace BEx
         }
 
         /// <summary>
-        /// Url the current Order Book for the specified Currency pair.
+        ///     Url the current Order Book for the specified Currency pair.
         /// </summary>
         /// <param name="pair"></param>
         /// <returns></returns>
         public OrderBook GetOrderBook(TradingPair pair)
         {
-            return Commands.OrderBook.Execute(pair) as OrderBook;
+            return executor.Execute(Commands.OrderBook, pair);
         }
 
         /// <summary>
-        /// Retrieve the last Tick for the Exchange for the Default Trading Pair
+        ///     Retrieve the last Tick for the Exchange for the Default Trading Pair
         /// </summary>
         /// <returns>BEx.Tick</returns>
         public Tick GetTick()
@@ -220,17 +211,17 @@ namespace BEx
         }
 
         /// <summary>
-        /// Retrieve the last Tick for the Exchange
+        ///     Retrieve the last Tick for the Exchange
         /// </summary>
         /// <param name="pair">Retrieve Tick for this Trading Pair</param>
         /// <returns>BEx.Tick</returns>
         public Tick GetTick(TradingPair pair)
         {
-            return Commands.Tick.Execute(pair);
+            return executor.Execute(Commands.Tick, pair);
         }
 
         /// <summary>
-        /// Return BTC/USD general Transactions for past hour.
+        ///     Return BTC/USD general Transactions for past hour.
         /// </summary>
         /// <returns></returns>
         public Transactions GetTransactions()
@@ -239,25 +230,25 @@ namespace BEx
         }
 
         /// <summary>
-        /// Return general Transactions from the past hour for the specified currency pair.
+        ///     Return general Transactions from the past hour for the specified currency pair.
         /// </summary>
         /// <param name="pair"></param>
         /// <returns></returns>
         public Transactions GetTransactions(TradingPair pair)
         {
-            Dictionary<StandardParameter, string> values = new Dictionary<StandardParameter, string>()
+            var values = new Dictionary<StandardParameter, string>
             {
                 {
                     StandardParameter.UnixTimestamp,
-                   (DateTime.UtcNow.AddHours(-1).ToUnixTime()).ToStringInvariant()
+                    DateTime.UtcNow.AddHours(-1).ToUnixTime().ToStringInvariant()
                 }
             };
 
-            return Commands.Transactions.Execute(pair, values) as Transactions;
+            return executor.Execute(Commands.Transactions, pair, values);
         }
 
         /// <summary>
-        /// Return your last 50 Order Transactions for the Default Trading Pair
+        ///     Return your last 50 Order Transactions for the Default Trading Pair
         /// </summary>
         /// <returns>UserTransactions, non-null</returns>
         public UserTransactions GetUserTransactions()
@@ -266,16 +257,16 @@ namespace BEx
         }
 
         /// <summary>
-        /// Return your last 50 Order Transactions for the Default Trading Pair
+        ///     Return your last 50 Order Transactions for the Default Trading Pair
         /// </summary>
         /// <returns>UserTransactions, non-null</returns>
         public UserTransactions GetUserTransactions(TradingPair pair)
         {
-            return Commands.UserTransactions.Execute(pair) as UserTransactions;
+            return executor.Execute(Commands.UserTransactions, pair);
         }
 
         /// <summary>
-        /// Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
+        ///     Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.
         /// </summary>
         /// <param name="pair">Currency Pair</param>
         /// <returns>True if supported, otherwise false.</returns>

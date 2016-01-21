@@ -7,11 +7,11 @@ namespace BEx.UnitTests
 {
     internal static class ExchangeFactory
     {
-        private static Dictionary<ExchangeType, AuthToken> tokens = null;
+        private static Dictionary<ExchangeType, AuthToken> tokens;
 
         private static void LoadAPIKeys()
         {
-            XElement keys = XElement.Load(@"E:\_Work\To Save\BEx\TestingKeys.xml");
+            var keys = XElement.Load(@"E:\_Work\To Save\BEx\TestingKeys.xml");
 
             XElement exchangeElement;
 
@@ -19,7 +19,7 @@ namespace BEx.UnitTests
 
             exchangeElement = keys.Element("BitStamp");
 
-            tokens.Add(ExchangeType.BitStamp, new AuthToken()
+            tokens.Add(ExchangeType.BitStamp, new AuthToken
             {
                 ApiKey = exchangeElement.Element("Key").Value,
                 ClientId = exchangeElement.Element("ClientID").Value,
@@ -28,7 +28,7 @@ namespace BEx.UnitTests
 
             exchangeElement = keys.Element("BitFinex");
 
-            tokens.Add(ExchangeType.Bitfinex, new AuthToken()
+            tokens.Add(ExchangeType.Bitfinex, new AuthToken
             {
                 ApiKey = exchangeElement.Element("Key").Value,
                 Secret = exchangeElement.Element("Secret").Value
@@ -44,7 +44,6 @@ namespace BEx.UnitTests
 
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
-
 
                 default:
                     return null;
@@ -73,7 +72,6 @@ namespace BEx.UnitTests
                         token.ApiKey,
                         token.Secret);
 
-
                 default:
                     return null;
             }
@@ -98,22 +96,10 @@ namespace BEx.UnitTests
 
     internal class AuthToken
     {
-        public string ApiKey
-        {
-            get;
-            set;
-        }
+        public string ApiKey { get; set; }
 
-        public string ClientId
-        {
-            get;
-            set;
-        }
+        public string ClientId { get; set; }
 
-        public string Secret
-        {
-            get;
-            set;
-        }
+        public string Secret { get; set; }
     }
 }

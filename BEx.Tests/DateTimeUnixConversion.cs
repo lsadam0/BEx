@@ -1,6 +1,6 @@
-﻿using BEx.ExchangeEngine.Utilities;
+﻿using System;
+using BEx.ExchangeEngine.Utilities;
 using NUnit.Framework;
-using System;
 
 namespace BEx.UnitTests
 {
@@ -11,11 +11,11 @@ namespace BEx.UnitTests
         [Test]
         public void UnixTime_CircularConversion_Success()
         {
-            DateTime testDate = DateTime.UtcNow;
+            var testDate = DateTime.UtcNow;
 
-            double unixTime = testDate.ToUnixTime();
+            var unixTime = testDate.ToUnixTime();
 
-            DateTime converted = unixTime.ToDateTimeUTC();
+            var converted = unixTime.ToDateTimeUTC();
 
             Assert.That(converted.Second == testDate.Second);
             Assert.That(converted.Minute == testDate.Minute);
@@ -26,11 +26,11 @@ namespace BEx.UnitTests
         [Test]
         public void UnixTime_UTCResponse()
         {
-            DateTime response = new DateTime(2015, 3, 27, 0, 4, 9, DateTimeKind.Utc);
+            var response = new DateTime(2015, 3, 27, 0, 4, 9, DateTimeKind.Utc);
 
-            double unixTime = response.ToUnixTime();
+            var unixTime = response.ToUnixTime();
 
-            DateTime final = unixTime.ToDateTimeUTC();
+            var final = unixTime.ToDateTimeUTC();
 
             Assert.IsTrue(final == response);
         }

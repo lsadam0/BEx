@@ -5,69 +5,69 @@ using BEx.ExchangeEngine.Commands;
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// Provide Exchange Specific ExchangeCommand objects
-    /// that describe how each Exchange implements the
-    /// commands specified by IAuthenticatedCommands and
-    /// IUnauthenticatedCommands
+    ///     Provide Exchange Specific ExchangeCommand objects
+    ///     that describe how each Exchange implements the
+    ///     commands specified by IAuthenticatedCommands and
+    ///     IUnauthenticatedCommands
     /// </summary>
     internal interface IExchangeCommandFactory
     {
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
         /// </summary>
         /// <returns></returns>
         AccountBalanceCommand AccountBalance { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.CreateBuyOrder()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.CreateBuyOrder()
         /// </summary>
         /// <returns></returns>
         LimitOrderCommand BuyOrder { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.CancelOrder()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.CancelOrder()
         /// </summary>
         /// <returns></returns>
         CancelOrderCommand CancelOrder { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.GetDepositAddress()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.GetDepositAddress()
         /// </summary>
         /// <returns></returns>
         DepositAddressCommand DepositAddress { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
         /// </summary>
         /// <returns></returns>
         OpenOrdersCommand OpenOrders { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IUnauthenticatedCommands.GetOrderBook()
+        ///     ExchangeCommand associated with IUnauthenticatedCommands.GetOrderBook()
         /// </summary>
         /// <returns></returns>
         OrderBookCommand OrderBook { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.CreateSellOrder()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.CreateSellOrder()
         /// </summary>
         /// <returns></returns>
         LimitOrderCommand SellOrder { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IUnauthenticatedCommands.GetTick()
+        ///     ExchangeCommand associated with IUnauthenticatedCommands.GetTick()
         /// </summary>
         /// <returns></returns>
         TickCommand Tick { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IUnauthenticatedCommands.GetTransactions()
+        ///     ExchangeCommand associated with IUnauthenticatedCommands.GetTransactions()
         /// </summary>
         /// <returns></returns>
         TransactionsCommand Transactions { get; }
 
         /// <summary>
-        /// ExchangeCommand associated with IAuthenticatedCommands.GetUserTransactions()
+        ///     ExchangeCommand associated with IAuthenticatedCommands.GetUserTransactions()
         /// </summary>
         /// <returns></returns>
         UserTransactionsCommand UserTransactions { get; }

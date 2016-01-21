@@ -4,9 +4,8 @@ using System;
 
 namespace BEx
 {
-
     /// <summary>
-    /// A Buy or Sell Limit Order for an Exchange
+    ///     A Buy or Sell Limit Order for an Exchange
     /// </summary>
     public sealed class Order : BExResult
     {
@@ -16,71 +15,45 @@ namespace BEx
         }
 
         /// <summary>
-        /// Currency Amount
+        ///     Currency Amount
         /// </summary>
-        public decimal Amount
-        {
-            get;
-            internal set;
-        }
+        public decimal Amount { get; internal set; }
 
         /// <summary>
-        /// Currency Pair
+        ///     Currency Pair
         /// </summary>
-        public TradingPair Pair
-        {
-            get;
-            internal set;
-        }
+        public TradingPair Pair { get; internal set; }
 
         /// <summary>
-        /// Exchange Order ID
+        ///     Exchange Order ID
         /// </summary>
-        public int Id
-        {
-            get;
-            internal set;
-        }
+        public int Id { get; internal set; }
 
         /// <summary>
-        /// True if this Order has TransactionType == Buy
+        ///     True if this Order has TransactionType == Buy
         /// </summary>
         public bool IsBuyOrder
         {
-            get
-            {
-                return TradeType == OrderType.Buy;
-            }
+            get { return TradeType == OrderType.Buy; }
         }
 
         /// <summary>
-        /// True if this Order has a TransactionType == Sell
+        ///     True if this Order has a TransactionType == Sell
         /// </summary>
         public bool IsSellOrder
         {
-            get
-            {
-                return TradeType == OrderType.Sell;
-            }
+            get { return TradeType == OrderType.Sell; }
         }
 
         /// <summary>
-        /// Limit Price
+        ///     Limit Price
         /// </summary>
-        public decimal Price
-        {
-            get;
-            internal set;
-        }
+        public decimal Price { get; internal set; }
 
         /// <summary>
-        /// Signifies whether this Order is a Buy or a Sell
+        ///     Signifies whether this Order is a Buy or a Sell
         /// </summary>
-        public OrderType TradeType
-        {
-            get;
-            internal set;
-        }
+        public OrderType TradeType { get; internal set; }
 
         protected override string DebugDisplay
         {

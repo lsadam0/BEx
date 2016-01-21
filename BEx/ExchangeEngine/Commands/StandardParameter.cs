@@ -3,67 +3,68 @@
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// The set of args shared between all exchange commands. E.g. CreateOrder will always require a price, independent of Exchange
+    ///     The set of args shared between all exchange commands. E.g. CreateOrder will always require a price, independent of
+    ///     Exchange
     /// </summary>
     public enum StandardParameter
     {
         /// <summary>
-        /// Unknown Type
+        ///     Unknown Type
         /// </summary>
         None,
 
         /// <summary>
-        /// Amount of currency
+        ///     Amount of currency
         /// </summary>
         Amount,
 
         /// <summary>
-        /// Identifier
+        ///     Identifier
         /// </summary>
         Id,
 
         /// <summary>
-        /// Buy/Sell Price
+        ///     Buy/Sell Price
         /// </summary>
         Price,
 
         /// <summary>
-        /// Base Currency of a Trading Pair
+        ///     Base Currency of a Trading Pair
         /// </summary>
         Base,
 
         /// <summary>
-        /// Counter Currency of a Trading Pair
+        ///     Counter Currency of a Trading Pair
         /// </summary>
         Counter,
 
         /// <summary>
-        /// Currency abbreviation (e.g. BTC)
+        ///     Currency abbreviation (e.g. BTC)
         /// </summary>
         Currency,
 
         /// <summary>
-        /// The full name of a Currency, e.g. "Bitcoin"
+        ///     The full name of a Currency, e.g. "Bitcoin"
         /// </summary>
         CurrencyFullName,
 
         /// <summary>
-        /// Trading Pair
+        ///     Trading Pair
         /// </summary>
         Pair,
 
         /// <summary>
-        /// Timestamp in the Unix format
+        ///     Timestamp in the Unix format
         /// </summary>
         UnixTimestamp,
 
         /// <summary>
-        /// Standard Timestamp
+        ///     Standard Timestamp
         /// </summary>
         Timestamp,
 
         /// <summary>
-        /// Integer describing maximum size
+        ///     Integer describing maximum size
         /// </summary>
         Limit
     }

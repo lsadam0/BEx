@@ -1,27 +1,27 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
     internal class TickCommand : ExchangeCommand<Tick>
     {
-        public TickCommand(ExecutionEngine executor,
+        public TickCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
             Type intermediateType,
             IList<ExchangeParameter> parameters) :
-            base(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(Tick), parameters)
+                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (Tick), parameters)
         {
         }
 
-        public TickCommand(ExecutionEngine executor,
+        public TickCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
             Type intermediateType) :
-            base(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(Tick))
+                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (Tick))
         {
         }
     }

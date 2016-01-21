@@ -6,12 +6,12 @@ using System.Globalization;
 namespace BEx.ExchangeEngine.Utilities
 {
     /// <summary>
-    /// Culture Invariant Conversion Methods
+    ///     Culture Invariant Conversion Methods
     /// </summary>
     internal static class Conversion
     {
         /// <summary>
-        /// Convert using CultureInfo.InvariantCulture to UTC Time
+        ///     Convert using CultureInfo.InvariantCulture to UTC Time
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -21,7 +21,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCulture
+        ///     Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -31,7 +31,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCulture
+        ///     Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert using CultureInfo.InvariantCulture
+        ///     Convert using CultureInfo.InvariantCulture
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>

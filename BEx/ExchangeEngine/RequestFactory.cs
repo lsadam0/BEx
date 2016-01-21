@@ -1,37 +1,40 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.Utilities;
-using RestSharp;
 using System;
 using System.Collections.Generic;
+using BEx.ExchangeEngine.Utilities;
+using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// Factory responsible for consuming a reference ExchangeCommand object, TradingPair, and Parameters Collection
-    /// and returning a complete IRestRequest object, ready for dispatch to the target exchange.
+    ///     Factory responsible for consuming a reference ExchangeCommand object, TradingPair, and Parameters Collection
+    ///     and returning a complete IRestRequest object, ready for dispatch to the target exchange.
     /// </summary>
     /// <remarks>
-    /// This is a static class because:
+    ///     This is a static class because:
     ///     A) There is no explicit need for sharing instance members
     ///     B) A static class is slightly more performant than an instanced class
     /// </remarks>
     internal static class RequestFactory
     {
         /// <summary>
-        /// Consume an ExchangeCommand, TradingPair, and Parameters Collection and return
-        /// a complete IRestRequest object.
+        ///     Consume an ExchangeCommand, TradingPair, and Parameters Collection and return
+        ///     a complete IRestRequest object.
         /// </summary>
         /// <param name="command">Command Information for building the request</param>
-        /// <param name="pair">Trading Pair.  If ExchangeCommand only uses a Currency value, we will use pair.BaseCurrency (e.g. GetDepositAddress)</param>
+        /// <param name="pair">
+        ///     Trading Pair.  If ExchangeCommand only uses a Currency value, we will use pair.BaseCurrency (e.g.
+        ///     GetDepositAddress)
+        /// </param>
         /// <param name="parameters">Parameter values</param>
         /// <returns>IRestRequest, ready for dispatch</returns>
         public static IRestRequest GetRequest<T>(
-                                        IExchangeCommand<T> command,
-                                        TradingPair pair,
-                                        IDictionary<StandardParameter, string> parameters = null) where T : IExchangeResult
+            IExchangeCommand<T> command,
+            TradingPair pair,
+            IDictionary<StandardParameter, string> parameters = null) where T : IExchangeResult
         {
-            IRestRequest result = CreateRequest(command);
+            var result = CreateRequest(command);
 
             PopulateCommandParameters(result, command, pair, parameters);
 
@@ -39,7 +42,7 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// Create the IRestRequest object
+        ///     Create the IRestRequest object
         /// </summary>
         /// <param name="command">Reference Command</param>
         /// <returns>Unpopulated request object</returns>
@@ -53,17 +56,18 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// Reconcile ExchangeCommand parameters with supplied and default values, and populate them into the IRestRequest
+        ///     Reconcile ExchangeCommand parameters with supplied and default values, and populate them into the IRestRequest
         /// </summary>
         /// <param name="request">Unpopulated IRestRequest</param>
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <param name="values">Explicitly supplied parameter values</param>
-        private static void PopulateCommandParameters<T>(IRestRequest request, IExchangeCommand<T> command, TradingPair pair, IDictionary<StandardParameter, string> values) where T : IExchangeResult
+        private static void PopulateCommandParameters<T>(IRestRequest request, IExchangeCommand<T> command,
+            TradingPair pair, IDictionary<StandardParameter, string> values) where T : IExchangeResult
         {
             foreach (var param in command.Parameters)
             {
-                ExchangeParameter parameter = param.Value;
+                var parameter = param.Value;
                 string value;
                 switch (parameter.StandardParameterIdentifier)
                 {
@@ -108,7 +112,7 @@ namespace BEx.ExchangeEngine
                         break;
                 }
 
-                ParameterType pType = ParameterType.GetOrPost;
+                var pType = ParameterType.GetOrPost;
 
                 if (parameter.ParameterMethod == ParameterMethod.Url)
                     pType = ParameterType.UrlSegment;

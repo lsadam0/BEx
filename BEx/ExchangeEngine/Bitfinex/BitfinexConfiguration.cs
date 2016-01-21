@@ -9,16 +9,7 @@ namespace BEx.ExchangeEngine.Bitfinex
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
-        private static BitfinexConfiguration instance = new BitfinexConfiguration();
-
-        public static IExchangeConfiguration Singleton
-
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        private static readonly BitfinexConfiguration instance = new BitfinexConfiguration();
 
         /*
         public BitfinexConfiguration(Uri baseUri)
@@ -31,72 +22,41 @@ namespace BEx.ExchangeEngine.Bitfinex
             Initialize(null);
         }
 
-        public string ApiKey
+        public static IExchangeConfiguration Singleton
+
         {
-            get;
-            private set;
+            get { return instance; }
         }
 
-        public Uri BaseUri
-        {
-            get;
-            private set;
-        }
+        public string ApiKey { get; private set; }
 
-        public string ClientId
-        {
-            get;
-            private set;
-        }
+        public string ClientId { get; private set; }
 
-        public TradingPair DefaultPair
-        {
-            get;
-            private set;
-        }
+        public string SecretKey { get; set; }
 
-        public Type ErrorJsonType
-        {
-            get;
-            private set;
-        }
+        public Uri BaseUri { get; private set; }
 
-        public ExchangeType ExchangeSourceType
-        {
-            get;
-            private set;
-        }
+        public TradingPair DefaultPair { get; private set; }
 
-        public string SecretKey
-        {
-            get;
-            set;
-        }
+        public Type ErrorJsonType { get; private set; }
 
-        public ImmutableHashSet<Currency> SupportedCurrencies
-        {
-            get;
-            private set;
-        }
+        public ExchangeType ExchangeSourceType { get; private set; }
 
-        public ImmutableHashSet<TradingPair> SupportedPairs
-        {
-            get;
-            private set;
-        }
+        public ImmutableHashSet<Currency> SupportedCurrencies { get; private set; }
+
+        public ImmutableHashSet<TradingPair> SupportedPairs { get; private set; }
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof(ErrorIntermediate);
+            ErrorJsonType = typeof (ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;
 
-            SupportedPairs = ImmutableHashSet.Create<TradingPair>(
+            SupportedPairs = ImmutableHashSet.Create(
                 DefaultPair,
                 new TradingPair(Currency.LTC, Currency.USD),
                 new TradingPair(Currency.LTC, Currency.BTC)
-
                 );
 
             var supportedCurrencies = new HashSet<Currency>();
@@ -114,7 +74,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 }
             }
 
-            this.SupportedCurrencies = supportedCurrencies.ToImmutableHashSet<Currency>();
+            SupportedCurrencies = supportedCurrencies.ToImmutableHashSet();
 
             BaseUri = baseUri ?? new Uri("https://api.bitfinex.com");
         }

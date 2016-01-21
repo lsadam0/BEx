@@ -26,6 +26,12 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
+        public void BitStamp_GetDepositAddress_BTC_Success()
+        {
+            commandVerification.VerifyDepositAddress(Currency.BTC);
+        }
+
+        [Test]
         public void BitStamp_GetOpenOrders_BTCUSD_Success()
         {
             commandVerification.VerifyOpenOrders();
@@ -35,12 +41,6 @@ namespace BEx.UnitTests.BitStampTests
         public void BitStamp_GetUserTransactions_BTCUSD_Success()
         {
             commandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
-        }
-
-        [Test]
-        public void BitStamp_GetDepositAddress_BTC_Success()
-        {
-            commandVerification.VerifyDepositAddress(Currency.BTC);
         }
     }
 }

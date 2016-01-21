@@ -1,27 +1,28 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
     internal class OrderBookCommand : ExchangeCommand<OrderBook>
     {
-        public OrderBookCommand(ExecutionEngine executor,
+        public OrderBookCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
             Type intermediateType,
             IList<ExchangeParameter> parameters) :
-            base(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(OrderBook), parameters)
+                base(
+                httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (OrderBook), parameters)
         {
         }
 
-        public OrderBookCommand(ExecutionEngine executor,
+        public OrderBookCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
             Type intermediateType) :
-            base(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(OrderBook))
+                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (OrderBook))
         {
         }
     }

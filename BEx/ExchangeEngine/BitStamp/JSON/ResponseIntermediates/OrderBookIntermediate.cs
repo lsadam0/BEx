@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.Utilities;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON
 {
@@ -21,14 +21,16 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         public OrderBook Convert(TradingPair pair)
         {
             IList<OrderBookEntry> convertedBids = Bids
-              .Select(
-                  x =>
-                      new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0]))).ToList();
+                .Select(
+                    x =>
+                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0])))
+                .ToList();
 
             IList<OrderBookEntry> convertedAsks = Asks
                 .Select(
                     x =>
-                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0]))).ToList();
+                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0])))
+                .ToList();
 
             return new OrderBook(
                 convertedBids,
@@ -39,6 +41,5 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 Pair = pair
             };
         }
-
     }
 }

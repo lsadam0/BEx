@@ -1,12 +1,12 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.Exceptions;
-using Newtonsoft.Json;
-using RestSharp;
 using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using BEx.Exceptions;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
@@ -32,15 +32,12 @@ namespace BEx.ExchangeEngine.Bitfinex
         }
 
         /// <summary>
-        /// Consecutively increasing action counter
+        ///     Consecutively increasing action counter
         /// </summary>
         /// <value>0</value>
         public long Nonce
         {
-            get
-            {
-                return Interlocked.Increment(ref _nonce);
-            }
+            get { return Interlocked.Increment(ref _nonce); }
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)
@@ -64,11 +61,11 @@ namespace BEx.ExchangeEngine.Bitfinex
                X-BFX-PAYLOAD
                X-BFX-SIGNATURE*/
 
-            long currentNonce = Nonce;
+            var currentNonce = Nonce;
 
             request.AddHeader("X-BFX-APIKEY", ApiKey);
 
-            StringBuilder payload = new StringBuilder();
+            var payload = new StringBuilder();
 
             payload.Append("{");
             payload.Append("\"request\": \"" + request.Resource + "\",");
@@ -76,11 +73,11 @@ namespace BEx.ExchangeEngine.Bitfinex
 
             if (request.Parameters.Count > 0)
             {
-                foreach (Parameter p in request.Parameters)
+                foreach (var p in request.Parameters)
                 {
                     if (p.Type != ParameterType.UrlSegment)
                     {
-                        string test = JsonConvert.SerializeObject(p);
+                        var test = JsonConvert.SerializeObject(p);
                         payload.Append(",");
                         payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
                     }
@@ -89,12 +86,13 @@ namespace BEx.ExchangeEngine.Bitfinex
 
             payload.Append("}");
 
-            string payload64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload.ToString()));
+            var payload64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload.ToString()));
 
             request.AddHeader("X-BFX-PAYLOAD", payload64);
 
-            byte[] hashBytes = Hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
-            request.AddHeader("X-BFX-SIGNATURE", BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLowerInvariant());
+            var hashBytes = Hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
+            request.AddHeader("X-BFX-SIGNATURE",
+                BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLowerInvariant());
         }
     }
 }

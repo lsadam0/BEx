@@ -5,103 +5,61 @@ using System;
 namespace BEx
 {
     /// <summary>
-    /// Exchange Tick
+    ///     Exchange Tick
     /// </summary>
     public struct Tick : IEquatable<Tick>, IExchangeResult
     {
         internal Tick(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-          : this()
+            : this()
         {
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.SourceExchange = sourceExchange;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            SourceExchange = sourceExchange;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
-        /// Lowest Sell Price
+        ///     Lowest Sell Price
         /// </summary>
-        public decimal Ask
-        {
-            get;
-            internal set;
-        }
+        public decimal Ask { get; internal set; }
 
         /// <summary>
-        /// Highest Buy Price
+        ///     Highest Buy Price
         /// </summary>
-        public decimal Bid
-        {
-            get;
-            internal set;
-        }
+        public decimal Bid { get; internal set; }
+
+        public DateTime ExchangeTimeStampUTC { get; }
 
         /// <summary>
-        /// Trading pair
+        ///     Highest trade price of the last 24 hours
         /// </summary>
-        public TradingPair Pair
-        {
-            get;
-            internal set;
-        }
+        public decimal High { get; internal set; }
 
         /// <summary>
-        /// Highest trade price of the last 24 hours
+        ///     Price at which the last order executed
         /// </summary>
-        public decimal High
-        {
-            get;
-            internal set;
-        }
+        public decimal Last { get; internal set; }
 
         /// <summary>
-        /// Price at which the last order executed
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
         /// </summary>
-        public decimal Last
-        {
-            get;
-            internal set;
-        }
+        public DateTime LocalTimeStampUTC { get; }
 
         /// <summary>
-        /// Lowest trade price of the last 24 hours
+        ///     Lowest trade price of the last 24 hours
         /// </summary>
-        public decimal Low
-        {
-            get;
-            internal set;
-        }
+        public decimal Low { get; internal set; }
 
         /// <summary>
-        /// Trade volume of the last 24 hours
+        ///     Trading pair
         /// </summary>
-        public decimal Volume
-        {
-            get;
-            internal set;
-        }
+        public TradingPair Pair { get; internal set; }
 
-        /*
-        protected override string DebugDisplay
-        {
-            get { return ; }
-        }*/
+        public ExchangeType SourceExchange { get; }
 
-        public override string ToString()
-        {
-            return string.Format("{0}: {1}/{2}", Pair, Bid, Ask);
-        }
-        public override int GetHashCode()
-        {
-            return
-                this.Ask.GetHashCode()
-                ^ this.Bid.GetHashCode()
-                ^ this.High.GetHashCode()
-                ^ this.Last.GetHashCode()
-                ^ this.Low.GetHashCode()
-                ^ (int)this.Pair.BaseCurrency
-                ^ (int)this.Pair.CounterCurrency
-                ^ this.Volume.GetHashCode();
-        }
+        /// <summary>
+        ///     Trade volume of the last 24 hours
+        /// </summary>
+        public decimal Volume { get; internal set; }
 
         public static bool operator !=(Tick a, Tick b)
         {
@@ -110,10 +68,10 @@ namespace BEx
 
         public static bool operator ==(Tick a, Tick b)
         {
-            if (((object)a) == null
-                || ((object)b) == null)
+            if ((object) a == null
+                || (object) b == null)
             {
-                return Object.Equals(a, b);
+                return Equals(a, b);
             }
 
             return
@@ -126,7 +84,6 @@ namespace BEx
                 && (a.Volume == b.Volume);
         }
 
-        /*
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -139,38 +96,30 @@ namespace BEx
                 return false;
             }
 
-            return this == (obj as Tick);
-        }*/
+            return this == (Tick) obj;
+        }
 
         public bool Equals(Tick b)
         {
-            if (b == null)
-            {
-                return false;
-            }
-
-            return (this == b);
+            return this == b;
         }
 
-        public DateTime ExchangeTimeStampUTC
+        public override int GetHashCode()
         {
-            get;
-            private set;
+            return
+                Ask.GetHashCode()
+                ^ Bid.GetHashCode()
+                ^ High.GetHashCode()
+                ^ Last.GetHashCode()
+                ^ Low.GetHashCode()
+                ^ (int) Pair.BaseCurrency
+                ^ (int) Pair.CounterCurrency
+                ^ Volume.GetHashCode();
         }
 
-        /// <summary>
-        /// Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
-        /// </summary>
-        public DateTime LocalTimeStampUTC
+        public override string ToString()
         {
-            get;
-            private set;
-        }
-
-        public ExchangeType SourceExchange
-        {
-            get;
-            private set;
+            return string.Format("{0}: {1}/{2}", Pair, Bid, Ask);
         }
     }
 }

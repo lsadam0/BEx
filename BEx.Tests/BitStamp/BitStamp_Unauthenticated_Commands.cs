@@ -20,15 +20,15 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_GetTick_BTCUSD_Success()
-        {
-            commandVerification.VerifyTick(TestCandidate.DefaultPair);
-        }
-
-        [Test]
         public void BitStamp_GetOrderBook_BTCUSD_Success()
         {
             commandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
+        }
+
+        [Test]
+        public void BitStamp_GetTick_BTCUSD_Success()
+        {
+            commandVerification.VerifyTick(TestCandidate.DefaultPair);
         }
 
         [Test]

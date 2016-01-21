@@ -9,7 +9,7 @@ namespace BEx.ExchangeEngine.Utilities
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
-        /// Convert Unix Time value to a UTC DateTime object
+        ///     Convert Unix Time value to a UTC DateTime object
         /// </summary>
         /// <param name="source"></param>
         /// <returns>UTC DateTime</returns>
@@ -19,7 +19,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Convert Unix Time value to a UTC DateTime object
+        ///     Convert Unix Time value to a UTC DateTime object
         /// </summary>
         /// <param name="source"></param>
         /// <returns>UTC DateTime</returns>
@@ -29,13 +29,13 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Converts DateTime to UTC, and returns the Unix Time representation
+        ///     Converts DateTime to UTC, and returns the Unix Time representation
         /// </summary>
         /// <param name="source"></param>
         /// <returns>Unix Time</returns>
         internal static double ToUnixTime(this DateTime source)
         {
-            return UnixTime.DateTimeToUnixTimestamp(source);
+            return DateTimeToUnixTimestamp(source);
         }
 
         private static double DateTimeToUnixTimestamp(DateTime dateTime)
@@ -44,7 +44,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Return the unixtime value converted to a UTC DateTime
+        ///     Return the unixtime value converted to a UTC DateTime
         /// </summary>
         /// <param name="unixTimeStamp"></param>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Return the unixtime value converted to a UTC DateTime
+        ///     Return the unixtime value converted to a UTC DateTime
         /// </summary>
         /// <param name="unixTimeStamp"></param>
         /// <returns></returns>

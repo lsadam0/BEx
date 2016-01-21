@@ -56,7 +56,5 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
                 IsConfirmed = true
             };
         }
-
-
     }
 }

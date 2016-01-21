@@ -24,13 +24,13 @@ namespace BEx.ExchangeEngine.BitStamp
         public BitStampAuthenticator(string apiKey, string secretKey, string clientId)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
-                throw new ArgumentNullException("apiKey", ErrorMessages.MissingArgApiKey);
+                throw new ArgumentNullException(nameof(apiKey), ErrorMessages.MissingArgApiKey);
 
             if (string.IsNullOrWhiteSpace(secretKey))
-                throw new ArgumentNullException("secretKey", ErrorMessages.MissingArgSecretKey);
+                throw new ArgumentNullException(nameof(secretKey), ErrorMessages.MissingArgSecretKey);
 
-            if (string.IsNullOrWhiteSpace("clientId"))
-                throw new ArgumentNullException("clientId", ErrorMessages.MissingArgClientId);
+            if (string.IsNullOrWhiteSpace(clientId))
+                throw new ArgumentNullException(nameof(clientId), ErrorMessages.MissingArgClientId);
 
             ApiKey = apiKey;
             ClientId = clientId;
@@ -39,25 +39,22 @@ namespace BEx.ExchangeEngine.BitStamp
         }
 
         /// <summary>
-        /// Consecutively increasing action counter
+        ///     Consecutively increasing action counter
         /// </summary>
         /// <value>0</value>
         public long Nonce
         {
-            get
-            {
-                return Interlocked.Increment(ref _nonce);
-            }
+            get { return Interlocked.Increment(ref _nonce); }
         }
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {
-            long currentNonce = Nonce;
+            var currentNonce = Nonce;
 
-            string message = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", currentNonce, ClientId, ApiKey);
+            var message = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", currentNonce, ClientId, ApiKey);
 
-            byte[] dta = Encoding.ASCII.GetBytes(message);
-            string signature = BitConverter.ToString(Hasher.ComputeHash(dta)).Replace("-", string.Empty).ToUpperInvariant();
+            var dta = Encoding.ASCII.GetBytes(message);
+            var signature = BitConverter.ToString(Hasher.ComputeHash(dta)).Replace("-", string.Empty).ToUpperInvariant();
 
             request.AddParameter("key", Uri.EscapeUriString(ApiKey));
             request.AddParameter("signature", Uri.EscapeUriString(signature));

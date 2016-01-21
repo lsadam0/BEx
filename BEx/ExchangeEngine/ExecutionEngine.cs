@@ -1,15 +1,11 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using Newtonsoft.Json;
-using RestSharp;
 using System.Collections.Generic;
+using System.Net;
 
 namespace BEx.ExchangeEngine
 {
-    /// <summary>
-    /// Facade
-    /// </summary>
     internal class ExecutionEngine
     {
         private readonly IRequestDispatcher dispatcher;
@@ -20,7 +16,6 @@ namespace BEx.ExchangeEngine
         {
             dispatcher = new RequestDispatcher(baseUri);
             translator = new ResultTranslation(sourceExchange);
-
         }
 
         internal ExecutionEngine(Uri baseUri, IExchangeAuthenticator authenticator, ExchangeType sourceExchange)
@@ -35,7 +30,8 @@ namespace BEx.ExchangeEngine
             return ExecutionPipeline(toExecute, default(TradingPair));
         }
 
-        public T Execute<T>(IExchangeCommand<T> toExecute, IDictionary<StandardParameter, string> parameters) where T : IExchangeResult
+        public T Execute<T>(IExchangeCommand<T> toExecute, IDictionary<StandardParameter, string> parameters)
+            where T : IExchangeResult
         {
             return ExecutionPipeline(toExecute, default(TradingPair), parameters);
         }
@@ -45,27 +41,28 @@ namespace BEx.ExchangeEngine
             return ExecutionPipeline(toExecute, pair);
         }
 
-        public T Execute<T>(IExchangeCommand<T> toExecute, TradingPair pair, IDictionary<StandardParameter, string> parameters) where T : IExchangeResult
+        public T Execute<T>(IExchangeCommand<T> toExecute, TradingPair pair,
+            IDictionary<StandardParameter, string> parameters) where T : IExchangeResult
         {
             return ExecutionPipeline(toExecute, pair, parameters);
         }
 
         private T ExecutionPipeline<T>(
-                                        IExchangeCommand<T> toExecute,
-                                        TradingPair pair,
-                                        IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
+            IExchangeCommand<T> toExecute,
+            TradingPair pair,
+            IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
         {
             var request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             var result = dispatcher.Dispatch(request, toExecute);
 
-            if (result.ErrorException == null 
-                && result.StatusCode == System.Net.HttpStatusCode.OK)
+            if (result.ErrorException == null
+                && result.StatusCode == HttpStatusCode.OK)
             {
                 return translator.Translate(
-                                         result.Content,
-                                         toExecute,
-                                         pair);
+                    result.Content,
+                    toExecute,
+                    pair);
             }
             else if (result.ErrorException != null)
             {

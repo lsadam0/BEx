@@ -15,20 +15,9 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_SupportedCurrencies_Complete()
+        public void BitStamp_Authenticator_Complete()
         {
-            Assert.That(testCandidate.SupportedCurrencies.Count == 2);
-            Assert.That(testCandidate.SupportedCurrencies.Contains(Currency.BTC));
-            Assert.That(testCandidate.SupportedCurrencies.Contains(Currency.USD));
-        }
-
-        [Test]
-        public void BitStamp_SupportedPairs_Complete()
-        {
-            Assert.That(testCandidate.SupportedTradingPairs.Count == 1);
-
-            Assert.That(testCandidate.IsTradingPairSupported(new TradingPair(Currency.BTC, Currency.USD)));
-            Assert.That(testCandidate.DefaultPair == new TradingPair(Currency.BTC, Currency.USD));
+            Assert.IsNotNull(testCandidate.Authenticator);
         }
 
         [Test]
@@ -48,9 +37,20 @@ namespace BEx.UnitTests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_Authenticator_Complete()
+        public void BitStamp_SupportedCurrencies_Complete()
         {
-            Assert.IsNotNull(testCandidate.Authenticator);
+            Assert.That(testCandidate.SupportedCurrencies.Count == 2);
+            Assert.That(testCandidate.SupportedCurrencies.Contains(Currency.BTC));
+            Assert.That(testCandidate.SupportedCurrencies.Contains(Currency.USD));
+        }
+
+        [Test]
+        public void BitStamp_SupportedPairs_Complete()
+        {
+            Assert.That(testCandidate.SupportedTradingPairs.Count == 1);
+
+            Assert.That(testCandidate.IsTradingPairSupported(new TradingPair(Currency.BTC, Currency.USD)));
+            Assert.That(testCandidate.DefaultPair == new TradingPair(Currency.BTC, Currency.USD));
         }
     }
 }

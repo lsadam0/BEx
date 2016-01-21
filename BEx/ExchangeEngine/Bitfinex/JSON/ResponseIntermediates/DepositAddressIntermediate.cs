@@ -1,7 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {
@@ -19,11 +19,9 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("address", Required = Required.Always)]
         public string Address { get; set; }
 
-
         public DepositAddress Convert(TradingPair pair)
         {
             return new DepositAddress(Address, DateTime.UtcNow, pair.BaseCurrency, ExchangeType.Bitfinex);
         }
-
     }
 }

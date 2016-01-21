@@ -3,8 +3,8 @@
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// Interface to support conversion from Exchange-specific
-    /// intermediate types, to the standard BEx.ApiResult Sub-Types
+    ///     Interface to support conversion from Exchange-specific
+    ///     intermediate types, to the standard BEx.ApiResult Sub-Types
     /// </summary>
     internal interface IExchangeResponse<T> where T : IExchangeResult
     {

@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.Utilities;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON
 {

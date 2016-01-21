@@ -1,4 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 
 namespace BEx
@@ -12,17 +13,9 @@ namespace BEx
             CounterCurrency = pairCounter;
         }
 
-        public Currency BaseCurrency
-        {
-            get;
-            private set;
-        }
+        public Currency BaseCurrency { get; }
 
-        public Currency CounterCurrency
-        {
-            get;
-            private set;
-        }
+        public Currency CounterCurrency { get; }
 
         public static bool operator !=(TradingPair x, TradingPair y)
         {
@@ -32,17 +25,17 @@ namespace BEx
         public static bool operator ==(TradingPair x, TradingPair y)
         {
             return (x.BaseCurrency == y.BaseCurrency)
-                && (x.CounterCurrency == y.CounterCurrency);
+                   && (x.CounterCurrency == y.CounterCurrency);
         }
 
         public bool Equals(TradingPair other)
         {
-            return (this == other);
+            return this == other;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is TradingPair && this == (TradingPair)obj;
+            return obj is TradingPair && this == (TradingPair) obj;
         }
 
         public override int GetHashCode()

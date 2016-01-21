@@ -7,7 +7,7 @@ namespace BEx.ExchangeEngine.Utilities
     internal static class ExtensionMethods
     {
         /// <summary>
-        /// Return the InvariantCulture version of the string
+        ///     Return the InvariantCulture version of the string
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -17,7 +17,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Return the InvariantCulture version of the string
+        ///     Return the InvariantCulture version of the string
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -27,7 +27,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Return the InvariantCulture version of the string
+        ///     Return the InvariantCulture version of the string
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -37,7 +37,7 @@ namespace BEx.ExchangeEngine.Utilities
         }
 
         /// <summary>
-        /// Return the InvariantCulture version of the string
+        ///     Return the InvariantCulture version of the string
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>

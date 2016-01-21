@@ -31,7 +31,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("datetime", Required = Required.Always)]
         public string Datetime { get; set; }
 
-
         public UserTransaction Convert(TradingPair pair)
         {
             if (OrderId != null && Type == 2)
@@ -42,16 +41,14 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                     BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc),
                     CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd),
                     Pair = pair,
-                    OrderId = (int)OrderId,
+                    OrderId = (int) OrderId,
                     TradeFee = Conversion.ToDecimalInvariant(Fee),
                     TradeFeeCurrency = Currency.USD,
                     CompletedTime = Conversion.ToDateTimeInvariant(Datetime),
-                    TransactionType = (Conversion.ToDecimalInvariant(Btc) < 0) ? OrderType.Sell : OrderType.Buy
+                    TransactionType = Conversion.ToDecimalInvariant(Btc) < 0 ? OrderType.Sell : OrderType.Buy
                 };
             }
-            else
-                return null;
+            return null;
         }
-
     }
 }

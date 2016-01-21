@@ -6,49 +6,32 @@ using System.Collections.Immutable;
 namespace BEx.ExchangeEngine
 {
     /// <summary>
-    /// Provide Exchange specific Configuration information
+    ///     Provide Exchange specific Configuration information
     /// </summary>
     public interface IExchangeConfiguration
     {
-
+        /// <summary>
+        ///     Base Address of the Exchange Api
+        /// </summary>
+        Uri BaseUri { get; }
 
         /// <summary>
-        /// Base Address of the Exchange Api
+        ///     Default Trading Pair for the Exchange
         /// </summary>
-        Uri BaseUri
-        {
-            get;
-        }
+        TradingPair DefaultPair { get; }
 
-        /// <summary>
-        /// Default Trading Pair for the Exchange
-        /// </summary>
-        TradingPair DefaultPair
-        {
-            get;
-        }
-
-        Type ErrorJsonType
-        {
-            get;
-        }
+        Type ErrorJsonType { get; }
 
         ExchangeType ExchangeSourceType { get; }
 
         /// <summary>
-        /// All Currency values supported by the Exchange
+        ///     All Currency values supported by the Exchange
         /// </summary>
-        ImmutableHashSet<Currency> SupportedCurrencies
-        {
-            get;
-        }
+        ImmutableHashSet<Currency> SupportedCurrencies { get; }
 
         /// <summary>
-        /// All Trading pairs supported by the Exchange
+        ///     All Trading pairs supported by the Exchange
         /// </summary>
-        ImmutableHashSet<TradingPair> SupportedPairs
-        {
-            get;
-        }
+        ImmutableHashSet<TradingPair> SupportedPairs { get; }
     }
 }

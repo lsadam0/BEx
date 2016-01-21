@@ -44,7 +44,5 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 Volume = Conversion.ToDecimalInvariant(Volume)
             };
         }
-
-
     }
 }

@@ -22,8 +22,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
         [JsonProperty("datetime", Required = Required.Always)]
         public string Datetime { get; set; }
 
-
-
         public Order Convert(TradingPair pair)
         {
             return new Order(Conversion.ToDateTimeInvariant(Datetime), ExchangeType.BitStamp)
@@ -35,6 +33,5 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 Pair = pair
             };
         }
-
     }
 }

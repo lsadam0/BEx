@@ -7,7 +7,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
         [JsonProperty("message")]
         public string message { get; set; }
 
-
         public BExError Convert(TradingPair pair)
         {
             return new BExError(ExchangeType.Bitfinex)
@@ -15,7 +14,5 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 Message = message
             };
         }
-
-
     }
 }

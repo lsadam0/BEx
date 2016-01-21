@@ -15,7 +15,7 @@ namespace BEx
 
         public BitStamp(string apiKey, string secretKey, string clientId)
             : base(
-               BitStampConfiguration.Singleton,
+                BitStampConfiguration.Singleton,
                 BitStampCommandFactory.Singleton,
                 new BitStampAuthenticator(apiKey, secretKey, clientId))
         {

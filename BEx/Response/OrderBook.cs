@@ -7,37 +7,26 @@ using System.Collections.ObjectModel;
 namespace BEx
 {
     /// <summary>
-    /// Open Order Book for the trading Pair
+    ///     Open Order Book for the trading Pair
     /// </summary>
     public sealed class OrderBook : BExResult
     {
-        internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+        internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp,
+            ExchangeType sourceExchange)
             : base(exchangeTimeStamp, sourceExchange)
         {
             Asks = new ReadOnlyCollection<OrderBookEntry>(asks);
             Bids = new ReadOnlyCollection<OrderBookEntry>(bids);
         }
 
-        public IReadOnlyList<OrderBookEntry> Asks
-        {
-            get;
-            private set;
-        }
+        public IReadOnlyList<OrderBookEntry> Asks { get; private set; }
 
         /// <summary>
-        /// Trading Pair
+        ///     Trading Pair
         /// </summary>
-        public TradingPair Pair
-        {
-            get;
-            internal set;
-        }
+        public TradingPair Pair { get; internal set; }
 
-        public IReadOnlyList<OrderBookEntry> Bids
-        {
-            get;
-            private set;
-        }
+        public IReadOnlyList<OrderBookEntry> Bids { get; private set; }
 
         protected override string DebugDisplay
         {

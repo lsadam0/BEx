@@ -4,13 +4,10 @@ namespace BEx
 {
     public interface IExchangeResult
     {
-        ExchangeType SourceExchange
-        { get; }
+        ExchangeType SourceExchange { get; }
 
-        DateTime ExchangeTimeStampUTC
-        { get; }
+        DateTime ExchangeTimeStampUTC { get; }
 
-        DateTime LocalTimeStampUTC
-        { get; }
+        DateTime LocalTimeStampUTC { get; }
     }
 }

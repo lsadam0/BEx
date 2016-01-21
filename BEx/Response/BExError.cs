@@ -5,7 +5,6 @@ using System;
 namespace BEx
 {
     /// <summary>
-    ///
     /// </summary>
     [Serializable]
     public sealed class BExError : BExResult
@@ -22,22 +21,10 @@ namespace BEx
             ErrorCode = code;
         }
 
-        public BExErrorCode ErrorCode
-        {
-            get;
-            internal set;
-        }
+        public BExErrorCode ErrorCode { get; internal set; }
 
-        public HttpResponseCode HttpStatus
-        {
-            get;
-            internal set;
-        }
+        public HttpResponseCode HttpStatus { get; internal set; }
 
-        public string Message
-        {
-            get;
-            internal set;
-        }
+        public string Message { get; internal set; }
     }
 }

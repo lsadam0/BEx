@@ -1,18 +1,12 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RestSharp;
 
 namespace BEx.ExchangeEngine
 {
     internal interface IExchangeCommand<T> where T : IExchangeResult
     {
-        Type ApiResultSubType
-        {
-            get;
-        }
-
-
-        ExecutionEngine Executor { get; }
+        Type ApiResultSubType { get; }
 
         Method HttpMethod { get; }
 
@@ -27,7 +21,5 @@ namespace BEx.ExchangeEngine
         bool ReturnsCollection { get; }
 
         bool ReturnsValueType { get; }
-
-        T Execute(IDictionary<StandardParameter, string> parameters);
     }
 }

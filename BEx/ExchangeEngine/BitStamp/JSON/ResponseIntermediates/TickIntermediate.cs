@@ -8,60 +8,28 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
     internal class TickIntermediate : IExchangeResponse<Tick>
     {
         [JsonProperty("high", Required = Required.Always)]
-        public string high
-        {
-            get;
-            set;
-        }
+        public string high { get; set; }
 
         [JsonProperty("last", Required = Required.Always)]
-        public string last
-        {
-            get;
-            set;
-        }
+        public string last { get; set; }
 
         [JsonProperty("timestamp", Required = Required.Always)]
-        public string timestamp
-        {
-            get;
-            set;
-        }
+        public string timestamp { get; set; }
 
         [JsonProperty("bid", Required = Required.Always)]
-        public string bid
-        {
-            get;
-            set;
-        }
+        public string bid { get; set; }
 
         [JsonProperty("vwap", Required = Required.Always)]
-        public string vwap
-        {
-            get;
-            set;
-        }
+        public string vwap { get; set; }
 
         [JsonProperty("volume", Required = Required.Always)]
-        public string volume
-        {
-            get;
-            set;
-        }
+        public string volume { get; set; }
 
         [JsonProperty("low", Required = Required.Always)]
-        public string low
-        {
-            get;
-            set;
-        }
+        public string low { get; set; }
 
         [JsonProperty("ask", Required = Required.Always)]
-        public string ask
-        {
-            get;
-            set;
-        }
+        public string ask { get; set; }
 
         public Tick Convert(TradingPair pair)
         {

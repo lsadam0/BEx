@@ -1,19 +1,20 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
     /// <summary>
-    /// Contains the 50 most recent Order Transactions that have been completed for your user
+    ///     Contains the 50 most recent Order Transactions that have been completed for your user
     /// </summary>
     public sealed class UserTransactions : BExResult
     {
-        internal UserTransactions(IEnumerable<IExchangeResponse<UserTransaction>> transactions, TradingPair pair, ExchangeType sourceExchange)
+        internal UserTransactions(IEnumerable<IExchangeResponse<UserTransaction>> transactions, TradingPair pair,
+            ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
             Pair = pair;
@@ -27,22 +28,14 @@ namespace BEx
         }
 
         /// <summary>
-        /// Trading Pair for all contained Transactions
+        ///     Trading Pair for all contained Transactions
         /// </summary>
-        public TradingPair Pair
-        {
-            get;
-            private set;
-        }
+        public TradingPair Pair { get; }
 
         /// <summary>
-        /// Your 50 most recent Order Transactions, Sorted by CompletedTime in Descending Order
+        ///     Your 50 most recent Order Transactions, Sorted by CompletedTime in Descending Order
         /// </summary>
-        public IReadOnlyList<UserTransaction> TransactionsCollection
-        {
-            get;
-            private set;
-        }
+        public IReadOnlyList<UserTransaction> TransactionsCollection { get; }
 
         protected override string DebugDisplay
         {

@@ -60,10 +60,8 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
                 Pair = pair,
                 Id = Id,
                 Price = Conversion.ToDecimalInvariant(Price),
-                TradeType = (Side == "sell" ? OrderType.Sell : OrderType.Buy)
+                TradeType = Side == "sell" ? OrderType.Sell : OrderType.Buy
             };
         }
-
-
     }
 }

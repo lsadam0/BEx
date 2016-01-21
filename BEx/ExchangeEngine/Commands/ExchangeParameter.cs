@@ -5,9 +5,9 @@ namespace BEx.ExchangeEngine
     public class ExchangeParameter
     {
         public ExchangeParameter(
-                    ParameterMethod parameterMethod,
-                    string name,
-                    StandardParameter standard)
+            ParameterMethod parameterMethod,
+            string name,
+            StandardParameter standard)
         {
             ParameterMethod = parameterMethod;
             ExchangeParameterName = name;
@@ -17,10 +17,10 @@ namespace BEx.ExchangeEngine
         }
 
         public ExchangeParameter(
-                    ParameterMethod parameterMethod,
-                    string name,
-                    StandardParameter standard,
-                    string defaultValue)
+            ParameterMethod parameterMethod,
+            string name,
+            StandardParameter standard,
+            string defaultValue)
         {
             ParameterMethod = parameterMethod;
             ExchangeParameterName = name;
@@ -30,48 +30,28 @@ namespace BEx.ExchangeEngine
         }
 
         /// <summary>
-        /// If no value is explicitly supplied, this value will be delivered to the exchange
+        ///     If no value is explicitly supplied, this value will be delivered to the exchange
         /// </summary>
-        public string DefaultValue
-        {
-            get;
-            private set;
-        }
+        public string DefaultValue { get; private set; }
 
         /// <summary>
-        /// Exchange specific parameter name
+        ///     Exchange specific parameter name
         /// </summary>
-        public string ExchangeParameterName
-        {
-            get;
-            private set;
-        }
+        public string ExchangeParameterName { get; private set; }
 
         /// <summary>
-        /// If true, the value of the parameter will be converted to lowercase before delivery
+        ///     If true, the value of the parameter will be converted to lowercase before delivery
         /// </summary>
-        public bool IsLowercase
-        {
-            get;
-            internal set;
-        }
+        public bool IsLowercase { get; internal set; }
 
         /// <summary>
-        /// Parameter Delivery Method
+        ///     Parameter Delivery Method
         /// </summary>
-        public ParameterMethod ParameterMethod
-        {
-            get;
-            private set;
-        }
+        public ParameterMethod ParameterMethod { get; private set; }
 
         /// <summary>
-        /// BEx Common Parameter Identifier
+        ///     BEx Common Parameter Identifier
         /// </summary>
-        public StandardParameter StandardParameterIdentifier
-        {
-            get;
-            private set;
-        }
+        public StandardParameter StandardParameterIdentifier { get; private set; }
     }
 }

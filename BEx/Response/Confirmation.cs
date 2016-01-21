@@ -7,14 +7,11 @@ namespace BEx
     public sealed class Confirmation : BExResult
     {
         internal Confirmation(DateTime exchangeTimestamp, ExchangeType sourceExchange)
-             : base(exchangeTimestamp, sourceExchange)
-        { }
-
-        public bool IsConfirmed
+            : base(exchangeTimestamp, sourceExchange)
         {
-            get;
-            internal set;
         }
+
+        public bool IsConfirmed { get; internal set; }
 
         protected override string DebugDisplay
         {

@@ -8,61 +8,60 @@ namespace BEx.ExchangeEngine
 {
     internal class ResultTranslation
     {
-        private ExchangeType sourceExchange;
+        private readonly ExchangeType sourceExchange;
 
         internal ResultTranslation(ExchangeType sourceExchange)
         {
             this.sourceExchange = sourceExchange;
         }
 
-        internal T Translate<T>(string source, IExchangeCommand<T> executedCommand, TradingPair pair) where T : IExchangeResult
+        internal T Translate<T>(string source, IExchangeCommand<T> executedCommand, TradingPair pair)
+            where T : IExchangeResult
         {
             if (executedCommand.ReturnsValueType)
             {
                 return GetValueType(source, executedCommand, pair);
             }
-            else
-            {
-                return DeserializeObject(source, executedCommand, pair);
-            }
+            return DeserializeObject(source, executedCommand, pair);
         }
 
-        private T DeserializeObject<T>(string content, IExchangeCommand<T> commandReference, TradingPair pair) where T : IExchangeResult
+        private T DeserializeObject<T>(string content, IExchangeCommand<T> commandReference, TradingPair pair)
+            where T : IExchangeResult
         {
             if (commandReference.ReturnsCollection)
             {
-                var responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);// as IEnumerable<IExchangeResponse>;
+                var responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);
+                // as IEnumerable<IExchangeResponse>;
 
-                return (T)Activator.CreateInstance(
-                                                    commandReference.ApiResultSubType,
-                                                    BindingFlags.NonPublic | BindingFlags.Instance,
-                                                    null,
-                                                    new object[] { responseCollection, pair, sourceExchange },
-                                                    null);
+                return (T) Activator.CreateInstance(
+                    commandReference.ApiResultSubType,
+                    BindingFlags.NonPublic | BindingFlags.Instance,
+                    null,
+                    new[] {responseCollection, pair, sourceExchange},
+                    null);
             }
-            else
-            {
-                var deserialized = JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse<T>;
+            var deserialized =
+                JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse<T>;
 
-                return deserialized.Convert(pair);
-            }
+            return deserialized.Convert(pair);
         }
 
-        private T GetValueType<T>(string content, IExchangeCommand<T> command, TradingPair pair) where T : IExchangeResult
+        private T GetValueType<T>(string content, IExchangeCommand<T> command, TradingPair pair)
+            where T : IExchangeResult
         {
-            T res = default(T);
+            var res = default(T);
 
             // boxing
-            object deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);
+            var deserialized = JsonConvert.DeserializeObject(content, command.IntermediateType);
 
             if (deserialized.GetType() != command.ApiResultSubType)
             {
-                res = (T)Activator.CreateInstance(
-                                                    command.ApiResultSubType,
-                                                    BindingFlags.NonPublic | BindingFlags.Instance,
-                                                    null,
-                                                    new[] { deserialized, pair, sourceExchange },
-                                                    null);
+                res = (T) Activator.CreateInstance(
+                    command.ApiResultSubType,
+                    BindingFlags.NonPublic | BindingFlags.Instance,
+                    null,
+                    new[] {deserialized, pair, sourceExchange},
+                    null);
             }
 
             return res;

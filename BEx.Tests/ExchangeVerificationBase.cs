@@ -4,18 +4,6 @@ namespace BEx.UnitTests
 {
     public class ExchangeVerificationBase
     {
-        protected Exchange TestCandidate
-        {
-            get;
-            set;
-        }
-
-        protected ExchangeCommandVerification CommandVerification
-        {
-            get;
-            set;
-        }
-
         public ExchangeVerificationBase(Exchange testCanddiate)
         {
             TestCandidate = testCanddiate;
@@ -24,6 +12,10 @@ namespace BEx.UnitTests
         public ExchangeVerificationBase()
         {
         }
+
+        protected Exchange TestCandidate { get; set; }
+
+        protected ExchangeCommandVerification CommandVerification { get; set; }
 
         protected void Debug(string message)
         {

@@ -33,6 +33,5 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                 Pair = pair
             };
         }
-
     }
 }

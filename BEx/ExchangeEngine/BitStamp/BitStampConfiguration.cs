@@ -9,15 +9,7 @@ namespace BEx.ExchangeEngine.BitStamp
 {
     public class BitStampConfiguration : IExchangeConfiguration
     {
-        private static BitStampConfiguration instance = new BitStampConfiguration();
-
-        public static IExchangeConfiguration Singleton
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        private static readonly BitStampConfiguration instance = new BitStampConfiguration();
 
         /*
         public BitStampConfiguration(Uri baseUri)
@@ -31,58 +23,39 @@ namespace BEx.ExchangeEngine.BitStamp
             Initialize(null);
         }
 
-        public Uri BaseUri
+        public static IExchangeConfiguration Singleton
         {
-            get;
-            private set;
+            get { return instance; }
         }
 
-        public TradingPair DefaultPair
-        {
-            get;
-            private set;
-        }
+        public Uri BaseUri { get; private set; }
 
-        public Type ErrorJsonType
-        {
-            get;
-            private set;
-        }
+        public TradingPair DefaultPair { get; private set; }
 
-        public ExchangeType ExchangeSourceType
-        {
-            get;
-            private set;
-        }
+        public Type ErrorJsonType { get; private set; }
 
-        public ImmutableHashSet<Currency> SupportedCurrencies
-        {
-            get;
-            private set;
-        }
+        public ExchangeType ExchangeSourceType { get; private set; }
 
-        public ImmutableHashSet<TradingPair> SupportedPairs
-        {
-            get;
-            private set;
-        }
+        public ImmutableHashSet<Currency> SupportedCurrencies { get; private set; }
+
+        public ImmutableHashSet<TradingPair> SupportedPairs { get; private set; }
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof(ErrorIntermediate);
+            ErrorJsonType = typeof (ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.BitStamp;
 
-            SupportedPairs = new HashSet<TradingPair>()
+            SupportedPairs = new HashSet<TradingPair>
             {
                 DefaultPair
-            }.ToImmutableHashSet<TradingPair>();
+            }.ToImmutableHashSet();
 
-            SupportedCurrencies = new HashSet<Currency>()
+            SupportedCurrencies = new HashSet<Currency>
             {
                 DefaultPair.BaseCurrency,
                 DefaultPair.CounterCurrency
-            }.ToImmutableHashSet<Currency>();
+            }.ToImmutableHashSet();
 
             BaseUri = baseUri ?? new Uri("https://www.bitstamp.net/api");
         }

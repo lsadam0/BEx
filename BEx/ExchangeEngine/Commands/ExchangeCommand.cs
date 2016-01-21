@@ -11,7 +11,7 @@ namespace BEx.ExchangeEngine
     internal abstract class ExchangeCommand<T> : IExchangeCommand<T> where T : IExchangeResult
     {
         /// <summary>
-        /// Initialize ExchangeCommand Instance
+        ///     Initialize ExchangeCommand Instance
         /// </summary>
         /// <param name="identifier">CommandClass for this Instance</param>
         /// <param name="httpMethod">Http Execution Method</param>
@@ -19,18 +19,19 @@ namespace BEx.ExchangeEngine
         /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
         /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
         public ExchangeCommand(
-                     ExecutionEngine executor,
-                    Method httpMethod,
-                    Uri relativeUri,
-                    bool isAuthenticated,
-                    Type intermediateType,
-                    Type apiResultType)
-            : this(executor, httpMethod, relativeUri, isAuthenticated, intermediateType, apiResultType, new List<ExchangeParameter>())
+            Method httpMethod,
+            Uri relativeUri,
+            bool isAuthenticated,
+            Type intermediateType,
+            Type apiResultType)
+            : this(
+                httpMethod, relativeUri, isAuthenticated, intermediateType, apiResultType,
+                new List<ExchangeParameter>())
         {
         }
 
         /// <summary>
-        /// Initialize ExchangeCommand Instance
+        ///     Initialize ExchangeCommand Instance
         /// </summary>
         /// <param name="identifier">CommandClass for this Instance</param>
         /// <param name="httpMethod">Http Execution Method</param>
@@ -39,116 +40,81 @@ namespace BEx.ExchangeEngine
         /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
         /// <param name="parameters">Collection of Parameters for this Command</param>
         public ExchangeCommand(
-                            ExecutionEngine executor,
-                            Method httpMethod,
-                            Uri relativeUri,
-                            bool isAuthenticated,
-                            Type intermediateType,
-                            Type apiResultType,
-                            IList<ExchangeParameter> parameters)
+            Method httpMethod,
+            Uri relativeUri,
+            bool isAuthenticated,
+            Type intermediateType,
+            Type apiResultType,
+            IList<ExchangeParameter> parameters)
         {
             if (intermediateType == null)
-                throw new ArgumentNullException("intermediateType");
+                throw new ArgumentNullException(nameof(intermediateType));
 
-            this.Executor = executor;
-            this.ApiResultSubType = apiResultType;
-            this.ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
+            ApiResultSubType = apiResultType;
+            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof (string);
 
             if (intermediateType.IsGenericType)
-                this.ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
+                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof (List<>);
             else
-                this.ReturnsCollection = false;
+                ReturnsCollection = false;
 
-            this.HttpMethod = httpMethod;
+            HttpMethod = httpMethod;
 
-            this.IsAuthenticated = isAuthenticated;
-            this.RelativeUri = relativeUri;
+            IsAuthenticated = isAuthenticated;
+            RelativeUri = relativeUri;
 
-            this.IntermediateType = intermediateType;
+            IntermediateType = intermediateType;
 
-            this.Parameters =
+            Parameters =
                 new ReadOnlyDictionary<string, ExchangeParameter>(
                     parameters.ToDictionary(x => x.ExchangeParameterName, x => x)
                     );
         }
 
         /// <summary>
-        /// BEx.ApiResult Sub-Type
+        ///     BEx.ApiResult Sub-Type
         /// </summary>
-        public Type ApiResultSubType
-        {
-            get;
-            private set;
-        }
-
-        public ExecutionEngine Executor { get; private set; }
+        public Type ApiResultSubType { get; }
 
         /// <summary>
-        /// Http Execution Method (GET, POST, PUT, etc.)
+        ///     Http Execution Method (GET, POST, PUT, etc.)
         /// </summary>
-        public Method HttpMethod
-        {
-            get;
-            private set;
-        }
+        public Method HttpMethod { get; }
 
         /// <summary>
-        /// JSON Response -> IntermediateType -> ApiResultSubType
+        ///     JSON Response -> IntermediateType -> ApiResultSubType
         /// </summary>
-        public Type IntermediateType
-        {
-            get;
-            private set;
-        }
+        public Type IntermediateType { get; }
 
         /// <summary>
-        /// Flags if this command requires authentication with the target Exchange
+        ///     Flags if this command requires authentication with the target Exchange
         /// </summary>
-        public bool IsAuthenticated
-        {
-            get;
-            private set;
-        }
+        public bool IsAuthenticated { get; }
 
         /// <summary>
-        /// Command Parameters, including default values
+        ///     Command Parameters, including default values
         /// </summary>
-        public IReadOnlyDictionary<string, ExchangeParameter> Parameters
-        {
-            get;
-            private set;
-        }
+        public IReadOnlyDictionary<string, ExchangeParameter> Parameters { get; }
 
         /// <summary>
-        /// Exchange URL endpoint relative to the base address
+        ///     Exchange URL endpoint relative to the base address
         /// </summary>
-        public Uri RelativeUri
-        {
-            get;
-            private set;
-        }
+        public Uri RelativeUri { get; }
 
         /// <summary>
-        /// Is the Intermediate Type a Collection?
+        ///     Is the Intermediate Type a Collection?
         /// </summary>
-        public bool ReturnsCollection
-        {
-            get;
-            private set;
-        }
+        public bool ReturnsCollection { get; }
 
         /// <summary>
-        /// Is the IntermediateType a Value Type (or string)
+        ///     Is the IntermediateType a Value Type (or string)
         /// </summary>
-        public bool ReturnsValueType
-        {
-            get;
-            private set;
-        }
+        public bool ReturnsValueType { get; }
 
+        /*
         public T Execute(IDictionary<StandardParameter, string> parameters)
         {
-            return Executor.Execute<T>(this, parameters);
+            return Executor.Execute(this, parameters);
         }
 
         public T Execute()
@@ -164,6 +130,6 @@ namespace BEx.ExchangeEngine
         public T Execute(TradingPair pair, IDictionary<StandardParameter, string> parameters)
         {
             return Executor.Execute(this, pair, parameters);
-        }
+        }*/
     }
 }
