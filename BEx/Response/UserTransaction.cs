@@ -7,13 +7,16 @@ namespace BEx
     /// <summary>
     ///     Represents a Buy or Sell transaction previously executed for your user account.
     /// </summary>
-    public sealed class UserTransaction : BExResult
+    public struct UserTransaction : IEquatable<UserTransaction>, IExchangeResult
     {
         private OrderType _transactionType;
 
         internal UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+            : this()
         {
+            this.SourceExchange = sourceExchange;
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -26,13 +29,13 @@ namespace BEx
             {
                 if (value == OrderType.Sell)
                 {
-                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount)*-1;
+                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount) * -1;
                     CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount);
                 }
                 else
                 {
                     BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount);
-                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount)*-1;
+                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount) * -1;
                 }
 
                 _transactionType = value;
@@ -79,7 +82,87 @@ namespace BEx
         /// </summary>
         public Currency TradeFeeCurrency { get; internal set; }
 
-        public override string ToString() => string.Format("{0} {1} - Order Id: {2}", SourceExchange, Pair, OrderId); 
-        
+        public override string ToString() => string.Format("{0} {1} - Order Id: {2}", SourceExchange, Pair, OrderId);
+
+        public DateTime ExchangeTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC { get; }
+
+
+
+
+        public ExchangeType SourceExchange { get; }
+
+
+
+        public static bool operator !=(UserTransaction a, UserTransaction b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator ==(UserTransaction a, UserTransaction b)
+        {
+            if ((object)a == null
+                || (object)b == null)
+            {
+                return Equals(a, b);
+            }
+
+            return
+                a.BaseCurrencyAmount == b.BaseCurrencyAmount
+                && a.CompletedTime == b.CompletedTime
+                && a.CounterCurrencyAmount == b.CounterCurrencyAmount
+                && a.ExchangeRate == b.ExchangeRate
+                && a.OrderId == b.OrderId
+                && a.Pair == b.Pair
+                && a.SourceExchange == b.SourceExchange
+                && a.TransactionType == b.TransactionType;
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is UserTransaction))
+            {
+                return false;
+            }
+
+            return this == (UserTransaction)obj;
+        }
+
+        public bool Equals(UserTransaction b)
+        {
+            return this == b;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                TransactionType.GetHashCode()
+                ^ this.OrderId.GetHashCode()
+                ^ this.BaseCurrencyAmount.GetHashCode()
+                ^ this.CompletedTime.GetHashCode()
+                ^ this.CounterCurrencyAmount.GetHashCode()
+                ^ this.ExchangeRate.GetHashCode()
+                ^ this.Pair.GetHashCode()
+                ^ this.SourceExchange.GetHashCode()
+                ^ this.TransactionType.GetHashCode()
+                ^ this.ExchangeTimeStampUTC.GetHashCode()
+                ^ this.LocalTimeStampUTC.GetHashCode()
+                ^ this.TradeFee.GetHashCode()
+                ^ this.TradeFeeCurrency.GetHashCode();
+
+        }
+
+
+
     }
 }

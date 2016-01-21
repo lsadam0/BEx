@@ -48,7 +48,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON
                     TransactionType = Conversion.ToDecimalInvariant(Btc) < 0 ? OrderType.Sell : OrderType.Buy
                 };
             }
-            return null;
+            return default(UserTransaction);
         }
     }
 }

@@ -7,11 +7,14 @@ namespace BEx
     /// <summary>
     ///     Individual Transaction
     /// </summary>
-    public sealed class Transaction : BExResult
+    public struct Transaction : IEquatable<Transaction>, IExchangeResult
     {
         internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+            : this()
         {
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.SourceExchange = sourceExchange;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -39,9 +42,74 @@ namespace BEx
         /// </summary>
         public long TransactionId { get; internal set; }
 
-        protected override string DebugDisplay
+        public override string ToString()
         {
-            get { return string.Format("{0} {1} - Price: {2} - Amount: {3}", SourceExchange, Pair, Price, Amount); }
+            return string.Format("{0} {1} - Price: {2} - Amount: {3}", SourceExchange, Pair, Price, Amount);
         }
+
+        public DateTime ExchangeTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC { get; }
+
+        public ExchangeType SourceExchange { get; }
+
+        public static bool operator !=(Transaction a, Transaction b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator ==(Transaction a, Transaction b)
+        {
+            if ((object)a == null
+                || (object)b == null)
+            {
+                return Equals(a, b);
+            }
+
+            return
+                a.TransactionId == b.TransactionId
+                && a.Amount == b.Amount
+                && a.SourceExchange == b.SourceExchange
+                && a.Pair == b.Pair
+                && a.Price == b.Price;
+
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is Transaction))
+            {
+                return false;
+            }
+
+            return this == (Transaction)obj;
+        }
+
+        public bool Equals(Transaction b)
+        {
+            return this == b;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.SourceExchange.GetHashCode()
+                ^ this.Amount.GetHashCode()
+                ^ this.Pair.GetHashCode()
+                ^ this.Price.GetHashCode()
+                ^ this.TransactionId.GetHashCode();
+
+        }
+
+
     }
 }

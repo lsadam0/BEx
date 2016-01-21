@@ -7,11 +7,14 @@ namespace BEx
     /// <summary>
     ///     Complete Balance Information for a specific Currency.
     /// </summary>
-    public sealed class Balance : BExResult
+    public struct Balance : IEquatable<Balance>, IExchangeResult
     {
         internal Balance(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+            : this()
         {
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.SourceExchange = sourceExchange;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -29,13 +32,72 @@ namespace BEx
         /// </summary>
         public decimal TotalBalance { get; internal set; }
 
-        protected override string DebugDisplay
+        public override string ToString()
         {
-            get
-            {
+         
                 return string.Format("{0} {1} - Available: {2} - Total: {3}", SourceExchange, BalanceCurrency,
                     AvailableToTrade, TotalBalance);
+            
+        }
+
+        public DateTime ExchangeTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC { get; }
+
+        public ExchangeType SourceExchange { get; }
+
+        public static bool operator !=(Balance a, Balance b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator ==(Balance a, Balance b)
+        {
+            if ((object)a == null
+                || (object)b == null)
+            {
+                return Equals(a, b);
             }
+
+            return
+                a.AvailableToTrade == b.AvailableToTrade
+                && a.BalanceCurrency == b.BalanceCurrency
+                && a.SourceExchange == b.SourceExchange
+                && a.TotalBalance == b.TotalBalance;
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is Tick))
+            {
+                return false;
+            }
+
+            return this == (Balance)obj;
+        }
+
+        public bool Equals(Balance b)
+        {
+            return this == b;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.AvailableToTrade.GetHashCode()
+                ^ this.BalanceCurrency.GetHashCode()
+                ^ this.SourceExchange.GetHashCode()
+                ^ this.TotalBalance.GetHashCode();
+
         }
     }
 }

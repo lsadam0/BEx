@@ -50,9 +50,7 @@ namespace BEx
 
         public Confirmation CancelOrder(Order toCancel)
         {
-            if (toCancel == null)
-                throw new ArgumentNullException(nameof(toCancel));
-
+            
             return CancelOrder(toCancel.Id);
         }
 

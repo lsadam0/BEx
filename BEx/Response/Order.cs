@@ -7,11 +7,14 @@ namespace BEx
     /// <summary>
     ///     A Buy or Sell Limit Order for an Exchange
     /// </summary>
-    public sealed class Order : BExResult
+    public struct Order : IEquatable<Order>, IExchangeResult
     {
         internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+            :this()
         {
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.SourceExchange = sourceExchange;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -55,13 +58,77 @@ namespace BEx
         /// </summary>
         public OrderType TradeType { get; internal set; }
 
-        protected override string DebugDisplay
+
+        public DateTime ExchangeTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC { get; }
+
+        public ExchangeType SourceExchange { get; }
+
+        public static bool operator !=(Order a, Order b)
         {
-            get
+            return !(a == b);
+        }
+
+        public static bool operator ==(Order a, Order b)
+        {
+            if ((object)a == null
+                || (object)b == null)
             {
-                return string.Format("{0} {1} - ID: {2} - Amount: {3} - Type: {4}", SourceExchange, Pair, Id, Amount,
-                    TradeType);
+                return Equals(a, b);
             }
+
+            return
+                a.Id == b.Id
+                && a.Amount == b.Amount
+                && a.Pair == b.Pair
+                && a.Price == b.Price
+                && a.SourceExchange == b.SourceExchange
+                && a.TradeType == b.TradeType;
+
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is Tick))
+            {
+                return false;
+            }
+
+            return this == (Order)obj;
+        }
+
+        public bool Equals(Order b)
+        {
+            return this == b;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.Id.GetHashCode()
+                ^ this.Amount.GetHashCode()
+                ^ this.Pair.GetHashCode()
+                ^ this.Price.GetHashCode()
+                ^ this.SourceExchange.GetHashCode()
+                ^ this.TradeType.GetHashCode();
+
+
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} - ID: {2} - Amount: {3} - Type: {4}", SourceExchange, Pair, Id, Amount,
+                TradeType);
         }
     }
 }

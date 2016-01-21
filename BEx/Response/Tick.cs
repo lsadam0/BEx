@@ -27,7 +27,7 @@ namespace BEx
         /// </summary>
         public decimal Bid { get; internal set; }
 
-        public DateTime ExchangeTimeStampUTC { get; }
+
 
         /// <summary>
         ///     Highest trade price of the last 24 hours
@@ -40,26 +40,28 @@ namespace BEx
         public decimal Last { get; internal set; }
 
         /// <summary>
-        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        ///     Trade volume of the last 24 hours
         /// </summary>
-        public DateTime LocalTimeStampUTC { get; }
-
-        /// <summary>
-        ///     Lowest trade price of the last 24 hours
-        /// </summary>
-        public decimal Low { get; internal set; }
+        public decimal Volume { get; internal set; }
 
         /// <summary>
         ///     Trading pair
         /// </summary>
         public TradingPair Pair { get; internal set; }
 
-        public ExchangeType SourceExchange { get; }
+        /// <summary>
+        ///     Lowest trade price of the last 24 hours
+        /// </summary>
+        public decimal Low { get; internal set; }
+
+        public DateTime ExchangeTimeStampUTC { get; }
 
         /// <summary>
-        ///     Trade volume of the last 24 hours
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
         /// </summary>
-        public decimal Volume { get; internal set; }
+        public DateTime LocalTimeStampUTC { get; }
+
+        public ExchangeType SourceExchange { get; }
 
         public static bool operator !=(Tick a, Tick b)
         {
@@ -68,8 +70,8 @@ namespace BEx
 
         public static bool operator ==(Tick a, Tick b)
         {
-            if ((object) a == null
-                || (object) b == null)
+            if ((object)a == null
+                || (object)b == null)
             {
                 return Equals(a, b);
             }
@@ -96,7 +98,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Tick) obj;
+            return this == (Tick)obj;
         }
 
         public bool Equals(Tick b)
@@ -112,8 +114,8 @@ namespace BEx
                 ^ High.GetHashCode()
                 ^ Last.GetHashCode()
                 ^ Low.GetHashCode()
-                ^ (int) Pair.BaseCurrency
-                ^ (int) Pair.CounterCurrency
+                ^ (int)Pair.BaseCurrency
+                ^ (int)Pair.CounterCurrency
                 ^ Volume.GetHashCode();
         }
 

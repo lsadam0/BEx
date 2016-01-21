@@ -7,21 +7,19 @@ namespace BEx
     /// <summary>
     ///     Deposit Information
     /// </summary>
-    public sealed class DepositAddress : BExResult
+    public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
-        internal DepositAddress(string address, TradingPair pair, ExchangeType sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange)
-        {
-            Address = address;
-            DepositCurrency = pair.BaseCurrency;
-        }
+        
 
         internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency,
             ExchangeType sourceExchange)
-            : base(exchangeTimeStamp, sourceExchange)
+            : this()
         {
             Address = address;
             DepositCurrency = depositCurrency;
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.SourceExchange = sourceExchange;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -34,9 +32,68 @@ namespace BEx
         /// </summary>
         public Currency DepositCurrency { get; }
 
-        protected override string DebugDisplay
+        public override string ToString()
         {
-            get { return string.Format("{0} {1}: {2}", SourceExchange, DepositCurrency, Address); }
+            return string.Format("{0} {1}: {2}", SourceExchange, DepositCurrency, Address);
+        }
+
+        public DateTime ExchangeTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC { get; }
+
+        public ExchangeType SourceExchange { get; }
+
+        public static bool operator !=(DepositAddress a, DepositAddress b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator ==(DepositAddress a, DepositAddress b)
+        {
+            if ((object)a == null
+                || (object)b == null)
+            {
+                return Equals(a, b);
+            }
+
+            return
+                a.Address == b.Address
+                && a.DepositCurrency == b.DepositCurrency
+                && a.SourceExchange == b.SourceExchange;
+
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is Tick))
+            {
+                return false;
+            }
+
+            return this == (DepositAddress)obj;
+        }
+
+        public bool Equals(DepositAddress b)
+        {
+            return this == b;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.SourceExchange.GetHashCode()
+                ^ this.Address.GetHashCode()
+                ^ this.DepositCurrency.GetHashCode();
+
         }
     }
 }

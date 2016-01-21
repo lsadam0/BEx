@@ -23,7 +23,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
 
         public Balance Convert(TradingPair pair)
         {
-            Balance res = null;
+            Balance res = default(Balance);
 
             if (Type == "exchange")
             {
