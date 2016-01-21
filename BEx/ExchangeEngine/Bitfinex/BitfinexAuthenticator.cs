@@ -21,10 +21,10 @@ namespace BEx.ExchangeEngine.Bitfinex
         public BitfinexAuthenticator(string secretKey, string apiKey)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
-                throw new ArgumentNullException("apiKey", ErrorMessages.MissingArgApiKey);
+                throw new ArgumentNullException(nameof(apiKey), ErrorMessages.MissingArgApiKey);
 
             if (string.IsNullOrWhiteSpace(secretKey))
-                throw new ArgumentNullException("secretKey", ErrorMessages.MissingArgSecretKey);
+                throw new ArgumentNullException(nameof(secretKey), ErrorMessages.MissingArgSecretKey);
 
             ApiKey = apiKey;
 
@@ -35,10 +35,7 @@ namespace BEx.ExchangeEngine.Bitfinex
         ///     Consecutively increasing action counter
         /// </summary>
         /// <value>0</value>
-        public long Nonce
-        {
-            get { return Interlocked.Increment(ref _nonce); }
-        }
+        public long Nonce => Interlocked.Increment(ref _nonce);
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {

@@ -14,27 +14,8 @@ namespace BEx.UnitTests.BitfinexTests
             testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
         }
 
-        [Test]
-        public void Bitfinex_Authenticator_Complete()
-        {
-            Assert.IsNotNull(testCandidate.Authenticator);
-        }
+        
 
-        [Test]
-        public void Bitfinex_Commands_Complete()
-        {
-            Assert.IsNotNull(testCandidate.Commands);
-            Assert.IsNotNull(testCandidate.Commands.BuyOrder);
-            Assert.IsNotNull(testCandidate.Commands.AccountBalance);
-            Assert.IsNotNull(testCandidate.Commands.CancelOrder);
-            Assert.IsNotNull(testCandidate.Commands.DepositAddress);
-            Assert.IsNotNull(testCandidate.Commands.OpenOrders);
-            Assert.IsNotNull(testCandidate.Commands.OrderBook);
-            Assert.IsNotNull(testCandidate.Commands.SellOrder);
-            Assert.IsNotNull(testCandidate.Commands.Tick);
-            Assert.IsNotNull(testCandidate.Commands.Transactions);
-            Assert.IsNotNull(testCandidate.Commands.UserTransactions);
-        }
 
         [Test]
         public void Bitfinex_SupportedCurrencies_Complete()

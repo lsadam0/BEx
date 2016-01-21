@@ -37,9 +37,6 @@ namespace BEx
         /// </summary>
         public IReadOnlyList<UserTransaction> TransactionsCollection { get; }
 
-        protected override string DebugDisplay
-        {
-            get { return string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count()); }
-        }
+        public override string ToString() => string.Format("{0} {1} - Count: {2}", SourceExchange, Pair, TransactionsCollection.Count());
     }
 }

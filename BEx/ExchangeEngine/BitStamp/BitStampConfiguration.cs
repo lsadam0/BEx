@@ -11,13 +11,6 @@ namespace BEx.ExchangeEngine.BitStamp
     {
         private static readonly BitStampConfiguration instance = new BitStampConfiguration();
 
-        /*
-        public BitStampConfiguration(Uri baseUri)
-        {
-            Initialize(baseUri);
-        }
-        */
-
         internal BitStampConfiguration()
         {
             Initialize(null);
@@ -42,7 +35,7 @@ namespace BEx.ExchangeEngine.BitStamp
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof (ErrorIntermediate);
+            ErrorJsonType = typeof(ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.BitStamp;
 

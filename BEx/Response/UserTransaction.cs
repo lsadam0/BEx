@@ -79,9 +79,7 @@ namespace BEx
         /// </summary>
         public Currency TradeFeeCurrency { get; internal set; }
 
-        protected override string DebugDisplay
-        {
-            get { return string.Format("{0} {1} - Order Id: {2}", SourceExchange, Pair, OrderId); }
-        }
+        public override string ToString() => string.Format("{0} {1} - Order Id: {2}", SourceExchange, Pair, OrderId); 
+        
     }
 }

@@ -51,10 +51,10 @@ namespace BEx.ExchangeEngine
                 throw new ArgumentNullException(nameof(intermediateType));
 
             ApiResultSubType = apiResultType;
-            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof (string);
+            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
 
             if (intermediateType.IsGenericType)
-                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof (List<>);
+                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
             else
                 ReturnsCollection = false;
 
@@ -111,25 +111,6 @@ namespace BEx.ExchangeEngine
         /// </summary>
         public bool ReturnsValueType { get; }
 
-        /*
-        public T Execute(IDictionary<StandardParameter, string> parameters)
-        {
-            return Executor.Execute(this, parameters);
-        }
 
-        public T Execute()
-        {
-            return Executor.Execute(this);
-        }
-
-        public T Execute(TradingPair pair)
-        {
-            return Executor.Execute(this, pair);
-        }
-
-        public T Execute(TradingPair pair, IDictionary<StandardParameter, string> parameters)
-        {
-            return Executor.Execute(this, pair, parameters);
-        }*/
     }
 }
