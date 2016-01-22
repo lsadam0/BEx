@@ -12,7 +12,5 @@ namespace BEx
         }
 
         public bool IsConfirmed { get; internal set; }
-
-    
     }
 }

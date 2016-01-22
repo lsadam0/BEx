@@ -28,7 +28,5 @@ namespace BEx
         public TradingPair Pair { get; }
 
         public IReadOnlyList<Transaction> TransactionsCollection { get; }
-
-    
     }
 }

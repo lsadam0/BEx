@@ -48,7 +48,7 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             pair = new TradingPair(Currency.LTC, Currency.BTC);
 
-            toTest = RequestFactory.GetRequest<Order>(command, pair, values);
+            toTest = RequestFactory.GetRequest(command, pair, values);
         }
 
         [Test]

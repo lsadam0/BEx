@@ -69,8 +69,6 @@ namespace BEx
 
         public static bool operator ==(Tick a, Tick b)
         {
-          
-
             return
                 (a.Ask == b.Ask)
                 && (a.Bid == b.Bid)
@@ -110,6 +108,5 @@ namespace BEx
         }
 
         public override string ToString() => $"{Pair}: {Bid}/{Ask}";
-        
     }
 }

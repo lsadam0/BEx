@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates;
+
 namespace BEx.ExchangeEngine.BitStamp
 {
     public class BitStampConfiguration : IExchangeConfiguration

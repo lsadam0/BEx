@@ -30,14 +30,14 @@ namespace BEx.ExchangeEngine
         /// </param>
         /// <param name="parameters">Parameter values</param>
         /// <returns>IRestRequest, ready for dispatch</returns>
-        public static IRestRequest GetRequest<T>(
+        public static IRestRequest GetRequest(
             IExchangeCommand command,
             TradingPair pair,
-            IDictionary<StandardParameter, string> parameters = null) where T : IExchangeResult
+            IDictionary<StandardParameter, string> parameters = null)
         {
-            var result = CreateRequest<T>(command);
+            var result = CreateRequest(command);
 
-            PopulateCommandParameters<T>(result, command, pair, parameters);
+            PopulateCommandParameters(result, command, pair, parameters);
 
             return result;
         }
@@ -47,7 +47,7 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <param name="command">Reference Command</param>
         /// <returns>Unpopulated request object</returns>
-        private static IRestRequest CreateRequest<T>(IExchangeCommand command) where T : IExchangeResult
+        private static IRestRequest CreateRequest(IExchangeCommand command)
         {
             return new RestRequest(command.RelativeUri, command.HttpMethod)
             {
@@ -63,8 +63,8 @@ namespace BEx.ExchangeEngine
         /// <param name="command">Reference Command</param>
         /// <param name="pair">Trading Pair</param>
         /// <param name="values">Explicitly supplied parameter values</param>
-        private static void PopulateCommandParameters<T>(IRestRequest request, IExchangeCommand command,
-            TradingPair pair, IDictionary<StandardParameter, string> values) where T : IExchangeResult
+        private static void PopulateCommandParameters(IRestRequest request, IExchangeCommand command,
+            TradingPair pair, IDictionary<StandardParameter, string> values) 
         {
             foreach (var param in command.Parameters)
             {

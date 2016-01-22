@@ -53,7 +53,7 @@ namespace BEx.ExchangeEngine
             TradingPair pair,
             IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
         {
-            var request = RequestFactory.GetRequest<T>(toExecute, pair, paramCollection);
+            var request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
 
             var result = _dispatcher.Dispatch<T>(request, toExecute);
 

@@ -29,7 +29,5 @@ namespace BEx
         public IReadOnlyDictionary<int, Order> SellOrders { get; }
 
         public IReadOnlyDictionary<int, Order> BuyOrders { get; }
-
-     
     }
 }

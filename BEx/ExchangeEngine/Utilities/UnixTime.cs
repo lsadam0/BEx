@@ -6,7 +6,7 @@ namespace BEx.ExchangeEngine.Utilities
 {
     internal static class UnixTime
     {
-        static DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         ///     Convert Unix Time value to a UTC DateTime object

@@ -35,7 +35,7 @@ namespace BEx
 
         public override string ToString()
             => $"{SourceExchange} {BalanceCurrency} - Available: {AvailableToTrade} - Total: {TotalBalance}";
-        
+
         public DateTime ExchangeTimeStampUTC { get; }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Balance)obj;
+            return this == (Balance) obj;
         }
 
         public bool Equals(Balance b)

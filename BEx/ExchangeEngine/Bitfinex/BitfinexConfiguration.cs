@@ -19,7 +19,6 @@ namespace BEx.ExchangeEngine.Bitfinex
         public static IExchangeConfiguration Singleton => Instance;
 
 
-
         public Uri BaseUri { get; private set; }
 
         public TradingPair DefaultPair { get; private set; }

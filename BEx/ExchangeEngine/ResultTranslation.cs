@@ -2,8 +2,8 @@
 
 using System;
 using System.Reflection;
-using Newtonsoft.Json;
 using BEx.ExchangeEngine.Commands;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine
 {
@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine
             if (commandReference.ReturnsCollection)
             {
                 var responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);
-               
+
                 return (T) Activator.CreateInstance(
                     commandReference.ApiResultSubType,
                     BindingFlags.NonPublic | BindingFlags.Instance,

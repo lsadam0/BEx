@@ -99,8 +99,6 @@ namespace BEx
 
         public static bool operator ==(UserTransaction a, UserTransaction b)
         {
-           
-
             return
                 a.BaseCurrencyAmount == b.BaseCurrencyAmount
                 && a.CompletedTime == b.CompletedTime

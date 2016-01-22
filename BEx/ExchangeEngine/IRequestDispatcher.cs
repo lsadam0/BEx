@@ -1,5 +1,5 @@
-﻿using RestSharp;
-using BEx.ExchangeEngine.Commands;
+﻿using BEx.ExchangeEngine.Commands;
+using RestSharp;
 
 namespace BEx.ExchangeEngine
 {

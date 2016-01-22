@@ -18,7 +18,7 @@ namespace BEx
         }
 
         protected virtual string DebugDisplay => $"{SourceExchange} {ExchangeTimeStampUTC}";
-        
+
         /// <summary>
         ///     Exchange reported TimeStamp of the action.  When the Exchange does not provide
         ///     a TimeStamp, this value will be equal to LocalTimeStamp.

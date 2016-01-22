@@ -27,7 +27,5 @@ namespace BEx
         public TradingPair Pair { get; internal set; }
 
         public IReadOnlyList<OrderBookEntry> Bids { get; private set; }
-
-   
     }
 }

@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using BEx.Exceptions;
-using Newtonsoft.Json;
 using RestSharp;
 
 namespace BEx.ExchangeEngine.Bitfinex

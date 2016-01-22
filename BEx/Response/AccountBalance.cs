@@ -24,7 +24,7 @@ namespace BEx
             : base(DateTime.UtcNow, sourceExchange)
         {
             IList<Balance> convertedBalances = balances
-                .Select(x => x.Convert(pair)) 
+                .Select(x => x.Convert(pair))
                 .Where(x => x != default(Balance))
                 .ToList();
 

@@ -11,8 +11,7 @@ namespace BEx
     public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
         internal DepositAddress(string address, TradingPair pair, ExchangeType sourceExchange)
-      
-         : this()
+            : this()
         {
             Address = address;
             DepositCurrency = pair.BaseCurrency;
@@ -60,7 +59,6 @@ namespace BEx
 
         public static bool operator ==(DepositAddress a, DepositAddress b)
         {
-
             return
                 a.Address == b.Address
                 && a.DepositCurrency == b.DepositCurrency
@@ -69,12 +67,12 @@ namespace BEx
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Tick))
+            if (!(obj is DepositAddress))
             {
                 return false;
             }
 
-            return this == (DepositAddress) obj;
+            return this == (DepositAddress)obj;
         }
 
         public bool Equals(DepositAddress b)

@@ -80,7 +80,7 @@ namespace BEx
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Tick))
+            if (!(obj is Order))
             {
                 return false;
             }
@@ -106,6 +106,5 @@ namespace BEx
 
         public override string ToString()
             => $"{SourceExchange} {Pair} - ID: {Id} - Amount: {Amount} - Type: {TradeType}";
-
     }
 }
