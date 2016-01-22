@@ -3,63 +3,64 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine
 {
     internal class ExecutionEngine
     {
-        private readonly IRequestDispatcher dispatcher;
+        private readonly IRequestDispatcher _dispatcher;
 
-        private readonly ResultTranslation translator;
+        private readonly ResultTranslation _translator;
 
         internal ExecutionEngine(Uri baseUri, ExchangeType sourceExchange)
         {
-            dispatcher = new RequestDispatcher(baseUri);
-            translator = new ResultTranslation(sourceExchange);
+            _dispatcher = new RequestDispatcher(baseUri);
+            _translator = new ResultTranslation(sourceExchange);
         }
 
         internal ExecutionEngine(Uri baseUri, IExchangeAuthenticator authenticator, ExchangeType sourceExchange)
         {
-            dispatcher = new RequestDispatcher(baseUri, authenticator);
+            _dispatcher = new RequestDispatcher(baseUri, authenticator);
 
-            translator = new ResultTranslation(sourceExchange);
+            _translator = new ResultTranslation(sourceExchange);
         }
 
-        public T Execute<T>(IExchangeCommand<T> toExecute) where T : IExchangeResult
+        public T Execute<T>(IExchangeCommand toExecute) where T : IExchangeResult
         {
-            return ExecutionPipeline(toExecute, default(TradingPair));
+            return ExecutionPipeline<T>(toExecute, default(TradingPair));
         }
 
-        public T Execute<T>(IExchangeCommand<T> toExecute, IDictionary<StandardParameter, string> parameters)
+        public T Execute<T>(IExchangeCommand toExecute, IDictionary<StandardParameter, string> parameters)
             where T : IExchangeResult
         {
-            return ExecutionPipeline(toExecute, default(TradingPair), parameters);
+            return ExecutionPipeline<T>(toExecute, default(TradingPair), parameters);
         }
 
-        public T Execute<T>(IExchangeCommand<T> toExecute, TradingPair pair) where T : IExchangeResult
+        public T Execute<T>(IExchangeCommand toExecute, TradingPair pair) where T : IExchangeResult
         {
-            return ExecutionPipeline(toExecute, pair);
+            return ExecutionPipeline<T>(toExecute, pair);
         }
 
-        public T Execute<T>(IExchangeCommand<T> toExecute, TradingPair pair,
+        public T Execute<T>(IExchangeCommand toExecute, TradingPair pair,
             IDictionary<StandardParameter, string> parameters) where T : IExchangeResult
         {
-            return ExecutionPipeline(toExecute, pair, parameters);
+            return ExecutionPipeline<T>(toExecute, pair, parameters);
         }
 
         private T ExecutionPipeline<T>(
-            IExchangeCommand<T> toExecute,
+            IExchangeCommand toExecute,
             TradingPair pair,
             IDictionary<StandardParameter, string> paramCollection = null) where T : IExchangeResult
         {
-            var request = RequestFactory.GetRequest(toExecute, pair, paramCollection);
+            var request = RequestFactory.GetRequest<T>(toExecute, pair, paramCollection);
 
-            var result = dispatcher.Dispatch(request, toExecute);
+            var result = _dispatcher.Dispatch<T>(request, toExecute);
 
             if (result.ErrorException == null
                 && result.StatusCode == HttpStatusCode.OK)
             {
-                return translator.Translate(
+                return _translator.Translate<T>(
                     result.Content,
                     toExecute,
                     pair);

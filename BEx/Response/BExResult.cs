@@ -1,14 +1,13 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Diagnostics;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
     /// <summary>
     ///     Exchange Result Base Class
     /// </summary>
-    [DebuggerDisplay("{DebugDisplay,nq}")]
     public abstract class BExResult : IExchangeResult
     {
         internal BExResult(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
@@ -18,11 +17,8 @@ namespace BEx
             SourceExchange = sourceExchange;
         }
 
-        protected virtual string DebugDisplay
-        {
-            get { return string.Format("{0} {1}", SourceExchange, ExchangeTimeStampUTC); }
-        }
-
+        protected virtual string DebugDisplay => $"{SourceExchange} {ExchangeTimeStampUTC}";
+        
         /// <summary>
         ///     Exchange reported TimeStamp of the action.  When the Exchange does not provide
         ///     a TimeStamp, this value will be equal to LocalTimeStamp.

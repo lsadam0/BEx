@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -68,11 +69,7 @@ namespace BEx
 
         public static bool operator ==(Tick a, Tick b)
         {
-            if ((object) a == null
-                || (object) b == null)
-            {
-                return Equals(a, b);
-            }
+          
 
             return
                 (a.Ask == b.Ask)
@@ -81,16 +78,12 @@ namespace BEx
                 && (a.Last == b.Last)
                 && (a.Low == b.Low)
                 && (a.Pair == b.Pair)
-                && (a.Volume == b.Volume);
+                && (a.Volume == b.Volume)
+                && a.SourceExchange == b.SourceExchange;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
             if (!(obj is Tick))
             {
                 return false;
@@ -112,14 +105,11 @@ namespace BEx
                 ^ High.GetHashCode()
                 ^ Last.GetHashCode()
                 ^ Low.GetHashCode()
-                ^ (int) Pair.BaseCurrency
-                ^ (int) Pair.CounterCurrency
+                ^ Pair.GetHashCode()
                 ^ Volume.GetHashCode();
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0}: {1}/{2}", Pair, Bid, Ask);
-        }
+        public override string ToString() => $"{Pair}: {Bid}/{Ask}";
+        
     }
 }

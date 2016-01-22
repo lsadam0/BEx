@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEx
+namespace BEx.ExchangeEngine
 {
     public interface IExchangeResult
     {

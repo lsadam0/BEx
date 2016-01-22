@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -9,6 +10,17 @@ namespace BEx
     /// </summary>
     public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
+        internal DepositAddress(string address, TradingPair pair, ExchangeType sourceExchange)
+      
+         : this()
+        {
+            Address = address;
+            DepositCurrency = pair.BaseCurrency;
+            ExchangeTimeStampUTC = DateTime.UtcNow;
+            SourceExchange = sourceExchange;
+            LocalTimeStampUTC = DateTime.UtcNow;
+        }
+
         internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency,
             ExchangeType sourceExchange)
             : this()
@@ -30,10 +42,7 @@ namespace BEx
         /// </summary>
         public Currency DepositCurrency { get; }
 
-        public override string ToString()
-        {
-            return string.Format("{0} {1}: {2}", SourceExchange, DepositCurrency, Address);
-        }
+        public override string ToString() => $"{SourceExchange} {DepositCurrency}: {Address}";
 
         public DateTime ExchangeTimeStampUTC { get; }
 
@@ -51,11 +60,6 @@ namespace BEx
 
         public static bool operator ==(DepositAddress a, DepositAddress b)
         {
-            if ((object) a == null
-                || (object) b == null)
-            {
-                return Equals(a, b);
-            }
 
             return
                 a.Address == b.Address
@@ -65,11 +69,6 @@ namespace BEx
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
             if (!(obj is Tick))
             {
                 return false;
@@ -86,9 +85,9 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                SourceExchange.GetHashCode()
-                ^ Address.GetHashCode()
-                ^ DepositCurrency.GetHashCode();
+                Address.GetHashCode()
+                ^ DepositCurrency.GetHashCode()
+                ^ SourceExchange.GetHashCode();
         }
     }
 }

@@ -3,7 +3,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.Bitfinex.JSON
+namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
     internal class DepositAddressIntermediate : IExchangeResponse<DepositAddress>
     {

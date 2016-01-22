@@ -3,23 +3,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using BEx.ExchangeEngine.BitStamp.JSON;
-
+using BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates;
 namespace BEx.ExchangeEngine.BitStamp
 {
     public class BitStampConfiguration : IExchangeConfiguration
     {
-        private static readonly BitStampConfiguration instance = new BitStampConfiguration();
+        private static readonly BitStampConfiguration Instance = new BitStampConfiguration();
 
         internal BitStampConfiguration()
         {
             Initialize(null);
         }
 
-        public static IExchangeConfiguration Singleton
-        {
-            get { return instance; }
-        }
+        public static IExchangeConfiguration Singleton => Instance;
 
         public Uri BaseUri { get; private set; }
 

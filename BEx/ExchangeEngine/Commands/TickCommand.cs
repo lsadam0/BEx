@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class TickCommand : ExchangeCommand<Tick>
+    internal class TickCommand : ExchangeCommand
     {
         public TickCommand(
             Method httpMethod,

@@ -5,7 +5,7 @@ using System.Linq;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.BitStamp.JSON
+namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
     internal class OrderBookIntermediate : IExchangeResponse<OrderBook>
     {

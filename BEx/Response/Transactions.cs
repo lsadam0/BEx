@@ -18,8 +18,10 @@ namespace BEx
 
             TransactionsCollection =
                 new ReadOnlyCollection<Transaction>(
-                    transactions.Select(x => x.Convert(pair))
-                        .OfType<Transaction>()
+                    transactions
+                        .Select(x => x.Convert(pair))
+                        .Where(x => x != default(Transaction))
+                        .OrderByDescending(x => x.CompletedTime)
                         .ToList());
         }
 
@@ -27,12 +29,6 @@ namespace BEx
 
         public IReadOnlyList<Transaction> TransactionsCollection { get; }
 
-        protected override string DebugDisplay
-        {
-            get
-            {
-                return string.Format("{0} {1} - Transactions: {2}", SourceExchange, Pair, TransactionsCollection.Count());
-            }
-        }
+    
     }
 }

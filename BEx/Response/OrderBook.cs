@@ -28,10 +28,6 @@ namespace BEx
 
         public IReadOnlyList<OrderBookEntry> Bids { get; private set; }
 
-        protected override string DebugDisplay
-        {
-            get { return string.Format("{0} - High Bid: {1} - Low Ask: {2}", SourceExchange); }
-            //BidsByPrice, AsksByPrice.FirstOrDefault()); }
-        }
+   
     }
 }

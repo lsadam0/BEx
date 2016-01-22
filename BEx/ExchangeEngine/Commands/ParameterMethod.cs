@@ -1,6 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace BEx.ExchangeEngine
+namespace BEx.ExchangeEngine.Commands
 {
     /// <summary>
     ///     Token that describes how a parameter will be delivered to the targeted exchange

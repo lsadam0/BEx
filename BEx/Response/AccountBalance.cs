@@ -24,8 +24,8 @@ namespace BEx
             : base(DateTime.UtcNow, sourceExchange)
         {
             IList<Balance> convertedBalances = balances
-                .Select(x => x.Convert(pair))
-                .OfType<Balance>()
+                .Select(x => x.Convert(pair)) 
+                .Where(x => x != default(Balance))
                 .ToList();
 
             Initialize(convertedBalances, pair);
@@ -37,19 +37,11 @@ namespace BEx
         /// </summary>
         public IReadOnlyDictionary<Currency, Balance> BalanceByCurrency { get; private set; }
 
-        protected override string DebugDisplay
-        {
-            get { return string.Format("{0} - Balances: {1}", SourceExchange, BalanceByCurrency.Count); }
-        }
+        protected override string DebugDisplay => $"{SourceExchange} - Balances: {BalanceByCurrency.Count}";
 
         private void Initialize(IEnumerable<Balance> balances, TradingPair pair)
         {
-            var balanceBuffer = new Dictionary<Currency, Balance>();
-
-            foreach (var toAdd in balances)
-            {
-                balanceBuffer.Add(toAdd.BalanceCurrency, toAdd);
-            }
+            var balanceBuffer = balances.ToDictionary(toAdd => toAdd.BalanceCurrency);
 
             /*
             if (balanceBuffer.Count < sourceExchange.SupportedCurrencies.Count)

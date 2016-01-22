@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -33,11 +34,8 @@ namespace BEx
         public decimal TotalBalance { get; internal set; }
 
         public override string ToString()
-        {
-            return string.Format("{0} {1} - Available: {2} - Total: {3}", SourceExchange, BalanceCurrency,
-                AvailableToTrade, TotalBalance);
-        }
-
+            => $"{SourceExchange} {BalanceCurrency} - Available: {AvailableToTrade} - Total: {TotalBalance}";
+        
         public DateTime ExchangeTimeStampUTC { get; }
 
         /// <summary>
@@ -54,12 +52,6 @@ namespace BEx
 
         public static bool operator ==(Balance a, Balance b)
         {
-            if ((object) a == null
-                || (object) b == null)
-            {
-                return Equals(a, b);
-            }
-
             return
                 a.AvailableToTrade == b.AvailableToTrade
                 && a.BalanceCurrency == b.BalanceCurrency
@@ -69,17 +61,12 @@ namespace BEx
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (!(obj is Balance))
             {
                 return false;
             }
 
-            if (!(obj is Tick))
-            {
-                return false;
-            }
-
-            return this == (Balance) obj;
+            return this == (Balance)obj;
         }
 
         public bool Equals(Balance b)

@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class CancelOrderCommand : ExchangeCommand<Confirmation>
+    internal class CancelOrderCommand : ExchangeCommand
     {
         public CancelOrderCommand(
             Method httpMethod,

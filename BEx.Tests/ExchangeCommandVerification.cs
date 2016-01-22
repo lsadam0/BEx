@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using BEx.ExchangeEngine;
 using NUnit.Framework;
 
 namespace BEx.UnitTests

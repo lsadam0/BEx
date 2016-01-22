@@ -4,7 +4,7 @@ using System;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.Bitfinex.JSON
+namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
     internal class UserTransactionIntermediate : IExchangeResponse<UserTransaction>
     {
@@ -37,10 +37,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON
             if (string.IsNullOrWhiteSpace(FeeCurrency))
             {
                 // Buy Base
-                if (Type == "Buy")
-                    FeeCurrency = pair.BaseCurrency.ToString();
-                else
-                    FeeCurrency = pair.CounterCurrency.ToString();
+                FeeCurrency = Type == "Buy" ? pair.BaseCurrency.ToString() : pair.CounterCurrency.ToString();
 
                 // Sell Counter
             }

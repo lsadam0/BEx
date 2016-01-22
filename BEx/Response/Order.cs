@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -35,18 +36,12 @@ namespace BEx
         /// <summary>
         ///     True if this Order has TransactionType == Buy
         /// </summary>
-        public bool IsBuyOrder
-        {
-            get { return TradeType == OrderType.Buy; }
-        }
+        public bool IsBuyOrder => TradeType == OrderType.Buy;
 
         /// <summary>
         ///     True if this Order has a TransactionType == Sell
         /// </summary>
-        public bool IsSellOrder
-        {
-            get { return TradeType == OrderType.Sell; }
-        }
+        public bool IsSellOrder => TradeType == OrderType.Sell;
 
         /// <summary>
         ///     Limit Price
@@ -74,15 +69,9 @@ namespace BEx
 
         public static bool operator ==(Order a, Order b)
         {
-            if ((object) a == null
-                || (object) b == null)
-            {
-                return Equals(a, b);
-            }
-
             return
-                a.Id == b.Id
-                && a.Amount == b.Amount
+                a.Amount == b.Amount
+                && a.Id == b.Id
                 && a.Pair == b.Pair
                 && a.Price == b.Price
                 && a.SourceExchange == b.SourceExchange
@@ -91,11 +80,6 @@ namespace BEx
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
             if (!(obj is Tick))
             {
                 return false;
@@ -112,8 +96,8 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                Id.GetHashCode()
-                ^ Amount.GetHashCode()
+                Amount.GetHashCode()
+                ^ Id.GetHashCode()
                 ^ Pair.GetHashCode()
                 ^ Price.GetHashCode()
                 ^ SourceExchange.GetHashCode()
@@ -121,9 +105,7 @@ namespace BEx
         }
 
         public override string ToString()
-        {
-            return string.Format("{0} {1} - ID: {2} - Amount: {3} - Type: {4}", SourceExchange, Pair, Id, Amount,
-                TradeType);
-        }
+            => $"{SourceExchange} {Pair} - ID: {Id} - Amount: {Amount} - Type: {TradeType}";
+
     }
 }

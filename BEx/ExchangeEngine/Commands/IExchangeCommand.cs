@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using RestSharp;
 
-namespace BEx.ExchangeEngine
+namespace BEx.ExchangeEngine.Commands
 {
-    internal interface IExchangeCommand<T> where T : IExchangeResult
+    internal interface IExchangeCommand
     {
         Type ApiResultSubType { get; }
 

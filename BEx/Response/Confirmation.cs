@@ -13,9 +13,6 @@ namespace BEx
 
         public bool IsConfirmed { get; internal set; }
 
-        protected override string DebugDisplay
-        {
-            get { return string.Format("{0} - Confirmed: {1}", SourceExchange, IsConfirmed); }
-        }
+    
     }
 }

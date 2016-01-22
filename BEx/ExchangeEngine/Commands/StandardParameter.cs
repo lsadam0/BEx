@@ -1,6 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace BEx.ExchangeEngine
+namespace BEx.ExchangeEngine.Commands
 {
     /// <summary>
     ///     The set of args shared between all exchange commands. E.g. CreateOrder will always require a price, independent of

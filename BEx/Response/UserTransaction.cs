@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -18,6 +19,55 @@ namespace BEx
             ExchangeTimeStampUTC = exchangeTimeStamp;
             LocalTimeStampUTC = DateTime.UtcNow;
         }
+
+        /// <summary>
+        ///     Base Currency Amount.  Positive for Buy transactions; Negative for Sell transactions.
+        /// </summary>
+        public decimal BaseCurrencyAmount { get; internal set; }
+
+        /// <summary>
+        ///     Transaction completion timestamp.
+        /// </summary>
+        public DateTime CompletedTime { get; internal set; }
+
+        /// <summary>
+        ///     Counter Currency Amount.  Negative for Buy transactions; Positive for Sell transactions.
+        /// </summary>
+        public decimal CounterCurrencyAmount { get; internal set; }
+
+        /// <summary>
+        ///     Currency Pair Exchange Rate used to execute transaction.
+        /// </summary>
+        public decimal ExchangeRate { get; internal set; }
+
+        public DateTime ExchangeTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
+        /// </summary>
+        public DateTime LocalTimeStampUTC { get; }
+
+        /// <summary>
+        ///     Exchange Order Id
+        /// </summary>
+        public int OrderId { get; internal set; }
+
+        /// <summary>
+        ///     Trading Pair for this Transaction
+        /// </summary>
+        public TradingPair Pair { get; internal set; }
+
+        public ExchangeType SourceExchange { get; }
+
+        /// <summary>
+        ///     Total Fee paid for transaction
+        /// </summary>
+        public decimal TradeFee { get; internal set; }
+
+        /// <summary>
+        ///     Currency in which trading fee was paid
+        /// </summary>
+        public Currency TradeFeeCurrency { get; internal set; }
 
         /// <summary>
         ///     Signifies whether this transaction is a Buy or Sell Order
@@ -42,57 +92,6 @@ namespace BEx
             }
         }
 
-        /// <summary>
-        ///     Trading Pair for this Transaction
-        /// </summary>
-        public TradingPair Pair { get; internal set; }
-
-        /// <summary>
-        ///     Base Currency Amount.  Positive for Buy transactions; Negative for Sell transactions.
-        /// </summary>
-        public decimal BaseCurrencyAmount { get; internal set; }
-
-        /// <summary>
-        ///     Transaction completion timestamp.
-        /// </summary>
-        public DateTime CompletedTime { get; internal set; }
-
-        /// <summary>
-        ///     Counter Currency Amount.  Negative for Buy transactions; Positive for Sell transactions.
-        /// </summary>
-        public decimal CounterCurrencyAmount { get; internal set; }
-
-        /// <summary>
-        ///     Currency Pair Exchange Rate used to execute transaction.
-        /// </summary>
-        public decimal ExchangeRate { get; internal set; }
-
-        /// <summary>
-        ///     Exchange Order Id
-        /// </summary>
-        public int OrderId { get; internal set; }
-
-        /// <summary>
-        ///     Total Fee paid for transaction
-        /// </summary>
-        public decimal TradeFee { get; internal set; }
-
-        /// <summary>
-        ///     Currency in which trading fee was paid
-        /// </summary>
-        public Currency TradeFeeCurrency { get; internal set; }
-
-        public override string ToString() => string.Format("{0} {1} - Order Id: {2}", SourceExchange, Pair, OrderId);
-
-        public DateTime ExchangeTimeStampUTC { get; }
-
-        /// <summary>
-        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
-        /// </summary>
-        public DateTime LocalTimeStampUTC { get; }
-
-        public ExchangeType SourceExchange { get; }
-
         public static bool operator !=(UserTransaction a, UserTransaction b)
         {
             return !(a == b);
@@ -100,11 +99,7 @@ namespace BEx
 
         public static bool operator ==(UserTransaction a, UserTransaction b)
         {
-            if ((object) a == null
-                || (object) b == null)
-            {
-                return Equals(a, b);
-            }
+           
 
             return
                 a.BaseCurrencyAmount == b.BaseCurrencyAmount
@@ -114,16 +109,13 @@ namespace BEx
                 && a.OrderId == b.OrderId
                 && a.Pair == b.Pair
                 && a.SourceExchange == b.SourceExchange
+                && a.TradeFee == b.TradeFee
+                && a.TradeFeeCurrency == b.TradeFeeCurrency
                 && a.TransactionType == b.TransactionType;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
             if (!(obj is UserTransaction))
             {
                 return false;
@@ -140,19 +132,19 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                TransactionType.GetHashCode()
-                ^ OrderId.GetHashCode()
-                ^ BaseCurrencyAmount.GetHashCode()
+                BaseCurrencyAmount.GetHashCode()
                 ^ CompletedTime.GetHashCode()
                 ^ CounterCurrencyAmount.GetHashCode()
                 ^ ExchangeRate.GetHashCode()
+                ^ OrderId.GetHashCode()
                 ^ Pair.GetHashCode()
                 ^ SourceExchange.GetHashCode()
-                ^ TransactionType.GetHashCode()
-                ^ ExchangeTimeStampUTC.GetHashCode()
-                ^ LocalTimeStampUTC.GetHashCode()
                 ^ TradeFee.GetHashCode()
-                ^ TradeFeeCurrency.GetHashCode();
+                ^ TradeFeeCurrency.GetHashCode()
+                ^ TransactionType.GetHashCode()
+                ^ TransactionType.GetHashCode();
         }
+
+        public override string ToString() => $"{SourceExchange} {Pair} - Order Id: {OrderId}";
     }
 }

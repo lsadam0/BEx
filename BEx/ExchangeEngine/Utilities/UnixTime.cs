@@ -6,7 +6,7 @@ namespace BEx.ExchangeEngine.Utilities
 {
     internal static class UnixTime
     {
-        private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        static DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         ///     Convert Unix Time value to a UTC DateTime object
@@ -40,7 +40,7 @@ namespace BEx.ExchangeEngine.Utilities
 
         private static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
-            return (dateTime.ToUniversalTime() - epoch).TotalSeconds;
+            return (dateTime.ToUniversalTime() - _epoch).TotalSeconds;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace BEx.ExchangeEngine.Utilities
         /// <returns></returns>
         private static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
-            return epoch.AddSeconds(unixTimeStamp);
+            return _epoch.AddSeconds(unixTimeStamp);
         }
     }
 }

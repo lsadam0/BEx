@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class OrderBookCommand : ExchangeCommand<OrderBook>
+    internal class OrderBookCommand : ExchangeCommand
     {
         public OrderBookCommand(
             Method httpMethod,

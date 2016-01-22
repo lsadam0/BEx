@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.ExchangeEngine;
 
 namespace BEx
 {
@@ -42,10 +43,7 @@ namespace BEx
         /// </summary>
         public long TransactionId { get; internal set; }
 
-        public override string ToString()
-        {
-            return string.Format("{0} {1} - Price: {2} - Amount: {3}", SourceExchange, Pair, Price, Amount);
-        }
+        public override string ToString() => $"{SourceExchange} {Pair} - Price: {Price} - Amount: {Amount}";
 
         public DateTime ExchangeTimeStampUTC { get; }
 
@@ -63,27 +61,17 @@ namespace BEx
 
         public static bool operator ==(Transaction a, Transaction b)
         {
-            if ((object) a == null
-                || (object) b == null)
-            {
-                return Equals(a, b);
-            }
-
             return
-                a.TransactionId == b.TransactionId
-                && a.Amount == b.Amount
-                && a.SourceExchange == b.SourceExchange
+                a.Amount == b.Amount
+                && a.CompletedTime == b.CompletedTime
                 && a.Pair == b.Pair
-                && a.Price == b.Price;
+                && a.Price == b.Price
+                && a.SourceExchange == b.SourceExchange
+                && a.TransactionId == b.TransactionId;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
             if (!(obj is Transaction))
             {
                 return false;
@@ -100,11 +88,12 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-                SourceExchange.GetHashCode()
-                ^ Amount.GetHashCode()
+                Amount.GetHashCode()
+                ^ CompletedTime.GetHashCode()
                 ^ Pair.GetHashCode()
                 ^ Price.GetHashCode()
-                ^ TransactionId.GetHashCode();
+                ^ TransactionId.GetHashCode()
+                ^ SourceExchange.GetHashCode();
         }
     }
 }

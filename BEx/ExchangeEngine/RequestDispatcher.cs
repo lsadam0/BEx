@@ -2,6 +2,7 @@
 
 using System;
 using RestSharp;
+using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine
 {
@@ -11,19 +12,19 @@ namespace BEx.ExchangeEngine
     /// </summary>
     internal class RequestDispatcher : IRequestDispatcher
     {
-        private readonly IExchangeAuthenticator authenticator;
-        private readonly Uri baseUri;
+        private readonly IExchangeAuthenticator _authenticator;
+        private readonly Uri _baseUri;
 
         internal RequestDispatcher(Uri baseUri, IExchangeAuthenticator authenticator)
         {
-            this.baseUri = baseUri;
-            this.authenticator = authenticator;
+            _baseUri = baseUri;
+            _authenticator = authenticator;
         }
 
         internal RequestDispatcher(Uri baseUri)
         {
-            this.baseUri = baseUri;
-            authenticator = null;
+            _baseUri = baseUri;
+            _authenticator = null;
         }
 
         /// <summary>
@@ -32,10 +33,10 @@ namespace BEx.ExchangeEngine
         /// <param name="request">To Dispatch</param>
         /// <param name="commandReference">Reference Command</param>
         /// <returns>IRestResponse</returns>
-        public IRestResponse Dispatch<T>(IRestRequest request, IExchangeCommand<T> commandReference)
+        public IRestResponse Dispatch<T>(IRestRequest request, IExchangeCommand commandReference)
             where T : IExchangeResult
         {
-            var client = new RestClient(baseUri);
+            var client = new RestClient(_baseUri);
 
             IRestResponse response;
 
@@ -46,7 +47,7 @@ namespace BEx.ExchangeEngine
                     // Exchanges strictly enforce sequential nonce values
                     // this lock insures that authenticated requests always
                     // contain a correct sequential nonce value.
-                    client.Authenticator = authenticator;
+                    client.Authenticator = _authenticator;
                     response = client.Execute(request);
                 }
             }

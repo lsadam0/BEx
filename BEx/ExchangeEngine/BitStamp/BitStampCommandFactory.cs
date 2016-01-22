@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine.BitStamp.JSON;
+using BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
 
@@ -10,17 +10,14 @@ namespace BEx.ExchangeEngine.BitStamp
 {
     internal class BitStampCommandFactory : IExchangeCommandFactory
     {
-        private static readonly BitStampCommandFactory instance = new BitStampCommandFactory();
+        private static readonly BitStampCommandFactory Instance = new BitStampCommandFactory();
 
         private BitStampCommandFactory()
         {
             BuildCommands();
         }
 
-        public static IExchangeCommandFactory Singleton
-        {
-            get { return instance; }
-        }
+        public static IExchangeCommandFactory Singleton => Instance;
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()
@@ -205,11 +202,6 @@ namespace BEx.ExchangeEngine.BitStamp
 
         public UserTransactionsCommand BuildUserTransactionsCommand()
         {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Post, "limit", StandardParameter.None, "50")
-            };
-
             return new UserTransactionsCommand(
                 Method.POST,
                 new Uri("user_transactions/", UriKind.Relative),

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Commands;
 using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
@@ -60,7 +61,7 @@ namespace BEx
                 {StandardParameter.Id, id.ToStringInvariant()}
             };
 
-            return _executor.Execute(
+            return _executor.Execute<Confirmation>(
                 _commands.CancelOrder,
                 values);
         }
@@ -90,7 +91,7 @@ namespace BEx
                 {StandardParameter.Price, price.ToStringInvariant()}
             };
 
-            return _executor.Execute(_commands.BuyOrder, pair, values);
+            return _executor.Execute<Order>(_commands.BuyOrder, pair, values);
         }
 
         /// <summary>
@@ -119,14 +120,14 @@ namespace BEx
                 {StandardParameter.Price, price.ToStringInvariant()}
             };
 
-            return _executor.Execute(_commands.SellOrder, pair, values);
+            return _executor.Execute<Order>(_commands.SellOrder, pair, values);
         }
 
         /// <summary>
         ///     Retrieve all Balance information for your account.
         /// </summary>
         /// <returns>BEx.AccountBalance</returns>
-        public AccountBalance GetAccountBalance() => _executor.Execute(_commands.AccountBalance);
+        public AccountBalance GetAccountBalance() => _executor.Execute<AccountBalance>(_commands.AccountBalance);
 
         /// <summary>
         ///     Retrieve the your account Deposit Address for the requested currency
@@ -137,12 +138,12 @@ namespace BEx
         {
             var pair = new TradingPair(toDeposit, toDeposit);
 
-            return _executor.Execute(_commands.DepositAddress, pair);
+            return _executor.Execute<DepositAddress>(_commands.DepositAddress, pair);
         }
 
         public OpenOrders GetOpenOrders() => GetOpenOrders(DefaultPair);
 
-        public OpenOrders GetOpenOrders(TradingPair pair) => _executor.Execute(_commands.OpenOrders, pair);
+        public OpenOrders GetOpenOrders(TradingPair pair) => _executor.Execute<OpenOrders>(_commands.OpenOrders, pair);
 
         /// <summary>
         ///     Url the current BTC/USD Order Book.
@@ -155,7 +156,7 @@ namespace BEx
         /// </summary>
         /// <param name="pair"></param>
         /// <returns></returns>
-        public OrderBook GetOrderBook(TradingPair pair) => _executor.Execute(_commands.OrderBook, pair);
+        public OrderBook GetOrderBook(TradingPair pair) => _executor.Execute<OrderBook>(_commands.OrderBook, pair);
 
         /// <summary>
         ///     Retrieve the last Tick for the Exchange for the Default Trading Pair
@@ -168,7 +169,7 @@ namespace BEx
         /// </summary>
         /// <param name="pair">Retrieve Tick for this Trading Pair</param>
         /// <returns>BEx.Tick</returns>
-        public Tick GetTick(TradingPair pair) => _executor.Execute(_commands.Tick, pair);
+        public Tick GetTick(TradingPair pair) => _executor.Execute<Tick>(_commands.Tick, pair);
 
         /// <summary>
         ///     Return BTC/USD general Transactions for past hour.
@@ -191,7 +192,7 @@ namespace BEx
                 }
             };
 
-            return _executor.Execute(_commands.Transactions, pair, values);
+            return _executor.Execute<Transactions>(_commands.Transactions, pair, values);
         }
 
         /// <summary>
@@ -205,7 +206,7 @@ namespace BEx
         /// </summary>
         /// <returns>UserTransactions, non-null</returns>
         public UserTransactions GetUserTransactions(TradingPair pair)
-            => _executor.Execute(_commands.UserTransactions, pair);
+            => _executor.Execute<UserTransactions>(_commands.UserTransactions, pair);
 
         /// <summary>
         ///     Verify that a currency pair (e.g. BTC/USD) is supported by this exchange.

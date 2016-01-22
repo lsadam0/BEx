@@ -30,12 +30,6 @@ namespace BEx
 
         public IReadOnlyDictionary<int, Order> BuyOrders { get; }
 
-        protected override string DebugDisplay
-        {
-            get
-            {
-                return string.Format("{0} - Buy: {1} - Sell: {2}", SourceExchange, BuyOrders.Count, SellOrders.Count);
-            }
-        }
+     
     }
 }

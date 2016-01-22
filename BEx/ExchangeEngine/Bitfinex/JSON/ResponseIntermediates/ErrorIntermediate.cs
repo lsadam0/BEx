@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.Bitfinex.JSON
+namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
     internal class ErrorIntermediate : IExchangeResponse<BExError>
     {

@@ -7,19 +7,17 @@ namespace BEx.UnitTests
 {
     internal static class ExchangeFactory
     {
-        private static Dictionary<ExchangeType, AuthToken> tokens;
+        private static Dictionary<ExchangeType, AuthToken> _tokens;
 
-        private static void LoadAPIKeys()
+        private static void LoadApiKeys()
         {
             var keys = XElement.Load(@"E:\_Work\To Save\BEx\TestingKeys.xml");
 
-            XElement exchangeElement;
+            _tokens = new Dictionary<ExchangeType, AuthToken>();
 
-            tokens = new Dictionary<ExchangeType, AuthToken>();
+            var exchangeElement = keys.Element("BitStamp");
 
-            exchangeElement = keys.Element("BitStamp");
-
-            tokens.Add(ExchangeType.BitStamp, new AuthToken
+            _tokens.Add(ExchangeType.BitStamp, new AuthToken
             {
                 ApiKey = exchangeElement.Element("Key").Value,
                 ClientId = exchangeElement.Element("ClientID").Value,
@@ -28,7 +26,7 @@ namespace BEx.UnitTests
 
             exchangeElement = keys.Element("BitFinex");
 
-            tokens.Add(ExchangeType.Bitfinex, new AuthToken
+            _tokens.Add(ExchangeType.Bitfinex, new AuthToken
             {
                 ApiKey = exchangeElement.Element("Key").Value,
                 Secret = exchangeElement.Element("Secret").Value
@@ -52,12 +50,12 @@ namespace BEx.UnitTests
 
         public static Exchange GetAuthenticatedExchange(ExchangeType toGet)
         {
-            if (tokens == null)
-                LoadAPIKeys();
+            if (_tokens == null)
+                LoadApiKeys();
 
             AuthToken token;
 
-            tokens.TryGetValue(toGet, out token);
+            _tokens.TryGetValue(toGet, out token);
 
             switch (toGet)
             {
@@ -79,18 +77,18 @@ namespace BEx.UnitTests
 
         public static AuthToken GetBitfinexAuthToken()
         {
-            if (tokens == null)
-                LoadAPIKeys();
+            if (_tokens == null)
+                LoadApiKeys();
 
-            return tokens[ExchangeType.Bitfinex];
+            return _tokens[ExchangeType.Bitfinex];
         }
 
         public static AuthToken GetBitstampAuthToken()
         {
-            if (tokens == null)
-                LoadAPIKeys();
+            if (_tokens == null)
+                LoadApiKeys();
 
-            return tokens[ExchangeType.BitStamp];
+            return _tokens[ExchangeType.BitStamp];
         }
     }
 

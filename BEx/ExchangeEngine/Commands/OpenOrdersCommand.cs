@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class OpenOrdersCommand : ExchangeCommand<OpenOrders>
+    internal class OpenOrdersCommand : ExchangeCommand
     {
         public OpenOrdersCommand(
             Method httpMethod,

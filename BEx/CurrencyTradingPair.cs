@@ -43,9 +43,6 @@ namespace BEx
             return BaseCurrency.GetHashCode() ^ CounterCurrency.GetHashCode();
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0}{1}", BaseCurrency, CounterCurrency);
-        }
+        public override string ToString() => $"{BaseCurrency}{CounterCurrency}";
     }
 }

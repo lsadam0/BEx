@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class LimitOrderCommand : ExchangeCommand<Order>
+    internal class LimitOrderCommand : ExchangeCommand
     {
         public LimitOrderCommand(
             Method httpMethod,

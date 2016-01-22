@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.BitStamp.JSON
+namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
     internal class ErrorIntermediate : IExchangeResponse<BExError>
     {

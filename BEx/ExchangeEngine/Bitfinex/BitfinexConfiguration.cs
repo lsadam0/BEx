@@ -3,28 +3,22 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using BEx.ExchangeEngine.Bitfinex.JSON;
+using BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
     public class BitfinexConfiguration : IExchangeConfiguration
     {
-        private static readonly BitfinexConfiguration instance = new BitfinexConfiguration();
+        private static readonly BitfinexConfiguration Instance = new BitfinexConfiguration();
 
         internal BitfinexConfiguration()
         {
             Initialize(null);
         }
 
-        public static IExchangeConfiguration Singleton
+        public static IExchangeConfiguration Singleton => Instance;
 
-        {
-            get { return instance; }
-        }
 
-        public string ApiKey { get; private set; }
-        public string ClientId { get; private set; }
-        public string SecretKey { get; set; }
 
         public Uri BaseUri { get; private set; }
 

@@ -6,7 +6,7 @@ namespace BEx.ExchangeEngine
     ///     Interface to support conversion from Exchange-specific
     ///     intermediate types, to the standard BEx.ApiResult Sub-Types
     /// </summary>
-    internal interface IExchangeResponse<T> where T : IExchangeResult
+    internal interface IExchangeResponse<out T> where T : IExchangeResult
     {
         T Convert(TradingPair pair);
     }

@@ -4,7 +4,7 @@ using System;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.Bitfinex.JSON
+namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
     internal class TransactionIntermediate : IExchangeResponse<Transaction>
     {

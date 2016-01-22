@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine.Bitfinex.JSON;
+using BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
 
@@ -10,17 +10,14 @@ namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexCommandFactory : IExchangeCommandFactory
     {
-        private static readonly BitfinexCommandFactory instance = new BitfinexCommandFactory();
+        private static readonly BitfinexCommandFactory Instance = new BitfinexCommandFactory();
 
         private BitfinexCommandFactory()
         {
             BuildCommands();
         }
 
-        public static IExchangeCommandFactory Singleton
-        {
-            get { return instance; }
-        }
+        public static IExchangeCommandFactory Singleton => Instance;
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetAccountBalance()

@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class AccountBalanceCommand : ExchangeCommand<AccountBalance>
+    internal class AccountBalanceCommand : ExchangeCommand
     {
         public AccountBalanceCommand(
             Method httpMethod,

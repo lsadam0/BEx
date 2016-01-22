@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Commands
 {
-    internal class DepositAddressCommand : ExchangeCommand<DepositAddress>
+    internal class DepositAddressCommand : ExchangeCommand
     {
         public DepositAddressCommand(
             Method httpMethod,

@@ -16,7 +16,7 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
-        private readonly string ApiKey;
+        private readonly string _apiKey;
 
         public BitfinexAuthenticator(string secretKey, string apiKey)
         {
@@ -26,7 +26,7 @@ namespace BEx.ExchangeEngine.Bitfinex
             if (string.IsNullOrWhiteSpace(secretKey))
                 throw new ArgumentNullException(nameof(secretKey), ErrorMessages.MissingArgSecretKey);
 
-            ApiKey = apiKey;
+            _apiKey = apiKey;
 
             Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
         }
@@ -60,7 +60,7 @@ namespace BEx.ExchangeEngine.Bitfinex
 
             var currentNonce = Nonce;
 
-            request.AddHeader("X-BFX-APIKEY", ApiKey);
+            request.AddHeader("X-BFX-APIKEY", _apiKey);
 
             var payload = new StringBuilder();
 
@@ -74,7 +74,6 @@ namespace BEx.ExchangeEngine.Bitfinex
                 {
                     if (p.Type != ParameterType.UrlSegment)
                     {
-                        var test = JsonConvert.SerializeObject(p);
                         payload.Append(",");
                         payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
                     }

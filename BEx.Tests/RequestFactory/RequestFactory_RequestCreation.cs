@@ -16,7 +16,7 @@ namespace BEx.UnitTests.RequestFactoryTests
     public class RequestFactory_RequestCreation
     {
         private IRestRequest toTest;
-        private ExchangeCommand<Order> command;
+        private ExchangeCommand command;
         private TradingPair pair;
 
         [TestFixtureSetUp]
@@ -48,7 +48,7 @@ namespace BEx.UnitTests.RequestFactoryTests
 
             pair = new TradingPair(Currency.LTC, Currency.BTC);
 
-            toTest = RequestFactory.GetRequest(command, pair, values);
+            toTest = RequestFactory.GetRequest<Order>(command, pair, values);
         }
 
         [Test]

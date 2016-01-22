@@ -6,9 +6,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RestSharp;
 
-namespace BEx.ExchangeEngine
+namespace BEx.ExchangeEngine.Commands
 {
-    internal abstract class ExchangeCommand<T> : IExchangeCommand<T> where T : IExchangeResult
+    internal abstract class ExchangeCommand : IExchangeCommand
     {
         /// <summary>
         ///     Initialize ExchangeCommand Instance
@@ -18,7 +18,7 @@ namespace BEx.ExchangeEngine
         /// <param name="relativeUri">Exchange Uri, relative to the Base Uri</param>
         /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
         /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
-        public ExchangeCommand(
+        internal ExchangeCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
@@ -39,7 +39,7 @@ namespace BEx.ExchangeEngine
         /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
         /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
         /// <param name="parameters">Collection of Parameters for this Command</param>
-        public ExchangeCommand(
+        internal ExchangeCommand(
             Method httpMethod,
             Uri relativeUri,
             bool isAuthenticated,
