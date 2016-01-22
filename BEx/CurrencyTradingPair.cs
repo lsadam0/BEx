@@ -35,7 +35,7 @@ namespace BEx
 
         public override bool Equals(object obj)
         {
-            return obj is TradingPair && this == (TradingPair) obj;
+            return obj is TradingPair && this == (TradingPair)obj;
         }
 
         public override int GetHashCode()

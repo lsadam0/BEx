@@ -79,13 +79,13 @@ namespace BEx
             {
                 if (value == OrderType.Sell)
                 {
-                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount)*-1;
+                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount) * -1;
                     CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount);
                 }
                 else
                 {
                     BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount);
-                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount)*-1;
+                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount) * -1;
                 }
 
                 _transactionType = value;
@@ -119,7 +119,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (UserTransaction) obj;
+            return this == (UserTransaction)obj;
         }
 
         public bool Equals(UserTransaction b)

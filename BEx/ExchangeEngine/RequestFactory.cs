@@ -64,7 +64,7 @@ namespace BEx.ExchangeEngine
         /// <param name="pair">Trading Pair</param>
         /// <param name="values">Explicitly supplied parameter values</param>
         private static void PopulateCommandParameters(IRestRequest request, IExchangeCommand command,
-            TradingPair pair, IDictionary<StandardParameter, string> values) 
+            TradingPair pair, IDictionary<StandardParameter, string> values)
         {
             foreach (var param in command.Parameters)
             {

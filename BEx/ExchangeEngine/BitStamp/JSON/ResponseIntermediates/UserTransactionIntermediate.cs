@@ -41,7 +41,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
                     BaseCurrencyAmount = Conversion.ToDecimalInvariant(Btc),
                     CounterCurrencyAmount = Conversion.ToDecimalInvariant(Usd),
                     Pair = pair,
-                    OrderId = (int) OrderId,
+                    OrderId = (int)OrderId,
                     TradeFee = Conversion.ToDecimalInvariant(Fee),
                     TradeFeeCurrency = Currency.USD,
                     CompletedTime = Conversion.ToDateTimeInvariant(Datetime),

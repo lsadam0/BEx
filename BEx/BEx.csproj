@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BEx</RootNamespace>
     <AssemblyName>BEx</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -40,10 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NUnit.VisualStudio.TestAdapter">
-      <HintPath>..\packages\NUnitTestAdapter.1.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
@@ -55,12 +51,6 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExchangeEngine\Commands\AccountBalanceCommand.cs" />

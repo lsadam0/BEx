@@ -43,7 +43,7 @@ namespace BEx.UnitTests.RequestFactoryTests
                 Method.POST,
                 new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                 true,
-                typeof (object),
+                typeof(object),
                 param);
 
             pair = new TradingPair(Currency.LTC, Currency.BTC);

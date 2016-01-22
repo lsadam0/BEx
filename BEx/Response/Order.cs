@@ -85,7 +85,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Order) obj;
+            return this == (Order)obj;
         }
 
         public bool Equals(Order b)

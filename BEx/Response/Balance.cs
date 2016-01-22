@@ -66,7 +66,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Balance) obj;
+            return this == (Balance)obj;
         }
 
         public bool Equals(Balance b)

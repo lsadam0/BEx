@@ -109,12 +109,12 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.Asks);
             CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof (OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Asks);
 
             CollectionAssert.IsNotEmpty(toVerify.Bids);
             CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof (OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Bids);
 
             var orderedAsks = toVerify.Asks.OrderBy(x => x.Price);
@@ -171,7 +171,7 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (Transaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(Transaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
 
             var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
@@ -204,7 +204,7 @@ namespace BEx.UnitTests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (UserTransaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(UserTransaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
 
             var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
@@ -234,7 +234,7 @@ namespace BEx.UnitTests
 
                 // Check that transaction balances
 
-                Assert.That(Math.Round(transaction.BaseCurrencyAmount*transaction.ExchangeRate +
+                Assert.That(Math.Round(transaction.BaseCurrencyAmount * transaction.ExchangeRate +
                                        transaction.CounterCurrencyAmount, 2) == 0);
 
                 // Trade Fee Currency belongs to Trading Pair

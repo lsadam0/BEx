@@ -85,7 +85,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/balances", UriKind.Relative),
                 true,
-                typeof (List<AccountBalanceIntermediate>));
+                typeof(List<AccountBalanceIntermediate>));
         }
 
         public LimitOrderCommand BuildBuyOrderCommand()
@@ -104,7 +104,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/order/new", UriKind.Relative),
                 true,
-                typeof (OrderResponseIntermediate),
+                typeof(OrderResponseIntermediate),
                 param);
         }
 
@@ -119,7 +119,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/order/cancel", UriKind.Relative),
                 true,
-                typeof (Confirmation),
+                typeof(Confirmation),
                 param);
         }
 
@@ -153,7 +153,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/deposit/new", UriKind.Relative),
                 true,
-                typeof (DepositAddressIntermediate),
+                typeof(DepositAddressIntermediate),
                 param);
         }
 
@@ -163,7 +163,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/orders", UriKind.Relative),
                 true,
-                typeof (List<OrderResponseIntermediate>));
+                typeof(List<OrderResponseIntermediate>));
         }
 
         public OrderBookCommand BuildOrderBookCommand()
@@ -177,7 +177,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.GET,
                 new Uri("/v1/book/{pair}", UriKind.Relative),
                 false,
-                typeof (OrderBookIntermediate),
+                typeof(OrderBookIntermediate),
                 param);
         }
 
@@ -197,7 +197,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/order/new", UriKind.Relative),
                 true,
-                typeof (OrderResponseIntermediate),
+                typeof(OrderResponseIntermediate),
                 param);
         }
 
@@ -212,7 +212,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.GET,
                 new Uri("/v1/pubticker/{pair}", UriKind.Relative),
                 false,
-                typeof (TickIntermediate),
+                typeof(TickIntermediate),
                 param);
         }
 
@@ -228,7 +228,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.GET,
                 new Uri("/v1/trades/{pair}", UriKind.Relative),
                 false,
-                typeof (List<TransactionIntermediate>),
+                typeof(List<TransactionIntermediate>),
                 param);
         }
 
@@ -243,7 +243,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/mytrades", UriKind.Relative),
                 true,
-                typeof (List<UserTransactionIntermediate>),
+                typeof(List<UserTransactionIntermediate>),
                 param);
         }
     }

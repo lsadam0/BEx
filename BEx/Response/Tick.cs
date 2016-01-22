@@ -87,7 +87,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Tick) obj;
+            return this == (Tick)obj;
         }
 
         public bool Equals(Tick b)

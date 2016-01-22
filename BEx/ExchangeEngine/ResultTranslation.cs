@@ -33,11 +33,11 @@ namespace BEx.ExchangeEngine
             {
                 var responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);
 
-                return (T) Activator.CreateInstance(
+                return (T)Activator.CreateInstance(
                     commandReference.ApiResultSubType,
                     BindingFlags.NonPublic | BindingFlags.Instance,
                     null,
-                    new[] {responseCollection, pair, _sourceExchange},
+                    new[] { responseCollection, pair, _sourceExchange },
                     null);
             }
             var deserialized =
@@ -56,11 +56,11 @@ namespace BEx.ExchangeEngine
 
             if (deserialized.GetType() != command.ApiResultSubType)
             {
-                res = (T) Activator.CreateInstance(
+                res = (T)Activator.CreateInstance(
                     command.ApiResultSubType,
                     BindingFlags.NonPublic | BindingFlags.Instance,
                     null,
-                    new[] {deserialized, pair, _sourceExchange},
+                    new[] { deserialized, pair, _sourceExchange },
                     null);
             }
 

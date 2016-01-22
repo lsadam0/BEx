@@ -18,7 +18,6 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         public static IExchangeConfiguration Singleton => Instance;
 
-
         public Uri BaseUri { get; private set; }
 
         public TradingPair DefaultPair { get; private set; }
@@ -30,7 +29,7 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof (ErrorIntermediate);
+            ErrorJsonType = typeof(ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;
