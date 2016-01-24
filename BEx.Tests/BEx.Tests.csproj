@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressValidation\AddressValidator.cs" />
     <Compile Include="BitFinex\BitFinex_Authenticated_Commands.cs" />
     <Compile Include="BitFinex\BitFinex_Exceptions.cs" />
     <Compile Include="BitFinex\Bitfinex_Setup.cs" />

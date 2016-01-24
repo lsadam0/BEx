@@ -1,7 +1,9 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using BEx.Exceptions;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
@@ -10,8 +12,10 @@ namespace BEx
     /// </summary>
     public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
+        private string address;
+
         internal DepositAddress(string address, TradingPair pair, ExchangeType sourceExchange)
-            : this()
+                    : this()
         {
             Address = address;
             DepositCurrency = pair.BaseCurrency;
@@ -30,18 +34,25 @@ namespace BEx
             SourceExchange = sourceExchange;
             LocalTimeStampUTC = DateTime.UtcNow;
         }
-
         /// <summary>
         ///     Deposit Url
         /// </summary>
-        public string Address { get; }
+        public string Address
+        {
+            get { return address; }
+            set
+            {
+                if (ValidateAddress(value))
+                {
+                    address = value;
+                }
+            }
+        }
 
         /// <summary>
         ///     Currency to be Deposited.
         /// </summary>
         public Currency DepositCurrency { get; }
-
-        public override string ToString() => $"{SourceExchange} {DepositCurrency}: {Address}";
 
         public DateTime ExchangeTimeStampUTC { get; }
 
@@ -86,6 +97,18 @@ namespace BEx
                 Address.GetHashCode()
                 ^ DepositCurrency.GetHashCode()
                 ^ SourceExchange.GetHashCode();
+        }
+
+        public override string ToString() => $"{SourceExchange} {DepositCurrency}: {Address}";
+
+        private bool ValidateAddress(string address)
+        {
+            if (!AddressValidator.IsValid(address))
+            {
+                throw new InvalidAddressException($"'{address}' is not a valid address");
+            }
+
+            return true;
         }
     }
 }

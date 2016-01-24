@@ -69,7 +69,9 @@ namespace BEx.ExchangeEngine
             foreach (var param in command.Parameters)
             {
                 var parameter = param.Value;
+
                 string value;
+
                 switch (parameter.StandardParameterIdentifier)
                 {
                     case StandardParameter.Price:
@@ -113,14 +115,14 @@ namespace BEx.ExchangeEngine
                         break;
                 }
 
-                var pType = ParameterType.GetOrPost;
+                var parameterType = ParameterType.GetOrPost;
 
                 if (parameter.ParameterMethod == ParameterMethod.Url)
-                    pType = ParameterType.UrlSegment;
+                    parameterType = ParameterType.UrlSegment;
                 else if (parameter.ParameterMethod == ParameterMethod.QueryString)
-                    pType = ParameterType.QueryString;
+                    parameterType = ParameterType.QueryString;
 
-                request.AddParameter(parameter.ExchangeParameterName, value, pType);
+                request.AddParameter(parameter.ExchangeParameterName, value, parameterType);
             }
         }
     }

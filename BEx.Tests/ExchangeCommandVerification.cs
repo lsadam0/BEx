@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using BEx.ExchangeEngine;
+using BEx.Exceptions;
 using NUnit.Framework;
 
 namespace BEx.UnitTests
@@ -58,12 +59,18 @@ namespace BEx.UnitTests
 
         public void VerifyDepositAddress(Currency depositCurrency)
         {
-            var address = TestCandidate.GetDepositAddress(depositCurrency);
+            DepositAddress toTest = default(DepositAddress);
 
-            VerifyAPIResult(address);
+            Assert.DoesNotThrow(() =>
+            {
+                toTest = TestCandidate.GetDepositAddress(depositCurrency);
+            });
 
-            Assert.That(!string.IsNullOrWhiteSpace(address.Address));
-            Assert.That(address.DepositCurrency == depositCurrency);
+            VerifyAPIResult(toTest);
+
+            Assert.That(!string.IsNullOrWhiteSpace(toTest.Address));
+            Assert.That(toTest.DepositCurrency == depositCurrency,
+                $"DepositAddress Currency mismatch.  Request: {depositCurrency} Response: {toTest.DepositCurrency}");
         }
 
         public void VerifyOpenOrders()
