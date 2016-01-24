@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace BEx.UnitTests
+namespace BEx.Tests
 {
     internal static class ExchangeFactory
     {

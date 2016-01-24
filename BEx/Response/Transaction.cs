@@ -77,7 +77,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Transaction)obj;
+            return this == (Transaction) obj;
         }
 
         public bool Equals(Transaction b)

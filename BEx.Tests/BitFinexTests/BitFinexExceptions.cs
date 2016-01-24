@@ -2,19 +2,16 @@
 
 using NUnit.Framework;
 
-namespace BEx.UnitTests.BitfinexTests
+namespace BEx.Tests.BitfinexTests
 {
     [TestFixture]
     [Category("Bitfinex.Exceptions")]
-    public class Bitfinex_Exceptions : ExchangeVerificationBase
+    public class BitfinexExceptions : ExchangeVerificationBase
     {
-        private Bitfinex exchange;
-
-        [TestFixtureSetUp]
-        public void Setup()
+        public BitfinexExceptions() : base(ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex))
         {
-            exchange = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex) as Bitfinex;
         }
+
 
         /*
         [Test]

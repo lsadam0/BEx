@@ -2,18 +2,20 @@
 
 using NUnit.Framework;
 
-namespace BEx.UnitTests.BitStampTests
+namespace BEx.Tests.BitStampTests
 {
     [TestFixture]
     [Category("BitStamp.Exceptions")]
-    public class BitStamp_Exceptions : ExchangeVerificationBase
+    public class BitStampExceptions : ExchangeVerificationBase
     {
-        private BitStamp testCandidate;
+        public BitStampExceptions() : base(ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp))
+        {
+        }
 
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
+            Assert.IsInstanceOf<BitStamp>(TestCandidate);
         }
 
         /*

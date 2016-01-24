@@ -14,7 +14,6 @@ namespace BEx.Exceptions
         public InvalidAddressException(string message, Exception inner)
             : base(message, inner)
         {
-
         }
 
         protected InvalidAddressException(SerializationInfo info, StreamingContext context)

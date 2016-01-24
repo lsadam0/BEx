@@ -51,10 +51,10 @@ namespace BEx.ExchangeEngine.Commands
                 throw new ArgumentNullException(nameof(intermediateType));
 
             ApiResultSubType = apiResultType;
-            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
+            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof (string);
 
             if (intermediateType.IsGenericType)
-                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
+                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof (List<>);
             else
                 ReturnsCollection = false;
 

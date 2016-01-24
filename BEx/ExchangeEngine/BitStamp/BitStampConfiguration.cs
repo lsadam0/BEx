@@ -32,7 +32,7 @@ namespace BEx.ExchangeEngine.BitStamp
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof(ErrorIntermediate);
+            ErrorJsonType = typeof (ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.BitStamp;
 

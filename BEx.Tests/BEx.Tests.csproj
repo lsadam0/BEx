@@ -7,8 +7,8 @@
     <ProjectGuid>{6530E332-E49B-41D5-86CF-806532B3E0DB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BEx.UnitTests</RootNamespace>
-    <AssemblyName>BEx.UnitTests</AssemblyName>
+    <RootNamespace>BEx.Tests</RootNamespace>
+    <AssemblyName>BEx.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -58,17 +58,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressValidation\AddressValidator.cs" />
-    <Compile Include="BitFinex\BitFinex_Authenticated_Commands.cs" />
-    <Compile Include="BitFinex\BitFinex_Exceptions.cs" />
-    <Compile Include="BitFinex\Bitfinex_Setup.cs" />
-    <Compile Include="BitFinex\BitFinex_Unauthenticated_Commands.cs" />
-    <Compile Include="BitStamp\BitStamp_Authenticated_Commands.cs" />
-    <Compile Include="BitStamp\BitStamp_Exceptions.cs" />
-    <Compile Include="BitStamp\BitStamp_Setup.cs" />
-    <Compile Include="BitStamp\BitStamp_Unauthenticated_Commands.cs" />
+    <Compile Include="AddressValidationTests\AddressValidator.cs" />
+    <Compile Include="BitFinexTests\BitFinexAuthenticatedCommands.cs" />
+    <Compile Include="BitFinexTests\BitFinexExceptions.cs" />
+    <Compile Include="BitFinexTests\BitfinexSetup.cs" />
+    <Compile Include="BitFinexTests\BitFinexUnauthenticatedCommands.cs" />
+    <Compile Include="BitStampTests\BitStampAuthenticatedCommands.cs" />
+    <Compile Include="BitStampTests\BitStampExceptions.cs" />
+    <Compile Include="BitStampTests\BitStampSetup.cs" />
+    <Compile Include="BitStampTests\BitStampUnauthenticatedCommands.cs" />
     <Compile Include="DateTimeUnixConversion.cs" />
-    <Compile Include="ExchangeExceptionVerification.cs" />
     <Compile Include="ExchangeFactory.cs" />
     <Compile Include="ExchangeVerificationBase.cs" />
     <Compile Include="ExchangeCommandVerification.cs" />
@@ -76,8 +75,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestFactory\RequestFactory_RequestCreation.cs" />
-    <Compile Include="Scratch.cs" />
+    <Compile Include="RequestFactoryTests\RequestFactoryRequestCreation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

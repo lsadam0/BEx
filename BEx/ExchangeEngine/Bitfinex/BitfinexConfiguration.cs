@@ -29,7 +29,7 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof(ErrorIntermediate);
+            ErrorJsonType = typeof (ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Bitfinex;
             ExchangeSourceType = ExchangeType.Bitfinex;

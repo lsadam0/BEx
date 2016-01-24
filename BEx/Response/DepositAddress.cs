@@ -12,16 +12,11 @@ namespace BEx
     /// </summary>
     public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
-        private string address;
+        private string _address;
 
         internal DepositAddress(string address, TradingPair pair, ExchangeType sourceExchange)
-                    : this()
+            : this(address, DateTime.UtcNow, pair.BaseCurrency, sourceExchange)
         {
-            Address = address;
-            DepositCurrency = pair.BaseCurrency;
-            ExchangeTimeStampUTC = DateTime.UtcNow;
-            SourceExchange = sourceExchange;
-            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         internal DepositAddress(string address, DateTime exchangeTimeStamp, Currency depositCurrency,
@@ -34,17 +29,18 @@ namespace BEx
             SourceExchange = sourceExchange;
             LocalTimeStampUTC = DateTime.UtcNow;
         }
+
         /// <summary>
         ///     Deposit Url
         /// </summary>
         public string Address
         {
-            get { return address; }
+            get { return _address; }
             set
             {
                 if (ValidateAddress(value))
                 {
-                    address = value;
+                    _address = value;
                 }
             }
         }
@@ -63,10 +59,7 @@ namespace BEx
 
         public ExchangeType SourceExchange { get; }
 
-        public static bool operator !=(DepositAddress a, DepositAddress b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(DepositAddress a, DepositAddress b) => !(a == b);
 
         public static bool operator ==(DepositAddress a, DepositAddress b)
         {
@@ -83,29 +76,22 @@ namespace BEx
                 return false;
             }
 
-            return this == (DepositAddress)obj;
+            return this == (DepositAddress) obj;
         }
 
-        public bool Equals(DepositAddress b)
-        {
-            return this == b;
-        }
+        public bool Equals(DepositAddress b) => this == b;
 
-        public override int GetHashCode()
-        {
-            return
-                Address.GetHashCode()
-                ^ DepositCurrency.GetHashCode()
-                ^ SourceExchange.GetHashCode();
-        }
+        public override int GetHashCode() => Address.GetHashCode()
+                                             ^ DepositCurrency.GetHashCode()
+                                             ^ SourceExchange.GetHashCode();
 
         public override string ToString() => $"{SourceExchange} {DepositCurrency}: {Address}";
 
-        private bool ValidateAddress(string address)
+        private bool ValidateAddress(string toValidate)
         {
-            if (!AddressValidator.IsValid(address))
+            if (!AddressValidator.IsValid(toValidate))
             {
-                throw new InvalidAddressException($"'{address}' is not a valid address");
+                throw new InvalidAddressException($"'{toValidate}' is not a valid address");
             }
 
             return true;

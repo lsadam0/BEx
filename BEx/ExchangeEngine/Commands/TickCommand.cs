@@ -12,7 +12,7 @@ namespace BEx.ExchangeEngine.Commands
             bool isAuthenticated,
             Type intermediateType,
             IList<ExchangeParameter> parameters) :
-                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(Tick), parameters)
+                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (Tick), parameters)
         {
         }
 
@@ -21,7 +21,7 @@ namespace BEx.ExchangeEngine.Commands
             Uri relativeUri,
             bool isAuthenticated,
             Type intermediateType) :
-                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof(Tick))
+                base(httpMethod, relativeUri, isAuthenticated, intermediateType, typeof (Tick))
         {
         }
     }

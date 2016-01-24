@@ -2,7 +2,7 @@
 using BEx.ExchangeEngine.Utilities;
 using NUnit.Framework;
 
-namespace BEx.UnitTests
+namespace BEx.Tests
 {
     [TestFixture]
     [Category("Time.Conversion")]

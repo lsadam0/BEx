@@ -49,10 +49,8 @@ namespace BEx
 
         public ImmutableHashSet<TradingPair> SupportedTradingPairs => _configuration.SupportedPairs;
 
-        public Confirmation CancelOrder(Order toCancel)
-        {
-            return CancelOrder(toCancel.Id);
-        }
+        public Confirmation CancelOrder(Order toCancel) => CancelOrder(toCancel.Id);
+
 
         public Confirmation CancelOrder(int id)
         {

@@ -4,20 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.BitStamp;
 using BEx.ExchangeEngine.Commands;
 using NUnit.Framework;
 using RestSharp;
 
-namespace BEx.UnitTests.RequestFactoryTests
+namespace BEx.Tests.RequestFactoryTests
 {
     [TestFixture]
     [Category("RequestFactory")]
-    public class RequestFactory_RequestCreation
+    public class RequestFactoryRequestCreation
     {
-        private IRestRequest toTest;
-        private ExchangeCommand command;
-        private TradingPair pair;
+        private IRestRequest _toTest;
+        private ExchangeCommand _command;
+        private TradingPair _pair;
 
         [TestFixtureSetUp]
         public void Setup()
@@ -37,47 +36,46 @@ namespace BEx.UnitTests.RequestFactoryTests
                 {StandardParameter.Price, "100.00"}
             };
 
-            var configuration = BitStampConfiguration.Singleton;
 
-            command = new LimitOrderCommand(
+            _command = new LimitOrderCommand(
                 Method.POST,
                 new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                 true,
-                typeof(object),
+                typeof (object),
                 param);
 
-            pair = new TradingPair(Currency.LTC, Currency.BTC);
+            _pair = new TradingPair(Currency.LTC, Currency.BTC);
 
-            toTest = RequestFactory.GetRequest(command, pair, values);
+            _toTest = RequestFactory.GetRequest(_command, _pair, values);
         }
 
         [Test]
         public void Request_AllParameters_Populated()
         {
-            Assert.That(toTest.Parameters.Count == command.Parameters.Count);
+            Assert.That(_toTest.Parameters.Count == _command.Parameters.Count);
 
-            foreach (var parameter in command.Parameters)
+            foreach (var parameter in _command.Parameters)
             {
-                Assert.IsNotNull(toTest.Parameters.Find(x => x.Name == parameter.Value.ExchangeParameterName));
+                Assert.IsNotNull(_toTest.Parameters.Find(x => x.Name == parameter.Value.ExchangeParameterName));
             }
         }
 
         [Test]
         public void Request_Configuration_Success()
         {
-            Assert.That(toTest.Method == Method.POST);
-            Assert.That(toTest.Resource == "/v1/order/new/{pair}/{side}");
+            Assert.That(_toTest.Method == Method.POST);
+            Assert.That(_toTest.Resource == "/v1/order/new/{pair}/{side}");
         }
 
         [Test]
         public void Request_PostParameters_Populated()
         {
-            var postParams = toTest.Parameters.Where(x => x.Type == ParameterType.GetOrPost).ToList();
+            var postParams = _toTest.Parameters.Where(x => x.Type == ParameterType.GetOrPost).ToList();
 
             Assert.That(postParams.Count == 2);
 
             Assert.That(postParams[0].Name == "symbol");
-            Assert.That(postParams[0].Value.ToString() == pair.ToString());
+            Assert.That(postParams[0].Value.ToString() == _pair.ToString());
 
             Assert.That(postParams[1].Name == "exchange");
             Assert.That(postParams[1].Value.ToString() == "bitfinex");
@@ -86,7 +84,7 @@ namespace BEx.UnitTests.RequestFactoryTests
         [Test]
         public void Request_QueryStringParameters_Populated()
         {
-            var queryParams = toTest.Parameters.Where(x => x.Type == ParameterType.QueryString).ToList();
+            var queryParams = _toTest.Parameters.Where(x => x.Type == ParameterType.QueryString).ToList();
 
             Assert.That(queryParams.Count == 2);
 
@@ -100,12 +98,12 @@ namespace BEx.UnitTests.RequestFactoryTests
         [Test]
         public void Request_UrlParameters_Populated()
         {
-            var urlParams = toTest.Parameters.Where(x => x.Type == ParameterType.UrlSegment).ToList();
+            var urlParams = _toTest.Parameters.Where(x => x.Type == ParameterType.UrlSegment).ToList();
 
             Assert.That(urlParams.Count == 2);
 
             Assert.That(urlParams[0].Name == "pair");
-            Assert.That(urlParams[0].Value.ToString() == pair.ToString());
+            Assert.That(urlParams[0].Value.ToString() == _pair.ToString());
 
             Assert.That(urlParams[1].Name == "side");
             Assert.That(urlParams[1].Value.ToString() == "sell");

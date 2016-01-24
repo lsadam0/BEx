@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.UnitTests.AddressValidation
+namespace BEx.Tests.AddressValidationTests
 {
     [TestFixture]
     [Category("AddressValidation")]
@@ -25,6 +24,14 @@ namespace BEx.UnitTests.AddressValidation
             var res = ExchangeEngine.Utilities.AddressValidator.IsValid(badResponse);
 
             Assert.IsFalse(res);
+        }
+
+        [Test]
+        public void LTC_Address_IsValid()
+        {
+            var address = "LfdF3ZympqjTBBxW2NDqBwF3CVRNXPZ84N";
+
+            Assert.IsTrue(ExchangeEngine.Utilities.AddressValidator.IsValid(address));
         }
     }
 }

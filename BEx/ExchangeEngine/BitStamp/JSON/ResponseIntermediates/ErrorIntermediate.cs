@@ -8,7 +8,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
     internal class ErrorIntermediate : IExchangeResponse<BExError>
     {
-        [JsonConverter(typeof(SingleValueArrayConverter))]
+        [JsonConverter(typeof (SingleValueArrayConverter))]
         public Error error { get; set; }
 
         public BExError Convert(TradingPair pair)
