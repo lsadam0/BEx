@@ -8,39 +8,39 @@ namespace BEx.UnitTests.BitStampTests
     [Category("BitStamp.AuthenticatedCommands")]
     public class BitStamp_Authenticated_Commands
     {
-        private ExchangeCommandVerification commandVerification;
-        private BitStamp TestCandidate;
+        private ExchangeCommandVerification _commandVerification;
+        private BitStamp _testCandidate;
 
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            TestCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
-            Assert.IsInstanceOf<BitStamp>(TestCandidate);
-            commandVerification = new ExchangeCommandVerification(TestCandidate);
+            _testCandidate = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp) as BitStamp;
+            Assert.IsInstanceOf<BitStamp>(_testCandidate);
+            _commandVerification = new ExchangeCommandVerification(_testCandidate);
         }
 
         [Test]
         public void BitStamp_GetAccountBalance_All_Success()
         {
-            commandVerification.VerifyAccountBalance();
+            _commandVerification.VerifyAccountBalance();
         }
 
         [Test]
         public void BitStamp_GetDepositAddress_BTC_Success()
         {
-            commandVerification.VerifyDepositAddress(Currency.BTC);
+            _commandVerification.VerifyDepositAddress(Currency.BTC);
         }
 
         [Test]
         public void BitStamp_GetOpenOrders_BTCUSD_Success()
         {
-            commandVerification.VerifyOpenOrders();
+            _commandVerification.VerifyOpenOrders();
         }
 
         [Test]
         public void BitStamp_GetUserTransactions_BTCUSD_Success()
         {
-            commandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
+            _commandVerification.VerifyUserTransactions(_testCandidate.DefaultPair);
         }
     }
 }
