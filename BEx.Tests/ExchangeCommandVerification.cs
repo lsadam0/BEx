@@ -34,6 +34,7 @@ namespace BEx.Tests
                 var individualBalance = toVerify.BalanceByCurrency[c];
 
                 VerifyApiResult(individualBalance);
+
                 Assert.That(individualBalance.BalanceCurrency == c);
                 Assert.That(individualBalance.AvailableToTrade >= 0);
                 Assert.That(individualBalance.TotalBalance >= 0);
