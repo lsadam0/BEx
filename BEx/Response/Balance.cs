@@ -10,31 +10,46 @@ namespace BEx
     /// </summary>
     public struct Balance : IEquatable<Balance>, IExchangeResult
     {
-        internal Balance(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+
+        internal Balance(
+            decimal available,
+            Currency currency,
+            decimal total,
+            DateTime exchangeTimeStamp,
+            ExchangeType sourceExchange,
+            decimal reserved)
             : this()
         {
+            AvailableToTrade = available;
+            BalanceCurrency = currency;
+            TotalBalance = total;
             ExchangeTimeStampUTC = exchangeTimeStamp;
             SourceExchange = sourceExchange;
+            Reserved = reserved;
             LocalTimeStampUTC = DateTime.UtcNow;
+
         }
 
         /// <summary>
         ///     The Un-reserved Available Balance
         /// </summary>
-        public decimal AvailableToTrade { get; internal set; }
+        public decimal AvailableToTrade { get; }
+
+
+        public decimal Reserved { get; }
 
         /// <summary>
         ///     Source Currency
         /// </summary>
-        public Currency BalanceCurrency { get; internal set; }
+        public Currency BalanceCurrency { get; }
 
         /// <summary>
         ///     Total Exchange Balance for BalanceCurrency, include amounts reserved in open trades
         /// </summary>
-        public decimal TotalBalance { get; internal set; }
+        public decimal TotalBalance { get; }
 
         public override string ToString()
-            => $"{SourceExchange} {BalanceCurrency} - Available: {AvailableToTrade} - Total: {TotalBalance}";
+            => $"{SourceExchange} {BalanceCurrency} - Total: {TotalBalance} - Available: {AvailableToTrade} - Reserved: {Reserved}";
 
         public DateTime ExchangeTimeStampUTC { get; }
 
@@ -66,7 +81,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Balance) obj;
+            return this == (Balance)obj;
         }
 
         public bool Equals(Balance b)

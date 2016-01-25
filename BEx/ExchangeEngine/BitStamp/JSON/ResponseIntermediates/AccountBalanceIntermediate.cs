@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
@@ -32,26 +33,31 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
         public AccountBalance Convert(TradingPair pair)
         {
-            var btcBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
-            {
-                BalanceCurrency = Currency.BTC,
-                AvailableToTrade = Conversion.ToDecimalInvariant(BtcAvailable),
-                TotalBalance = Conversion.ToDecimalInvariant(BtcBalance)
-            };
 
-            var usdBalance = new Balance(DateTime.UtcNow, ExchangeType.BitStamp)
-            {
-                AvailableToTrade = Conversion.ToDecimalInvariant(UsdAvailable),
-                TotalBalance = Conversion.ToDecimalInvariant(UsdBalance),
-                BalanceCurrency = Currency.USD
-            };
-            var balances = new List<Balance>
-            {
-                btcBalance,
-                usdBalance
-            };
+            var exchangeDate = DateTime.UtcNow;
 
-            return new AccountBalance(balances, pair, ExchangeType.BitStamp);
+
+            var btc = new Balance(
+                Conversion.ToDecimalInvariant(BtcAvailable),
+                Currency.BTC,
+                Conversion.ToDecimalInvariant(BtcBalance),
+                exchangeDate,
+                ExchangeType.BitStamp,
+                Conversion.ToDecimalInvariant(BtcReserved));
+
+            var usd = new Balance(
+                Conversion.ToDecimalInvariant(UsdAvailable),
+                Currency.USD,
+                Conversion.ToDecimalInvariant(UsdBalance),
+                exchangeDate,
+                ExchangeType.BitStamp,
+                Conversion.ToDecimalInvariant(UsdReserved));
+
+
+            return new AccountBalance(
+                new List<Balance>() { btc, usd },
+                pair,
+                ExchangeType.BitStamp);
         }
     }
 }

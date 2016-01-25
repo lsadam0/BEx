@@ -10,6 +10,8 @@ namespace BEx
     /// </summary>
     public enum Currency
     {
+        Unknown,
+
         [Description("bitcoin")] BTC,
 
         [Description("litecoin")] LTC,
@@ -52,9 +54,9 @@ namespace BEx
 
         [Description("Russia Ruble")] RUB,
 
-        [Description("Singapore Dollar")] SGD,
+        [Description("Singapore Dollar")] SGD
 
-        Unknown
+ 
     }
 
     public static class EnumExtensions

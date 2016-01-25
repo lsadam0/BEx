@@ -23,43 +23,28 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public Balance Convert(TradingPair pair)
         {
-            var res = default(Balance);
-
             if (Type == "exchange")
             {
-                res = new Balance(DateTime.UtcNow, ExchangeType.Bitfinex);
                 Currency balanceCurrency;
 
                 if (Enum.TryParse(Currency.ToUpper(CultureInfo.InvariantCulture), out balanceCurrency))
                 {
-                    res.BalanceCurrency = balanceCurrency;
-                    res.AvailableToTrade = Conversion.ToDecimalInvariant(Available);
-                    res.TotalBalance = Conversion.ToDecimalInvariant(Amount);
+                    var avail = Conversion.ToDecimalInvariant(Available);
+                    var amount = Conversion.ToDecimalInvariant(Amount);
+
+                    return new Balance(
+                        avail,
+                        balanceCurrency,
+                        amount,
+                        DateTime.UtcNow,
+                        ExchangeType.Bitfinex,
+                        amount - avail);
                 }
             }
 
-            return res;
+            return default(Balance);
         }
 
-        /*
-        public BExResult ConvertToStandard(CurrencyTradingPair pair, Exchange sourceExchange)
-        {
-            Balance res = null;
 
-            if (Type == "exchange")
-            {
-                res = new Balance(DateTime.UtcNow, sourceExchange);
-                Currency balanceCurrency;
-
-                if (Enum.TryParse(Currency.ToUpper(CultureInfo.InvariantCulture), out balanceCurrency))
-                {
-                    res.BalanceCurrency = balanceCurrency;
-                    res.AvailableToTrade = Conversion.ToDecimalInvariant(Available);
-                    res.TotalBalance = Conversion.ToDecimalInvariant(Amount);
-                }
-            }
-
-            return res;
-        }*/
     }
 }

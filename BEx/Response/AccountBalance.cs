@@ -16,52 +16,32 @@ namespace BEx
         internal AccountBalance(IEnumerable<Balance> balances, TradingPair pair, ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
-            Initialize(balances, pair);
+            BalanceByCurrency = CreateDictionary(balances);
         }
 
         internal AccountBalance(IEnumerable<IExchangeResponse<Balance>> balances, TradingPair pair,
             ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
-            IList<Balance> convertedBalances = balances
-                .Select(x => x.Convert(pair))
-                .Where(x => x != default(Balance))
-                .ToList();
-
-            Initialize(convertedBalances, pair);
+            BalanceByCurrency = CreateDictionary(
+                balances
+                    .Select(x => x.Convert(pair)));
         }
 
         /// <summary>
         ///     A List of Available and Reserved Balances by Currency.  If a Currency is supported by
         ///     the Exchange, but is absent from the Balance Collection, then a 0 balance should be assumed.
         /// </summary>
-        public IReadOnlyDictionary<Currency, Balance> BalanceByCurrency { get; private set; }
+        public IReadOnlyDictionary<Currency, Balance> BalanceByCurrency { get; }
 
         protected override string DebugDisplay => $"{SourceExchange} - Balances: {BalanceByCurrency.Count}";
 
-        private void Initialize(IEnumerable<Balance> balances, TradingPair pair)
+        private ReadOnlyDictionary<Currency, Balance> CreateDictionary(IEnumerable<Balance> balances)
         {
-            var balanceBuffer = balances.ToDictionary(toAdd => toAdd.BalanceCurrency);
-
-            /*
-            if (balanceBuffer.Count < sourceExchange.SupportedCurrencies.Count)
-            {
-                // Insure an entry exists for every supported currency
-                foreach (var missingCurrency in sourceExchange.SupportedCurrencies)
-                {
-                    if (!balanceBuffer.ContainsKey(missingCurrency))
-                    {
-                        balanceBuffer.Add(missingCurrency, new Balance(DateTime.UtcNow, sourceExchange.ExchangeSourceType)
-                        {
-                            BalanceCurrency = missingCurrency,
-                            AvailableToTrade = 0,
-                            TotalBalance = 0
-                        });
-                    }
-                }
-            }*/
-
-            BalanceByCurrency = new ReadOnlyDictionary<Currency, Balance>(balanceBuffer);
+            return new ReadOnlyDictionary<Currency, Balance>(
+                balances
+                    .Where(x => x != default(Balance))
+                    .ToDictionary(x => x.BalanceCurrency));
         }
     }
 }

@@ -7,11 +7,7 @@ namespace BEx.Tests
         public ExchangeVerificationBase(Exchange testCanddiate)
         {
             TestCandidate = testCanddiate;
-            CommandVerification = new ExchangeCommandVerification(TestCandidate);
-        }
-
-        public ExchangeVerificationBase()
-        {
+            CommandVerification = new ExchangeCommandVerification(testCanddiate);
         }
 
         protected Exchange TestCandidate { get; }

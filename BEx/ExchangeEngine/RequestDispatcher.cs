@@ -42,6 +42,7 @@ namespace BEx.ExchangeEngine
 
             if (commandReference.IsAuthenticated)
             {
+
                 lock (this)
                 {
                     // Exchanges strictly enforce sequential nonce values
