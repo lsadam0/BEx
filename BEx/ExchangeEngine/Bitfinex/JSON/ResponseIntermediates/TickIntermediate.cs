@@ -8,41 +8,41 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
     internal class TickIntermediate : IExchangeResponse<Tick>
     {
         [JsonProperty("mid", Required = Required.Always)]
-        public string Mid { get; set; }
+        public decimal Mid { get; set; }
 
         [JsonProperty("bid", Required = Required.Always)]
-        public string Bid { get; set; }
+        public decimal Bid { get; set; }
 
         [JsonProperty("ask", Required = Required.Always)]
-        public string Ask { get; set; }
+        public decimal Ask { get; set; }
 
         [JsonProperty("last_price", Required = Required.Always)]
-        public string LastPrice { get; set; }
+        public decimal LastPrice { get; set; }
 
         [JsonProperty("low", Required = Required.Always)]
-        public string Low { get; set; }
+        public decimal Low { get; set; }
 
         [JsonProperty("high", Required = Required.Always)]
-        public string High { get; set; }
+        public decimal High { get; set; }
 
         [JsonProperty("volume", Required = Required.Always)]
-        public string Volume { get; set; }
+        public decimal Volume { get; set; }
 
         [JsonProperty("timestamp", Required = Required.Always)]
-        public string Timestamp { get; set; }
+        public double Timestamp { get; set; }
 
         public Tick Convert(TradingPair pair)
         {
-            return new Tick(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
-            {
-                Pair = pair,
-                Ask = Conversion.ToDecimalInvariant(Ask),
-                Bid = Conversion.ToDecimalInvariant(Bid),
-                High = Conversion.ToDecimalInvariant(High),
-                Last = Conversion.ToDecimalInvariant(LastPrice),
-                Low = Conversion.ToDecimalInvariant(Low),
-                Volume = Conversion.ToDecimalInvariant(Volume)
-            };
+            return new Tick(
+                Ask,
+                Bid,
+                High,
+                LastPrice,
+                Volume,
+                pair,
+                Low,
+                ExchangeType.Bitfinex,
+                (long)Timestamp);
         }
     }
 }

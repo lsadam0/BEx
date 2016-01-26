@@ -8,41 +8,41 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
     internal class TickIntermediate : IExchangeResponse<Tick>
     {
         [JsonProperty("high", Required = Required.Always)]
-        public string high { get; set; }
+        public decimal high { get; set; }
 
         [JsonProperty("last", Required = Required.Always)]
-        public string last { get; set; }
+        public decimal last { get; set; }
 
         [JsonProperty("timestamp", Required = Required.Always)]
-        public string timestamp { get; set; }
+        public long timestamp { get; set; }
 
         [JsonProperty("bid", Required = Required.Always)]
-        public string bid { get; set; }
+        public decimal bid { get; set; }
 
         [JsonProperty("vwap", Required = Required.Always)]
         public string vwap { get; set; }
 
         [JsonProperty("volume", Required = Required.Always)]
-        public string volume { get; set; }
+        public decimal volume { get; set; }
 
         [JsonProperty("low", Required = Required.Always)]
-        public string low { get; set; }
+        public decimal low { get; set; }
 
         [JsonProperty("ask", Required = Required.Always)]
-        public string ask { get; set; }
+        public decimal ask { get; set; }
 
         public Tick Convert(TradingPair pair)
         {
-            return new Tick(timestamp.ToDateTimeUTC(), ExchangeType.BitStamp)
-            {
-                Ask = Conversion.ToDecimalInvariant(ask),
-                Bid = Conversion.ToDecimalInvariant(bid),
-                High = Conversion.ToDecimalInvariant(high),
-                Last = Conversion.ToDecimalInvariant(last),
-                Low = Conversion.ToDecimalInvariant(low),
-                Volume = Conversion.ToDecimalInvariant(volume),
-                Pair = pair
-            };
+            return new Tick(
+                ask,
+                bid,
+                high,
+                last,
+                volume,
+                pair,
+                low,
+                ExchangeType.BitStamp,
+                timestamp);
         }
     }
 }

@@ -2,68 +2,58 @@
 
 using System;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
-    /// <summary>
-    ///     Individual Transaction
-    /// </summary>
     public struct Transaction : IEquatable<Transaction>, IExchangeResult
     {
-        internal Transaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+        internal Transaction(
+            string amount,
+            TradingPair pair,
+            long unixTimeStamp,
+            int transactionId,
+            string price,
+            ExchangeType sourceExchange)
             : this()
         {
-            ExchangeTimeStampUTC = exchangeTimeStamp;
-            SourceExchange = sourceExchange;
+            Amount = Conversion.ToDecimalInvariant(amount);
+            Pair = pair;
+            UnixCompletedTimeStamp = unixTimeStamp;
+            CompletedTime = ((double)unixTimeStamp).ToDateTimeUTC();
+            ExchangeTimeStampUTC = CompletedTime;
             LocalTimeStampUTC = DateTime.UtcNow;
+            Price = Conversion.ToDecimalInvariant(price);
+            SourceExchange = sourceExchange;
+            TransactionId = transactionId;
         }
 
-        /// <summary>
-        ///     Transaction Amount
-        /// </summary>
-        public decimal Amount { get; internal set; }
+        public decimal Amount { get; }
 
-        /// <summary>
-        ///     Trading Pair
-        /// </summary>
-        public TradingPair Pair { get; internal set; }
-
-        /// <summary>
-        ///     Execution Time
-        /// </summary>
-        public DateTime CompletedTime { get; internal set; }
-
-        /// <summary>
-        ///     Execution Price
-        /// </summary>
-        public decimal Price { get; internal set; }
-
-        /// <summary>
-        ///     Exchange assigned identifier
-        /// </summary>
-        public long TransactionId { get; internal set; }
-
-        public override string ToString() => $"{SourceExchange} {Pair} - Price: {Price} - Amount: {Amount}";
+        public DateTime CompletedTime { get; }
 
         public DateTime ExchangeTimeStampUTC { get; }
 
-        /// <summary>
-        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
-        /// </summary>
         public DateTime LocalTimeStampUTC { get; }
+
+        public TradingPair Pair { get; }
+
+        public decimal Price { get; }
 
         public ExchangeType SourceExchange { get; }
 
-        public static bool operator !=(Transaction a, Transaction b)
-        {
-            return !(a == b);
-        }
+        public long TransactionId { get; }
+
+        public long UnixCompletedTimeStamp { get; }
+
+        public static bool operator !=(Transaction a, Transaction b) => !(a == b);
+        
 
         public static bool operator ==(Transaction a, Transaction b)
         {
             return
                 a.Amount == b.Amount
-                && a.CompletedTime == b.CompletedTime
+                && a.UnixCompletedTimeStamp == b.UnixCompletedTimeStamp
                 && a.Pair == b.Pair
                 && a.Price == b.Price
                 && a.SourceExchange == b.SourceExchange
@@ -77,23 +67,22 @@ namespace BEx
                 return false;
             }
 
-            return this == (Transaction) obj;
+            return this == (Transaction)obj;
         }
 
-        public bool Equals(Transaction b)
-        {
-            return this == b;
-        }
-
+        public bool Equals(Transaction b) => this == b;
+    
         public override int GetHashCode()
         {
             return
                 Amount.GetHashCode()
                 ^ CompletedTime.GetHashCode()
                 ^ Pair.GetHashCode()
-                ^ Price.GetHashCode()
+                ^ UnixCompletedTimeStamp.GetHashCode()
                 ^ TransactionId.GetHashCode()
                 ^ SourceExchange.GetHashCode();
         }
+
+        public override string ToString() => $"{SourceExchange} {Pair} - Price: {Price} - Amount: {Amount}";
     }
 }

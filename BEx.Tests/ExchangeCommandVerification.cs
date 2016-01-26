@@ -69,7 +69,6 @@ namespace BEx.Tests
         public void VerifyDepositAddress(Currency depositCurrency)
         {
             var toTest = default(DepositAddress);
-
             Assert.DoesNotThrow(() => { toTest = TestCandidate.GetDepositAddress(depositCurrency); });
 
             VerifyApiResult(toTest);
@@ -172,39 +171,42 @@ namespace BEx.Tests
             Assert.That(toVerify.High > 0.0m);
             Assert.That(toVerify.Low > 0.0m);
             Assert.That(toVerify.Volume > 0.0m);
+            Assert.That(toVerify.UnixTimeStamp > 0);
         }
 
         public void VerifyTransactions(TradingPair pair)
         {
-            var current = DateTime.UtcNow;
             var toVerify = TestCandidate.GetTransactions(pair);
+
+            var previousHour = DateTime.UtcNow.AddMinutes(-61);
+            var current = DateTime.UtcNow;
 
             VerifyApiResult(toVerify);
 
             Assert.IsNotNull(toVerify.TransactionsCollection);
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
+            CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(Transaction));
             CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(Transaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
-
-            var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
-            Assert.That(ordered.SequenceEqual(toVerify.TransactionsCollection));
+            CollectionAssert.AreEqual(toVerify.TransactionsCollection, toVerify.TransactionsCollection.OrderByDescending(x => x.UnixCompletedTimeStamp));
 
             var minimumTime = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
-            Assert.That(minimumTime, Is.InRange(current.AddMinutes(-61), current));
+            Assert.That(minimumTime, Is.InRange(previousHour, current));
 
-            foreach (var t in toVerify.TransactionsCollection)
+            foreach (var transaction in toVerify.TransactionsCollection)
             {
-                VerifyApiResult(t);
+                VerifyApiResult(transaction);
 
-                Assert.That(t.CompletedTime, Is.InRange(current.AddMinutes(-61), current));
+                Assert.That(transaction.UnixCompletedTimeStamp > 0);
+                Assert.That(transaction.CompletedTime, Is.InRange(previousHour, current));
 
-                Assert.That(t.Pair == pair);
-                Assert.That(t.Amount > 0.0m);
+                Assert.That(transaction.Pair == pair);
+                Assert.That(transaction.Amount > 0.0m);
 
-                Assert.That(t.Price > 0.0m);
-                Assert.That(t.TransactionId > 0);
+                Assert.That(transaction.Price > 0.0m);
+                Assert.That(transaction.TransactionId > 0);
+
             }
         }
 

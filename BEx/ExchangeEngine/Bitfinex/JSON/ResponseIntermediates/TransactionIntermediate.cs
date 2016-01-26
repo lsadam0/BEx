@@ -28,14 +28,13 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public Transaction Convert(TradingPair pair)
         {
-            return new Transaction(DateTime.UtcNow, ExchangeType.Bitfinex)
-            {
-                Amount = Conversion.ToDecimalInvariant(amount),
-                Price = Conversion.ToDecimalInvariant(price),
-                TransactionId = tid,
-                CompletedTime = System.Convert.ToDouble(timestamp).ToDateTimeUTC(),
-                Pair = pair
-            };
+            return new Transaction(
+                amount,
+                pair,
+                timestamp,
+                tid,
+                price,
+                ExchangeType.Bitfinex);
         }
     }
 }

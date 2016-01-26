@@ -9,7 +9,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
     internal class TransactionIntermediate : IExchangeResponse<Transaction>
     {
         [JsonProperty("date", Required = Required.Always)]
-        public string date { get; set; }
+        public long date { get; set; }
 
         [JsonProperty("tid", Required = Required.Always)]
         public int tid { get; set; }
@@ -22,14 +22,13 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
         public Transaction Convert(TradingPair pair)
         {
-            return new Transaction(DateTime.UtcNow, ExchangeType.BitStamp)
-            {
-                Amount = Conversion.ToDecimalInvariant(amount),
-                Price = Conversion.ToDecimalInvariant(price),
-                TransactionId = tid,
-                Pair = pair,
-                CompletedTime = date.ToDateTimeUTC()
-            };
+            return new Transaction(
+                amount,
+                pair,
+                date,
+                tid,
+                price,
+                ExchangeType.BitStamp);
         }
     }
 }

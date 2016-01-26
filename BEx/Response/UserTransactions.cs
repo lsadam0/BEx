@@ -20,12 +20,10 @@ namespace BEx
             Pair = pair;
 
             TransactionsCollection =
-                new ReadOnlyCollection<UserTransaction>(
-                    transactions
-                        .Select(x => x.Convert(pair))
-                        .Where(x => x != default(UserTransaction))
-                        .Take(50)
-                        .ToList());
+                transactions
+                    .Select(x => x.Convert(pair))
+                    .Where(x => x != default(UserTransaction))
+                    .ToList();
         }
 
         /// <summary>

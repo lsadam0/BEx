@@ -2,6 +2,7 @@
 
 using System;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
@@ -12,80 +13,72 @@ namespace BEx
     {
         private OrderType _transactionType;
 
-        internal UserTransaction(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
+        
+        internal UserTransaction(
+            decimal baseCurrencyAmount,
+            decimal counterCurrencyAmount,
+            long timeStamp,
+            decimal exchangeRate,
+            int orderId,
+            decimal tradeFee,
+            Currency tradeFeeCurrency,
+            TradingPair pair,
+            ExchangeType sourceExchange,
+            OrderType orderType)
             : this()
         {
-            SourceExchange = sourceExchange;
-            ExchangeTimeStampUTC = exchangeTimeStamp;
-            LocalTimeStampUTC = DateTime.UtcNow;
+            this.BaseCurrencyAmount = baseCurrencyAmount;
+            this.CounterCurrencyAmount = counterCurrencyAmount;
+            this.TransactionType = orderType;
+            this.UnixTimeStamp = timeStamp;
+            this.ExchangeRate = exchangeRate;
+            this.OrderId = orderId;
+            this.TradeFee = tradeFee;
+            this.TradeFeeCurrency = tradeFeeCurrency;
+            this.Pair = pair;
+            this.SourceExchange = sourceExchange;
+            this.CompletedTime = ((double) UnixTimeStamp).ToDateTimeUTC();
+
         }
 
-        /// <summary>
-        ///     Base Currency Amount.  Positive for Buy transactions; Negative for Sell transactions.
-        /// </summary>
-        public decimal BaseCurrencyAmount { get; internal set; }
+        public long UnixTimeStamp { get; }
 
-        /// <summary>
-        ///     Transaction completion timestamp.
-        /// </summary>
-        public DateTime CompletedTime { get; internal set; }
+        public decimal BaseCurrencyAmount { get; private set; }
 
-        /// <summary>
-        ///     Counter Currency Amount.  Negative for Buy transactions; Positive for Sell transactions.
-        /// </summary>
-        public decimal CounterCurrencyAmount { get; internal set; }
+        public DateTime CompletedTime { get; }
 
-        /// <summary>
-        ///     Currency Pair Exchange Rate used to execute transaction.
-        /// </summary>
-        public decimal ExchangeRate { get; internal set; }
+        public decimal CounterCurrencyAmount { get; private set; }
+
+        public decimal ExchangeRate { get; }
 
         public DateTime ExchangeTimeStampUTC { get; }
 
-        /// <summary>
-        ///     Local Machine TimeStamp marking the time at which an Exchange Command has successfully executed.
-        /// </summary>
         public DateTime LocalTimeStampUTC { get; }
 
-        /// <summary>
-        ///     Exchange Order Id
-        /// </summary>
-        public int OrderId { get; internal set; }
+        public int OrderId { get; }
 
-        /// <summary>
-        ///     Trading Pair for this Transaction
-        /// </summary>
-        public TradingPair Pair { get; internal set; }
+        public TradingPair Pair { get; }
 
         public ExchangeType SourceExchange { get; }
 
-        /// <summary>
-        ///     Total Fee paid for transaction
-        /// </summary>
-        public decimal TradeFee { get; internal set; }
+        public decimal TradeFee { get; }
 
-        /// <summary>
-        ///     Currency in which trading fee was paid
-        /// </summary>
-        public Currency TradeFeeCurrency { get; internal set; }
+        public Currency TradeFeeCurrency { get; }
 
-        /// <summary>
-        ///     Signifies whether this transaction is a Buy or Sell Order
-        /// </summary>
         public OrderType TransactionType
         {
             get { return _transactionType; }
-            internal set
+            private set
             {
                 if (value == OrderType.Sell)
                 {
-                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount)*-1;
+                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount) * -1;
                     CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount);
                 }
                 else
                 {
                     BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount);
-                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount)*-1;
+                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount) * -1;
                 }
 
                 _transactionType = value;
@@ -119,7 +112,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (UserTransaction) obj;
+            return this == (UserTransaction)obj;
         }
 
         public bool Equals(UserTransaction b)

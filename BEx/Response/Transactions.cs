@@ -17,12 +17,11 @@ namespace BEx
             Pair = pair;
 
             TransactionsCollection =
-                new ReadOnlyCollection<Transaction>(
-                    transactions
-                        .Select(x => x.Convert(pair))
-                        .Where(x => x != default(Transaction))
-                        .OrderByDescending(x => x.CompletedTime)
-                        .ToList());
+                transactions
+                    .Select(x => x.Convert(pair))
+                    .Where(x => x != default(Transaction))
+                    .OrderByDescending(x => x.UnixCompletedTimeStamp)
+                    .ToList();
         }
 
         public TradingPair Pair { get; }
