@@ -60,10 +60,8 @@ namespace BEx
 
         public ExchangeType SourceExchange { get; }
 
-        public static bool operator !=(Balance a, Balance b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Balance a, Balance b) => !(a == b);
+        
 
         public static bool operator ==(Balance a, Balance b)
         {
@@ -84,10 +82,8 @@ namespace BEx
             return this == (Balance)obj;
         }
 
-        public bool Equals(Balance b)
-        {
-            return this == b;
-        }
+        public bool Equals(Balance b) => this == b;
+        
 
         public override int GetHashCode()
         {

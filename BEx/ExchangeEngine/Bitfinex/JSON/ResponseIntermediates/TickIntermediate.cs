@@ -1,5 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
@@ -33,6 +34,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public Tick Convert(TradingPair pair)
         {
+            
             return new Tick(
                 Ask,
                 Bid,

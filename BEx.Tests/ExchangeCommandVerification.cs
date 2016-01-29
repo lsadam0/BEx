@@ -1,6 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
 using NUnit.Framework;
@@ -48,6 +50,7 @@ namespace BEx.Tests
 
             Assert.That(toVerify.SourceExchange == TestCandidate.ExchangeSourceType);
 
+            Assert.That(toVerify.ExchangeTimeStampUTC.Kind == DateTimeKind.Utc);
             Assert.That(toVerify.ExchangeTimeStampUTC != default(DateTime));
             Assert.That(toVerify.ExchangeTimeStampUTC > DateTime.MinValue);
             Assert.That(toVerify.ExchangeTimeStampUTC < DateTime.MaxValue);
@@ -55,6 +58,7 @@ namespace BEx.Tests
             Assert.That(toVerify.LocalTimeStampUTC != default(DateTime));
             Assert.That(toVerify.LocalTimeStampUTC > DateTime.MinValue);
             Assert.That(toVerify.LocalTimeStampUTC < DateTime.MaxValue);
+            Assert.That(toVerify.LocalTimeStampUTC.Kind == DateTimeKind.Utc);
         }
 
         public void VerifyBuyOrder()
@@ -124,11 +128,15 @@ namespace BEx.Tests
             CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
             CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Asks);
+            CollectionAssert.DoesNotContain(toVerify.Asks, default(OrderBookEntry));
 
             CollectionAssert.IsNotEmpty(toVerify.Bids);
             CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
             CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Bids);
+            CollectionAssert.DoesNotContain(toVerify.Bids, default(OrderBookEntry));
+
+            CollectionAssert.AreNotEqual(toVerify.Asks, toVerify.Bids);
 
             var orderedAsks = toVerify.Asks.OrderBy(x => x.Price);
             Assert.That(orderedAsks.SequenceEqual(toVerify.Asks));
@@ -138,14 +146,18 @@ namespace BEx.Tests
 
             foreach (var entry in toVerify.Asks)
             {
+                VerifyApiResult(entry);
                 Assert.That(entry.Amount > 0.0m);
                 Assert.That(entry.Price > 0.0m);
+                Assert.That(entry.UnixTimeStamp > 0);
             }
 
             foreach (var entry in toVerify.Bids)
             {
+                VerifyApiResult(entry);
                 Assert.That(entry.Amount > 0.0m);
                 Assert.That(entry.Price > 0.0m);
+                Assert.That(entry.UnixTimeStamp > 0);
             }
         }
 
@@ -222,17 +234,16 @@ namespace BEx.Tests
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(UserTransaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
-
-            var ordered = toVerify.TransactionsCollection.OrderByDescending(x => x.CompletedTime);
-            Assert.That(ordered.SequenceEqual(toVerify.TransactionsCollection));
-
-            Assert.That(toVerify.TransactionsCollection.Count <= 50);
+            CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(UserTransaction));
+            CollectionAssert.AreEqual(toVerify.TransactionsCollection, new List<UserTransaction>(toVerify.TransactionsCollection).OrderByDescending(x => x.UnixTimeStamp));
 
             foreach (var transaction in toVerify.TransactionsCollection)
             {
                 VerifyApiResult(transaction);
 
                 Assert.That(transaction.Pair == pair);
+
+                Assert.That(transaction.CompletedTime.Kind == DateTimeKind.Utc);
 
                 // Check that correct sign is used
                 if (transaction.TransactionType == OrderType.Sell)

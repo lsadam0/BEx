@@ -18,6 +18,11 @@ namespace BEx.ExchangeEngine.Utilities
             return UnixTimeStampToDateTime(source);
         }
 
+        internal static DateTime ToDateTimeUTC(this long source)
+        {
+            return _epoch.AddSeconds((double)source);
+        }
+
         /// <summary>
         ///     Convert Unix Time value to a UTC DateTime object
         /// </summary>

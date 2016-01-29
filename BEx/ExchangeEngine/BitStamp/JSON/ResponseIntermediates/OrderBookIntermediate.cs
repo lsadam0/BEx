@@ -10,7 +10,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
     internal class OrderBookIntermediate : IExchangeResponse<OrderBook>
     {
         [JsonProperty("timestamp", Required = Required.Always)]
-        public string Timestamp { get; set; }
+        public double Timestamp { get; set; }
 
         [JsonProperty("bids", Required = Required.Always)]
         public string[][] Bids { get; set; }
@@ -20,26 +20,32 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
         public OrderBook Convert(TradingPair pair)
         {
-            IList<OrderBookEntry> convertedBids = Bids
-                .Select(
-                    x =>
-                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0])))
-                .ToList();
+            var convertedBids = Bids
+                 .Select(
+                     x =>
+                         new OrderBookEntry(
+                             Conversion.ToDecimalInvariant(x[1]),
+                             Conversion.ToDecimalInvariant(x[0]),
+                             (long)Timestamp,
+                             ExchangeType.BitStamp))
+                 .ToList();
 
-            IList<OrderBookEntry> convertedAsks = Asks
-                .Select(
-                    x =>
-                        new OrderBookEntry(Conversion.ToDecimalInvariant(x[1]), Conversion.ToDecimalInvariant(x[0])))
-                .ToList();
+            var convertedAsks = Asks
+                 .Select(
+                     x =>
+                         new OrderBookEntry(
+                             Conversion.ToDecimalInvariant(x[1]),
+                             Conversion.ToDecimalInvariant(x[0]),
+                             (long)Timestamp,
+                             ExchangeType.BitStamp))
+                 .ToList();
 
             return new OrderBook(
                 convertedBids,
                 convertedAsks,
                 Timestamp.ToDateTimeUTC(),
-                ExchangeType.BitStamp)
-            {
-                Pair = pair
-            };
+                ExchangeType.BitStamp,
+                pair);
         }
     }
 }

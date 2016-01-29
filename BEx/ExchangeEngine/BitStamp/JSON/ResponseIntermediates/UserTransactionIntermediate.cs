@@ -1,5 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+using System;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
@@ -29,16 +29,18 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
         public int Id { get; set; }
 
         [JsonProperty("datetime", Required = Required.Always)]
-        public double Datetime { get; set; }
+        public DateTime Datetime { get; set; }
 
         public UserTransaction Convert(TradingPair pair)
         {
             if (OrderId != null && Type == 2)
             {
+                // Datetime is already UTC
+                Datetime = new DateTime(Datetime.Ticks, DateTimeKind.Utc);
                 return new UserTransaction(
                     Btc,
                     Usd,
-                    (long)Datetime,
+                    (long)Datetime.ToUnixTime(),
                     BtcUsd,
                     (int)OrderId,
                     Fee,

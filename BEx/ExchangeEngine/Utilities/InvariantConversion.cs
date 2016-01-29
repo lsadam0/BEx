@@ -17,7 +17,8 @@ namespace BEx.ExchangeEngine.Utilities
         /// <returns></returns>
         public static DateTime ToDateTimeInvariant(string source)
         {
-            return Convert.ToDateTime(source, CultureInfo.InvariantCulture);
+            return new DateTime(Convert.ToDateTime(source, CultureInfo.InvariantCulture).Ticks, DateTimeKind.Utc);
+
         }
 
         /// <summary>

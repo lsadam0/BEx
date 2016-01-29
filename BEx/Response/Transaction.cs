@@ -20,7 +20,7 @@ namespace BEx
             Amount = Conversion.ToDecimalInvariant(amount);
             Pair = pair;
             UnixCompletedTimeStamp = unixTimeStamp;
-            CompletedTime = ((double)unixTimeStamp).ToDateTimeUTC();
+            CompletedTime = unixTimeStamp.ToDateTimeUTC();
             ExchangeTimeStampUTC = CompletedTime;
             LocalTimeStampUTC = DateTime.UtcNow;
             Price = Conversion.ToDecimalInvariant(price);
@@ -47,7 +47,7 @@ namespace BEx
         public long UnixCompletedTimeStamp { get; }
 
         public static bool operator !=(Transaction a, Transaction b) => !(a == b);
-        
+
 
         public static bool operator ==(Transaction a, Transaction b)
         {
@@ -71,7 +71,7 @@ namespace BEx
         }
 
         public bool Equals(Transaction b) => this == b;
-    
+
         public override int GetHashCode()
         {
             return

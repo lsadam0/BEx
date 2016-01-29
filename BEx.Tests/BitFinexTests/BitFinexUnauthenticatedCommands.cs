@@ -66,10 +66,11 @@ namespace BEx.Tests.BitfinexTests
             CommandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.USD));
         }
 
+        /*
         [Test]
         public void Bitfinex_GetTransactions_LTCBTC_Success()
         {
             CommandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.BTC));
-        }
+        }*/
     }
 }

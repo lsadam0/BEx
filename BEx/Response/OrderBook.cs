@@ -11,21 +11,26 @@ namespace BEx
     /// </summary>
     public sealed class OrderBook : BExResult
     {
-        internal OrderBook(IList<OrderBookEntry> bids, IList<OrderBookEntry> asks, DateTime exchangeTimeStamp,
-            ExchangeType sourceExchange)
+        internal OrderBook(
+            IList<OrderBookEntry> bids,
+            IList<OrderBookEntry> asks, 
+            DateTime exchangeTimeStamp,
+            ExchangeType sourceExchange,
+            TradingPair pair)
             : base(exchangeTimeStamp, sourceExchange)
         {
             Asks = new ReadOnlyCollection<OrderBookEntry>(asks);
             Bids = new ReadOnlyCollection<OrderBookEntry>(bids);
+            this.Pair = pair;
         }
 
-        public IReadOnlyList<OrderBookEntry> Asks { get; private set; }
+        public IReadOnlyList<OrderBookEntry> Asks { get;  }
 
         /// <summary>
         ///     Trading Pair
         /// </summary>
-        public TradingPair Pair { get; internal set; }
+        public TradingPair Pair { get;  }
 
-        public IReadOnlyList<OrderBookEntry> Bids { get; private set; }
+        public IReadOnlyList<OrderBookEntry> Bids { get;  }
     }
 }

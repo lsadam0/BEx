@@ -54,14 +54,16 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public Order Convert(TradingPair pair)
         {
-            return new Order(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
-            {
-                Amount = Conversion.ToDecimalInvariant(OriginalAmount),
-                Pair = pair,
-                Id = Id,
-                Price = Conversion.ToDecimalInvariant(Price),
-                TradeType = Side == "sell" ? OrderType.Sell : OrderType.Buy
-            };
+            return new Order(
+                Conversion.ToDecimalInvariant(OriginalAmount),
+                pair,
+                Id,
+                Conversion.ToDecimalInvariant(Price),
+                Side == "sell" ? OrderType.Sell : OrderType.Buy,
+                Timestamp.ToDateTimeUTC(),
+                ExchangeType.Bitfinex);
+
+         
         }
     }
 }

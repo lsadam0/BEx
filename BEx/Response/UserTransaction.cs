@@ -6,14 +6,11 @@ using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
-    /// <summary>
-    ///     Represents a Buy or Sell transaction previously executed for your user account.
-    /// </summary>
     public struct UserTransaction : IEquatable<UserTransaction>, IExchangeResult
     {
         private OrderType _transactionType;
 
-        
+
         internal UserTransaction(
             decimal baseCurrencyAmount,
             decimal counterCurrencyAmount,
@@ -37,7 +34,9 @@ namespace BEx
             this.TradeFeeCurrency = tradeFeeCurrency;
             this.Pair = pair;
             this.SourceExchange = sourceExchange;
-            this.CompletedTime = ((double) UnixTimeStamp).ToDateTimeUTC();
+            this.CompletedTime = UnixTimeStamp.ToDateTimeUTC();
+            this.ExchangeTimeStampUTC = this.CompletedTime;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
 
         }
 
@@ -85,16 +84,14 @@ namespace BEx
             }
         }
 
-        public static bool operator !=(UserTransaction a, UserTransaction b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(UserTransaction a, UserTransaction b) =>  !(a == b);
+        
 
         public static bool operator ==(UserTransaction a, UserTransaction b)
         {
             return
                 a.BaseCurrencyAmount == b.BaseCurrencyAmount
-                && a.CompletedTime == b.CompletedTime
+                && a.UnixTimeStamp == b.UnixTimeStamp
                 && a.CounterCurrencyAmount == b.CounterCurrencyAmount
                 && a.ExchangeRate == b.ExchangeRate
                 && a.OrderId == b.OrderId
@@ -115,16 +112,14 @@ namespace BEx
             return this == (UserTransaction)obj;
         }
 
-        public bool Equals(UserTransaction b)
-        {
-            return this == b;
-        }
+        public bool Equals(UserTransaction b) => this == b;
+        
 
         public override int GetHashCode()
         {
             return
                 BaseCurrencyAmount.GetHashCode()
-                ^ CompletedTime.GetHashCode()
+                ^ UnixTimeStamp.GetHashCode()
                 ^ CounterCurrencyAmount.GetHashCode()
                 ^ ExchangeRate.GetHashCode()
                 ^ OrderId.GetHashCode()
@@ -132,7 +127,6 @@ namespace BEx
                 ^ SourceExchange.GetHashCode()
                 ^ TradeFee.GetHashCode()
                 ^ TradeFeeCurrency.GetHashCode()
-                ^ TransactionType.GetHashCode()
                 ^ TransactionType.GetHashCode();
         }
 

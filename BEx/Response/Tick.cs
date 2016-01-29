@@ -29,7 +29,7 @@ namespace BEx
             Low = low;
             SourceExchange = sourceExchange;
             UnixTimeStamp = timestamp;
-            ExchangeTimeStampUTC = ((double)timestamp).ToDateTimeUTC();
+            ExchangeTimeStampUTC = timestamp.ToDateTimeUTC();
             LocalTimeStampUTC = DateTime.UtcNow;
         }
 

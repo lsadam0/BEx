@@ -10,6 +10,7 @@ namespace BEx
     /// </summary>
     public struct Order : IEquatable<Order>, IExchangeResult
     {
+        /*
         internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
             : this()
         {
@@ -17,21 +18,41 @@ namespace BEx
             SourceExchange = sourceExchange;
             LocalTimeStampUTC = DateTime.UtcNow;
         }
+        */
+        internal Order(
+            decimal amount,
+            TradingPair pair,
+            int id,
+            decimal price,
+            OrderType tradeType,
+            DateTime exchangeTimeStamp,
+            ExchangeType source)
+            : this()
+        {
+            this.Amount = amount;
+            this.Pair = pair;
+            this.Id = id;
+            this.Price = price;
+            this.TradeType = tradeType;
+            this.ExchangeTimeStampUTC = exchangeTimeStamp;
+            this.SourceExchange = source;
+            this.LocalTimeStampUTC = DateTime.UtcNow;
+        }
 
         /// <summary>
         ///     Currency Amount
         /// </summary>
-        public decimal Amount { get; internal set; }
+        public decimal Amount { get; }
 
         /// <summary>
         ///     Currency Pair
         /// </summary>
-        public TradingPair Pair { get; internal set; }
+        public TradingPair Pair { get; }
 
         /// <summary>
         ///     Exchange Order ID
         /// </summary>
-        public int Id { get; internal set; }
+        public int Id { get; }
 
         /// <summary>
         ///     True if this Order has TransactionType == Buy
@@ -46,12 +67,12 @@ namespace BEx
         /// <summary>
         ///     Limit Price
         /// </summary>
-        public decimal Price { get; internal set; }
+        public decimal Price { get; }
 
         /// <summary>
         ///     Signifies whether this Order is a Buy or a Sell
         /// </summary>
-        public OrderType TradeType { get; internal set; }
+        public OrderType TradeType { get; }
 
         public DateTime ExchangeTimeStampUTC { get; }
 
@@ -62,10 +83,8 @@ namespace BEx
 
         public ExchangeType SourceExchange { get; }
 
-        public static bool operator !=(Order a, Order b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Order a, Order b) => !(a == b);
+
 
         public static bool operator ==(Order a, Order b)
         {
@@ -85,13 +104,11 @@ namespace BEx
                 return false;
             }
 
-            return this == (Order) obj;
+            return this == (Order)obj;
         }
 
-        public bool Equals(Order b)
-        {
-            return this == b;
-        }
+        public bool Equals(Order b) => this == b;
+
 
         public override int GetHashCode()
         {

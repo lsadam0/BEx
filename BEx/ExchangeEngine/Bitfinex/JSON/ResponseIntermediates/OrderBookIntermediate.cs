@@ -17,7 +17,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         public string Amount { get; set; }
 
         [JsonProperty("timestamp", Required = Required.Always)]
-        public string Timestamp { get; set; }
+        public double Timestamp { get; set; }
     }
 
     internal class Ask
@@ -29,7 +29,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         public string Amount { get; set; }
 
         [JsonProperty("timestamp", Required = Required.Always)]
-        public string Timestamp { get; set; }
+        public double Timestamp { get; set; }
     }
 
     internal class OrderBookIntermediate : IExchangeResponse<OrderBook>
@@ -42,18 +42,29 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public OrderBook Convert(TradingPair pair)
         {
-            IList<OrderBookEntry> convertedBids = Bids.Select(
-                x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price)))
-                .ToList();
+            var convertedBids = Bids.Select(
+                 x => new OrderBookEntry(
+                     Conversion.ToDecimalInvariant(x.Amount),
+                     Conversion.ToDecimalInvariant(x.Price),
+                     (long)x.Timestamp,
+                     ExchangeType.Bitfinex))
+                 .ToList();
 
-            IList<OrderBookEntry> convertedAsks = Asks.Select(
-                x => new OrderBookEntry(Conversion.ToDecimalInvariant(x.Amount), Conversion.ToDecimalInvariant(x.Price)))
-                .ToList();
+            var convertedAsks = Asks.Select(
+                 x => new OrderBookEntry(
+                     Conversion.ToDecimalInvariant(x.Amount),
+                     Conversion.ToDecimalInvariant(x.Price),
+                     (long)x.Timestamp,
+                     ExchangeType.Bitfinex))
+                 .ToList();
 
-            return new OrderBook(convertedBids, convertedAsks, DateTime.UtcNow, ExchangeType.Bitfinex)
-            {
-                Pair = pair
-            };
+            return new OrderBook(
+                convertedBids,
+                convertedAsks,
+                DateTime.UtcNow,
+                ExchangeType.Bitfinex,
+                pair);
+
         }
     }
 }
