@@ -18,5 +18,7 @@ namespace BEx.Tests
         {
             System.Diagnostics.Debug.WriteLine("{0}: {1}", TestCandidate.ExchangeSourceType, message);
         }
+
+       
     }
 }

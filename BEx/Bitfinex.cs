@@ -8,16 +8,16 @@ namespace BEx
     {
         public Bitfinex()
             : base(
-                BitfinexConfiguration.Singleton,
-                BitfinexCommandFactory.Singleton)
+                Configuration.Singleton,
+                CommandFactory.Singleton)
         {
         }
 
         public Bitfinex(string apiKey, string secret)
             : base(
-                BitfinexConfiguration.Singleton,
-                BitfinexCommandFactory.Singleton,
-                new BitfinexAuthenticator(secret, apiKey))
+                Configuration.Singleton,
+                CommandFactory.Singleton,
+                new Authenticator(secret, apiKey))
         {
         }
     }

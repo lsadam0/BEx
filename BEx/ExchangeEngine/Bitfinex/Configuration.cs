@@ -7,11 +7,11 @@ using BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
-    public class BitfinexConfiguration : IExchangeConfiguration
+    public class Configuration : IExchangeConfiguration
     {
-        private static readonly BitfinexConfiguration Instance = new BitfinexConfiguration();
+        private static readonly Configuration Instance = new Configuration();
 
-        internal BitfinexConfiguration()
+        internal Configuration()
         {
             Initialize(null);
         }

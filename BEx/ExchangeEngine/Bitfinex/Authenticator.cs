@@ -10,7 +10,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.Bitfinex
 {
-    internal class BitfinexAuthenticator : IExchangeAuthenticator
+    internal class Authenticator : IExchangeAuthenticator
     {
         private const string apiHeaderKey = "X-BFX-APIKEY";
         private const string parameterMask = ",\"{0}\": \"{1}\"";
@@ -23,7 +23,7 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         private readonly string _apiKey;
 
-        public BitfinexAuthenticator(string secretKey, string apiKey)
+        public Authenticator(string secretKey, string apiKey)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentNullException(nameof(apiKey), ErrorMessages.MissingArgApiKey);

@@ -7,11 +7,11 @@ using BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
-    public class BitStampConfiguration : IExchangeConfiguration
+    public class Configuration : IExchangeConfiguration
     {
-        private static readonly BitStampConfiguration Instance = new BitStampConfiguration();
+        private static readonly Configuration Instance = new Configuration();
 
-        internal BitStampConfiguration()
+        internal Configuration()
         {
             Initialize(null);
         }

@@ -4,7 +4,8 @@ namespace BEx
 {
     public enum ExchangeType
     {
-        BitStamp,
-        Bitfinex
+        BitStamp = 1,
+        Bitfinex = 2,
+        Coinbase = 3
     }
 }

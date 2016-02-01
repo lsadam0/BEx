@@ -2,17 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates;
+using BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
 
-namespace BEx.ExchangeEngine.Bitfinex
+namespace BEx.ExchangeEngine.BitStamp
 {
-    internal class BitfinexCommandFactory : IExchangeCommandFactory
+    internal class CommandFactory : IExchangeCommandFactory
     {
-        private static readonly BitfinexCommandFactory Instance = new BitfinexCommandFactory();
+        private static readonly CommandFactory Instance = new CommandFactory();
 
-        private BitfinexCommandFactory()
+        private CommandFactory()
         {
             BuildCommands();
         }
@@ -83,28 +83,24 @@ namespace BEx.ExchangeEngine.Bitfinex
         {
             return new AccountBalanceCommand(
                 Method.POST,
-                new Uri("/v1/balances", UriKind.Relative),
+                new Uri("balance/", UriKind.Relative),
                 true,
-                typeof (List<AccountBalanceIntermediate>));
+                typeof (AccountBalanceIntermediate));
         }
 
         public LimitOrderCommand BuildBuyOrderCommand()
         {
             var param = new List<ExchangeParameter>
             {
-                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
-                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
-                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
-                new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
-                new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "buy")
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
             return new LimitOrderCommand(
                 Method.POST,
-                new Uri("/v1/order/new", UriKind.Relative),
+                new Uri("buy/", UriKind.Relative),
                 true,
-                typeof (OrderResponseIntermediateIntermediate),
+                typeof (OrderConfirmationIntermediate),
                 param);
         }
 
@@ -112,12 +108,12 @@ namespace BEx.ExchangeEngine.Bitfinex
         {
             var param = new List<ExchangeParameter>
             {
-                new ExchangeParameter(ParameterMethod.Post, "order_id", StandardParameter.Id)
+                new ExchangeParameter(ParameterMethod.Post, "id", StandardParameter.Id)
             };
 
             return new CancelOrderCommand(
                 Method.POST,
-                new Uri("/v1/order/cancel", UriKind.Relative),
+                new Uri("cancel_order/", UriKind.Relative),
                 true,
                 typeof (Confirmation),
                 param);
@@ -139,94 +135,66 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         public DepositAddressCommand BuildDepositAddressCommand()
         {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Post, "currency", StandardParameter.Currency, "BTC"),
-                new ExchangeParameter(ParameterMethod.Post, "method", StandardParameter.CurrencyFullName, "bitcoin")
-                {
-                    IsLowercase = true
-                },
-                new ExchangeParameter(ParameterMethod.Post, "wallet_name", StandardParameter.None, "exchange")
-            };
-
             return new DepositAddressCommand(
                 Method.POST,
-                new Uri("/v1/deposit/new", UriKind.Relative),
+                new Uri("bitcoin_deposit_address/", UriKind.Relative),
                 true,
-                typeof (DepositAddressIntermediate),
-                param);
+                typeof (string));
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()
         {
             return new OpenOrdersCommand(
                 Method.POST,
-                new Uri("/v1/orders", UriKind.Relative),
+                new Uri("open_orders/", UriKind.Relative),
                 true,
-                typeof (List<OrderResponseIntermediateIntermediate>));
+                typeof (List<OpenOrdersIntermediate>));
         }
 
         public OrderBookCommand BuildOrderBookCommand()
         {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
-            };
-
             return new OrderBookCommand(
                 Method.GET,
-                new Uri("/v1/book/{pair}", UriKind.Relative),
+                new Uri("order_book/", UriKind.Relative),
                 false,
-                typeof (OrderBookIntermediate),
-                param);
+                typeof (OrderBookIntermediate));
         }
 
         public LimitOrderCommand BuildSellOrderCommand()
         {
             var param = new List<ExchangeParameter>
             {
-                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD"),
                 new ExchangeParameter(ParameterMethod.Post, "amount", StandardParameter.Amount),
-                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price),
-                new ExchangeParameter(ParameterMethod.Post, "exchange", StandardParameter.None, "bitfinex"),
-                new ExchangeParameter(ParameterMethod.Post, "type", StandardParameter.None, "exchange limit"),
-                new ExchangeParameter(ParameterMethod.Post, "side", StandardParameter.None, "sell")
+                new ExchangeParameter(ParameterMethod.Post, "price", StandardParameter.Price)
             };
 
             return new LimitOrderCommand(
                 Method.POST,
-                new Uri("/v1/order/new", UriKind.Relative),
+                new Uri("sell/", UriKind.Relative),
                 true,
-                typeof (OrderResponseIntermediateIntermediate),
+                typeof (OrderConfirmationIntermediate),
                 param);
         }
 
         public TickCommand BuildTickCommand()
         {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair)
-            };
-
             return new TickCommand(
                 Method.GET,
-                new Uri("/v1/pubticker/{pair}", UriKind.Relative),
+                new Uri("ticker/", UriKind.Relative),
                 false,
-                typeof (TickIntermediate),
-                param);
+                typeof (TickIntermediate));
         }
 
         public TransactionsCommand BuildTransactionsCommand()
         {
             var param = new List<ExchangeParameter>
             {
-                new ExchangeParameter(ParameterMethod.Post, "timestamp", StandardParameter.UnixTimestamp, "needtoset"),
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair, "BTCUSD")
+                new ExchangeParameter(ParameterMethod.Post, "time", StandardParameter.None, "hour")
             };
 
             return new TransactionsCommand(
                 Method.GET,
-                new Uri("/v1/trades/{pair}", UriKind.Relative),
+                new Uri("transactions/", UriKind.Relative),
                 false,
                 typeof (List<TransactionIntermediate>),
                 param);
@@ -234,17 +202,12 @@ namespace BEx.ExchangeEngine.Bitfinex
 
         public UserTransactionsCommand BuildUserTransactionsCommand()
         {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Post, "symbol", StandardParameter.Pair, "BTCUSD")
-            };
-
             return new UserTransactionsCommand(
                 Method.POST,
-                new Uri("/v1/mytrades", UriKind.Relative),
+                new Uri("user_transactions/", UriKind.Relative),
                 true,
-                typeof (List<UserTransactionIntermediate>),
-                param);
+                typeof (List<UserTransactionIntermediate>)
+                );
         }
     }
 }

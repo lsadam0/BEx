@@ -11,7 +11,7 @@ using RestSharp;
 
 namespace BEx.ExchangeEngine.BitStamp
 {
-    internal class BitStampAuthenticator : IExchangeAuthenticator
+    internal class Authenticator : IExchangeAuthenticator
     {
         private const string _mask = "{0}{1}{2}";
         private static HMACSHA256 _hasher;
@@ -24,7 +24,7 @@ namespace BEx.ExchangeEngine.BitStamp
         //private readonly string _clientId;
         private readonly string _clientId;
 
-        public BitStampAuthenticator(string apiKey, string secretKey, string clientId)
+        public Authenticator(string apiKey, string secretKey, string clientId)
         {
             if (string.IsNullOrEmpty(apiKey))
                 throw new ArgumentNullException(nameof(apiKey), ErrorMessages.MissingArgApiKey);

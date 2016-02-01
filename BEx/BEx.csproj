@@ -58,8 +58,13 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coinbase.cs" />
     <Compile Include="Exceptions\InvalidAddressException.cs" />
     <Compile Include="Exceptions\RemoteExchangeException.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\Authenticator.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\CommandFactory.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\Configuration.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\JSON\TickIntermediate.cs" />
     <Compile Include="ExchangeEngine\Utilities\AddressValidator.cs" />
     <Compile Include="ExchangeEngine\Commands\AccountBalanceCommand.cs" />
     <Compile Include="ExchangeEngine\Commands\CancelOrderCommand.cs" />
@@ -74,9 +79,9 @@
     <Compile Include="ExchangeEngine\Commands\TransactionsCommand.cs" />
     <Compile Include="ExchangeEngine\Commands\UserTransactionsCommand.cs" />
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\CancelOrderResponseIntermediateIntermediate.cs" />
-    <Compile Include="ExchangeEngine\Bitfinex\BitfinexAuthenticator.cs" />
-    <Compile Include="ExchangeEngine\Bitfinex\BitfinexCommandFactory.cs" />
-    <Compile Include="ExchangeEngine\Bitfinex\BitfinexConfiguration.cs" />
+    <Compile Include="ExchangeEngine\Bitfinex\Authenticator.cs" />
+    <Compile Include="ExchangeEngine\Bitfinex\CommandFactory.cs" />
+    <Compile Include="ExchangeEngine\Bitfinex\Configuration.cs" />
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\AccountBalanceIntermediate.cs" />
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\DepositAddressIntermediate.cs" />
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\ErrorIntermediate.cs" />
@@ -85,9 +90,9 @@
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\TickIntermediate.cs" />
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\TransactionIntermediate.cs" />
     <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\UserTransactionIntermediate.cs" />
-    <Compile Include="ExchangeEngine\BitStamp\BitStampAuthenticator.cs" />
-    <Compile Include="ExchangeEngine\BitStamp\BitStampCommandFactory.cs" />
-    <Compile Include="ExchangeEngine\BitStamp\BitStampConfiguration.cs" />
+    <Compile Include="ExchangeEngine\BitStamp\Authenticator.cs" />
+    <Compile Include="ExchangeEngine\BitStamp\CommandFactory.cs" />
+    <Compile Include="ExchangeEngine\BitStamp\Configuration.cs" />
     <Compile Include="ExchangeEngine\BitStamp\JSON\ResponseIntermediates\AccountBalanceIntermediate.cs" />
     <Compile Include="ExchangeEngine\BitStamp\JSON\ResponseIntermediates\ErrorIntermediate.cs" />
     <Compile Include="ExchangeEngine\BitStamp\JSON\ResponseIntermediates\OpenOrdersIntermediate.cs" />
