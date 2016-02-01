@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class OrderResponseIntermediate : IExchangeResponse<Order>
+    internal class OrderResponseIntermediateIntermediate : IExchangeResponseIntermediate<Order>
     {
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
@@ -62,8 +62,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
                 Side == "sell" ? OrderType.Sell : OrderType.Buy,
                 Timestamp.ToDateTimeUTC(),
                 ExchangeType.Bitfinex);
-
-         
         }
     }
 }

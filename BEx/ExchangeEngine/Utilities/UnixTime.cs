@@ -20,7 +20,7 @@ namespace BEx.ExchangeEngine.Utilities
 
         internal static DateTime ToDateTimeUTC(this long source)
         {
-            return _epoch.AddSeconds((double)source);
+            return _epoch.AddSeconds(source);
         }
 
         /// <summary>

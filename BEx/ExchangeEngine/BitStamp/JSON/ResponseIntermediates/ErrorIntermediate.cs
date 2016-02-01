@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    internal class ErrorIntermediate : IExchangeResponse<BExError>
+    internal class ErrorIntermediate : IExchangeResponseIntermediate<BExError>
     {
         [JsonConverter(typeof (SingleValueArrayConverter))]
         public Error error { get; set; }

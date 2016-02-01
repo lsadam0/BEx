@@ -24,20 +24,19 @@ namespace BEx
             OrderType orderType)
             : this()
         {
-            this.BaseCurrencyAmount = baseCurrencyAmount;
-            this.CounterCurrencyAmount = counterCurrencyAmount;
-            this.TransactionType = orderType;
-            this.UnixTimeStamp = timeStamp;
-            this.ExchangeRate = exchangeRate;
-            this.OrderId = orderId;
-            this.TradeFee = tradeFee;
-            this.TradeFeeCurrency = tradeFeeCurrency;
-            this.Pair = pair;
-            this.SourceExchange = sourceExchange;
-            this.CompletedTime = UnixTimeStamp.ToDateTimeUTC();
-            this.ExchangeTimeStampUTC = this.CompletedTime;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
-
+            BaseCurrencyAmount = baseCurrencyAmount;
+            CounterCurrencyAmount = counterCurrencyAmount;
+            TransactionType = orderType;
+            UnixTimeStamp = timeStamp;
+            ExchangeRate = exchangeRate;
+            OrderId = orderId;
+            TradeFee = tradeFee;
+            TradeFeeCurrency = tradeFeeCurrency;
+            Pair = pair;
+            SourceExchange = sourceExchange;
+            CompletedTime = UnixTimeStamp.ToDateTimeUTC();
+            ExchangeTimeStampUTC = CompletedTime;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         public long UnixTimeStamp { get; }
@@ -71,21 +70,21 @@ namespace BEx
             {
                 if (value == OrderType.Sell)
                 {
-                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount) * -1;
+                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount)*-1;
                     CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount);
                 }
                 else
                 {
                     BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount);
-                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount) * -1;
+                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount)*-1;
                 }
 
                 _transactionType = value;
             }
         }
 
-        public static bool operator !=(UserTransaction a, UserTransaction b) =>  !(a == b);
-        
+        public static bool operator !=(UserTransaction a, UserTransaction b) => !(a == b);
+
 
         public static bool operator ==(UserTransaction a, UserTransaction b)
         {
@@ -109,11 +108,11 @@ namespace BEx
                 return false;
             }
 
-            return this == (UserTransaction)obj;
+            return this == (UserTransaction) obj;
         }
 
         public bool Equals(UserTransaction b) => this == b;
-        
+
 
         public override int GetHashCode()
         {

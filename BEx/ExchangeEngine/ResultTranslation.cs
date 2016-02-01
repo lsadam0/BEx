@@ -41,7 +41,8 @@ namespace BEx.ExchangeEngine
                     null);
             }
             var deserialized =
-                JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as IExchangeResponse<T>;
+                JsonConvert.DeserializeObject(content, commandReference.IntermediateType) as
+                    IExchangeResponseIntermediate<T>;
 
             return deserialized.Convert(pair);
         }

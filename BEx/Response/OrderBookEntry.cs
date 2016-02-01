@@ -15,11 +15,10 @@ namespace BEx
         {
             Amount = amount;
             Price = price;
-            this.UnixTimeStamp = timestamp;
-            this.ExchangeTimeStampUTC = timestamp.ToDateTimeUTC();
-            this.LocalTimeStampUTC = DateTime.UtcNow;
-            this.SourceExchange = sourceExchange;
-
+            UnixTimeStamp = timestamp;
+            ExchangeTimeStampUTC = timestamp.ToDateTimeUTC();
+            LocalTimeStampUTC = DateTime.UtcNow;
+            SourceExchange = sourceExchange;
         }
 
         public long UnixTimeStamp { get; }
@@ -46,11 +45,12 @@ namespace BEx
         public override int GetHashCode()
         {
             return
-               Amount.GetHashCode()
-               ^ Price.GetHashCode()
-               ^ SourceExchange.GetHashCode()
-               ^ UnixTimeStamp.GetHashCode();
+                Amount.GetHashCode()
+                ^ Price.GetHashCode()
+                ^ SourceExchange.GetHashCode()
+                ^ UnixTimeStamp.GetHashCode();
         }
+
         public static bool operator !=(OrderBookEntry a, OrderBookEntry b) => !(a == b);
 
         public override bool Equals(object obj)
@@ -60,7 +60,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (OrderBookEntry)obj;
+            return this == (OrderBookEntry) obj;
         }
 
         public bool Equals(OrderBookEntry b) => this == b;

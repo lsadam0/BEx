@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class CancelOrderResponseIntermediate : IExchangeResponse<Confirmation>
+    internal class CancelOrderResponseIntermediateIntermediate : IExchangeResponseIntermediate<Confirmation>
     {
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }

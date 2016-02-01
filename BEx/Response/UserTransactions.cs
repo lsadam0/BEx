@@ -2,16 +2,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using BEx.ExchangeEngine;
 
 namespace BEx
 {
-
     public sealed class UserTransactions : BExResult
     {
-        internal UserTransactions(IEnumerable<IExchangeResponse<UserTransaction>> transactions, TradingPair pair,
+        internal UserTransactions(IEnumerable<IExchangeResponseIntermediate<UserTransaction>> transactions,
+            TradingPair pair,
             ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
@@ -21,7 +20,8 @@ namespace BEx
                 transactions
                     .Select(x => x.Convert(pair))
                     .Where(x => x != default(UserTransaction))
-                    .ToList();
+                    .ToList()
+                    .AsReadOnly();
         }
 
 

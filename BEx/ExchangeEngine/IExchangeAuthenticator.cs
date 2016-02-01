@@ -1,5 +1,4 @@
-﻿using RestSharp;
-using RestSharp.Authenticators;
+﻿using RestSharp.Authenticators;
 
 namespace BEx.ExchangeEngine
 {

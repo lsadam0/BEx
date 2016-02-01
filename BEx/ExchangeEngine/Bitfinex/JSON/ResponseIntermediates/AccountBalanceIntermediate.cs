@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class AccountBalanceIntermediate : IExchangeResponse<Balance>
+    internal class AccountBalanceIntermediate : IExchangeResponseIntermediate<Balance>
     {
         [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
@@ -44,7 +44,5 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
             return default(Balance);
         }
-
-
     }
 }

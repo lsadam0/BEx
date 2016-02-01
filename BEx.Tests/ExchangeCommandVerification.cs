@@ -1,7 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
@@ -11,15 +10,12 @@ namespace BEx.Tests
 {
     public class ExchangeCommandVerification
     {
-        protected Exchange TestCandidate
-        {
-            get; set;
-        }
-
         public ExchangeCommandVerification(Exchange testCandidate)
         {
-            this.TestCandidate = testCandidate;
+            TestCandidate = testCandidate;
         }
+
+        protected Exchange TestCandidate { get; set; }
 
         public void VerifyAccountBalance()
         {
@@ -40,7 +36,8 @@ namespace BEx.Tests
                 Assert.That(individualBalance.BalanceCurrency == c);
                 Assert.That(individualBalance.AvailableToTrade >= 0);
                 Assert.That(individualBalance.TotalBalance >= 0);
-                Assert.That(individualBalance.AvailableToTrade + individualBalance.Reserved == individualBalance.TotalBalance);
+                Assert.That(individualBalance.AvailableToTrade + individualBalance.Reserved ==
+                            individualBalance.TotalBalance);
             }
         }
 
@@ -126,13 +123,13 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.Asks);
             CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof (OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Asks);
             CollectionAssert.DoesNotContain(toVerify.Asks, default(OrderBookEntry));
 
             CollectionAssert.IsNotEmpty(toVerify.Bids);
             CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof (OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Bids);
             CollectionAssert.DoesNotContain(toVerify.Bids, default(OrderBookEntry));
 
@@ -199,9 +196,10 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(Transaction));
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(Transaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (Transaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
-            CollectionAssert.AreEqual(toVerify.TransactionsCollection, toVerify.TransactionsCollection.OrderByDescending(x => x.UnixCompletedTimeStamp));
+            CollectionAssert.AreEqual(toVerify.TransactionsCollection,
+                toVerify.TransactionsCollection.OrderByDescending(x => x.UnixCompletedTimeStamp));
 
             var minimumTime = toVerify.TransactionsCollection.Min(x => x.CompletedTime);
             Assert.That(minimumTime, Is.InRange(previousHour, current));
@@ -218,7 +216,6 @@ namespace BEx.Tests
 
                 Assert.That(transaction.Price > 0.0m);
                 Assert.That(transaction.TransactionId > 0);
-
             }
         }
 
@@ -232,10 +229,11 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(UserTransaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (UserTransaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
             CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(UserTransaction));
-            CollectionAssert.AreEqual(toVerify.TransactionsCollection, new List<UserTransaction>(toVerify.TransactionsCollection).OrderByDescending(x => x.UnixTimeStamp));
+            CollectionAssert.AreEqual(toVerify.TransactionsCollection,
+                new List<UserTransaction>(toVerify.TransactionsCollection).OrderByDescending(x => x.UnixTimeStamp));
 
             foreach (var transaction in toVerify.TransactionsCollection)
             {
@@ -261,7 +259,7 @@ namespace BEx.Tests
 
                 // Check that transaction balances
 
-                Assert.That(Math.Round(transaction.BaseCurrencyAmount * transaction.ExchangeRate +
+                Assert.That(Math.Round(transaction.BaseCurrencyAmount*transaction.ExchangeRate +
                                        transaction.CounterCurrencyAmount, 2) == 0);
 
                 // Trade Fee Currency belongs to Trading Pair

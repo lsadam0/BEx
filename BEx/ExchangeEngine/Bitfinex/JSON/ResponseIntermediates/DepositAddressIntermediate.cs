@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class DepositAddressIntermediate : IExchangeResponse<DepositAddress>
+    internal class DepositAddressIntermediate : IExchangeResponseIntermediate<DepositAddress>
     {
         [JsonProperty("result", Required = Required.Always)]
         public string Result { get; set; }

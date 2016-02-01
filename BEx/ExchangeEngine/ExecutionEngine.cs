@@ -3,13 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using BEx.Exceptions;
 using BEx.ExchangeEngine.Commands;
 
 namespace BEx.ExchangeEngine
 {
     internal class ExecutionEngine
     {
-        private readonly IRequestDispatcher _dispatcher;
+        private readonly RequestDispatcher _dispatcher;
 
         private readonly ResultTranslation _translator;
 
@@ -65,12 +66,14 @@ namespace BEx.ExchangeEngine
                     toExecute,
                     pair);
             }
+
             if (result.ErrorException != null)
             {
                 throw result.ErrorException;
             }
 
-            throw new NotImplementedException();
+            throw new RemoteExchangeException(string.Format("Requst Failed - Code {0} - Response {1}", result.StatusCode,
+                result.Content));
         }
     }
 }

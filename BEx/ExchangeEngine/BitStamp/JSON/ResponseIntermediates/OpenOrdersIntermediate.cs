@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    internal class OpenOrdersIntermediate : IExchangeResponse<Order>
+    internal class OpenOrdersIntermediate : IExchangeResponseIntermediate<Order>
     {
         [JsonProperty("price", Required = Required.Always)]
         public string Price { get; set; }
@@ -24,7 +24,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
         public Order Convert(TradingPair pair)
         {
-
             return new Order(
                 Conversion.ToDecimalInvariant(Amount),
                 pair,
@@ -33,8 +32,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
                 Type == 0 ? OrderType.Buy : OrderType.Sell,
                 Conversion.ToDateTimeInvariant(Datetime),
                 ExchangeType.BitStamp);
-
-
         }
     }
 }

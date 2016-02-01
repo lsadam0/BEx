@@ -104,7 +104,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/order/new", UriKind.Relative),
                 true,
-                typeof (OrderResponseIntermediate),
+                typeof (OrderResponseIntermediateIntermediate),
                 param);
         }
 
@@ -163,7 +163,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/orders", UriKind.Relative),
                 true,
-                typeof (List<OrderResponseIntermediate>));
+                typeof (List<OrderResponseIntermediateIntermediate>));
         }
 
         public OrderBookCommand BuildOrderBookCommand()
@@ -197,7 +197,7 @@ namespace BEx.ExchangeEngine.Bitfinex
                 Method.POST,
                 new Uri("/v1/order/new", UriKind.Relative),
                 true,
-                typeof (OrderResponseIntermediate),
+                typeof (OrderResponseIntermediateIntermediate),
                 param);
         }
 

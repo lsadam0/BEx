@@ -13,49 +13,59 @@ namespace BEx.ExchangeEngine.BitStamp
 {
     internal class BitStampAuthenticator : IExchangeAuthenticator
     {
-        public static HMACSHA256 Hasher;
+        private const string _mask = "{0}{1}{2}";
+        private static HMACSHA256 _hasher;
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
+        //private readonly string _apiKey;
         private readonly string _apiKey;
 
+        //private readonly string _clientId;
         private readonly string _clientId;
 
         public BitStampAuthenticator(string apiKey, string secretKey, string clientId)
         {
-            if (string.IsNullOrWhiteSpace(apiKey))
+            if (string.IsNullOrEmpty(apiKey))
                 throw new ArgumentNullException(nameof(apiKey), ErrorMessages.MissingArgApiKey);
 
-            if (string.IsNullOrWhiteSpace(secretKey))
+            if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException(nameof(secretKey), ErrorMessages.MissingArgSecretKey);
 
-            if (string.IsNullOrWhiteSpace(clientId))
+            if (string.IsNullOrEmpty(clientId))
                 throw new ArgumentNullException(nameof(clientId), ErrorMessages.MissingArgClientId);
 
-            _apiKey = apiKey;
-            _clientId = clientId;
+            _apiKey = apiKey; // Uri.EscapeUriString(apiKey);
+            _clientId = clientId; //Uri.EscapeUriString(clientId);
 
-            Hasher = new HMACSHA256(Encoding.ASCII.GetBytes(secretKey));
+            _hasher = new HMACSHA256(Encoding.ASCII.GetBytes(secretKey));
         }
 
-        /// <summary>
-        ///     Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
         public long Nonce => Interlocked.Increment(ref _nonce);
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {
             var currentNonce = Nonce;
 
-            var message = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", currentNonce, _clientId, _apiKey);
+            var message =
+                Encoding.ASCII.GetBytes(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        _mask,
+                        currentNonce,
+                        _clientId,
+                        _apiKey));
 
-            var dta = Encoding.ASCII.GetBytes(message);
-            var signature = BitConverter.ToString(Hasher.ComputeHash(dta)).Replace("-", string.Empty).ToUpperInvariant();
+            var signature =
+                BitConverter
+                    .ToString(
+                        _hasher.ComputeHash(message))
+                    .Replace("-", string.Empty)
+                    .ToUpperInvariant();
 
-            request.AddParameter("key", Uri.EscapeUriString(_apiKey));
-            request.AddParameter("signature", Uri.EscapeUriString(signature));
-            request.AddParameter("nonce", Uri.EscapeUriString(currentNonce.ToStringInvariant()));
+            request.AddParameter("key", _apiKey);
+            request.AddParameter("signature", signature);
+            request.AddParameter("nonce", currentNonce.ToStringInvariant());
         }
     }
 }

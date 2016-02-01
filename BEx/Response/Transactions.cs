@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using BEx.ExchangeEngine;
 
@@ -10,7 +9,7 @@ namespace BEx
 {
     public sealed class Transactions : BExResult
     {
-        internal Transactions(IEnumerable<IExchangeResponse<Transaction>> transactions, TradingPair pair,
+        internal Transactions(IEnumerable<IExchangeResponseIntermediate<Transaction>> transactions, TradingPair pair,
             ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)
         {
@@ -21,7 +20,8 @@ namespace BEx
                     .Select(x => x.Convert(pair))
                     .Where(x => x != default(Transaction))
                     .OrderByDescending(x => x.UnixCompletedTimeStamp)
-                    .ToList();
+                    .ToList()
+                    .AsReadOnly();
         }
 
         public TradingPair Pair { get; }

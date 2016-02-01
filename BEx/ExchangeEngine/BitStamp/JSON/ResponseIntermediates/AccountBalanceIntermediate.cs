@@ -2,13 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    internal class AccountBalanceIntermediate : IExchangeResponse<AccountBalance>
+    internal class AccountBalanceIntermediate : IExchangeResponseIntermediate<AccountBalance>
     {
         [JsonProperty("btc_reserved", Required = Required.Always)]
         public string BtcReserved { get; set; }
@@ -33,7 +32,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
         public AccountBalance Convert(TradingPair pair)
         {
-
             var exchangeDate = DateTime.UtcNow;
 
 
@@ -55,7 +53,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
 
             return new AccountBalance(
-                new List<Balance>() { btc, usd },
+                new List<Balance> {btc, usd},
                 pair,
                 ExchangeType.BitStamp);
         }

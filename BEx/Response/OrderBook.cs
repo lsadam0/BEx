@@ -13,7 +13,7 @@ namespace BEx
     {
         internal OrderBook(
             IList<OrderBookEntry> bids,
-            IList<OrderBookEntry> asks, 
+            IList<OrderBookEntry> asks,
             DateTime exchangeTimeStamp,
             ExchangeType sourceExchange,
             TradingPair pair)
@@ -21,16 +21,16 @@ namespace BEx
         {
             Asks = new ReadOnlyCollection<OrderBookEntry>(asks);
             Bids = new ReadOnlyCollection<OrderBookEntry>(bids);
-            this.Pair = pair;
+            Pair = pair;
         }
 
-        public IReadOnlyList<OrderBookEntry> Asks { get;  }
+        public IReadOnlyList<OrderBookEntry> Asks { get; }
 
         /// <summary>
         ///     Trading Pair
         /// </summary>
-        public TradingPair Pair { get;  }
+        public TradingPair Pair { get; }
 
-        public IReadOnlyList<OrderBookEntry> Bids { get;  }
+        public IReadOnlyList<OrderBookEntry> Bids { get; }
     }
 }

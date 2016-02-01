@@ -1,12 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
-using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class TickIntermediate : IExchangeResponse<Tick>
+    internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
     {
         [JsonProperty("mid", Required = Required.Always)]
         public decimal Mid { get; set; }
@@ -34,7 +32,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public Tick Convert(TradingPair pair)
         {
-            
             return new Tick(
                 Ask,
                 Bid,
@@ -44,7 +41,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
                 pair,
                 Low,
                 ExchangeType.Bitfinex,
-                (long)Timestamp);
+                (long) Timestamp);
         }
     }
 }

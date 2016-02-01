@@ -1,12 +1,11 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class UserTransactionIntermediate : IExchangeResponse<UserTransaction>
+    internal class UserTransactionIntermediate : IExchangeResponseIntermediate<UserTransaction>
     {
         [JsonProperty("amount", Required = Required.Always)]
         public decimal Amount { get; set; }
@@ -34,44 +33,20 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 
         public UserTransaction Convert(TradingPair pair)
         {
-
-            Currency feeCurrency = (Type == "Buy") ? pair.BaseCurrency : pair.CounterCurrency;
+            var feeCurrency = Type == "Buy" ? pair.BaseCurrency : pair.CounterCurrency;
 
             return new UserTransaction(
                 Amount,
-                (Price * Amount),
-                (long)Timestamp,
+                Price*Amount,
+                (long) Timestamp,
                 Price,
                 Tid,
                 FeeAmount,
                 feeCurrency,
                 pair,
                 ExchangeType.Bitfinex,
-                (OrderType)Enum.Parse(typeof(OrderType), Type)
+                (OrderType) Enum.Parse(typeof (OrderType), Type)
                 );
-
-
-            /*
-            if (string.IsNullOrWhiteSpace(FeeCurrency))
-            {
-                // Buy Base
-                FeeCurrency = Type == "Buy" ? pair.BaseCurrency.ToString() : pair.CounterCurrency.ToString();
-
-                // Sell Counter
-            }
-
-            return new UserTransaction(Timestamp.ToDateTimeUTC(), ExchangeType.Bitfinex)
-            {
-                OrderId = Tid,
-                ExchangeRate = Conversion.ToDecimalInvariant(Price),
-                BaseCurrencyAmount = Conversion.ToDecimalInvariant(Amount),
-                CounterCurrencyAmount = Conversion.ToDecimalInvariant(Price)*Conversion.ToDecimalInvariant(Amount),
-                TradeFee = Conversion.ToDecimalInvariant(FeeAmount),
-                TradeFeeCurrency = (Currency) Enum.Parse(typeof (Currency), FeeCurrency),
-                TransactionType = (OrderType) Enum.Parse(typeof (OrderType), Type),
-                Pair = pair,
-                CompletedTime = Timestamp.ToDateTimeUTC()
-            };*/
         }
     }
 }

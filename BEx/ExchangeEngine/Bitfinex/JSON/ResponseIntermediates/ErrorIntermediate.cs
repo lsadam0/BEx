@@ -2,7 +2,7 @@
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class ErrorIntermediate : IExchangeResponse<BExError>
+    internal class ErrorIntermediate : IExchangeResponseIntermediate<BExError>
     {
         [JsonProperty("message")]
         public string message { get; set; }

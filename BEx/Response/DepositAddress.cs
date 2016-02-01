@@ -8,7 +8,7 @@ using BEx.ExchangeEngine.Utilities;
 namespace BEx
 {
     /// <summary>
-    /// Validated Exchange Deposit Address
+    ///     Validated Exchange Deposit Address
     /// </summary>
     public struct DepositAddress : IEquatable<DepositAddress>, IExchangeResult
     {
@@ -31,7 +31,7 @@ namespace BEx
         }
 
         /// <summary>
-        /// Verified Exchange Deposit Address for the Currency specified by <seealso cref="DepositCurrency"/>
+        ///     Verified Exchange Deposit Address for the Currency specified by <seealso cref="DepositCurrency" />
         /// </summary>
         public string Address
         {
@@ -47,7 +47,7 @@ namespace BEx
 
 
         /// <summary>
-        /// Currency that can be deposited at <seealso cref="Address"/>
+        ///     Currency that can be deposited at <seealso cref="Address" />
         /// </summary>
         public Currency DepositCurrency { get; }
 
@@ -77,7 +77,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (DepositAddress)obj;
+            return this == (DepositAddress) obj;
         }
 
         public bool Equals(DepositAddress b) => this == b;
@@ -98,7 +98,5 @@ namespace BEx
 
             return true;
         }
-
-
     }
 }

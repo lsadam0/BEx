@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,12 @@ namespace BEx.ExchangeEngine.Bitfinex
 {
     internal class BitfinexAuthenticator : IExchangeAuthenticator
     {
-        public static HMACSHA384 Hasher;
+        private const string apiHeaderKey = "X-BFX-APIKEY";
+        private const string parameterMask = ",\"{0}\": \"{1}\"";
+        private const string payloadHeaderKey = "X-BFX-PAYLOAD";
+        private const string payloadMask = "\"request\": \"{0}\",\"nonce\": \"{1}\"{2}";
+        private const string signatureHeaderKey = "X-BFX-SIGNATURE";
+        private static HMACSHA384 _hasher;
 
         private static long _nonce = DateTime.UtcNow.Ticks;
 
@@ -27,66 +33,50 @@ namespace BEx.ExchangeEngine.Bitfinex
 
             _apiKey = apiKey;
 
-            Hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
+            _hasher = new HMACSHA384(Encoding.UTF8.GetBytes(secretKey));
         }
 
-        /// <summary>
-        ///     Consecutively increasing action counter
-        /// </summary>
-        /// <value>0</value>
         public long Nonce => Interlocked.Increment(ref _nonce);
 
         public void Authenticate(IRestClient client, IRestRequest request)
         {
-            /*POST https://api.bitfinex.com/v1/order/new
-               With a payload of
-               {
-               "request": "/v1/order/new",
-               "nonce": "1234",
-               "option1": ...
-               }
-               The nonce provided must be strictly increasing.
-
-               To authenticate a request, use the following:
-
-               payload = parameters-dictionary -> JSON encode -> base64
-               signature = HMAC-SHA384(payload, api-secret) as hexadecimal
-               send (api-key, payload, signature)
-               These are encoded as HTTP headers named:
-               X-BFX-APIKEY
-               X-BFX-PAYLOAD
-               X-BFX-SIGNATURE*/
-
             var currentNonce = Nonce;
 
-            request.AddHeader("X-BFX-APIKEY", _apiKey);
+            request.AddHeader(apiHeaderKey, _apiKey);
 
-            var payload = new StringBuilder();
-
-            payload.Append("{");
-            payload.Append("\"request\": \"" + request.Resource + "\",");
-            payload.Append("\"nonce\": \"" + currentNonce + "\"");
+            var paramsPayload = string.Empty;
 
             if (request.Parameters.Count > 0)
             {
-                foreach (var p in request.Parameters)
+                var parameters = new StringBuilder();
+
+                foreach (var p in request.Parameters.Where(x => x.Type != ParameterType.UrlSegment))
                 {
                     if (p.Type != ParameterType.UrlSegment)
                     {
-                        payload.Append(",");
-                        payload.Append("\"" + p.Name + "\": \"" + p.Value + "\"");
+                        parameters.Append(string.Format(parameterMask, p.Name, p.Value));
                     }
                 }
+
+                paramsPayload = parameters.ToString();
             }
 
-            payload.Append("}");
+            var payload64 =
+                Convert.ToBase64String(
+                    Encoding.UTF8.GetBytes(
+                        "{ " +
+                        string.Format(
+                            payloadMask,
+                            request.Resource,
+                            currentNonce,
+                            paramsPayload)
+                        + "}"));
 
-            var payload64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload.ToString()));
+            request.AddHeader(payloadHeaderKey, payload64);
 
-            request.AddHeader("X-BFX-PAYLOAD", payload64);
+            var hashBytes = _hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
 
-            var hashBytes = Hasher.ComputeHash(Encoding.UTF8.GetBytes(payload64));
-            request.AddHeader("X-BFX-SIGNATURE",
+            request.AddHeader(signatureHeaderKey,
                 BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLowerInvariant());
         }
     }

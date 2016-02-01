@@ -10,15 +10,6 @@ namespace BEx
     /// </summary>
     public struct Order : IEquatable<Order>, IExchangeResult
     {
-        /*
-        internal Order(DateTime exchangeTimeStamp, ExchangeType sourceExchange)
-            : this()
-        {
-            ExchangeTimeStampUTC = exchangeTimeStamp;
-            SourceExchange = sourceExchange;
-            LocalTimeStampUTC = DateTime.UtcNow;
-        }
-        */
         internal Order(
             decimal amount,
             TradingPair pair,
@@ -29,14 +20,14 @@ namespace BEx
             ExchangeType source)
             : this()
         {
-            this.Amount = amount;
-            this.Pair = pair;
-            this.Id = id;
-            this.Price = price;
-            this.TradeType = tradeType;
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.SourceExchange = source;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            Amount = amount;
+            Pair = pair;
+            Id = id;
+            Price = price;
+            TradeType = tradeType;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            SourceExchange = source;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -104,7 +95,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Order)obj;
+            return this == (Order) obj;
         }
 
         public bool Equals(Order b) => this == b;

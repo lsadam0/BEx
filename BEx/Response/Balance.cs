@@ -10,7 +10,6 @@ namespace BEx
     /// </summary>
     public struct Balance : IEquatable<Balance>, IExchangeResult
     {
-
         internal Balance(
             decimal available,
             Currency currency,
@@ -27,7 +26,6 @@ namespace BEx
             SourceExchange = sourceExchange;
             Reserved = reserved;
             LocalTimeStampUTC = DateTime.UtcNow;
-
         }
 
         /// <summary>
@@ -49,7 +47,8 @@ namespace BEx
         public decimal TotalBalance { get; }
 
         public override string ToString()
-            => $"{SourceExchange} {BalanceCurrency} - Total: {TotalBalance} - Available: {AvailableToTrade} - Reserved: {Reserved}";
+            =>
+                $"{SourceExchange} {BalanceCurrency} - Total: {TotalBalance} - Available: {AvailableToTrade} - Reserved: {Reserved}";
 
         public DateTime ExchangeTimeStampUTC { get; }
 
@@ -61,7 +60,7 @@ namespace BEx
         public ExchangeType SourceExchange { get; }
 
         public static bool operator !=(Balance a, Balance b) => !(a == b);
-        
+
 
         public static bool operator ==(Balance a, Balance b)
         {
@@ -79,11 +78,11 @@ namespace BEx
                 return false;
             }
 
-            return this == (Balance)obj;
+            return this == (Balance) obj;
         }
 
         public bool Equals(Balance b) => this == b;
-        
+
 
         public override int GetHashCode()
         {

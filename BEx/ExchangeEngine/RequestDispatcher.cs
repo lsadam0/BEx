@@ -10,7 +10,7 @@ namespace BEx.ExchangeEngine
     ///     Consumes an IRestRequest, Authenticates the Request, and
     ///     sends it to the targeted Exchange
     /// </summary>
-    internal class RequestDispatcher : IRequestDispatcher
+    internal class RequestDispatcher
     {
         private readonly IExchangeAuthenticator _authenticator;
         private readonly Uri _baseUri;
@@ -42,7 +42,6 @@ namespace BEx.ExchangeEngine
 
             if (commandReference.IsAuthenticated)
             {
-
                 lock (this)
                 {
                     // Exchanges strictly enforce sequential nonce values

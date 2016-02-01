@@ -1,7 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
@@ -32,7 +31,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         public double Timestamp { get; set; }
     }
 
-    internal class OrderBookIntermediate : IExchangeResponse<OrderBook>
+    internal class OrderBookIntermediate : IExchangeResponseIntermediate<OrderBook>
     {
         [JsonProperty("bids", Required = Required.Always)]
         public Bid[] Bids { get; set; }
@@ -43,20 +42,20 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         public OrderBook Convert(TradingPair pair)
         {
             var convertedBids = Bids.Select(
-                 x => new OrderBookEntry(
-                     Conversion.ToDecimalInvariant(x.Amount),
-                     Conversion.ToDecimalInvariant(x.Price),
-                     (long)x.Timestamp,
-                     ExchangeType.Bitfinex))
-                 .ToList();
+                x => new OrderBookEntry(
+                    Conversion.ToDecimalInvariant(x.Amount),
+                    Conversion.ToDecimalInvariant(x.Price),
+                    (long) x.Timestamp,
+                    ExchangeType.Bitfinex))
+                .ToList();
 
             var convertedAsks = Asks.Select(
-                 x => new OrderBookEntry(
-                     Conversion.ToDecimalInvariant(x.Amount),
-                     Conversion.ToDecimalInvariant(x.Price),
-                     (long)x.Timestamp,
-                     ExchangeType.Bitfinex))
-                 .ToList();
+                x => new OrderBookEntry(
+                    Conversion.ToDecimalInvariant(x.Amount),
+                    Conversion.ToDecimalInvariant(x.Price),
+                    (long) x.Timestamp,
+                    ExchangeType.Bitfinex))
+                .ToList();
 
             return new OrderBook(
                 convertedBids,
@@ -64,7 +63,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
                 DateTime.UtcNow,
                 ExchangeType.Bitfinex,
                 pair);
-
         }
     }
 }

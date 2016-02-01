@@ -1,11 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    internal class TickIntermediate : IExchangeResponse<Tick>
+    internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
     {
         [JsonProperty("high", Required = Required.Always)]
         public decimal high { get; set; }

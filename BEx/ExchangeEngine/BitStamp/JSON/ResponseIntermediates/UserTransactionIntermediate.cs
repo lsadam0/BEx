@@ -1,11 +1,12 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    internal class UserTransactionIntermediate : IExchangeResponse<UserTransaction>
+    internal class UserTransactionIntermediate : IExchangeResponseIntermediate<UserTransaction>
     {
         [JsonProperty("usd", Required = Required.Always)]
         public decimal Usd { get; set; }
@@ -40,15 +41,14 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
                 return new UserTransaction(
                     Btc,
                     Usd,
-                    (long)Datetime.ToUnixTime(),
+                    (long) Datetime.ToUnixTime(),
                     BtcUsd,
-                    (int)OrderId,
+                    (int) OrderId,
                     Fee,
                     Currency.USD,
                     pair,
                     ExchangeType.BitStamp,
                     Btc < 0 ? OrderType.Sell : OrderType.Buy);
-
             }
             return default(UserTransaction);
         }

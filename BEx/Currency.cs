@@ -55,8 +55,6 @@ namespace BEx
         [Description("Russia Ruble")] RUB,
 
         [Description("Singapore Dollar")] SGD
-
- 
     }
 
     public static class EnumExtensions
