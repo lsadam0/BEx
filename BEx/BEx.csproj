@@ -61,10 +61,15 @@
     <Compile Include="Coinbase.cs" />
     <Compile Include="Exceptions\InvalidAddressException.cs" />
     <Compile Include="Exceptions\RemoteExchangeException.cs" />
+    <Compile Include="ExchangeEngine\Bitfinex\JSON\ResponseIntermediates\DayRangeIntermediate.cs" />
+    <Compile Include="ExchangeEngine\BitStamp\JSON\ResponseIntermediates\DayRangeIntermediate.cs" />
     <Compile Include="ExchangeEngine\Coinbase\Authenticator.cs" />
     <Compile Include="ExchangeEngine\Coinbase\CommandFactory.cs" />
     <Compile Include="ExchangeEngine\Coinbase\Configuration.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\JSON\DayRangeIntermediate.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\JSON\OrderBookIntermediate.cs" />
     <Compile Include="ExchangeEngine\Coinbase\JSON\TickIntermediate.cs" />
+    <Compile Include="ExchangeEngine\Commands\DayRangeCommand.cs" />
     <Compile Include="ExchangeEngine\Utilities\AddressValidator.cs" />
     <Compile Include="ExchangeEngine\Commands\AccountBalanceCommand.cs" />
     <Compile Include="ExchangeEngine\Commands\CancelOrderCommand.cs" />
@@ -115,6 +120,7 @@
     <Compile Include="ExchangeEngine\Utilities\UnixTime.cs" />
     <Compile Include="Response\Confirmation.cs" />
     <Compile Include="CurrencyTradingPair.cs" />
+    <Compile Include="Response\DayRange.cs" />
     <Compile Include="Response\DepositAddress.cs" />
     <Compile Include="Exceptions\ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>

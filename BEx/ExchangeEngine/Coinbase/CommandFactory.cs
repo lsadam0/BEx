@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
+using BEx.ExchangeEngine.Coinbase.JSON;
 
 namespace BEx.ExchangeEngine.Coinbase
 {
@@ -16,6 +17,8 @@ namespace BEx.ExchangeEngine.Coinbase
         {
 
             this.Build();
+
+
             var param = new List<ExchangeParameter>
             {
                 new ExchangeParameter(ParameterMethod.Url, "base", StandardParameter.Base),
@@ -23,11 +26,37 @@ namespace BEx.ExchangeEngine.Coinbase
             };
 
             this.Tick = new TickCommand(
-            Method.GET,
-            new Uri("products/{base}-{counter}/ticker", UriKind.Relative),
-            false,
-            typeof(string), 
-            param);
+               Method.GET,
+               new Uri("products/{base}-{counter}/ticker", UriKind.Relative),
+               false,
+               typeof(TickIntermediate),
+               param);
+
+            param = new List<ExchangeParameter>
+            {
+                new ExchangeParameter(ParameterMethod.Url, "base", StandardParameter.Base),
+                new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
+            };
+
+            this.DayRange = new DayRangeCommand(
+               Method.GET,
+               new Uri("products/{base}-{counter}/stats", UriKind.Relative),
+               false,
+               typeof(DayRangeIntermediate),
+               param);
+
+            param = new List<ExchangeParameter>
+            {
+                new ExchangeParameter(ParameterMethod.Url, "base", StandardParameter.Base),
+                new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
+            };
+
+            this.OrderBook = new OrderBookCommand(
+                Method.GET,
+                new Uri("products/{base}-{counter}/book?level=2", UriKind.Relative),
+                false,
+                typeof(OrderBookIntermediate),
+                param);
         }
 
         private void Build()
@@ -41,6 +70,7 @@ namespace BEx.ExchangeEngine.Coinbase
         public AccountBalanceCommand AccountBalance { get; }
         public LimitOrderCommand BuyOrder { get; }
         public CancelOrderCommand CancelOrder { get; }
+        public DayRangeCommand DayRange { get; }
         public DepositAddressCommand DepositAddress { get; }
         public OpenOrdersCommand OpenOrders { get; }
         public OrderBookCommand OrderBook { get; }

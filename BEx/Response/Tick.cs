@@ -11,22 +11,21 @@ namespace BEx
         internal Tick(
             decimal ask,
             decimal bid,
-            decimal high,
+
             decimal last,
             decimal volume,
             TradingPair pair,
-            decimal low,
             ExchangeType sourceExchange,
             long timestamp)
             : this()
         {
             Ask = ask;
             Bid = bid;
-            High = high;
+
             Last = last;
             Volume = volume;
             Pair = pair;
-            Low = low;
+
             SourceExchange = sourceExchange;
             UnixTimeStamp = timestamp;
             ExchangeTimeStampUTC = timestamp.ToDateTimeUTC();
@@ -34,15 +33,25 @@ namespace BEx
         }
 
         public decimal Ask { get; }
+
         public decimal Bid { get; }
+
         public DateTime ExchangeTimeStampUTC { get; }
-        public decimal High { get; }
+
+
+
         public decimal Last { get; }
+
         public DateTime LocalTimeStampUTC { get; }
-        public decimal Low { get; }
+
+
+
         public TradingPair Pair { get; }
+
         public ExchangeType SourceExchange { get; }
+
         public long UnixTimeStamp { get; }
+
         public decimal Volume { get; }
 
         public static bool operator !=(Tick a, Tick b) => !(a == b);
@@ -52,9 +61,8 @@ namespace BEx
             return
                 (a.Ask == b.Ask)
                 && (a.Bid == b.Bid)
-                && (a.High == b.High)
+
                 && (a.Last == b.Last)
-                && (a.Low == b.Low)
                 && (a.Pair == b.Pair)
                 && (a.Volume == b.Volume)
                 && a.UnixTimeStamp == b.UnixTimeStamp
@@ -68,7 +76,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Tick) obj;
+            return this == (Tick)obj;
         }
 
         public bool Equals(Tick b) => this == b;
@@ -78,9 +86,7 @@ namespace BEx
             return
                 Ask.GetHashCode()
                 ^ Bid.GetHashCode()
-                ^ High.GetHashCode()
                 ^ Last.GetHashCode()
-                ^ Low.GetHashCode()
                 ^ Pair.GetHashCode()
                 ^ Volume.GetHashCode()
                 ^ UnixTimeStamp.GetHashCode()

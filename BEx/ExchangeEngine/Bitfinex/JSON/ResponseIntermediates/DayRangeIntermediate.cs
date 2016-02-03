@@ -1,10 +1,11 @@
-﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+﻿
 using Newtonsoft.Json;
+using BEx.Response;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
-    internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
+    internal class DayRangeIntermediate : IExchangeResponseIntermediate<DayRange>
     {
         [JsonProperty("mid", Required = Required.Always)]
         public decimal Mid { get; set; }
@@ -19,10 +20,10 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         public decimal LastPrice { get; set; }
 
         [JsonProperty("low", Required = Required.Always)]
-        public decimal Low { get; set; }
+        public string Low { get; set; }
 
         [JsonProperty("high", Required = Required.Always)]
-        public decimal High { get; set; }
+        public string High { get; set; }
 
         [JsonProperty("volume", Required = Required.Always)]
         public decimal Volume { get; set; }
@@ -30,18 +31,15 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
         [JsonProperty("timestamp", Required = Required.Always)]
         public double Timestamp { get; set; }
 
-        public Tick Convert(TradingPair pair)
+        public DayRange Convert(TradingPair pair)
         {
-            return new Tick(
-                Ask,
-                Bid,
-           
-                LastPrice,
-                Volume,
+            return new DayRange(
+                Conversion.ToDecimalInvariant(High),
+                Conversion.ToDecimalInvariant(Low),
+                Timestamp.ToDateTimeUTC(),
                 pair,
+                ExchangeType.Bitfinex);
             
-                ExchangeType.Bitfinex,
-                (long) Timestamp);
         }
     }
 }

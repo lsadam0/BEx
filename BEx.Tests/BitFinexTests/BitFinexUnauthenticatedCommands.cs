@@ -72,5 +72,23 @@ namespace BEx.Tests.BitfinexTests
         {
             CommandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.BTC));
         }*/
+
+        [Test]
+        public void Bitfinex_GetDayRange_BTCUSD_Success()
+        {
+            CommandVerification.VerifyDayRange(new TradingPair(Currency.BTC, Currency.USD));
+        }
+
+        [Test]
+        public void Bitfinex_GetDayRange_LTCBTC_Success()
+        {
+            CommandVerification.VerifyDayRange(new TradingPair(Currency.LTC, Currency.BTC));
+        }
+
+        [Test]
+        public void Bitfinex_GetDayRange_LTCUSD_Success()
+        {
+            CommandVerification.VerifyDayRange(new TradingPair(Currency.LTC, Currency.USD));
+        }
     }
 }

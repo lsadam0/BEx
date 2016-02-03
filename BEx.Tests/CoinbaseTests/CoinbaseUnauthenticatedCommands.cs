@@ -21,5 +21,26 @@ namespace BEx.Tests.CoinbaseTests
         {
             CommandVerification.VerifyTick(TestCandidate.DefaultPair);
         }
+
+
+        [Test]
+        public void Coinbase_GetDayRange_BTCUSD_Success()
+        {
+            CommandVerification.VerifyDayRange(TestCandidate.DefaultPair);
+        }
+
+
+        [Test]
+        public void Coinbase_GetOrderBook_BTCUSD_Success()
+        {
+            CommandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
+        }
+
+
+        [Test]
+        public void Coinbase_GetTransactions_BTCUSD_Success()
+        {
+            CommandVerification.VerifyTransactions(TestCandidate.DefaultPair);
+        }
     }
 }

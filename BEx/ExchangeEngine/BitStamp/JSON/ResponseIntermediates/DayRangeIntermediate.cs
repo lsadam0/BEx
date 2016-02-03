@@ -1,13 +1,18 @@
-﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BEx.Response;
+using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
+    class DayRangeIntermediate : IExchangeResponseIntermediate<DayRange>
     {
         [JsonProperty("high", Required = Required.Always)]
-        public decimal high { get; set; }
+        public string high { get; set; }
 
         [JsonProperty("last", Required = Required.Always)]
         public decimal last { get; set; }
@@ -25,22 +30,21 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
         public decimal volume { get; set; }
 
         [JsonProperty("low", Required = Required.Always)]
-        public decimal low { get; set; }
+        public string low { get; set; }
 
         [JsonProperty("ask", Required = Required.Always)]
         public decimal ask { get; set; }
 
-        public Tick Convert(TradingPair pair)
+        public DayRange Convert(TradingPair pair)
         {
-            return new Tick(
-                ask,
-                bid,
-            
-                last,
-                volume,
+
+            return new DayRange(
+                Conversion.ToDecimalInvariant(high),
+                Conversion.ToDecimalInvariant(low),
+                timestamp.ToDateTimeUTC(),
                 pair,
-                ExchangeType.BitStamp,
-                timestamp);
+                ExchangeType.BitStamp);
+
         }
     }
 }

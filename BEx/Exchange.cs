@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Commands;
 using BEx.ExchangeEngine.Utilities;
+using BEx.Response;
 
 namespace BEx
 {
@@ -48,6 +49,11 @@ namespace BEx
         public ImmutableHashSet<Currency> SupportedCurrencies => _configuration.SupportedCurrencies;
 
         public ImmutableHashSet<TradingPair> SupportedTradingPairs => _configuration.SupportedPairs;
+
+        public DayRange Get24HrStats(TradingPair pair)
+        {
+            return _executor.Execute<DayRange>(_commands.DayRange, pair);
+        }
 
         public Confirmation CancelOrder(Order toCancel) => CancelOrder(toCancel.Id);
 
