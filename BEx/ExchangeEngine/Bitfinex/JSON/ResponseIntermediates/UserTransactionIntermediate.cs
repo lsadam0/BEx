@@ -2,25 +2,26 @@
 
 using System;
 using Newtonsoft.Json;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
     internal class UserTransactionIntermediate : IExchangeResponseIntermediate<UserTransaction>
     {
         [JsonProperty("amount", Required = Required.Always)]
-        public decimal Amount { get; set; }
+        public string Amount { get; set; }
 
         [JsonProperty("exchange", Required = Required.Always)]
         public string Exchange { get; set; }
 
         [JsonProperty("fee_amount", Required = Required.Always)]
-        public decimal FeeAmount { get; set; }
+        public string FeeAmount { get; set; }
 
         [JsonProperty("fee_currency", Required = Required.Always)]
         public string FeeCurrency { get; set; }
 
         [JsonProperty("price", Required = Required.Always)]
-        public decimal Price { get; set; }
+        public string Price { get; set; }
 
         [JsonProperty("tid", Required = Required.Always)]
         public int Tid { get; set; }
@@ -36,16 +37,17 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
             var feeCurrency = Type == "Buy" ? pair.BaseCurrency : pair.CounterCurrency;
 
             return new UserTransaction(
-                Amount,
-                Price*Amount,
-                (long) Timestamp,
-                Price,
+                Conversion.ToDecimalInvariant(Amount),
+                Conversion.ToDecimalInvariant(Price)
+                    * Conversion.ToDecimalInvariant(Amount),
+                (long)Timestamp,
+                Conversion.ToDecimalInvariant(Price),
                 Tid,
-                FeeAmount,
+                Conversion.ToDecimalInvariant(FeeAmount),
                 feeCurrency,
                 pair,
                 ExchangeType.Bitfinex,
-                (OrderType) Enum.Parse(typeof (OrderType), Type)
+                (OrderType)Enum.Parse(typeof(OrderType), Type)
                 );
         }
     }

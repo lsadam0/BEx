@@ -8,29 +8,29 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
     internal class UserTransactionIntermediate : IExchangeResponseIntermediate<UserTransaction>
     {
-        [JsonProperty("usd", Required = Required.Always)]
-        public decimal Usd { get; set; }
-
         [JsonProperty("btc", Required = Required.Always)]
-        public decimal Btc { get; set; }
+        public string Btc { get; set; }
 
         [JsonProperty("btc_usd", Required = Required.Always)]
-        public decimal BtcUsd { get; set; }
+        public string BtcUsd { get; set; }
 
-        [JsonProperty("order_id", Required = Required.Default)]
-        public int? OrderId { get; set; }
+        [JsonProperty("datetime", Required = Required.Always)]
+        public DateTime Datetime { get; set; }
 
         [JsonProperty("fee", Required = Required.Always)]
-        public decimal Fee { get; set; }
-
-        [JsonProperty("type", Required = Required.Always)]
-        public int Type { get; set; }
+        public string Fee { get; set; }
 
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
 
-        [JsonProperty("datetime", Required = Required.Always)]
-        public DateTime Datetime { get; set; }
+        [JsonProperty("order_id", Required = Required.Default)]
+        public int? OrderId { get; set; }
+
+        [JsonProperty("type", Required = Required.Always)]
+        public int Type { get; set; }
+
+        [JsonProperty("usd", Required = Required.Always)]
+        public string Usd { get; set; }
 
         public UserTransaction Convert(TradingPair pair)
         {
@@ -39,16 +39,16 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
                 // Datetime is already UTC
                 Datetime = new DateTime(Datetime.Ticks, DateTimeKind.Utc);
                 return new UserTransaction(
-                    Btc,
-                    Usd,
-                    (long) Datetime.ToUnixTime(),
-                    BtcUsd,
-                    (int) OrderId,
-                    Fee,
+                        Conversion.ToDecimalInvariant(Btc),
+                        Conversion.ToDecimalInvariant(Usd),
+                    (long)Datetime.ToUnixTime(),
+                        Conversion.ToDecimalInvariant(BtcUsd),
+                    (int)OrderId,
+                        Conversion.ToDecimalInvariant(Fee),
                     Currency.USD,
                     pair,
                     ExchangeType.BitStamp,
-                    Btc < 0 ? OrderType.Sell : OrderType.Buy);
+                    Conversion.ToDecimalInvariant(Btc) < 0 ? OrderType.Sell : OrderType.Buy);
             }
             return default(UserTransaction);
         }

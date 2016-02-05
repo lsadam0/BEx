@@ -67,13 +67,12 @@ namespace BEx.ExchangeEngine
                     pair);
             }
 
-            if (result.ErrorException != null)
-            {
-                throw result.ErrorException;
-            }
-
-            throw new RemoteExchangeException(string.Format("Requst Failed - Code {0} - Response {1}", result.StatusCode,
-                result.Content));
+            throw new RemoteExchangeException(
+                string.Format(
+                    "Request Failed - Code {0} - Response {1}",
+                    result.StatusCode,
+                    (result.Content ?? "Empty")),
+                result.ErrorException);
         }
     }
 }

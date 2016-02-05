@@ -77,7 +77,7 @@ namespace BEx.ExchangeEngine.Coinbase
                 Method.GET,
                 new Uri("accounts", UriKind.Relative),
                 true,
-                typeof(string));
+                typeof(List<AccountBalanceIntermediate>));
         }
 
         private void Build()
