@@ -57,6 +57,27 @@ namespace BEx.ExchangeEngine.Coinbase
                 false,
                 typeof(OrderBookIntermediate),
                 param);
+
+            // /products/<product-id>/trades
+
+            param = new List<ExchangeParameter>
+            {
+                new ExchangeParameter(ParameterMethod.Url, "base", StandardParameter.Base),
+                new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
+            };
+
+            this.Transactions = new TransactionsCommand(
+                Method.GET,
+                new Uri("products/{base}-{counter}/trades", UriKind.Relative),
+                false,
+                typeof(List<TransactionIntermediate>),
+                param);
+
+            this.AccountBalance = new AccountBalanceCommand(
+                Method.GET,
+                new Uri("accounts", UriKind.Relative),
+                true,
+                typeof(string));
         }
 
         private void Build()

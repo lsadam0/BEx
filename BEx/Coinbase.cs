@@ -16,8 +16,10 @@ namespace BEx
         {
         }
 
-        public Coinbase(string apiKey)
-                : base(Configuration.Singleton, CommandFactory.Singleton, null)
+        public Coinbase(string apiKey, string secret, string passphrase)
+                : base(Configuration.Singleton,
+                      CommandFactory.Singleton,
+                      new Authenticator(apiKey, secret, passphrase))
         {
         }
     }

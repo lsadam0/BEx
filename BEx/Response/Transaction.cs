@@ -9,6 +9,26 @@ namespace BEx
     public struct Transaction : IEquatable<Transaction>, IExchangeResult
     {
         internal Transaction(
+           string amount,
+           TradingPair pair,
+           DateTime exchangeTimestamp,
+           int transactionId,
+           string price,
+           ExchangeType sourceExchange)
+           : this()
+        {
+            Amount = Conversion.ToDecimalInvariant(amount);
+            Pair = pair;
+            CompletedTime = exchangeTimestamp;
+            UnixCompletedTimeStamp = (long)CompletedTime.ToUnixTime();
+            ExchangeTimeStampUTC = CompletedTime;
+            LocalTimeStampUTC = DateTime.UtcNow;
+            Price = Conversion.ToDecimalInvariant(price);
+            SourceExchange = sourceExchange;
+            TransactionId = transactionId;
+        }
+
+        internal Transaction(
             string amount,
             TradingPair pair,
             long unixTimeStamp,

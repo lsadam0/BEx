@@ -9,6 +9,21 @@ namespace BEx
 {
     public sealed class Transactions : BExResult
     {
+        /*
+        internal Transactions(IEnumerable<Transaction> transactions, TradingPair pair,
+            ExchangeType sourceExchange)
+            : base(DateTime.UtcNow, sourceExchange)
+        {
+            Pair = pair;
+
+            TransactionsCollection =
+                transactions
+                    .Where(x => x != default(Transaction))
+                    .OrderByDescending(x => x.UnixCompletedTimeStamp)
+                    .ToList()
+                    .AsReadOnly();
+        }*/
+
         internal Transactions(IEnumerable<IExchangeResponseIntermediate<Transaction>> transactions, TradingPair pair,
             ExchangeType sourceExchange)
             : base(DateTime.UtcNow, sourceExchange)

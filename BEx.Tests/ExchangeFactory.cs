@@ -31,6 +31,15 @@ namespace BEx.Tests
                 ApiKey = exchangeElement.Element("Key").Value,
                 Secret = exchangeElement.Element("Secret").Value
             });
+
+            exchangeElement = keys.Element("Coinbase");
+
+            _tokens.Add(ExchangeType.Coinbase, new AuthToken
+            {
+                ApiKey = exchangeElement.Element("Key").Value,
+                Secret = exchangeElement.Element("Secret").Value,
+                ClientId = exchangeElement.Element("Passphrase").Value
+            });
         }
 
         public static Exchange GetUnauthenticatedExchange(ExchangeType toGet)
@@ -42,6 +51,9 @@ namespace BEx.Tests
 
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
+
+                case ExchangeType.Coinbase:
+                    return new Coinbase();
 
                 default:
                     return null;
@@ -69,12 +81,18 @@ namespace BEx.Tests
                     return new Bitfinex(
                         token.ApiKey,
                         token.Secret);
+                case ExchangeType.Coinbase:
+                    return new Coinbase(
+                        token.ApiKey,
+                        token.Secret,
+                        token.ClientId
+                        );
 
                 default:
                     return null;
             }
         }
-
+        /*
         public static AuthToken GetBitfinexAuthToken()
         {
             if (_tokens == null)
@@ -89,7 +107,7 @@ namespace BEx.Tests
                 LoadApiKeys();
 
             return _tokens[ExchangeType.BitStamp];
-        }
+        }*/
     }
 
     internal class AuthToken
