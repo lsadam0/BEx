@@ -50,19 +50,14 @@ namespace BEx
 
         public ImmutableHashSet<TradingPair> SupportedTradingPairs => _configuration.SupportedPairs;
 
-        public DayRange Get24HrStats(TradingPair pair)
-        {
-            return _executor.Execute<DayRange>(_commands.DayRange, pair);
-        }
-
         public Confirmation CancelOrder(Order toCancel) => CancelOrder(toCancel.Id);
 
 
-        public Confirmation CancelOrder(int id)
+        public Confirmation CancelOrder(string id)
         {
             var values = new Dictionary<StandardParameter, string>
             {
-                {StandardParameter.Id, id.ToStringInvariant()}
+                {StandardParameter.Id, id}
             };
 
             return _executor.Execute<Confirmation>(
@@ -218,5 +213,10 @@ namespace BEx
         /// <param name="pair">Currency Pair</param>
         /// <returns>True if supported, otherwise false.</returns>
         public bool IsTradingPairSupported(TradingPair pair) => _configuration.SupportedPairs.Contains(pair);
+
+        public DayRange Get24HrStats(TradingPair pair)
+        {
+            return _executor.Execute<DayRange>(_commands.DayRange, pair);
+        }
     }
 }

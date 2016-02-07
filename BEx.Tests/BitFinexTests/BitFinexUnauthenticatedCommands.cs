@@ -18,6 +18,31 @@ namespace BEx.Tests.BitfinexTests
             Assert.IsInstanceOf<Bitfinex>(TestCandidate);
         }
 
+        /*
+        [Test]
+        public void Bitfinex_GetTransactions_LTCBTC_Success()
+        {
+            CommandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.BTC));
+        }*/
+
+        [Test]
+        public void Bitfinex_GetDayRange_BTCUSD_Success()
+        {
+            CommandVerification.VerifyDayRange(new TradingPair(Currency.BTC, Currency.USD));
+        }
+
+        [Test]
+        public void Bitfinex_GetDayRange_LTCBTC_Success()
+        {
+            CommandVerification.VerifyDayRange(new TradingPair(Currency.LTC, Currency.BTC));
+        }
+
+        [Test]
+        public void Bitfinex_GetDayRange_LTCUSD_Success()
+        {
+            CommandVerification.VerifyDayRange(new TradingPair(Currency.LTC, Currency.USD));
+        }
+
         [Test]
         public void Bitfinex_GetOrderBook_BTCUSD_Success()
         {
@@ -64,31 +89,6 @@ namespace BEx.Tests.BitfinexTests
         public void Bitfinex_GetTransactions_LTCUSD_Success()
         {
             CommandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.USD));
-        }
-
-        /*
-        [Test]
-        public void Bitfinex_GetTransactions_LTCBTC_Success()
-        {
-            CommandVerification.VerifyTransactions(new TradingPair(Currency.LTC, Currency.BTC));
-        }*/
-
-        [Test]
-        public void Bitfinex_GetDayRange_BTCUSD_Success()
-        {
-            CommandVerification.VerifyDayRange(new TradingPair(Currency.BTC, Currency.USD));
-        }
-
-        [Test]
-        public void Bitfinex_GetDayRange_LTCBTC_Success()
-        {
-            CommandVerification.VerifyDayRange(new TradingPair(Currency.LTC, Currency.BTC));
-        }
-
-        [Test]
-        public void Bitfinex_GetDayRange_LTCUSD_Success()
-        {
-            CommandVerification.VerifyDayRange(new TradingPair(Currency.LTC, Currency.USD));
         }
     }
 }

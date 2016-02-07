@@ -1,7 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
@@ -36,13 +36,11 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
             return new Tick(
                 Conversion.ToDecimalInvariant(Ask),
                 Conversion.ToDecimalInvariant(Bid),
-
                 Conversion.ToDecimalInvariant(LastPrice),
                 Conversion.ToDecimalInvariant(Volume),
                 pair,
-
                 ExchangeType.Bitfinex,
-                (long)Timestamp);
+                (long) Timestamp);
         }
     }
 }

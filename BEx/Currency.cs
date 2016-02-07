@@ -6,77 +6,55 @@ using System.ComponentModel;
 namespace BEx
 {
     /// <summary>
-    /// Crypto & Fiat Currencies
+    ///     Crypto & Fiat Currencies
     /// </summary>
     public enum Currency
     {
         Unknown,
 
-        [Description("bitcoin")]
-        BTC,
+        [Description("bitcoin")] BTC,
 
-        [Description("litecoin")]
-        LTC,
+        [Description("litecoin")] LTC,
 
-        [Description("NameCoin")]
-        NMC,
+        [Description("NameCoin")] NMC,
 
-        [Description("NovaCoin")]
-        NVC,
+        [Description("NovaCoin")] NVC,
 
-        [Description("PeerCoin")]
-        PPC,
+        [Description("PeerCoin")] PPC,
 
-        [Description("TerraCoin")]
-        TRC,
+        [Description("TerraCoin")] TRC,
 
-        [Description("FeatherCoin")]
-        FTC,
+        [Description("FeatherCoin")] FTC,
 
-        [Description("PrimeCoin")]
-        XPM,
+        [Description("PrimeCoin")] XPM,
 
-        [Description("United States Dollar")]
-        USD,
+        [Description("United States Dollar")] USD,
 
-        [Description("Great British Pound")]
-        GBP,
+        [Description("Great British Pound")] GBP,
 
-        [Description("Russian")]
-        RUR,
+        [Description("Russian")] RUR,
 
-        [Description("Yuan")]
-        CNH,
+        [Description("Yuan")] CNH,
 
-        [Description("Euro")]
-        EUR,
+        [Description("Euro")] EUR,
 
-        [Description("DarkCoin")]
-        DRK,
+        [Description("DarkCoin")] DRK,
 
-        [Description("Australia Dollar")]
-        AUD,
+        [Description("Australia Dollar")] AUD,
 
-        [Description("China Yuan Renminbi")]
-        CNY,
+        [Description("China Yuan Renminbi")] CNY,
 
-        [Description("Hong Kong Dollar")]
-        HKD,
+        [Description("Hong Kong Dollar")] HKD,
 
-        [Description("Iceland Krona")]
-        ISK,
+        [Description("Iceland Krona")] ISK,
 
-        [Description("Japan Yen")]
-        JPY,
+        [Description("Japan Yen")] JPY,
 
-        [Description("Korea (South) Won")]
-        KRW,
+        [Description("Korea (South) Won")] KRW,
 
-        [Description("Russia Ruble")]
-        RUB,
+        [Description("Russia Ruble")] RUB,
 
-        [Description("Singapore Dollar")]
-        SGD
+        [Description("Singapore Dollar")] SGD
     }
 
     public static class EnumExtensions
@@ -85,7 +63,7 @@ namespace BEx
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
             var attribute =
-                Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                Attribute.GetCustomAttribute(fieldInfo, typeof (DescriptionAttribute)) as DescriptionAttribute;
             return attribute == null ? value.ToString() : attribute.Description;
         }
     }

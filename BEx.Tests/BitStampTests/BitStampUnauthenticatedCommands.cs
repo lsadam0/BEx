@@ -20,6 +20,12 @@ namespace BEx.Tests.BitStampTests
         }
 
         [Test]
+        public void BitStamp_GetDayRange_BTCUSD_Success()
+        {
+            CommandVerification.VerifyDayRange(TestCandidate.DefaultPair);
+        }
+
+        [Test]
         public void BitStamp_GetOrderBook_BTCUSD_Success()
         {
             CommandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
@@ -29,12 +35,6 @@ namespace BEx.Tests.BitStampTests
         public void BitStamp_GetTick_BTCUSD_Success()
         {
             CommandVerification.VerifyTick(TestCandidate.DefaultPair);
-        }
-
-        [Test]
-        public void BitStamp_GetDayRange_BTCUSD_Success()
-        {
-            CommandVerification.VerifyDayRange(TestCandidate.DefaultPair);
         }
 
         [Test]

@@ -11,7 +11,7 @@ namespace BEx
 
         Confirmation CancelOrder(Order toCancel);
 
-        Confirmation CancelOrder(int id);
+        Confirmation CancelOrder(string id);
 
         Order CreateBuyLimitOrder(decimal amount, decimal price);
 

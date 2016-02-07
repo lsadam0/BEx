@@ -39,12 +39,12 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
                 // Datetime is already UTC
                 Datetime = new DateTime(Datetime.Ticks, DateTimeKind.Utc);
                 return new UserTransaction(
-                        Conversion.ToDecimalInvariant(Btc),
-                        Conversion.ToDecimalInvariant(Usd),
-                    (long)Datetime.ToUnixTime(),
-                        Conversion.ToDecimalInvariant(BtcUsd),
-                    (int)OrderId,
-                        Conversion.ToDecimalInvariant(Fee),
+                    Conversion.ToDecimalInvariant(Btc),
+                    Conversion.ToDecimalInvariant(Usd),
+                    (long) Datetime.ToUnixTime(),
+                    Conversion.ToDecimalInvariant(BtcUsd),
+                    (int) OrderId,
+                    Conversion.ToDecimalInvariant(Fee),
                     Currency.USD,
                     pair,
                     ExchangeType.BitStamp,

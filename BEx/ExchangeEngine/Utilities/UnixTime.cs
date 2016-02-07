@@ -10,10 +10,7 @@ namespace BEx.ExchangeEngine.Utilities
 
         public static long UnixUTCNow
         {
-            get
-            {
-                return (long)(DateTime.UtcNow - _epoch).TotalSeconds;
-            }
+            get { return (long) (DateTime.UtcNow - _epoch).TotalSeconds; }
         }
 
         /// <summary>

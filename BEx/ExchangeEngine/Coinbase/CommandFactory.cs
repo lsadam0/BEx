@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BEx.ExchangeEngine.Coinbase.JSON;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
-using BEx.ExchangeEngine.Coinbase.JSON;
 
 namespace BEx.ExchangeEngine.Coinbase
 {
@@ -15,8 +12,7 @@ namespace BEx.ExchangeEngine.Coinbase
 
         private CommandFactory()
         {
-
-            this.Build();
+            Build();
 
 
             var param = new List<ExchangeParameter>
@@ -25,12 +21,12 @@ namespace BEx.ExchangeEngine.Coinbase
                 new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
             };
 
-            this.Tick = new TickCommand(
-               Method.GET,
-               new Uri("products/{base}-{counter}/ticker", UriKind.Relative),
-               false,
-               typeof(TickIntermediate),
-               param);
+            Tick = new TickCommand(
+                Method.GET,
+                new Uri("products/{base}-{counter}/ticker", UriKind.Relative),
+                false,
+                typeof (TickIntermediate),
+                param);
 
             param = new List<ExchangeParameter>
             {
@@ -38,12 +34,12 @@ namespace BEx.ExchangeEngine.Coinbase
                 new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
             };
 
-            this.DayRange = new DayRangeCommand(
-               Method.GET,
-               new Uri("products/{base}-{counter}/stats", UriKind.Relative),
-               false,
-               typeof(DayRangeIntermediate),
-               param);
+            DayRange = new DayRangeCommand(
+                Method.GET,
+                new Uri("products/{base}-{counter}/stats", UriKind.Relative),
+                false,
+                typeof (DayRangeIntermediate),
+                param);
 
             param = new List<ExchangeParameter>
             {
@@ -51,11 +47,11 @@ namespace BEx.ExchangeEngine.Coinbase
                 new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
             };
 
-            this.OrderBook = new OrderBookCommand(
+            OrderBook = new OrderBookCommand(
                 Method.GET,
                 new Uri("products/{base}-{counter}/book?level=2", UriKind.Relative),
                 false,
-                typeof(OrderBookIntermediate),
+                typeof (OrderBookIntermediate),
                 param);
 
             // /products/<product-id>/trades
@@ -66,25 +62,24 @@ namespace BEx.ExchangeEngine.Coinbase
                 new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
             };
 
-            this.Transactions = new TransactionsCommand(
+            Transactions = new TransactionsCommand(
                 Method.GET,
                 new Uri("products/{base}-{counter}/trades", UriKind.Relative),
                 false,
-                typeof(List<TransactionIntermediate>),
+                typeof (List<TransactionIntermediate>),
                 param);
 
-            this.AccountBalance = new AccountBalanceCommand(
+            AccountBalance = new AccountBalanceCommand(
                 Method.GET,
                 new Uri("accounts", UriKind.Relative),
                 true,
-                typeof(List<AccountBalanceIntermediate>));
-        }
+                typeof (List<AccountBalanceIntermediate>));
 
-        private void Build()
-        {
-
-
-
+            OpenOrders = new OpenOrdersCommand(
+                Method.GET,
+                new Uri("orders", UriKind.Relative),
+                true,
+                typeof(List<OpenOrderIntermediate>));
         }
 
         public static IExchangeCommandFactory Singleton => instance;
@@ -99,5 +94,9 @@ namespace BEx.ExchangeEngine.Coinbase
         public TickCommand Tick { get; }
         public TransactionsCommand Transactions { get; }
         public UserTransactionsCommand UserTransactions { get; }
+
+        private void Build()
+        {
+        }
     }
 }

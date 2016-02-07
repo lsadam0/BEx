@@ -57,7 +57,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
             return new Order(
                 Conversion.ToDecimalInvariant(OriginalAmount),
                 pair,
-                Id,
+                Id.ToString(),
                 Conversion.ToDecimalInvariant(Price),
                 Side == "sell" ? OrderType.Sell : OrderType.Buy,
                 Timestamp.ToDateTimeUTC(),

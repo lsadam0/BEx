@@ -68,6 +68,7 @@
     <Compile Include="ExchangeEngine\Coinbase\Configuration.cs" />
     <Compile Include="ExchangeEngine\Coinbase\JSON\AccountBalanceIntermediate.cs" />
     <Compile Include="ExchangeEngine\Coinbase\JSON\DayRangeIntermediate.cs" />
+    <Compile Include="ExchangeEngine\Coinbase\JSON\OpenOrderIntermediate.cs" />
     <Compile Include="ExchangeEngine\Coinbase\JSON\OrderBookIntermediate.cs" />
     <Compile Include="ExchangeEngine\Coinbase\JSON\TickIntermediate.cs" />
     <Compile Include="ExchangeEngine\Coinbase\JSON\TransactionsIntermediate.cs" />

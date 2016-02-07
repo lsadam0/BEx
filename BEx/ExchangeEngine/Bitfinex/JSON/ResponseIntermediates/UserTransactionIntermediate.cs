@@ -1,8 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using Newtonsoft.Json;
 using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
@@ -39,15 +39,15 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
             return new UserTransaction(
                 Conversion.ToDecimalInvariant(Amount),
                 Conversion.ToDecimalInvariant(Price)
-                    * Conversion.ToDecimalInvariant(Amount),
-                (long)Timestamp,
+                *Conversion.ToDecimalInvariant(Amount),
+                (long) Timestamp,
                 Conversion.ToDecimalInvariant(Price),
                 Tid,
                 Conversion.ToDecimalInvariant(FeeAmount),
                 feeCurrency,
                 pair,
                 ExchangeType.Bitfinex,
-                (OrderType)Enum.Parse(typeof(OrderType), Type)
+                (OrderType) Enum.Parse(typeof (OrderType), Type)
                 );
         }
     }

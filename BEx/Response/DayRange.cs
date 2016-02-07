@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BEx.ExchangeEngine;
 
 namespace BEx.Response
@@ -16,12 +12,12 @@ namespace BEx.Response
             TradingPair pair,
             ExchangeType source) : this()
         {
-            this.High = high;
-            this.Low = low;
-            this.ExchangeTimeStampUTC = exchangeTimeStamp;
-            this.Pair = pair;
-            this.SourceExchange = source;
-            this.LocalTimeStampUTC = DateTime.UtcNow;
+            High = high;
+            Low = low;
+            ExchangeTimeStampUTC = exchangeTimeStamp;
+            Pair = pair;
+            SourceExchange = source;
+            LocalTimeStampUTC = DateTime.UtcNow;
         }
 
         public decimal High { get; }

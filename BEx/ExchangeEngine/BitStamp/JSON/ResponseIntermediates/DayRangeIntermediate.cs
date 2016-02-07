@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BEx.ExchangeEngine.Utilities;
 using BEx.Response;
-using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 {
-    class DayRangeIntermediate : IExchangeResponseIntermediate<DayRange>
+    internal class DayRangeIntermediate : IExchangeResponseIntermediate<DayRange>
     {
         [JsonProperty("high", Required = Required.Always)]
         public string high { get; set; }
@@ -37,14 +32,12 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
 
         public DayRange Convert(TradingPair pair)
         {
-
             return new DayRange(
                 Conversion.ToDecimalInvariant(high),
                 Conversion.ToDecimalInvariant(low),
                 timestamp.ToDateTimeUTC(),
                 pair,
                 ExchangeType.BitStamp);
-
         }
     }
 }

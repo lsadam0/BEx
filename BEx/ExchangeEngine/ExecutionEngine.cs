@@ -71,7 +71,7 @@ namespace BEx.ExchangeEngine
                 string.Format(
                     "Request Failed - Code {0} - Response {1}",
                     result.StatusCode,
-                    (result.Content ?? "Empty")),
+                    result.Content ?? "Empty"),
                 result.ErrorException);
         }
     }

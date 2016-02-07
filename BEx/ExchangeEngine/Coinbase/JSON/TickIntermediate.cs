@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
-
 
 namespace BEx.ExchangeEngine.Coinbase.JSON
 {
     internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
     {
-
-        [JsonProperty("trade_id", Required =Required.Always)]
+        [JsonProperty("trade_id", Required = Required.Always)]
         public int trade_id { get; set; }
+
         [JsonProperty("price", Required = Required.Always)]
         public string price { get; set; }
 
@@ -41,7 +36,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 Conversion.ToDecimalInvariant(volume),
                 pair,
                 ExchangeType.Coinbase,
-                (long)time.ToUnixTime());
+                (long) time.ToUnixTime());
 
             /*{"trade_id":6442532,"price":"372.63","size":"0.31379","bid":"372.54","ask":"372.64","volume":"6866.60379037","time":"2016-02-03T01:05:02.047318Z"}*/
         }

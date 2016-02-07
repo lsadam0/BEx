@@ -35,10 +35,9 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
         {
             return new Tick(
                 Conversion.ToDecimalInvariant(ask),
-                   Conversion.ToDecimalInvariant(bid),
-
-                    Conversion.ToDecimalInvariant(last),
-                    Conversion.ToDecimalInvariant(volume),
+                Conversion.ToDecimalInvariant(bid),
+                Conversion.ToDecimalInvariant(last),
+                Conversion.ToDecimalInvariant(volume),
                 pair,
                 ExchangeType.BitStamp,
                 timestamp);

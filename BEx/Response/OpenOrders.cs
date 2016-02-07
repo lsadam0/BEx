@@ -20,19 +20,19 @@ namespace BEx
             var allOrders = orders.Select(x => x.Convert(pair));
 
             BuyOrders =
-                new ReadOnlyDictionary<int, Order>(
+                new ReadOnlyDictionary<string, Order>(
                     allOrders
                         .Where(x => x.IsBuyOrder)
                         .ToDictionary(x => x.Id, x => x));
 
-            SellOrders = new ReadOnlyDictionary<int, Order>(
+            SellOrders = new ReadOnlyDictionary<string, Order>(
                 allOrders
                     .Where(x => x.IsSellOrder)
                     .ToDictionary(x => x.Id, x => x));
         }
 
-        public IReadOnlyDictionary<int, Order> SellOrders { get; }
+        public IReadOnlyDictionary<string, Order> SellOrders { get; }
 
-        public IReadOnlyDictionary<int, Order> BuyOrders { get; }
+        public IReadOnlyDictionary<string, Order> BuyOrders { get; }
     }
 }

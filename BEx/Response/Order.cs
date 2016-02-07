@@ -13,7 +13,7 @@ namespace BEx
         internal Order(
             decimal amount,
             TradingPair pair,
-            int id,
+            string id,
             decimal price,
             OrderType tradeType,
             DateTime exchangeTimeStamp,
@@ -43,7 +43,7 @@ namespace BEx
         /// <summary>
         ///     Exchange Order ID
         /// </summary>
-        public int Id { get; }
+        public string Id { get; }
 
         /// <summary>
         ///     True if this Order has TransactionType == Buy

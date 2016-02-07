@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BEx.ExchangeEngine.Utilities;
 
 namespace BEx.ExchangeEngine.Coinbase.JSON
 {
@@ -28,6 +23,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
         }
     }
     */
+
     public class TransactionIntermediate : IExchangeResponseIntermediate<Transaction>
     {
         public DateTime time { get; set; }
@@ -45,8 +41,6 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 trade_id,
                 price,
                 ExchangeType.Coinbase);
-
         }
     }
-
 }

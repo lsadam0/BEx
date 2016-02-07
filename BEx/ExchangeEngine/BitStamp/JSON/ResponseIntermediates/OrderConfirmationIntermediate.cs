@@ -27,7 +27,7 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
             return new Order(
                 Conversion.ToDecimalInvariant(Amount),
                 pair,
-                Id,
+                Id.ToString(),
                 Conversion.ToDecimalInvariant(Price),
                 Type == 0 ? OrderType.Buy : OrderType.Sell,
                 Conversion.ToDateTimeInvariant(Datetime),

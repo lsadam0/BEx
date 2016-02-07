@@ -87,7 +87,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("balance/", UriKind.Relative),
                 true,
-                typeof(AccountBalanceIntermediate));
+                typeof (AccountBalanceIntermediate));
         }
 
         public LimitOrderCommand BuildBuyOrderCommand()
@@ -102,7 +102,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("buy/", UriKind.Relative),
                 true,
-                typeof(OrderConfirmationIntermediate),
+                typeof (OrderConfirmationIntermediate),
                 param);
         }
 
@@ -117,7 +117,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("cancel_order/", UriKind.Relative),
                 true,
-                typeof(Confirmation),
+                typeof (Confirmation),
                 param);
         }
 
@@ -142,7 +142,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("bitcoin_deposit_address/", UriKind.Relative),
                 true,
-                typeof(string));
+                typeof (string));
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()
@@ -151,7 +151,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("open_orders/", UriKind.Relative),
                 true,
-                typeof(List<OpenOrdersIntermediate>));
+                typeof (List<OpenOrdersIntermediate>));
         }
 
         public OrderBookCommand BuildOrderBookCommand()
@@ -160,7 +160,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.GET,
                 new Uri("order_book/", UriKind.Relative),
                 false,
-                typeof(OrderBookIntermediate));
+                typeof (OrderBookIntermediate));
         }
 
         public LimitOrderCommand BuildSellOrderCommand()
@@ -175,17 +175,17 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("sell/", UriKind.Relative),
                 true,
-                typeof(OrderConfirmationIntermediate),
+                typeof (OrderConfirmationIntermediate),
                 param);
         }
 
         public DayRangeCommand BuildDayRangeCOmmand()
         {
             return new DayRangeCommand(
-              Method.GET,
-              new Uri("ticker/", UriKind.Relative),
-              false,
-              typeof(DayRangeIntermediate));
+                Method.GET,
+                new Uri("ticker/", UriKind.Relative),
+                false,
+                typeof (DayRangeIntermediate));
         }
 
         public TickCommand BuildTickCommand()
@@ -194,7 +194,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.GET,
                 new Uri("ticker/", UriKind.Relative),
                 false,
-                typeof(TickIntermediate));
+                typeof (TickIntermediate));
         }
 
         public TransactionsCommand BuildTransactionsCommand()
@@ -208,7 +208,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.GET,
                 new Uri("transactions/", UriKind.Relative),
                 false,
-                typeof(List<TransactionIntermediate>),
+                typeof (List<TransactionIntermediate>),
                 param);
         }
 
@@ -218,7 +218,7 @@ namespace BEx.ExchangeEngine.BitStamp
                 Method.POST,
                 new Uri("user_transactions/", UriKind.Relative),
                 true,
-                typeof(List<UserTransactionIntermediate>)
+                typeof (List<UserTransactionIntermediate>)
                 );
         }
     }

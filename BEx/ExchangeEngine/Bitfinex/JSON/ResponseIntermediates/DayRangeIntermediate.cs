@@ -1,7 +1,6 @@
-﻿
-using Newtonsoft.Json;
+﻿using BEx.ExchangeEngine.Utilities;
 using BEx.Response;
-using BEx.ExchangeEngine.Utilities;
+using Newtonsoft.Json;
 
 namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
 {
@@ -39,7 +38,6 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
                 Timestamp.ToDateTimeUTC(),
                 pair,
                 ExchangeType.Bitfinex);
-            
         }
     }
 }

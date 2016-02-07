@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BEx.ExchangeEngine.Coinbase
 {
@@ -11,17 +7,16 @@ namespace BEx.ExchangeEngine.Coinbase
     {
         private static readonly Configuration instance = new Configuration();
 
-        public static IExchangeConfiguration Singleton => instance;
-
         internal Configuration()
         {
-            this.BaseUri = new Uri(@"https://api.exchange.coinbase.com");
-            this.DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
-            this.ExchangeSourceType = ExchangeType.Coinbase;
-            this.SupportedCurrencies = ImmutableHashSet.Create(Currency.BTC, Currency.USD);
-            this.SupportedPairs = ImmutableHashSet.Create(this.DefaultPair);
-
+            BaseUri = new Uri(@"https://api.exchange.coinbase.com");
+            DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
+            ExchangeSourceType = ExchangeType.Coinbase;
+            SupportedCurrencies = ImmutableHashSet.Create(Currency.BTC, Currency.USD);
+            SupportedPairs = ImmutableHashSet.Create(DefaultPair);
         }
+
+        public static IExchangeConfiguration Singleton => instance;
 
         public Uri BaseUri { get; }
 

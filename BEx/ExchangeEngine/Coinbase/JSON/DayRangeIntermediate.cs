@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BEx.ExchangeEngine.Utilities;
-using Newtonsoft.Json;
 using BEx.Response;
 
 namespace BEx.ExchangeEngine.Coinbase.JSON
@@ -24,7 +19,6 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 DateTime.UtcNow,
                 pair,
                 ExchangeType.Coinbase);
-
         }
     }
 }

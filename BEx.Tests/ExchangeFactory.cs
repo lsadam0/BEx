@@ -92,6 +92,7 @@ namespace BEx.Tests
                     return null;
             }
         }
+
         /*
         public static AuthToken GetBitfinexAuthToken()
         {

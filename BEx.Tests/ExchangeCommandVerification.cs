@@ -94,7 +94,7 @@ namespace BEx.Tests
 
                 Assert.That(order.IsBuyOrder);
                 Assert.That(order.Amount > 0.0m);
-                Assert.That(order.Id > 0);
+                Assert.That(!string.IsNullOrEmpty(order.Id));
                 Assert.That(openOrder.Key == order.Id);
                 Assert.That(order.Price > 0.0m);
             }
@@ -107,7 +107,7 @@ namespace BEx.Tests
 
                 Assert.That(order.IsSellOrder);
                 Assert.That(order.Amount > 0.0m);
-                Assert.That(order.Id > 0);
+                Assert.That(!string.IsNullOrEmpty(order.Id));
                 Assert.That(openOrder.Key == order.Id);
                 Assert.That(order.Price > 0.0m);
             }
@@ -123,13 +123,13 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.Asks);
             CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof (OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Asks);
             CollectionAssert.DoesNotContain(toVerify.Asks, default(OrderBookEntry));
 
             CollectionAssert.IsNotEmpty(toVerify.Bids);
             CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof (OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Bids);
             CollectionAssert.DoesNotContain(toVerify.Bids, default(OrderBookEntry));
 
@@ -194,7 +194,7 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(Transaction));
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(Transaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (Transaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
             CollectionAssert.AreEqual(toVerify.TransactionsCollection,
                 toVerify.TransactionsCollection.OrderByDescending(x => x.UnixCompletedTimeStamp));
@@ -227,7 +227,7 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(UserTransaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (UserTransaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
             CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(UserTransaction));
             CollectionAssert.AreEqual(toVerify.TransactionsCollection,
@@ -257,7 +257,7 @@ namespace BEx.Tests
 
                 // Check that transaction balances
 
-                Assert.That(Math.Round(transaction.BaseCurrencyAmount * transaction.ExchangeRate +
+                Assert.That(Math.Round(transaction.BaseCurrencyAmount*transaction.ExchangeRate +
                                        transaction.CounterCurrencyAmount, 2) == 0);
 
                 // Trade Fee Currency belongs to Trading Pair
@@ -274,7 +274,7 @@ namespace BEx.Tests
             VerifyApiResult(toVerify);
 
             Assert.That(toVerify.Amount > 0);
-            Assert.That(toVerify.Id > 0);
+            Assert.That(!string.IsNullOrEmpty(toVerify.Id));
             Assert.That(toVerify.Price > 0);
             Assert.That(toVerify.SourceExchange == TestCandidate.ExchangeSourceType);
             Assert.That(toVerify.Pair.BaseCurrency == pair.BaseCurrency);
@@ -290,8 +290,6 @@ namespace BEx.Tests
 
             Assert.That(toVerify.High > 0.0m);
             Assert.That(toVerify.Low > 0.0m);
-
         }
-
     }
 }

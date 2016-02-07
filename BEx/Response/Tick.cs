@@ -11,7 +11,6 @@ namespace BEx
         internal Tick(
             decimal ask,
             decimal bid,
-
             decimal last,
             decimal volume,
             TradingPair pair,
@@ -39,11 +38,9 @@ namespace BEx
         public DateTime ExchangeTimeStampUTC { get; }
 
 
-
         public decimal Last { get; }
 
         public DateTime LocalTimeStampUTC { get; }
-
 
 
         public TradingPair Pair { get; }
@@ -61,7 +58,6 @@ namespace BEx
             return
                 (a.Ask == b.Ask)
                 && (a.Bid == b.Bid)
-
                 && (a.Last == b.Last)
                 && (a.Pair == b.Pair)
                 && (a.Volume == b.Volume)
@@ -76,7 +72,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Tick)obj;
+            return this == (Tick) obj;
         }
 
         public bool Equals(Tick b) => this == b;
