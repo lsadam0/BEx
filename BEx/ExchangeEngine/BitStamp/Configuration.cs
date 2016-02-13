@@ -11,10 +11,12 @@ namespace BEx.ExchangeEngine.BitStamp
     {
         private static readonly Configuration Instance = new Configuration();
 
-        internal Configuration()
+        private Configuration()
         {
             Initialize(null);
         }
+
+        public Uri WebSocketUri { get; private set; }
 
         public static IExchangeConfiguration Singleton => Instance;
 
@@ -32,7 +34,7 @@ namespace BEx.ExchangeEngine.BitStamp
 
         private void Initialize(Uri baseUri)
         {
-            ErrorJsonType = typeof (ErrorIntermediate);
+            ErrorJsonType = typeof(ErrorIntermediate);
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.BitStamp;
 
@@ -48,6 +50,7 @@ namespace BEx.ExchangeEngine.BitStamp
             }.ToImmutableHashSet();
 
             BaseUri = baseUri ?? new Uri("https://www.bitstamp.net/api");
+            this.WebSocketUri = null;
         }
     }
 }

@@ -15,6 +15,8 @@ namespace BEx.ExchangeEngine
         /// </summary>
         Uri BaseUri { get; }
 
+        Uri WebSocketUri { get; }
+
         /// <summary>
         ///     Default Trading Pair for the Exchange
         /// </summary>

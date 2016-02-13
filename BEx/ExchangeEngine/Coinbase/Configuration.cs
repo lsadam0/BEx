@@ -7,14 +7,19 @@ namespace BEx.ExchangeEngine.Coinbase
     {
         private static readonly Configuration instance = new Configuration();
 
-        internal Configuration()
+
+
+        private Configuration()
         {
             BaseUri = new Uri(@"https://api.exchange.coinbase.com");
+            this.WebSocketUri = new Uri(@"wss://ws-feed.exchange.coinbase.com");
             DefaultPair = new TradingPair(Currency.BTC, Currency.USD);
             ExchangeSourceType = ExchangeType.Coinbase;
             SupportedCurrencies = ImmutableHashSet.Create(Currency.BTC, Currency.USD);
             SupportedPairs = ImmutableHashSet.Create(DefaultPair);
         }
+
+        public Uri WebSocketUri { get; }
 
         public static IExchangeConfiguration Singleton => instance;
 

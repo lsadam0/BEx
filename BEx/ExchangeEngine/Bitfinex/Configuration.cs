@@ -11,7 +11,7 @@ namespace BEx.ExchangeEngine.Bitfinex
     {
         private static readonly Configuration Instance = new Configuration();
 
-        internal Configuration()
+        private Configuration()
         {
             Initialize(null);
         }
@@ -19,6 +19,8 @@ namespace BEx.ExchangeEngine.Bitfinex
         public static IExchangeConfiguration Singleton => Instance;
 
         public Uri BaseUri { get; private set; }
+
+        public Uri WebSocketUri { get; private set; }
 
         public TradingPair DefaultPair { get; private set; }
         public Type ErrorJsonType { get; private set; }
@@ -58,6 +60,7 @@ namespace BEx.ExchangeEngine.Bitfinex
             SupportedCurrencies = supportedCurrencies.ToImmutableHashSet();
 
             BaseUri = baseUri ?? new Uri("https://api.bitfinex.com");
+            WebSocketUri = new Uri(@"wss://api2.bitfinex.com:3000/ws");
         }
     }
 }
