@@ -1,16 +1,16 @@
-﻿using BEx.ExchangeEngine.Coinbase;
+﻿using BEx.ExchangeEngine.Gdax;
 
 namespace BEx
 {
-    public sealed class Coinbase : Exchange
+    public sealed class Gdax : Exchange
     {
-        public Coinbase()
+        public Gdax()
             : base(Configuration.Singleton,
                 CommandFactory.Singleton)
         {
         }
 
-        public Coinbase(string apiKey, string secret, string passphrase)
+        public Gdax(string apiKey, string secret, string passphrase)
             : base(Configuration.Singleton,
                 CommandFactory.Singleton,
                 new Authenticator(apiKey, secret, passphrase))

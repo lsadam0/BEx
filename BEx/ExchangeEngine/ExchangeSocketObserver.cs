@@ -1,77 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Net.WebSockets;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-using BEx.ExchangeEngine.Coinbase.WebSocket;
 namespace BEx.ExchangeEngine
 {
     public class ExchangeSocketObserver : IDisposable
     {
-        private int _chunkSize = 1024;
-        private Uri _socketUri;
+        private readonly int _chunkSize = 1024;
+        private MessageDispatch _dispatch = new MessageDispatch(new GdaxParser());
+        private readonly UTF8Encoding _encoding = new UTF8Encoding();
 
-        private UTF8Encoding _encoding = new UTF8Encoding();
-        private ClientWebSocket _socket;
-        public ExchangeSocketObserver(IExchangeConfiguration configuration)
+        private int _isShutDownRequested;
+
+        private IObservable<string> _observable;
+
+        // private Task _observer;
+        private readonly HashSet<IObserver<string>> _observers = new HashSet<IObserver<string>>();
+
+        private readonly Uri _socketUri;
+        // private CancellationToken _token;
+        // private CancellationTokenSource _tokenSource;
+
+        public ExchangeSocketObserver(IExchangeConfiguration configuration, object subscribe)
         {
-            this._socketUri = configuration.WebSocketUri;
-        }
+            _socketUri = configuration.WebSocketUri;
 
+            _observable = MessageBuffer(subscribe);
+        }
 
         public void Dispose()
         {
-            if (_socket != null
-                && (_socket.State == WebSocketState.Connecting
-                || _socket.State == WebSocketState.Open))
-            {
-                _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None).Wait();
-                _socket.Dispose();
-                _socket = null;
+            Interlocked.Exchange(ref _isShutDownRequested, 1);
 
+            if (_observable != null)
+            {
+                _observable = null;
             }
         }
 
-        public async void Begin()
+        internal void Subscribe(IObserver<string> subscriber)
         {
-            _socket = new ClientWebSocket();
-
-            _socket.ConnectAsync(_socketUri, CancellationToken.None).Wait();
-
-            Task.WhenAll(Receive(_socket));
-
-        }
-        private void Log(string message)
-        {
-            if (!string.IsNullOrEmpty(message))
+            if (!_observers.Contains(subscriber))
             {
-
-                Trace.WriteLine(message);
-                Trace.WriteLine(Environment.NewLine);
+                _observers.Add(subscriber);
+                _observable.Subscribe(subscriber);
             }
-
-
         }
 
-        public void Subscribe(TradingPair pair)
+        /*internal event EventHandler<SocketMessageReceivedEventArgs> OnMessageReceived;
+
+        public void Dispose()
         {
-            // byte[] buffer = new byte[_chunkSize];
+            this.Close();
+        }
 
-            var message = new SubscribeToTradingPair();
-            message.type = "subscribe";
-            message.product_id = "BTC-USD";
+        private void Close()
+        {
+            lock (this)
+            {
+                if (_token != null
+                    && !_token.IsCancellationRequested)
+                {
+                    _tokenSource.Cancel();
+                }
 
-            var serializer = new JsonSerializer();
+                if (_socket != null
+                    && (_socket.State == WebSocketState.Connecting
+                        || _socket.State == WebSocketState.Open))
+                {
+                    _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None).Wait();
+                    _socket.Dispose();
+                    _socket = null;
+                }
 
-            var json = JsonConvert.SerializeObject(message);
-            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(json));
+                if (_observer != null)
+                {
+                    _observer.Wait();
+                    _observer.Dispose();
+                    _observer = null;
+                }
+            }
+        }
 
-            _socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+        private void Monitor()
+        {
+            lock (this)
+            {
+                if (_dispatch == null)
+                {
+                    _dispatch = new MessageDispatch();
+                }
+                _socket = new ClientWebSocket();
+
+                _socket.ConnectAsync(_socketUri, CancellationToken.None).Wait();
+
+                if (_observer == null)
+                {
+                    this._observer = Task.Run((() =>
+                    {
+                        Task.WhenAll(Receive(_socket));
+                    }));
+                }
+            }
+        }
+
+        private void RaiseMessageReceived(string message)
+        {
+            if (this.OnMessageReceived != null)
+            {
+                OnMessageReceived(this, new SocketMessageReceivedEventArgs(message));
+            }
         }
 
         private async Task Receive(ClientWebSocket socket)
@@ -94,17 +139,87 @@ namespace BEx.ExchangeEngine
 
                     if (result.EndOfMessage)
                     {
-                        Log(fragment);
+                        _dispatch.EnqueueMessage(fragment);
+
                         fragment = string.Empty;
                     }
                 }
-
             }
+        }*/
+
+        private async Task Send(ClientWebSocket socket, object message)
+        {
+            /*
+            var message = new SubscribeToTradingPair();
+
+            message.type = "subscribe";
+
+            message.product_id = "BTC-USD";*/
+
+            var json = JsonConvert.SerializeObject(message);
+
+            var buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(json));
+
+            await socket.SendAsync(
+                buffer,
+                WebSocketMessageType.Text,
+                true,
+                CancellationToken.None);
         }
 
-        private async Task Send(ClientWebSocket socket)
+        internal IObservable<string> MessageBuffer(object subscription)
         {
+            var ob = Observable.Create<string>(sub =>
+            {
+                return NewThreadScheduler.Default.ScheduleLongRunning(cancel =>
+                {
+                    using (var _sock = new ClientWebSocket())
+                    {
+                        Debug.Log(string.Format("Connecting Socket {0}...", _socketUri.AbsoluteUri));
 
+                        _sock.ConnectAsync(_socketUri, CancellationToken.None).Wait();
+
+                        Debug.Log(string.Format("Connection Result {0}...", _sock.State));
+
+                        var fragment = string.Empty;
+
+                        Debug.Log("Subscribing...");
+
+                        Send(_sock, subscription).Wait();
+
+                        Debug.Log("Begin Receive");
+
+                        while (_sock.State == WebSocketState.Open && _isShutDownRequested == 0)
+                        {
+                            var buffer = new byte[_chunkSize];
+
+                            var result =
+                                _sock.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None).Result;
+
+                            if (result.MessageType == WebSocketMessageType.Close)
+                            {
+                                _sock.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty,
+                                    CancellationToken.None);
+                            }
+                            else
+                            {
+                                fragment += _encoding.GetString(buffer);
+
+                                if (result.EndOfMessage)
+                                {
+                                    sub.OnNext(fragment);
+
+                                    fragment = string.Empty;
+                                }
+                            }
+                        }
+                    }
+
+                    Debug.Log(string.Format("Close {0}", _socketUri.AbsoluteUri));
+                });
+            });
+
+            return ob;
         }
     }
 }

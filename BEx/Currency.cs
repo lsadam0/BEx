@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace BEx
 {
     /// <summary>
-    ///     Crypto & Fiat Currencies
+    ///     Crypto and Fiat Currencies
     /// </summary>
     public enum Currency
     {
@@ -63,7 +63,7 @@ namespace BEx
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
             var attribute =
-                Attribute.GetCustomAttribute(fieldInfo, typeof (DescriptionAttribute)) as DescriptionAttribute;
+                Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
             return attribute == null ? value.ToString() : attribute.Description;
         }
     }

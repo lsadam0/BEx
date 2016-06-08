@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine.Coinbase.JSON;
+using  BEx.ExchangeEngine.Gdax.JSON;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
 
-namespace BEx.ExchangeEngine.Coinbase
+namespace  BEx.ExchangeEngine.Gdax
 {
     internal class CommandFactory : IExchangeCommandFactory
     {
@@ -13,7 +13,6 @@ namespace BEx.ExchangeEngine.Coinbase
         private CommandFactory()
         {
             Build();
-
 
             var param = new List<ExchangeParameter>
             {
@@ -25,7 +24,7 @@ namespace BEx.ExchangeEngine.Coinbase
                 Method.GET,
                 new Uri("products/{base}-{counter}/ticker", UriKind.Relative),
                 false,
-                typeof (TickIntermediate),
+                typeof(TickIntermediate),
                 param);
 
             param = new List<ExchangeParameter>
@@ -38,7 +37,7 @@ namespace BEx.ExchangeEngine.Coinbase
                 Method.GET,
                 new Uri("products/{base}-{counter}/stats", UriKind.Relative),
                 false,
-                typeof (DayRangeIntermediate),
+                typeof(DayRangeIntermediate),
                 param);
 
             param = new List<ExchangeParameter>
@@ -51,7 +50,7 @@ namespace BEx.ExchangeEngine.Coinbase
                 Method.GET,
                 new Uri("products/{base}-{counter}/book?level=2", UriKind.Relative),
                 false,
-                typeof (OrderBookIntermediate),
+                typeof(OrderBookIntermediate),
                 param);
 
             // /products/<product-id>/trades
@@ -66,14 +65,14 @@ namespace BEx.ExchangeEngine.Coinbase
                 Method.GET,
                 new Uri("products/{base}-{counter}/trades", UriKind.Relative),
                 false,
-                typeof (List<TransactionIntermediate>),
+                typeof(List<TransactionIntermediate>),
                 param);
 
             AccountBalance = new AccountBalanceCommand(
                 Method.GET,
                 new Uri("accounts", UriKind.Relative),
                 true,
-                typeof (List<AccountBalanceIntermediate>));
+                typeof(List<AccountBalanceIntermediate>));
 
             OpenOrders = new OpenOrdersCommand(
                 Method.GET,

@@ -123,13 +123,13 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.Asks);
             CollectionAssert.AllItemsAreNotNull(toVerify.Asks);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof (OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Asks, typeof(OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Asks);
             CollectionAssert.DoesNotContain(toVerify.Asks, default(OrderBookEntry));
 
             CollectionAssert.IsNotEmpty(toVerify.Bids);
             CollectionAssert.AllItemsAreNotNull(toVerify.Bids);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof (OrderBookEntry));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.Bids, typeof(OrderBookEntry));
             CollectionAssert.AllItemsAreUnique(toVerify.Bids);
             CollectionAssert.DoesNotContain(toVerify.Bids, default(OrderBookEntry));
 
@@ -194,7 +194,7 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(Transaction));
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (Transaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(Transaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
             CollectionAssert.AreEqual(toVerify.TransactionsCollection,
                 toVerify.TransactionsCollection.OrderByDescending(x => x.UnixCompletedTimeStamp));
@@ -227,7 +227,7 @@ namespace BEx.Tests
 
             CollectionAssert.IsNotEmpty(toVerify.TransactionsCollection);
             CollectionAssert.AllItemsAreNotNull(toVerify.TransactionsCollection);
-            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof (UserTransaction));
+            CollectionAssert.AllItemsAreInstancesOfType(toVerify.TransactionsCollection, typeof(UserTransaction));
             CollectionAssert.AllItemsAreUnique(toVerify.TransactionsCollection);
             CollectionAssert.DoesNotContain(toVerify.TransactionsCollection, default(UserTransaction));
             CollectionAssert.AreEqual(toVerify.TransactionsCollection,

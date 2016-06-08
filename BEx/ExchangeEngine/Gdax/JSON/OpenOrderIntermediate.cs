@@ -1,8 +1,7 @@
 ﻿using System;
 using BEx.ExchangeEngine.Utilities;
-using BEx.Response;
 
-namespace BEx.ExchangeEngine.Coinbase.JSON
+namespace  BEx.ExchangeEngine.Gdax.JSON
 {
     public class OpenOrderIntermediate : IExchangeResponseIntermediate<Order>
     {
@@ -19,8 +18,6 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
 
         public Order Convert(TradingPair pair)
         {
-
-
             return new Order(
                 Conversion.ToDecimalInvariant(size),
                 pair,
@@ -28,10 +25,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 Conversion.ToDecimalInvariant(price),
                 side == "buy" ? OrderType.Buy : OrderType.Sell,
                 new DateTime(created_at.Ticks, DateTimeKind.Utc),
-                ExchangeType.Coinbase);
+                ExchangeType.Gdax);
         }
     }
 }
-
-
-

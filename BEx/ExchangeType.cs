@@ -6,6 +6,6 @@ namespace BEx
     {
         BitStamp = 1,
         Bitfinex = 2,
-        Coinbase = 3
+        Gdax = 3
     }
 }

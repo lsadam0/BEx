@@ -10,7 +10,9 @@ namespace BEx
 {
     public sealed class AccountBalance : BExResult
     {
+#pragma warning disable RECS0154 // Parameter is never used
         internal AccountBalance(IEnumerable<Balance> balances, TradingPair pair, ExchangeType sourceExchange)
+#pragma warning restore RECS0154 // Parameter is never used
             : base(DateTime.UtcNow, sourceExchange)
         {
             BalanceByCurrency = CreateDictionary(balances);
@@ -24,7 +26,6 @@ namespace BEx
                 balances
                     .Select(x => x.Convert(pair)));
         }
-
 
         public IReadOnlyDictionary<Currency, Balance> BalanceByCurrency { get; }
 

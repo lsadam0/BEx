@@ -13,11 +13,11 @@ namespace BEx.ExchangeEngine.Commands
         /// <summary>
         ///     Initialize ExchangeCommand Instance
         /// </summary>
-        /// <param name="identifier">CommandClass for this Instance</param>
         /// <param name="httpMethod">Http Execution Method</param>
         /// <param name="relativeUri">Exchange Uri, relative to the Base Uri</param>
         /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
         /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
+        /// <param name="apiResultType">Type translation</param>
         internal ExchangeCommand(
             Method httpMethod,
             Uri relativeUri,
@@ -33,12 +33,12 @@ namespace BEx.ExchangeEngine.Commands
         /// <summary>
         ///     Initialize ExchangeCommand Instance
         /// </summary>
-        /// <param name="identifier">CommandClass for this Instance</param>
         /// <param name="httpMethod">Http Execution Method</param>
         /// <param name="relativeUri">Exchange Uri, relative to the Base Uri</param>
         /// <param name="isAuthenticated">Does this Command required Authentication with the Exchange?</param>
         /// <param name="intermediateType">JSON Response -> IntermediateType -> BEx.ApiResult Sub-Type</param>
         /// <param name="parameters">Collection of Parameters for this Command</param>
+        /// <param name="apiResultType">Type translation</param>
         internal ExchangeCommand(
             Method httpMethod,
             Uri relativeUri,
@@ -51,10 +51,10 @@ namespace BEx.ExchangeEngine.Commands
                 throw new ArgumentNullException(nameof(intermediateType));
 
             ApiResultSubType = apiResultType;
-            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof (string);
+            ReturnsValueType = intermediateType.IsValueType || intermediateType == typeof(string);
 
             if (intermediateType.IsGenericType)
-                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof (List<>);
+                ReturnsCollection = intermediateType.GetGenericTypeDefinition() == typeof(List<>);
             else
                 ReturnsCollection = false;
 

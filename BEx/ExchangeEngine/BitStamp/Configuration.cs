@@ -16,9 +16,9 @@ namespace BEx.ExchangeEngine.BitStamp
             Initialize(null);
         }
 
-        public Uri WebSocketUri { get; private set; }
-
         public static IExchangeConfiguration Singleton => Instance;
+
+        public Uri WebSocketUri { get; private set; }
 
         public Uri BaseUri { get; private set; }
 
@@ -50,7 +50,7 @@ namespace BEx.ExchangeEngine.BitStamp
             }.ToImmutableHashSet();
 
             BaseUri = baseUri ?? new Uri("https://www.bitstamp.net/api");
-            this.WebSocketUri = null;
+            WebSocketUri = null;
         }
     }
 }

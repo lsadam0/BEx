@@ -47,7 +47,7 @@ namespace BEx.ExchangeEngine.Bitfinex.JSON.ResponseIntermediates
                 feeCurrency,
                 pair,
                 ExchangeType.Bitfinex,
-                (OrderType) Enum.Parse(typeof (OrderType), Type)
+                (OrderType) Enum.Parse(typeof(OrderType), Type)
                 );
         }
     }

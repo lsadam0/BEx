@@ -5,7 +5,7 @@ using System.Text;
 using BEx.ExchangeEngine.Utilities;
 using RestSharp;
 
-namespace BEx.ExchangeEngine.Coinbase
+namespace  BEx.ExchangeEngine.Gdax
 {
     internal class Authenticator : IExchangeAuthenticator
     {
@@ -16,11 +16,12 @@ namespace BEx.ExchangeEngine.Coinbase
         private const string _cbAccessTimeStampHeader = "CB-ACCESS-TIMESTAMP"; // A timestamp for your request.
 
         private const string _cbAcccessPass = "CB-ACCESS-PASSPHRASE";
-            // The passphrase you specified when creating the API key.
+        // The passphrase you specified when creating the API key.
 
         private static long _none = DateTime.UtcNow.Ticks;
         private readonly HMACSHA256 _hash;
         private readonly string _key;
+
         //  private readonly string _secret;
         private readonly string _passphrase;
 

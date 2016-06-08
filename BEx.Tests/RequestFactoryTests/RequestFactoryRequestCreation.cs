@@ -36,12 +36,11 @@ namespace BEx.Tests.RequestFactoryTests
                 {StandardParameter.Price, "100.00"}
             };
 
-
             _command = new LimitOrderCommand(
                 Method.POST,
                 new Uri("/v1/order/new/{pair}/{side}", UriKind.Relative),
                 true,
-                typeof (object),
+                typeof(object),
                 param);
 
             _pair = new TradingPair(Currency.LTC, Currency.BTC);

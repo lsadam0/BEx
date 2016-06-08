@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.Coinbase.JSON
+namespace  BEx.ExchangeEngine.Gdax.JSON
 {
     internal class OrderBookIntermediate : IExchangeResponseIntermediate<OrderBook>
     {
         public int sequence { get; set; }
         public object[][] bids { get; set; }
         public object[][] asks { get; set; }
-
 
         public OrderBook Convert(TradingPair pair)
         {
@@ -22,7 +21,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                     Conversion.ToDecimalInvariant(entry[1].ToString()),
                     Conversion.ToDecimalInvariant(entry[0].ToString()),
                     timestamp,
-                    ExchangeType.Coinbase));
+                    ExchangeType.Gdax));
             }
 
             var bid = new List<OrderBookEntry>();
@@ -32,11 +31,10 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                     new OrderBookEntry(Conversion.ToDecimalInvariant(entry[1].ToString()),
                         Conversion.ToDecimalInvariant(entry[0].ToString()),
                         timestamp,
-                        ExchangeType.Coinbase));
+                        ExchangeType.Gdax));
             }
 
-
-            return new OrderBook(bid, ask, timestamp.ToDateTimeUTC(), ExchangeType.Coinbase, pair);
+            return new OrderBook(bid, ask, timestamp.ToDateTimeUTC(), ExchangeType.Gdax, pair);
         }
     }
 }

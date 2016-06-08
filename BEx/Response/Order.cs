@@ -76,7 +76,6 @@ namespace BEx
 
         public static bool operator !=(Order a, Order b) => !(a == b);
 
-
         public static bool operator ==(Order a, Order b)
         {
             return
@@ -99,7 +98,6 @@ namespace BEx
         }
 
         public bool Equals(Order b) => this == b;
-
 
         public override int GetHashCode()
         {

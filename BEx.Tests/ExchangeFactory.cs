@@ -32,9 +32,9 @@ namespace BEx.Tests
                 Secret = exchangeElement.Element("Secret").Value
             });
 
-            exchangeElement = keys.Element("Coinbase");
+            exchangeElement = keys.Element("Gdax");
 
-            _tokens.Add(ExchangeType.Coinbase, new AuthToken
+            _tokens.Add(ExchangeType.Gdax, new AuthToken
             {
                 ApiKey = exchangeElement.Element("Key").Value,
                 Secret = exchangeElement.Element("Secret").Value,
@@ -52,8 +52,8 @@ namespace BEx.Tests
                 case ExchangeType.Bitfinex:
                     return new Bitfinex();
 
-                case ExchangeType.Coinbase:
-                    return new Coinbase();
+                case ExchangeType.Gdax:
+                    return new Gdax();
 
                 default:
                     return null;
@@ -81,8 +81,9 @@ namespace BEx.Tests
                     return new Bitfinex(
                         token.ApiKey,
                         token.Secret);
-                case ExchangeType.Coinbase:
-                    return new Coinbase(
+
+                case ExchangeType.Gdax:
+                    return new Gdax(
                         token.ApiKey,
                         token.Secret,
                         token.ClientId

@@ -33,7 +33,6 @@ namespace BEx
         /// </summary>
         public decimal AvailableToTrade { get; }
 
-
         public decimal Reserved { get; }
 
         /// <summary>
@@ -61,7 +60,6 @@ namespace BEx
 
         public static bool operator !=(Balance a, Balance b) => !(a == b);
 
-
         public static bool operator ==(Balance a, Balance b)
         {
             return
@@ -82,7 +80,6 @@ namespace BEx
         }
 
         public bool Equals(Balance b) => this == b;
-
 
         public override int GetHashCode()
         {

@@ -45,5 +45,10 @@ namespace BEx.ExchangeEngine.Utilities
         {
             return source.ToString(CultureInfo.InvariantCulture);
         }
+
+        public static void Log(this string message)
+        {
+            Debug.Log(message);
+        }
     }
 }

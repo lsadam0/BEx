@@ -68,7 +68,6 @@ namespace BEx
 
         public static bool operator !=(Transaction a, Transaction b) => !(a == b);
 
-
         public static bool operator ==(Transaction a, Transaction b)
         {
             return

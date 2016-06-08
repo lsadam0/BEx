@@ -2,7 +2,7 @@
 using System.Globalization;
 using BEx.ExchangeEngine.Utilities;
 
-namespace BEx.ExchangeEngine.Coinbase.JSON
+namespace  BEx.ExchangeEngine.Gdax.JSON
 {
     public class AccountBalanceIntermediate : IExchangeResponseIntermediate<Balance>
     {
@@ -24,7 +24,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                     balanceCurrency,
                     Conversion.ToDecimalInvariant(balance),
                     DateTime.UtcNow,
-                    ExchangeType.Coinbase,
+                    ExchangeType.Gdax,
                     Conversion.ToDecimalInvariant(hold));
             }
 

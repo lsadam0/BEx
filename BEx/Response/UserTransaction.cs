@@ -10,7 +10,6 @@ namespace BEx
     {
         private OrderType _transactionType;
 
-
         internal UserTransaction(
             decimal baseCurrencyAmount,
             decimal counterCurrencyAmount,
@@ -85,7 +84,6 @@ namespace BEx
 
         public static bool operator !=(UserTransaction a, UserTransaction b) => !(a == b);
 
-
         public static bool operator ==(UserTransaction a, UserTransaction b)
         {
             return
@@ -112,7 +110,6 @@ namespace BEx
         }
 
         public bool Equals(UserTransaction b) => this == b;
-
 
         public override int GetHashCode()
         {

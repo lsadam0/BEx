@@ -34,7 +34,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
         {
             var exchangeDate = DateTime.UtcNow;
 
-
             var btc = new Balance(
                 Conversion.ToDecimalInvariant(BtcAvailable),
                 Currency.BTC,
@@ -50,7 +49,6 @@ namespace BEx.ExchangeEngine.BitStamp.JSON.ResponseIntermediates
                 exchangeDate,
                 ExchangeType.BitStamp,
                 Conversion.ToDecimalInvariant(UsdReserved));
-
 
             return new AccountBalance(
                 new List<Balance> {btc, usd},

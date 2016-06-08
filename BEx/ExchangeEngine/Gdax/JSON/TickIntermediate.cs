@@ -2,7 +2,7 @@
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-namespace BEx.ExchangeEngine.Coinbase.JSON
+namespace  BEx.ExchangeEngine.Gdax.JSON
 {
     internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
     {
@@ -35,7 +35,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 Conversion.ToDecimalInvariant(price),
                 Conversion.ToDecimalInvariant(volume),
                 pair,
-                ExchangeType.Coinbase,
+                ExchangeType.Gdax,
                 (long) time.ToUnixTime());
 
             /*{"trade_id":6442532,"price":"372.63","size":"0.31379","bid":"372.54","ask":"372.64","volume":"6866.60379037","time":"2016-02-03T01:05:02.047318Z"}*/

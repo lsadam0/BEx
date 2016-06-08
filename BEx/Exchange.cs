@@ -10,11 +10,14 @@ using BEx.Response;
 
 namespace BEx
 {
-    public abstract class Exchange : IExchange
+    public abstract class Exchange : IExchange, IDisposable
     {
         private readonly IExchangeCommandFactory _commands;
         private readonly IExchangeConfiguration _configuration;
         private readonly ExecutionEngine _executor;
+        private readonly ExchangeSocketObserver _socketObserver;
+
+        private bool disposedValue;
 
         internal Exchange(
             IExchangeConfiguration configuration,
@@ -22,6 +25,7 @@ namespace BEx
         {
             _configuration = configuration;
             _commands = commands;
+            _socketObserver = new ExchangeSocketObserver(_configuration, null);
 
             _executor = new ExecutionEngine(
                 configuration.BaseUri,
@@ -35,11 +39,17 @@ namespace BEx
         {
             _configuration = configuration;
             _commands = commands;
+            _socketObserver = new ExchangeSocketObserver(_configuration, null);
 
             _executor = new ExecutionEngine(
                 configuration.BaseUri,
                 authenticator,
                 configuration.ExchangeSourceType);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
 
         public TradingPair DefaultPair => _configuration.DefaultPair;
@@ -51,7 +61,6 @@ namespace BEx
         public ImmutableHashSet<TradingPair> SupportedTradingPairs => _configuration.SupportedPairs;
 
         public Confirmation CancelOrder(Order toCancel) => CancelOrder(toCancel.Id);
-
 
         public Confirmation CancelOrder(string id)
         {
@@ -217,6 +226,21 @@ namespace BEx
         public DayRange Get24HrStats(TradingPair pair)
         {
             return _executor.Execute<DayRange>(_commands.DayRange, pair);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_socketObserver != null)
+                    {
+                        _socketObserver.Dispose();
+                    }
+                }
+                disposedValue = true;
+            }
         }
     }
 }

@@ -45,7 +45,6 @@ namespace BEx
             }
         }
 
-
         /// <summary>
         ///     Currency that can be deposited at <seealso cref="Address" />
         /// </summary>
@@ -87,7 +86,6 @@ namespace BEx
                                              ^ SourceExchange.GetHashCode();
 
         public override string ToString() => $"{SourceExchange} {DepositCurrency}: {Address}";
-
 
         private bool ValidateAddress(string toValidate)
         {

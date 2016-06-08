@@ -37,11 +37,9 @@ namespace BEx
 
         public DateTime ExchangeTimeStampUTC { get; }
 
-
         public decimal Last { get; }
 
         public DateTime LocalTimeStampUTC { get; }
-
 
         public TradingPair Pair { get; }
 
@@ -72,7 +70,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (Tick) obj;
+            return this == (Tick)obj;
         }
 
         public bool Equals(Tick b) => this == b;

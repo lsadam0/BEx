@@ -12,7 +12,6 @@ namespace BEx.Tests.BitfinexTests
         {
         }
 
-
         /*
         [Test]
         public void CreateBuyOrder_InsufficientFunds_LimitOrderRejectedException()

@@ -1,39 +1,36 @@
 ﻿using NUnit.Framework;
 
-namespace BEx.Tests.CoinbaseTests
+namespace BEx.Tests.GdaxTests
 {
     [TestFixture]
-    [Category("Coinbase.UnauthenticatedCommands")]
-    public class CoinbaseUnauthenticatedCommands : ExchangeVerificationBase
+    [Category("Gdax.UnauthenticatedCommands")]
+    public class GdaxUnauthenticatedCommands : ExchangeVerificationBase
     {
-        public CoinbaseUnauthenticatedCommands()
-            : base(new Coinbase())
+        public GdaxUnauthenticatedCommands()
+            : base(new Gdax())
         {
         }
 
-
         [Test]
-        public void Coinbase_GetDayRange_BTCUSD_Success()
+        public void Gdax_GetDayRange_BTCUSD_Success()
         {
             CommandVerification.VerifyDayRange(TestCandidate.DefaultPair);
         }
 
-
         [Test]
-        public void Coinbase_GetOrderBook_BTCUSD_Success()
+        public void Gdax_GetOrderBook_BTCUSD_Success()
         {
             CommandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
         }
 
         [Test]
-        public void Coinbase_GetTick_BTCUSD_Success()
+        public void Gdax_GetTick_BTCUSD_Success()
         {
             CommandVerification.VerifyTick(TestCandidate.DefaultPair);
         }
 
-
         [Test]
-        public void Coinbase_GetTransactions_BTCUSD_Success()
+        public void Gdax_GetTransactions_BTCUSD_Success()
         {
             CommandVerification.VerifyTransactions(TestCandidate.DefaultPair);
         }

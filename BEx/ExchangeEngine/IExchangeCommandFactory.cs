@@ -18,7 +18,6 @@ namespace BEx.ExchangeEngine
         /// <returns></returns>
         AccountBalanceCommand AccountBalance { get; }
 
-
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.CreateBuyOrder()
         /// </summary>
@@ -30,7 +29,6 @@ namespace BEx.ExchangeEngine
         /// </summary>
         /// <returns></returns>
         CancelOrderCommand CancelOrder { get; }
-
 
         DayRangeCommand DayRange { get; }
 

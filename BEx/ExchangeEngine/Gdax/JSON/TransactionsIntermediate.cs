@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEx.ExchangeEngine.Coinbase.JSON
+namespace  BEx.ExchangeEngine.Gdax.JSON
 {
     /*
 
@@ -10,16 +10,10 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
 
         public Transactions Convert(TradingPair pair)
         {
-
-         
-
             return new Transactions(
                 Property1.Select(x => x.Convert(pair)),
                 pair,
-                ExchangeType.Coinbase);
-
-
-
+                ExchangeType.Gdax);
         }
     }
     */
@@ -40,7 +34,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 new DateTime(time.Ticks, DateTimeKind.Utc),
                 trade_id,
                 price,
-                ExchangeType.Coinbase);
+                ExchangeType.Gdax);
         }
     }
 }

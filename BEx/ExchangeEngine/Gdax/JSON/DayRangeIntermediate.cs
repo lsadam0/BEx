@@ -2,7 +2,7 @@
 using BEx.ExchangeEngine.Utilities;
 using BEx.Response;
 
-namespace BEx.ExchangeEngine.Coinbase.JSON
+namespace BEx.ExchangeEngine.Gdax.JSON
 {
     internal class DayRangeIntermediate : IExchangeResponseIntermediate<DayRange>
     {
@@ -18,7 +18,7 @@ namespace BEx.ExchangeEngine.Coinbase.JSON
                 Conversion.ToDecimalInvariant(low),
                 DateTime.UtcNow,
                 pair,
-                ExchangeType.Coinbase);
+                ExchangeType.Gdax);
         }
     }
 }
