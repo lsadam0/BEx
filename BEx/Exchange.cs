@@ -15,7 +15,9 @@ namespace BEx
         private readonly IExchangeCommandFactory _commands;
         private readonly IExchangeConfiguration _configuration;
         private readonly ExecutionEngine _executor;
-        private readonly ExchangeSocketObserver _socketObserver;
+        protected SocketObservable _socketObservable;
+        protected SocketObserver _socketObserver;
+        
 
         private bool disposedValue;
 
@@ -25,7 +27,7 @@ namespace BEx
         {
             _configuration = configuration;
             _commands = commands;
-            _socketObserver = new ExchangeSocketObserver(_configuration, null);
+            SetupSocket();
 
             _executor = new ExecutionEngine(
                 configuration.BaseUri,
@@ -39,13 +41,20 @@ namespace BEx
         {
             _configuration = configuration;
             _commands = commands;
-            _socketObserver = new ExchangeSocketObserver(_configuration, null);
+            SetupSocket();
 
             _executor = new ExecutionEngine(
                 configuration.BaseUri,
                 authenticator,
                 configuration.ExchangeSourceType);
         }
+
+        private void SetupSocket()
+        {
+            this.Subscribe();
+        }
+
+        protected abstract void Subscribe();
 
         public void Dispose()
         {
@@ -228,17 +237,15 @@ namespace BEx
             return _executor.Execute<DayRange>(_commands.DayRange, pair);
         }
 
-        protected virtual void Dispose(bool disposing)
+        public virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
-                    if (_socketObserver != null)
-                    {
-                        _socketObserver.Dispose();
-                    }
+                    _socketObservable?.Dispose();
                 }
+
                 disposedValue = true;
             }
         }

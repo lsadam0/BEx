@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using  BEx.ExchangeEngine.Gdax.JSON;
+using  BEx.ExchangeEngine.Gdax.API.JSON;
 using BEx.ExchangeEngine.Commands;
 using RestSharp;
 
-namespace  BEx.ExchangeEngine.Gdax
+namespace  BEx.ExchangeEngine.Gdax.API
 {
     internal class CommandFactory : IExchangeCommandFactory
     {

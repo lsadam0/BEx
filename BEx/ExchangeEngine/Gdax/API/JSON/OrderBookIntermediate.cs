@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BEx.ExchangeEngine.Utilities;
 
-namespace  BEx.ExchangeEngine.Gdax.JSON
+namespace BEx.ExchangeEngine.Gdax.API.JSON
 {
     internal class OrderBookIntermediate : IExchangeResponseIntermediate<OrderBook>
     {

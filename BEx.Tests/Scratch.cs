@@ -1,6 +1,6 @@
 ﻿using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Gdax;
-using BEx.ExchangeEngine.Gdax.JSON.WebSocket;
+using BEx.ExchangeEngine.Gdax.WebSocket.JSON;
 using NUnit.Framework;
 
 namespace BEx.Tests
@@ -11,6 +11,7 @@ namespace BEx.Tests
         [Test]
         public void Socket()
         {
+            /*
             var conf = Configuration.Singleton;
 
             var message = new SubscribeToTradingPair();
@@ -19,13 +20,14 @@ namespace BEx.Tests
 
             message.product_id = "BTC-USD";
 
-            var obs = new ExchangeSocketObserver(conf, message);
+            var obs = new SocketObservable(conf, message);
 
-            var dispatch = new MessageDispatch(new GdaxParser());
+            var dispatch = new SocketObserver(new GdaxParser());
 
             obs.Subscribe(dispatch);
-            // obs.Begin();
-            //    obs.Subscribe(new TradingPair(Currency.BTC, Currency.USD));
+            */
+
+            var gdax = new Gdax();
 
             var run = true;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using BEx.ExchangeEngine.Utilities;
 
-namespace  BEx.ExchangeEngine.Gdax.JSON
+namespace BEx.ExchangeEngine.Gdax.API.JSON
 {
     public class OpenOrderIntermediate : IExchangeResponseIntermediate<Order>
     {

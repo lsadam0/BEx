@@ -2,7 +2,7 @@
 using BEx.ExchangeEngine.Utilities;
 using BEx.Response;
 
-namespace BEx.ExchangeEngine.Gdax.JSON
+namespace BEx.ExchangeEngine.Gdax.API.JSON
 {
     internal class DayRangeIntermediate : IExchangeResponseIntermediate<DayRange>
     {

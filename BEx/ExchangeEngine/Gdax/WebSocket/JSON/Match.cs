@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BEx.ExchangeEngine.Gdax.JSON.WebSocket
+namespace BEx.ExchangeEngine.Gdax.WebSocket.JSON
 {
     public class Match
     {

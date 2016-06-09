@@ -5,7 +5,7 @@ using System.Text;
 using BEx.ExchangeEngine.Utilities;
 using RestSharp;
 
-namespace  BEx.ExchangeEngine.Gdax
+namespace  BEx.ExchangeEngine.Gdax.API
 {
     internal class Authenticator : IExchangeAuthenticator
     {

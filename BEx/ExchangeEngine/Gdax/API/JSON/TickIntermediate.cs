@@ -2,7 +2,7 @@
 using BEx.ExchangeEngine.Utilities;
 using Newtonsoft.Json;
 
-namespace  BEx.ExchangeEngine.Gdax.JSON
+namespace BEx.ExchangeEngine.Gdax.API.JSON
 {
     internal class TickIntermediate : IExchangeResponseIntermediate<Tick>
     {

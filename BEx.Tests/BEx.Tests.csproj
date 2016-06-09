@@ -94,6 +94,7 @@
     <Compile Include="ExchangeFactory.cs" />
     <Compile Include="ExchangeVerificationBase.cs" />
     <Compile Include="ExchangeCommandVerification.cs" />
+    <Compile Include="GdaxTests\WebSocket\MessageParserCanIdentify.cs" />
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>

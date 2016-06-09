@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace  BEx.ExchangeEngine.Gdax.JSON
+namespace BEx.ExchangeEngine.Gdax.API.JSON
 {
     /*
 

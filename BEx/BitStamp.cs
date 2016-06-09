@@ -1,5 +1,6 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using BEx.ExchangeEngine.BitStamp;
 
 namespace BEx
@@ -19,6 +20,11 @@ namespace BEx
                 CommandFactory.Singleton,
                 new Authenticator(apiKey, secretKey, clientId))
         {
+        }
+
+        protected override void Subscribe()
+        {
+            
         }
     }
 }
