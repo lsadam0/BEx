@@ -1,23 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using BEx.ExchangeEngine.Utilities;
+using System.Reactive;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 
 namespace BEx.ExchangeEngine
 {
-    public class SocketObserver : IObserver<string>
+    public class SocketObserver 
+        : IObserver<string>
+     
     {
-        private readonly IMessageParser _parser;
         private readonly Queue<string> _messageQueue = new Queue<string>();
+        private readonly IMessageParser _parser;
         private readonly object _sync = new object();
-        
+        private HashSet<object> _allObservers = new HashSet<object>();
+    
+
         internal SocketObserver(IMessageParser parser)
         {
-            this._parser = parser;
+            _parser = parser;
+          
         }
 
+
+        public void OnCompleted()
+        {
+        }
+
+        public void OnError(Exception error)
+        {
+            throw new NotImplementedException();
+        }
 
         public void OnNext(string value)
         {
@@ -27,14 +40,6 @@ namespace BEx.ExchangeEngine
             }
         }
 
-        public void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnCompleted()
-        {
-            
-        }
+        
     }
 }

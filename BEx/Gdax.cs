@@ -1,9 +1,8 @@
-﻿using System;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Gdax;
-using BEx.ExchangeEngine.Gdax.API;
-using BEx.ExchangeEngine.Gdax.WebSocket.JSON;
-using BEx.ExchangeEngine.Gdax.WebSocket;
+﻿using BEx.ExchangeEngine;
+using BEx.Exchanges.Gdax;
+using BEx.Exchanges.Gdax.API;
+using BEx.Exchanges.Gdax.WebSocket;
+using BEx.Exchanges.Gdax.WebSocket.Models;
 
 namespace BEx
 {
@@ -24,20 +23,19 @@ namespace BEx
 
         protected override void Subscribe()
         {
-            var message = new SubscribeToTradingPair()
+            var message = new SubscribeToTradingPairModel
             {
                 type = "subscribe",
                 product_id = "BTC-USD"
             };
 
-            this._socketObservable = new ExchangeEngine.SocketObservable(
+            _socketObservable = new SocketObservable(
                 Configuration.Singleton,
                 message);
 
-            this._socketObserver = new ExchangeEngine.SocketObserver(new GdaxParser());
+            _socketObserver = new SocketObserver(new GdaxParser());
 
-            this._socketObservable.Subscribe(_socketObserver);
-
+            _socketObservable.Subscribe(_socketObserver);
         }
     }
 }

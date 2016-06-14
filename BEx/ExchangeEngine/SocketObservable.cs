@@ -137,6 +137,7 @@ namespace BEx.ExchangeEngine
                             if (clientWebSocket.State == WebSocketState.Open
                                 || clientWebSocket.State == WebSocketState.Connecting)
                             {
+                                Debug.Log($"Closing {_socketUri.AbsoluteUri}");
                                 clientWebSocket.CloseAsync(
                                     WebSocketCloseStatus.NormalClosure,
                                     string.Empty,

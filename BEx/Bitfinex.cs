@@ -1,7 +1,10 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
+using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.Bitfinex;
+using BEx.Exchanges.Bitfinex.API;
+using BEx.Exchanges.Bitfinex.WebSocket;
+using BEx.Exchanges.Bitfinex.WebSocket.Models;
 
 namespace BEx
 {
@@ -24,7 +27,20 @@ namespace BEx
 
         protected override void Subscribe()
         {
-            
+            var message = new SubscribeToChannelModel
+            {
+                _event = "subscribe",
+                channel = "ticker",
+                pair = "BTCUSD"
+            };
+
+            _socketObservable = new SocketObservable(
+                Configuration.Singleton,
+                message);
+
+            _socketObserver = new SocketObserver(new Parser());
+
+            _socketObservable.Subscribe(_socketObserver);
         }
     }
 }

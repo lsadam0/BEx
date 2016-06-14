@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Commands;
+using BEx.ExchangeEngine.API;
+using BEx.ExchangeEngine.API.Commands;
 using NUnit.Framework;
 using RestSharp;
 

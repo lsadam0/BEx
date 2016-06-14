@@ -3,8 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Commands;
+using BEx.ExchangeEngine.API.Commands;
 using BEx.ExchangeEngine.Utilities;
 using BEx.Response;
 
@@ -17,7 +18,7 @@ namespace BEx
         private readonly ExecutionEngine _executor;
         protected SocketObservable _socketObservable;
         protected SocketObserver _socketObserver;
-        
+
 
         private bool disposedValue;
 
@@ -48,13 +49,6 @@ namespace BEx
                 authenticator,
                 configuration.ExchangeSourceType);
         }
-
-        private void SetupSocket()
-        {
-            this.Subscribe();
-        }
-
-        protected abstract void Subscribe();
 
         public void Dispose()
         {
@@ -231,6 +225,13 @@ namespace BEx
         /// <param name="pair">Currency Pair</param>
         /// <returns>True if supported, otherwise false.</returns>
         public bool IsTradingPairSupported(TradingPair pair) => _configuration.SupportedPairs.Contains(pair);
+
+        private void SetupSocket()
+        {
+            Subscribe();
+        }
+
+        protected abstract void Subscribe();
 
         public DayRange Get24HrStats(TradingPair pair)
         {

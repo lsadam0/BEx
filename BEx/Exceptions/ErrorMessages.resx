@@ -128,7 +128,7 @@
   <data name="RESTForbidden" xml:space="preserve">
     <value>Executed command {0}, but the server replied that the action is forbidden (HTTP 403).</value>
   </data>
-  <data name="RESTInternalServerError" xml:space="preserve">
+  <data name="RESTInternalServerErrorModel" xml:space="preserve">
     <value>Executed command {0}, but the server had an internal error preventing execution (HTTP 500).</value>
   </data>
   <data name="RESTInvalidURL" xml:space="preserve">
@@ -161,7 +161,7 @@
   <data name="RESTSuccessButHasException" xml:space="preserve">
     <value>Server returned status Ok (HTTP 200) when executing command {0}, but an exception was raised on the response. </value>
   </data>
-  <data name="RESTErrorResponseContent" xml:space="preserve">
+  <data name="RESTErrorModelResponseContent" xml:space="preserve">
     <value>The response content contained the following: {0}.</value>
   </data>
   <data name="MissingArgApiKey" xml:space="preserve">
@@ -172,5 +172,8 @@
   </data>
   <data name="MissingArgSecretKey" xml:space="preserve">
     <value>The provided Secret Key value was null or empty.  A valid Secret Key is required for Authenticed commands of the current Exchange.</value>
+  </data>
+  <data name="SocketMessageIdentificationFailed" xml:space="preserve">
+    <value>Failed to identify message: {0}</value>
   </data>
 </root>

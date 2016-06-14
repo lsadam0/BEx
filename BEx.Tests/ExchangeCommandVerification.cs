@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.API;
 using NUnit.Framework;
 
 namespace BEx.Tests

@@ -214,6 +214,15 @@ namespace BEx.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to identify message: {0}.
+        /// </summary>
+        internal static string SocketMessageIdentificationFailed {
+            get {
+                return ResourceManager.GetString("SocketMessageIdentificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The currency pair {0}/{1} is not currently supported by the exchange {2}.
         /// </summary>
         internal static string UnsupportedCurrencyPair {

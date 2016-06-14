@@ -1,7 +1,4 @@
-﻿using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Gdax;
-using BEx.ExchangeEngine.Gdax.WebSocket.JSON;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace BEx.Tests
 {
@@ -14,7 +11,7 @@ namespace BEx.Tests
             /*
             var conf = Configuration.Singleton;
 
-            var message = new SubscribeToTradingPair();
+            var message = new SubscribeToTradingPairModel();
 
             message.type = "subscribe";
 
@@ -27,8 +24,8 @@ namespace BEx.Tests
             obs.Subscribe(dispatch);
             */
 
-            var gdax = new Gdax();
-
+            //var gdax = new Gdax();
+            var bfx = new Bitfinex();
             var run = true;
 
             while (run)
