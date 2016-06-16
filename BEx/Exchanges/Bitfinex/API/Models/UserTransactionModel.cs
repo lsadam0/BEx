@@ -14,9 +14,6 @@ namespace BEx.Exchanges.Bitfinex.API.Models
         [JsonProperty("amount", Required = Required.Always)]
         public string Amount { get; set; }
 
-        [JsonProperty("exchange", Required = Required.Always)]
-        public string Exchange { get; set; }
-
         [JsonProperty("fee_amount", Required = Required.Always)]
         public string FeeAmount { get; set; }
 
@@ -35,23 +32,38 @@ namespace BEx.Exchanges.Bitfinex.API.Models
         [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
 
+        [JsonProperty("order_id", Required = Required.Always)]
+        public int order_id { get; set; }
+
         public UserTransaction Convert(TradingPair pair)
         {
             var feeCurrency = Type == "Buy" ? pair.BaseCurrency : pair.CounterCurrency;
 
-            return new UserTransaction(
-                Conversion.ToDecimalInvariant(Amount),
-                Conversion.ToDecimalInvariant(Price)
-                *Conversion.ToDecimalInvariant(Amount),
-                (long) Timestamp,
-                Conversion.ToDecimalInvariant(Price),
-                Tid,
-                Conversion.ToDecimalInvariant(FeeAmount),
-                feeCurrency,
-                pair,
-                ExchangeType.Bitfinex,
-                (OrderType) Enum.Parse(typeof(OrderType), Type)
-                );
+            if (order_id <= 0)
+            {
+                return default(UserTransaction);
+            }
+            else
+            {
+                return new UserTransaction(
+                    Conversion.ToDecimalInvariant(Amount),
+                    Conversion.ToDecimalInvariant(Price)
+                    *Conversion.ToDecimalInvariant(Amount),
+                    (long) Timestamp,
+                    Conversion.ToDecimalInvariant(Price),
+                    order_id.ToString(),
+                    Conversion.ToDecimalInvariant(FeeAmount),
+                    feeCurrency,
+                    pair,
+                    ExchangeType.Bitfinex,
+                    (OrderType) Enum.Parse(typeof(OrderType), Type),
+                    Tid
+                    );
+            }
         }
     }
 }
+
+
+
+

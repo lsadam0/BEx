@@ -35,6 +35,8 @@ namespace BEx.Exchanges.BitStamp.API.Models
         [JsonProperty("usd", Required = Required.Always)]
         public string Usd { get; set; }
 
+
+
         public UserTransaction Convert(TradingPair pair)
         {
             if (OrderId != null && Type == 2)
@@ -44,16 +46,19 @@ namespace BEx.Exchanges.BitStamp.API.Models
                 return new UserTransaction(
                     Conversion.ToDecimalInvariant(Btc),
                     Conversion.ToDecimalInvariant(Usd),
-                    (long) Datetime.ToUnixTime(),
+                    (long)Datetime.ToUnixTime(),
                     Conversion.ToDecimalInvariant(BtcUsd),
-                    (int) OrderId,
+                    OrderId.ToString(),
                     Conversion.ToDecimalInvariant(Fee),
                     Currency.USD,
                     pair,
                     ExchangeType.BitStamp,
-                    Conversion.ToDecimalInvariant(Btc) < 0 ? OrderType.Sell : OrderType.Buy);
+                    Conversion.ToDecimalInvariant(Btc) < 0 ? OrderType.Sell : OrderType.Buy,
+                    Id);
             }
+
             return default(UserTransaction);
         }
     }
 }
+

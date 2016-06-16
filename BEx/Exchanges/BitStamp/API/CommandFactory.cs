@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine;
 
 using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine.API.Commands;
@@ -41,12 +40,6 @@ namespace BEx.Exchanges.BitStamp.API
         public CancelOrderCommand CancelOrder { get; private set; }
 
         public DayRangeCommand DayRange { get; private set; }
-
-        /// <summary>
-        ///     ExchangeCommand associated with IAuthenticatedCommands.GetDepositAddress()
-        /// </summary>
-        /// <returns></returns>
-        public DepositAddressCommand DepositAddress { get; private set; }
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
@@ -129,7 +122,6 @@ namespace BEx.Exchanges.BitStamp.API
             AccountBalance = BuildAccountBalanceCommand();
             BuyOrder = BuildBuyOrderCommand();
             CancelOrder = BuildCancelOrderCommand();
-            DepositAddress = BuildDepositAddressCommand();
             OpenOrders = BuildOpenOrdersCommand();
             OrderBook = BuildOrderBookCommand();
             SellOrder = BuildSellOrderCommand();
@@ -137,15 +129,6 @@ namespace BEx.Exchanges.BitStamp.API
             Transactions = BuildTransactionsCommand();
             UserTransactions = BuildUserTransactionsCommand();
             DayRange = BuildDayRangeCOmmand();
-        }
-
-        public DepositAddressCommand BuildDepositAddressCommand()
-        {
-            return new DepositAddressCommand(
-                Method.POST,
-                new Uri("bitcoin_deposit_address/", UriKind.Relative),
-                true,
-                typeof(string));
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()

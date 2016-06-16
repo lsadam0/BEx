@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine.API.Commands;
 using BEx.Exchanges.Gdax.API.Models;
 using RestSharp;
-
-using BEx.ExchangeEngine.API;
 
 namespace BEx.Exchanges.Gdax.API
 {
@@ -82,6 +80,12 @@ namespace BEx.Exchanges.Gdax.API
                 new Uri("orders", UriKind.Relative),
                 true,
                 typeof(List<OpenOrderModel>));
+
+            UserTransactions = new UserTransactionsCommand(
+                Method.GET,
+                new Uri("fills", UriKind.Relative),
+                true,
+                typeof(List<UserTransactionModel>));
         }
 
         public static IExchangeCommandFactory Singleton => instance;
@@ -89,7 +93,6 @@ namespace BEx.Exchanges.Gdax.API
         public LimitOrderCommand BuyOrder { get; }
         public CancelOrderCommand CancelOrder { get; }
         public DayRangeCommand DayRange { get; }
-        public DepositAddressCommand DepositAddress { get; }
         public OpenOrdersCommand OpenOrders { get; }
         public OrderBookCommand OrderBook { get; }
         public LimitOrderCommand SellOrder { get; }

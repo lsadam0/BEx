@@ -25,12 +25,6 @@ namespace BEx.Tests.BitStampTests
         }
 
         [Test]
-        public void BitStamp_GetDepositAddress_BTC_Success()
-        {
-            CommandVerification.VerifyDepositAddress(Currency.BTC);
-        }
-
-        [Test]
         public void BitStamp_GetOpenOrders_BTCUSD_Success()
         {
             CommandVerification.VerifyOpenOrders();
@@ -42,18 +36,6 @@ namespace BEx.Tests.BitStampTests
             CommandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
         }
 
-        [Test]
-        public void Scratch()
-        {
-            var open = TestCandidate.GetOpenOrders();
-
-            //  var sell = open.SellOrders.FirstOrDefault();
-
-            var tick = TestCandidate.GetTick();
-            //var confirm = base.TestCandidate.CancelOrder(sell.Value);
-
-            {
-            }
-        }
+ 
     }
 }

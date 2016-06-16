@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using BEx.ExchangeEngine;
 
 using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine.API.Commands;
@@ -41,12 +40,6 @@ namespace BEx.Exchanges.Bitfinex.API
         public CancelOrderCommand CancelOrder { get; private set; }
 
         public DayRangeCommand DayRange { get; private set; }
-
-        /// <summary>
-        ///     ExchangeCommand associated with IAuthenticatedCommands.GetDepositAddress()
-        /// </summary>
-        /// <returns></returns>
-        public DepositAddressCommand DepositAddress { get; private set; }
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
@@ -133,7 +126,7 @@ namespace BEx.Exchanges.Bitfinex.API
             AccountBalance = BuildAccountBalanceCommand();
             BuyOrder = BuildBuyOrderCommand();
             CancelOrder = BuildCancelOrderCommand();
-            DepositAddress = BuildDepositAddressCommand();
+
             OpenOrders = BuildOpenOrdersCommand();
             OrderBook = BuildOrderBookCommand();
             SellOrder = BuildSellOrderCommand();
@@ -141,26 +134,6 @@ namespace BEx.Exchanges.Bitfinex.API
             Transactions = BuildTransactionsCommand();
             UserTransactions = BuildUserTransactionsCommand();
             DayRange = BuildDayRangeCommand();
-        }
-
-        public DepositAddressCommand BuildDepositAddressCommand()
-        {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Post, "currency", StandardParameter.Currency, "BTC"),
-                new ExchangeParameter(ParameterMethod.Post, "method", StandardParameter.CurrencyFullName, "bitcoin")
-                {
-                    IsLowercase = true
-                },
-                new ExchangeParameter(ParameterMethod.Post, "wallet_name", StandardParameter.None, "exchange")
-            };
-
-            return new DepositAddressCommand(
-                Method.POST,
-                new Uri("/v1/deposit/new", UriKind.Relative),
-                true,
-                typeof(DepositAddressModel),
-                param);
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()

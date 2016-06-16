@@ -23,8 +23,6 @@ namespace BEx
 
         AccountBalance GetAccountBalance();
 
-        DepositAddress GetDepositAddress(Currency toDeposit);
-
         OpenOrders GetOpenOrders();
 
         OpenOrders GetOpenOrders(TradingPair pair);

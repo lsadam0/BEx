@@ -20,18 +20,6 @@ namespace BEx.Tests.BitfinexTests
         }
 
         [Test]
-        public void Bitfinex_GetDepositAddress_BTC_Success()
-        {
-            CommandVerification.VerifyDepositAddress(Currency.BTC);
-        }
-
-        [Test]
-        public void Bitfinex_GetDepositAddress_LTC_Success()
-        {
-            CommandVerification.VerifyDepositAddress(Currency.LTC);
-        }
-
-        [Test]
         public void Bitfinex_GetOpenOrders_Success()
         {
             CommandVerification.VerifyOpenOrders();

@@ -33,12 +33,6 @@ namespace BEx.ExchangeEngine.API
         DayRangeCommand DayRange { get; }
 
         /// <summary>
-        ///     ExchangeCommand associated with IAuthenticatedCommands.GetDepositAddress()
-        /// </summary>
-        /// <returns></returns>
-        DepositAddressCommand DepositAddress { get; }
-
-        /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
         /// </summary>
         /// <returns></returns>

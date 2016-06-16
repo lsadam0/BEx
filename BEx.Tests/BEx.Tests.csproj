@@ -82,13 +82,16 @@
     <Compile Include="AddressValidationTests\AddressValidator.cs" />
     <Compile Include="BitFinexTests\BitFinexAuthenticatedCommands.cs" />
     <Compile Include="BitFinexTests\BitFinexExceptions.cs" />
+    <Compile Include="BitFinexTests\BitFinexModelTranslation.cs" />
     <Compile Include="BitFinexTests\BitfinexSetup.cs" />
     <Compile Include="BitFinexTests\BitFinexUnauthenticatedCommands.cs" />
     <Compile Include="BitStampTests\BitStampAuthenticatedCommands.cs" />
     <Compile Include="BitStampTests\BitStampExceptions.cs" />
     <Compile Include="BitStampTests\BitStampSetup.cs" />
     <Compile Include="BitStampTests\BitStampUnauthenticatedCommands.cs" />
+    <Compile Include="BitStampTests\ModelTranslation.cs" />
     <Compile Include="GdaxTests\GdaxAuthenticatedCommands.cs" />
+    <Compile Include="GdaxTests\GdaxModelTranslation.cs" />
     <Compile Include="GdaxTests\GdaxUnauthenticatedCommands.cs" />
     <Compile Include="DateTimeUnixConversion.cs" />
     <Compile Include="ExchangeFactory.cs" />

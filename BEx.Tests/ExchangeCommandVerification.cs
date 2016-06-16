@@ -67,19 +67,6 @@ namespace BEx.Tests
             VerifyOrder(toVerify, TestCandidate.DefaultPair, OrderType.Buy);
         }
 
-        public void VerifyDepositAddress(Currency depositCurrency)
-        {
-            var toTest = default(DepositAddress);
-            Assert.DoesNotThrow(() => { toTest = TestCandidate.GetDepositAddress(depositCurrency); });
-
-            VerifyApiResult(toTest);
-
-            Assert.That(!string.IsNullOrWhiteSpace(toTest.Address));
-            Assert.That(!string.IsNullOrEmpty(toTest.Address));
-            Assert.That(toTest.DepositCurrency == depositCurrency,
-                $"DepositAddress Currency mismatch.  Request: {depositCurrency} Response: {toTest.DepositCurrency}");
-        }
-
         public void VerifyOpenOrders()
         {
             var toVerify = TestCandidate.GetOpenOrders();
@@ -257,7 +244,7 @@ namespace BEx.Tests
 
                 // Check that transaction balances
 
-                Assert.That(Math.Round(transaction.BaseCurrencyAmount*transaction.ExchangeRate +
+                Assert.That(Math.Round(transaction.BaseCurrencyAmount * transaction.ExchangeRate +
                                        transaction.CounterCurrencyAmount, 2) == 0);
 
                 // Trade Fee Currency belongs to Trading Pair
@@ -265,7 +252,8 @@ namespace BEx.Tests
                             ||
                             (transaction.Pair.CounterCurrency == transaction.TradeFeeCurrency));
 
-                Assert.That(transaction.OrderId > 0);
+                Assert.That(!string.IsNullOrEmpty(transaction.OrderId));
+                Assert.That(transaction.TransactionId > 0);
             }
         }
 

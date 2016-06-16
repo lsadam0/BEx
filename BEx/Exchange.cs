@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine;
+using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine.API.Commands;
 using BEx.ExchangeEngine.Utilities;
 using BEx.Response;
@@ -18,7 +18,6 @@ namespace BEx
         private readonly ExecutionEngine _executor;
         protected SocketObservable _socketObservable;
         protected SocketObserver _socketObserver;
-
 
         private bool disposedValue;
 
@@ -139,18 +138,6 @@ namespace BEx
         /// </summary>
         /// <returns>BEx.AccountBalance</returns>
         public AccountBalance GetAccountBalance() => _executor.Execute<AccountBalance>(_commands.AccountBalance);
-
-        /// <summary>
-        ///     Retrieve the your account Deposit Address for the requested currency
-        /// </summary>
-        /// <param name="toDeposit">CryptoCurrency to deposit</param>
-        /// <returns>BEx.DepositAddress</returns>
-        public DepositAddress GetDepositAddress(Currency toDeposit)
-        {
-            var pair = new TradingPair(toDeposit, toDeposit);
-
-            return _executor.Execute<DepositAddress>(_commands.DepositAddress, pair);
-        }
 
         public OpenOrders GetOpenOrders() => GetOpenOrders(DefaultPair);
 

@@ -1,10 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Utilities;
-
 using BEx.ExchangeEngine.API;
+using BEx.ExchangeEngine.Utilities;
 
 namespace BEx
 {
@@ -17,12 +15,13 @@ namespace BEx
             decimal counterCurrencyAmount,
             long timeStamp,
             decimal exchangeRate,
-            int orderId,
+            string orderId,
             decimal tradeFee,
             Currency tradeFeeCurrency,
             TradingPair pair,
             ExchangeType sourceExchange,
-            OrderType orderType)
+            OrderType orderType,
+            int transactionId)
             : this()
         {
             BaseCurrencyAmount = baseCurrencyAmount;
@@ -38,6 +37,7 @@ namespace BEx
             CompletedTime = UnixTimeStamp.ToDateTimeUTC();
             ExchangeTimeStampUTC = CompletedTime;
             LocalTimeStampUTC = DateTime.UtcNow;
+            TransactionId = transactionId;
         }
 
         public long UnixTimeStamp { get; }
@@ -54,7 +54,9 @@ namespace BEx
 
         public DateTime LocalTimeStampUTC { get; }
 
-        public int OrderId { get; }
+        public string OrderId { get; }
+
+        public int TransactionId { get; }
 
         public TradingPair Pair { get; }
 
@@ -71,13 +73,13 @@ namespace BEx
             {
                 if (value == OrderType.Sell)
                 {
-                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount)*-1;
+                    BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount) * -1;
                     CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount);
                 }
                 else
                 {
                     BaseCurrencyAmount = Math.Abs(BaseCurrencyAmount);
-                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount)*-1;
+                    CounterCurrencyAmount = Math.Abs(CounterCurrencyAmount) * -1;
                 }
 
                 _transactionType = value;
@@ -98,7 +100,8 @@ namespace BEx
                 && a.SourceExchange == b.SourceExchange
                 && a.TradeFee == b.TradeFee
                 && a.TradeFeeCurrency == b.TradeFeeCurrency
-                && a.TransactionType == b.TransactionType;
+                && a.TransactionType == b.TransactionType
+                && a.TransactionId == b.TransactionId;
         }
 
         public override bool Equals(object obj)
@@ -108,7 +111,7 @@ namespace BEx
                 return false;
             }
 
-            return this == (UserTransaction) obj;
+            return this == (UserTransaction)obj;
         }
 
         public bool Equals(UserTransaction b) => this == b;
@@ -125,7 +128,8 @@ namespace BEx
                 ^ SourceExchange.GetHashCode()
                 ^ TradeFee.GetHashCode()
                 ^ TradeFeeCurrency.GetHashCode()
-                ^ TransactionType.GetHashCode();
+                ^ TransactionType.GetHashCode()
+                ^ TransactionId.GetHashCode();
         }
 
         public override string ToString() => $"{SourceExchange} {Pair} - Order Id: {OrderId}";

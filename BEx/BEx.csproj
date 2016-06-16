@@ -79,7 +79,6 @@
     <Compile Include="Exchanges\Bitfinex\API\Models\AccountBalanceModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\CancelOrderResponseModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\DayRangeModel.cs" />
-    <Compile Include="Exchanges\Bitfinex\API\Models\DepositAddressModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\ErrorModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\OrderBookModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\OrderResponseModel.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="Exchanges\Bitfinex\WebSocket\Models\SubscribeToOrderBookModel.cs" />
     <Compile Include="Exchanges\Bitfinex\WebSocket\Models\Tick.cs" />
     <Compile Include="Exchanges\Bitfinex\WebSocket\Parser.cs" />
+    <Compile Include="Exchanges\Gdax\API\Models\UserTransactionModel.cs" />
     <Compile Include="Exchanges\Gdax\WebSocket\Models\ChangeFundsModel.cs" />
     <Compile Include="Exchanges\Gdax\WebSocket\Models\ChangeSizeModel.cs" />
     <Compile Include="Exchanges\Gdax\WebSocket\Models\DoneModel.cs" />
@@ -124,7 +124,6 @@
     <Compile Include="ExchangeEngine\Utilities\AddressValidator.cs" />
     <Compile Include="ExchangeEngine\API\Commands\AccountBalanceCommand.cs" />
     <Compile Include="ExchangeEngine\API\Commands\CancelOrderCommand.cs" />
-    <Compile Include="ExchangeEngine\API\Commands\DepositAddressCommand.cs" />
     <Compile Include="ExchangeEngine\API\Commands\IExchangeCommand.cs" />
     <Compile Include="ExchangeEngine\API\Commands\LimitOrderCommand.cs" />
     <Compile Include="ExchangeEngine\API\Commands\OpenOrdersCommand.cs" />
@@ -164,7 +163,6 @@
     <Compile Include="Confirmation.cs" />
     <Compile Include="CurrencyTradingPair.cs" />
     <Compile Include="DayRange.cs" />
-    <Compile Include="DepositAddress.cs" />
     <Compile Include="Exceptions\ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
