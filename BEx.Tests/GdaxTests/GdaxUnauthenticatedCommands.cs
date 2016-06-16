@@ -14,25 +14,25 @@ namespace BEx.Tests.GdaxTests
         [Test]
         public void Gdax_GetDayRange_BTCUSD_Success()
         {
-            CommandVerification.VerifyDayRange(TestCandidate.DefaultPair);
+            CommandVerification.RetrieveAnVerifyDayRange(TestCandidate.DefaultPair);
         }
 
         [Test]
         public void Gdax_GetOrderBook_BTCUSD_Success()
         {
-            CommandVerification.VerifyOrderBook(TestCandidate.DefaultPair);
+            CommandVerification.RetrieveAndVerifyOrderBook(TestCandidate.DefaultPair);
         }
 
         [Test]
         public void Gdax_GetTick_BTCUSD_Success()
         {
-            CommandVerification.VerifyTick(TestCandidate.DefaultPair);
+            CommandVerification.RetrieveAndVerifyTick(TestCandidate.DefaultPair);
         }
 
         [Test]
         public void Gdax_GetTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyTransactions(TestCandidate.DefaultPair);
+            CommandVerification.RetrieveAndVerifyTransactions(TestCandidate.DefaultPair);
         }
     }
 }

@@ -16,31 +16,31 @@ namespace BEx.Tests.BitfinexTests
         [Test]
         public void Bitfinex_GetAccountBalance_Success()
         {
-            CommandVerification.VerifyAccountBalance();
+            CommandVerification.RetrieveAndVerifyAccountBalance();
         }
 
         [Test]
         public void Bitfinex_GetOpenOrders_Success()
         {
-            CommandVerification.VerifyOpenOrders();
+            CommandVerification.RetrieveAndVerifyOpenOrders();
         }
 
         [Test]
         public void Bitfinex_GetUserTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
+            CommandVerification.RetrieveAndVerifyUserTransactions(TestCandidate.DefaultPair);
         }
 
         [Test]
         public void Bitfinex_GetUserTransactions_LTCBTC_Success()
         {
-            CommandVerification.VerifyUserTransactions(new TradingPair(Currency.LTC, Currency.BTC));
+            CommandVerification.RetrieveAndVerifyUserTransactions(new TradingPair(Currency.LTC, Currency.BTC));
         }
 
         [Test]
         public void Bitfinex_GetUserTransactions_LTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(new TradingPair(Currency.LTC, Currency.USD));
+            CommandVerification.RetrieveAndVerifyUserTransactions(new TradingPair(Currency.LTC, Currency.USD));
         }
     }
 }

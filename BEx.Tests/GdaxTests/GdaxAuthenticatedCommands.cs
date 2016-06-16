@@ -21,19 +21,19 @@ namespace BEx.Tests.GdaxTests
         [Test]
         public void Gdax_GetAccountBalance_All_Success()
         {
-            CommandVerification.VerifyAccountBalance();
+            CommandVerification.RetrieveAndVerifyAccountBalance();
         }
 
         [Test]
         public void Gdax_GetOpenOrders_BTCUSD_Success()
         {
-            CommandVerification.VerifyOpenOrders();
+            CommandVerification.RetrieveAndVerifyOpenOrders();
         }
 
         [Test]
         public void Gdax_GetUserTransactions_BTCUSD_Success()
         {
-            CommandVerification.VerifyUserTransactions(TestCandidate.DefaultPair);
+            CommandVerification.RetrieveAndVerifyUserTransactions(TestCandidate.DefaultPair);
         }
 
        

@@ -3,7 +3,7 @@ using BEx.ExchangeEngine;
 
 using BEx.ExchangeEngine.API;
 
-namespace BEx.Response
+namespace BEx
 {
     public struct DayRange : IEquatable<DayRange>, IExchangeResult
     {
