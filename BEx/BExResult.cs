@@ -18,8 +18,7 @@ namespace BEx
             LocalTimeStampUTC = DateTime.UtcNow;
             SourceExchange = sourceExchange;
         }
-
-        protected virtual string DebugDisplay => $"{SourceExchange} {ExchangeTimeStampUTC}";
+        public override string ToString() => $"{SourceExchange} {ExchangeTimeStampUTC}";
 
         /// <summary>
         ///     Exchange reported TimeStamp of the action.  When the Exchange does not provide

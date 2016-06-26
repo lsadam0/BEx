@@ -1,105 +1,78 @@
-﻿using System.IO;
-using NUnit.Framework;
-using BEx.ExchangeEngine.API;
-using BEx.ExchangeEngine.API.Commands;
+﻿using BEx.Exchanges.BitStamp;
 using BEx.Exchanges.BitStamp.API;
+using NUnit.Framework;
 
 namespace BEx.Tests.BitStampTests
 {
     [TestFixture]
     [Category("BitStamp.ModelTranslation")]
-    public class BitStampModelTranslation
+    internal class ModelTranslation : ModelTranslationBase
     {
-        private ResultTranslation _translator = new ResultTranslation(ExchangeType.BitStamp);
-        private IExchangeCommandFactory _commands = CommandFactory.Singleton;
-        private TradingPair _btdUsd = new TradingPair(Currency.BTC, Currency.USD);
+        public ModelTranslation()
+            : base(
+                  Exchanges.BitStamp.Configuration.Singleton,
+                  new TradingPair(Currency.BTC, Currency.USD),
+                  CommandFactory.Singleton)
+        { }
 
         [Test]
         public void AccountBalanceModel()
         {
-            Assert.Fail();
+            base.AccountBalanceModel(
+                "{\"btc_reserved\": \"0.00000000\", \"fee\": \"0.2500\", \"btc_available\": \"0.03117682\", \"eur_balance\": \"0.00\", \"btc_balance\": \"0.03117682\", \"eur_available\": \"0.00\", \"usd_balance\": \"0.00\", \"usd_reserved\": \"0.00\", \"eur_reserved\": \"0.00\", \"usd_available\": \"0.00\"}");
         }
 
         [Test]
-        public void BalanceModel()
+        public void ErrorModel()
         {
             Assert.Fail();
-        }
 
-        [Test]
-        public void ConfirmationModel()
-        {
-            Assert.Fail();
-        }
+            var raw = "{\"error\": {\"__all__\": [\"You have only 0.03117682 BTC available. Check your account balance for details.\"]}}";
 
-        [Test]
-        public void DayRangeModel()
-        {
-            Assert.Fail("Invalid for BitStamp, this is just returning a Tick in disguise");
+            {
+            }
         }
 
         [Test]
         public void OpenOrdersModel()
         {
-            Assert.Fail();
+            base.OpenOrdersModel(
+                   "[{\"price\": \"750.00\", \"amount\": \"0.03117682\", \"type\": 1, \"id\": 133544504, \"datetime\": \"2016-06-26 15:04:41\"}, {\"price\": \"750.00\", \"amount\": \"0.03117682\", \"type\": 1, \"id\": 133544505, \"datetime\": \"2016-06-26 15:04:41\"}]");
         }
 
         [Test]
-        
         public void OrderBookModel()
         {
-            var raw = RawJson.OrderBookResponse;
-
-            var translated = _translator.Translate<OrderBook>(raw, _commands.OrderBook, _btdUsd);
-
-            ResponseVerification.VerifyOrderBook(
-                translated,
-                _btdUsd,
-                ExchangeType.BitStamp);
+            base.OrderBookModel(RawJson.OrderBookResponse);
         }
 
         [Test]
-        public void OrderModel()
+        public void OrderConfirmationModel()
         {
-            Assert.Fail();
+            base.OrderConfirmationModel(
+                "{\"price\": \"750.00\", \"amount\": \"0.03117682\", \"type\": 1, \"id\": 133544504, \"datetime\": \"2016-06-26 15:04:41.132781\"}",
+                CommandFactory.Singleton.BuyOrder,
+                OrderType.Buy);
         }
+
         [Test]
         public void TickModel()
         {
-            var raw =
-                "{\"high\": \"718.67\", \"last\": \"712.11\", \"timestamp\": \"1466038054\", \"bid\": \"711.11\", \"vwap\": \"688.95\", \"volume\": \"7260.28762905\", \"low\": \"672.12\", \"ask\": \"714.90\", \"open\": 695.00}";
-
-            var translated = _translator.Translate<Tick>(raw, _commands.Tick, _btdUsd);
-
-            ResponseVerification.VerifyTick(translated, _btdUsd, ExchangeType.BitStamp);
-
-            var reference = new Tick(
-                714.90m,
-                711.11m,
-                712.11m,
-                7260.28762905m,
-                _btdUsd,
-                ExchangeType.BitStamp,
-                1466038054);
-
-            Assert.AreEqual(translated, reference);
+            base.TickModel(
+                "{\"high\": \"718.67\", \"last\": \"712.11\", \"timestamp\": \"1466038054\", \"bid\": \"711.11\", \"vwap\": \"688.95\", \"volume\": \"7260.28762905\", \"low\": \"672.12\", \"ask\": \"714.90\", \"open\": 695.00}");
         }
 
         [Test]
         public void TransactionsModel()
         {
-            var raw = RawJson.TransactionsResponse;
-
-            var translated = _translator.Translate<Transactions>(raw, _commands.Transactions, _btdUsd);
-
-            ResponseVerification.VerifyTransactions(translated, ExchangeType.BitStamp, _btdUsd);
+            base.TransactionsModel(RawJson.TransactionsResponse);
         }
 
         [Test]
         public void UserTransactionsModel()
         {
-            Assert.Fail();
-            
+            base.UserTransactionsModel(
+                "[{\"usd\": \"-13.98\", \"btc\": \"0.03117682\", \"btc_usd\": \"448.41\", \"order_id\": 125469781, \"fee\": \"0.04\", \"type\": 2, \"id\": 11188576, \"datetime\": \"2016-05-19 16:58:40\"}, {\"usd\": \"1.40\", \"btc\": \"-0.00342331\", \"btc_usd\": \"408.65\", \"order_id\": 115474006, \"fee\": \"0.01\", \"type\": 2, \"id\": 10745104, \"datetime\": \"2016-03-06 18:29:56\"}, {\"usd\": \"12.67\", \"btc\": \"-0.03100377\", \"btc_usd\": \"408.65\", \"order_id\": 115474006, \"fee\": \"0.04\", \"type\": 2, \"id\": 10745103, \"datetime\": \"2016-03-06 18:29:55\"}]");
         }
     }
 }

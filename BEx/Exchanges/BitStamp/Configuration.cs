@@ -41,13 +41,16 @@ namespace BEx.Exchanges.BitStamp
 
             SupportedPairs = new HashSet<TradingPair>
             {
-                DefaultPair
+                DefaultPair,
+                new TradingPair(Currency.BTC, Currency.EUR),
+                new TradingPair(Currency.EUR, Currency.USD)
             }.ToImmutableHashSet();
 
             SupportedCurrencies = new HashSet<Currency>
             {
                 DefaultPair.BaseCurrency,
-                DefaultPair.CounterCurrency
+                DefaultPair.CounterCurrency,
+                Currency.EUR
             }.ToImmutableHashSet();
 
             BaseUri = baseUri ?? new Uri("https://www.bitstamp.net/api");

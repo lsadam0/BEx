@@ -6,9 +6,9 @@ namespace BEx.Tests.BitStampTests
 {
     [TestFixture]
     [Category("BitStamp.UnauthenticatedCommands")]
-    public class BitStampUnauthenticatedCommands : ExchangeVerificationBase
+    public class UnauthenticatedCommands : ExchangeVerificationBase
     {
-        public BitStampUnauthenticatedCommands()
+        public UnauthenticatedCommands()
             : base(ExchangeFactory.GetUnauthenticatedExchange(ExchangeType.BitStamp))
         {
         }
@@ -18,12 +18,7 @@ namespace BEx.Tests.BitStampTests
         {
             Assert.IsInstanceOf<BitStamp>(TestCandidate);
         }
-
-        [Test]
-        public void BitStamp_GetDayRange_BTCUSD_Success()
-        {
-            CommandVerification.RetrieveAnVerifyDayRange(TestCandidate.DefaultPair);
-        }
+        
 
         [Test]
         public void BitStamp_GetOrderBook_BTCUSD_Success()

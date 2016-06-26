@@ -11,10 +11,11 @@ namespace BEx
 {
     public sealed class UserTransactions : BExResult
     {
-        internal UserTransactions(IEnumerable<IExchangeResponseIntermediate<UserTransaction>> transactions,
+        internal UserTransactions(
+            IEnumerable<IExchangeResponseIntermediate<UserTransaction>> transactions,
             TradingPair pair,
-            ExchangeType sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange)
+            IExchangeConfiguration configuration)
+            : base(DateTime.UtcNow, configuration.ExchangeSourceType)
         {
             Pair = pair;
 

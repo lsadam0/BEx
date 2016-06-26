@@ -13,32 +13,52 @@ namespace BEx
     public sealed class AccountBalance : BExResult
     {
 #pragma warning disable RECS0154 // Parameter is never used
-        internal AccountBalance(IEnumerable<Balance> balances, TradingPair pair, ExchangeType sourceExchange)
+        internal AccountBalance(IEnumerable<Balance> balances, TradingPair pair, IExchangeConfiguration configuration)
 #pragma warning restore RECS0154 // Parameter is never used
-            : base(DateTime.UtcNow, sourceExchange)
+            : base(DateTime.UtcNow, configuration.ExchangeSourceType)
         {
-            BalanceByCurrency = CreateDictionary(balances);
+            BalanceByCurrency = CreateDictionary(balances, configuration);
         }
 
-        internal AccountBalance(IEnumerable<IExchangeResponseIntermediate<Balance>> balances, TradingPair pair,
-            ExchangeType sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange)
+        internal AccountBalance(
+            IEnumerable<IExchangeResponseIntermediate<Balance>> balances,
+            TradingPair pair,
+            IExchangeConfiguration configuration)
+            : base(DateTime.UtcNow, configuration.ExchangeSourceType)
         {
             BalanceByCurrency = CreateDictionary(
                 balances
-                    .Select(x => x.Convert(pair)));
+                    .Select(x => x.Convert(pair)),
+                configuration);
         }
 
         public IReadOnlyDictionary<Currency, Balance> BalanceByCurrency { get; }
 
-        protected override string DebugDisplay => $"{SourceExchange} - Balances: {BalanceByCurrency.Count}";
+        public override string ToString() => $"{SourceExchange} - Balances: {BalanceByCurrency.Count}";
 
-        private ReadOnlyDictionary<Currency, Balance> CreateDictionary(IEnumerable<Balance> balances)
+        private ReadOnlyDictionary<Currency, Balance> CreateDictionary(IEnumerable<Balance> balances, IExchangeConfiguration configuration)
         {
-            return new ReadOnlyDictionary<Currency, Balance>(
-                balances
-                    .Where(x => x != default(Balance))
-                    .ToDictionary(x => x.BalanceCurrency));
+
+            var dict = new Dictionary<Currency, Balance>();
+
+            foreach (var currency in configuration.SupportedCurrencies)
+            {
+                var balance = balances.FirstOrDefault(x => x.BalanceCurrency == currency);
+
+                if (balance == default(Balance))
+                {
+                    balance = new Balance(
+                        0.00m,
+                        currency,
+                        0.00m,
+                        DateTime.UtcNow,
+                        configuration.ExchangeSourceType,
+                        0.00m);
+                }
+
+                dict[currency] = balance;
+            }
+            return new ReadOnlyDictionary<Currency, Balance>(dict);
         }
     }
 }

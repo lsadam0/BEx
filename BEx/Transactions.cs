@@ -26,9 +26,11 @@ namespace BEx
                     .AsReadOnly();
         }*/
 
-        internal Transactions(IEnumerable<IExchangeResponseIntermediate<Transaction>> transactions, TradingPair pair,
-            ExchangeType sourceExchange)
-            : base(DateTime.UtcNow, sourceExchange)
+        internal Transactions(
+            IEnumerable<IExchangeResponseIntermediate<Transaction>> transactions, 
+            TradingPair pair,
+            IExchangeConfiguration configuration)
+            : base(DateTime.UtcNow, configuration.ExchangeSourceType)
         {
             Pair = pair;
 

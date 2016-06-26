@@ -39,7 +39,7 @@ namespace BEx.Exchanges.Bitfinex.API
         /// <returns></returns>
         public CancelOrderCommand CancelOrder { get; private set; }
 
-        public DayRangeCommand DayRange { get; private set; }
+        public OrderStatusCommand OrderStatus { get; private set; }
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
@@ -133,7 +133,7 @@ namespace BEx.Exchanges.Bitfinex.API
             Tick = BuildTickCommand();
             Transactions = BuildTransactionsCommand();
             UserTransactions = BuildUserTransactionsCommand();
-            DayRange = BuildDayRangeCommand();
+    
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()
@@ -195,21 +195,7 @@ namespace BEx.Exchanges.Bitfinex.API
                 param);
         }
 
-        public DayRangeCommand BuildDayRangeCommand()
-        {
-            var param = new List<ExchangeParameter>
-            {
-                new ExchangeParameter(ParameterMethod.Url, "pair", StandardParameter.Pair)
-            };
-
-            return new DayRangeCommand(
-                Method.GET,
-                new Uri("/v1/pubticker/{pair}", UriKind.Relative),
-                false,
-                typeof(DayRangeModel),
-                param);
-        }
-
+        
         public TransactionsCommand BuildTransactionsCommand()
         {
             var param = new List<ExchangeParameter>

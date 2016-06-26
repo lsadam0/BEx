@@ -1,7 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using BEx.ExchangeEngine;
-using BEx.ExchangeEngine.Bitfinex;
+using BEx.Exchanges.Bitfinex;
 using BEx.Exchanges.Bitfinex.API;
 using BEx.Exchanges.Bitfinex.WebSocket;
 using BEx.Exchanges.Bitfinex.WebSocket.Models;

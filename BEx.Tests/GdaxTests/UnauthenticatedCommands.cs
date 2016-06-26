@@ -4,19 +4,13 @@ namespace BEx.Tests.GdaxTests
 {
     [TestFixture]
     [Category("Gdax.UnauthenticatedCommands")]
-    public class GdaxUnauthenticatedCommands : ExchangeVerificationBase
+    public class UnauthenticatedCommands : ExchangeVerificationBase
     {
-        public GdaxUnauthenticatedCommands()
+        public UnauthenticatedCommands()
             : base(new Gdax())
         {
         }
-
-        [Test]
-        public void Gdax_GetDayRange_BTCUSD_Success()
-        {
-            CommandVerification.RetrieveAnVerifyDayRange(TestCandidate.DefaultPair);
-        }
-
+        
         [Test]
         public void Gdax_GetOrderBook_BTCUSD_Success()
         {

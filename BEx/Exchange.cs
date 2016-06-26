@@ -7,18 +7,16 @@ using BEx.ExchangeEngine;
 using BEx.ExchangeEngine.API;
 using BEx.ExchangeEngine.API.Commands;
 using BEx.ExchangeEngine.Utilities;
-using BEx.Response;
 
 namespace BEx
 {
     public abstract class Exchange : IExchange, IDisposable
     {
+        protected SocketObservable _socketObservable;
+        protected SocketObserver _socketObserver;
         private readonly IExchangeCommandFactory _commands;
         private readonly IExchangeConfiguration _configuration;
         private readonly ExecutionEngine _executor;
-        protected SocketObservable _socketObservable;
-        protected SocketObserver _socketObserver;
-
         private bool disposedValue;
 
         internal Exchange(
@@ -29,9 +27,7 @@ namespace BEx
             _commands = commands;
             SetupSocket();
 
-            _executor = new ExecutionEngine(
-                configuration.BaseUri,
-                configuration.ExchangeSourceType);
+            _executor = new ExecutionEngine(configuration);
         }
 
         internal Exchange(
@@ -44,14 +40,8 @@ namespace BEx
             SetupSocket();
 
             _executor = new ExecutionEngine(
-                configuration.BaseUri,
                 authenticator,
-                configuration.ExchangeSourceType);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
+                configuration);
         }
 
         public TradingPair DefaultPair => _configuration.DefaultPair;
@@ -131,6 +121,24 @@ namespace BEx
             };
 
             return _executor.Execute<Order>(_commands.SellOrder, pair, values);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _socketObservable?.Dispose();
+                }
+
+                disposedValue = true;
+            }
         }
 
         /// <summary>
@@ -213,29 +221,11 @@ namespace BEx
         /// <returns>True if supported, otherwise false.</returns>
         public bool IsTradingPairSupported(TradingPair pair) => _configuration.SupportedPairs.Contains(pair);
 
+        protected abstract void Subscribe();
+
         private void SetupSocket()
         {
             Subscribe();
-        }
-
-        protected abstract void Subscribe();
-
-        public DayRange Get24HrStats(TradingPair pair)
-        {
-            return _executor.Execute<DayRange>(_commands.DayRange, pair);
-        }
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    _socketObservable?.Dispose();
-                }
-
-                disposedValue = true;
-            }
         }
     }
 }

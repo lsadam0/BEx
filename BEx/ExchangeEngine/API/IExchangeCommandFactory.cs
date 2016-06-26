@@ -30,7 +30,7 @@ namespace BEx.ExchangeEngine.API
         /// <returns></returns>
         CancelOrderCommand CancelOrder { get; }
 
-        DayRangeCommand DayRange { get; }
+        OrderStatusCommand OrderStatus { get; }
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()

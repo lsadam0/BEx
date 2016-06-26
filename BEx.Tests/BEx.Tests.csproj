@@ -80,20 +80,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressValidationTests\AddressValidator.cs" />
-    <Compile Include="BitFinexTests\BitFinexAuthenticatedCommands.cs" />
-    <Compile Include="BitFinexTests\BitFinexExceptions.cs" />
-    <Compile Include="BitFinexTests\BitFinexModelTranslation.cs" />
-    <Compile Include="BitFinexTests\BitfinexSetup.cs" />
-    <Compile Include="BitFinexTests\BitFinexUnauthenticatedCommands.cs" />
-    <Compile Include="BitStampTests\BitStampAuthenticatedCommands.cs" />
-    <Compile Include="BitStampTests\BitStampExceptions.cs" />
-    <Compile Include="BitStampTests\BitStampSetup.cs" />
-    <Compile Include="BitStampTests\BitStampUnauthenticatedCommands.cs" />
+    <Compile Include="BitFinexTests\Exceptions.cs" />
+    <Compile Include="BitFinexTests\ModelTranslation.cs" />
+    <Compile Include="BitFinexTests\Configuration.cs" />
+    <Compile Include="BitFinexTests\UnauthenticatedCommands.cs" />
+    <Compile Include="BitStampTests\Exceptions.cs" />
+    <Compile Include="BitStampTests\Configuration.cs" />
+    <Compile Include="BitStampTests\UnauthenticatedCommands.cs" />
     <Compile Include="BitStampTests\ModelTranslation.cs" />
     <Compile Include="BitStampTests\RawJson.cs" />
-    <Compile Include="GdaxTests\GdaxAuthenticatedCommands.cs" />
-    <Compile Include="GdaxTests\GdaxModelTranslation.cs" />
-    <Compile Include="GdaxTests\GdaxUnauthenticatedCommands.cs" />
+    <Compile Include="ConfigurationVerificationBase.cs" />
+    <Compile Include="GdaxTests\Configuration.cs" />
+    <Compile Include="GdaxTests\ModelTranslation.cs" />
+    <Compile Include="GdaxTests\UnauthenticatedCommands.cs" />
     <Compile Include="DateTimeUnixConversion.cs" />
     <Compile Include="ExchangeFactory.cs" />
     <Compile Include="ExchangeVerificationBase.cs" />
@@ -102,6 +101,7 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="ModelTranslationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestFactoryTests\RequestFactoryRequestCreation.cs" />
     <Compile Include="ResponseVerification.cs" />

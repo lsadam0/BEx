@@ -34,12 +34,6 @@ namespace BEx.Exchanges.Gdax.API
                 new ExchangeParameter(ParameterMethod.Url, "counter", StandardParameter.Counter)
             };
 
-            DayRange = new DayRangeCommand(
-                Method.GET,
-                new Uri("products/{base}-{counter}/stats", UriKind.Relative),
-                false,
-                typeof(DayRangeModel),
-                param);
 
             param = new List<ExchangeParameter>
             {
@@ -92,7 +86,7 @@ namespace BEx.Exchanges.Gdax.API
         public AccountBalanceCommand AccountBalance { get; }
         public LimitOrderCommand BuyOrder { get; }
         public CancelOrderCommand CancelOrder { get; }
-        public DayRangeCommand DayRange { get; }
+        public OrderStatusCommand OrderStatus { get; }
         public OpenOrdersCommand OpenOrders { get; }
         public OrderBookCommand OrderBook { get; }
         public LimitOrderCommand SellOrder { get; }

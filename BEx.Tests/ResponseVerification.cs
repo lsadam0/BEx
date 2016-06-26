@@ -17,7 +17,7 @@ namespace BEx.Tests
             ExchangeType source,
             ImmutableHashSet<Currency> supported)
         {
-            ResponseVerification.VerifyApiResult(toVerify, source);
+             ResponseVerification.VerifyApiResult(toVerify, source);
 
             CollectionAssert.IsNotEmpty(toVerify.BalanceByCurrency);
 
@@ -53,16 +53,7 @@ namespace BEx.Tests
             Assert.That(toVerify.LocalTimeStampUTC < DateTime.MaxValue);
             Assert.That(toVerify.LocalTimeStampUTC.Kind == DateTimeKind.Utc);
         }
-
-        public static void VerifyDayRange(
-            DayRange toVerify,
-            ExchangeType source)
-        {
-            ResponseVerification.VerifyApiResult(toVerify, source);
-
-            Assert.That(toVerify.High > 0.0m);
-            Assert.That(toVerify.Low > 0.0m);
-        }
+        
 
         public static void VerifyOpenOrders(
             OpenOrders toVerify,
@@ -250,8 +241,10 @@ namespace BEx.Tests
 
                 // Check that transaction balances
 
-                Assert.That(Math.Round(transaction.BaseCurrencyAmount * transaction.ExchangeRate +
-                                       transaction.CounterCurrencyAmount, 2) == 0);
+                Assert.That(
+                    Math.Round(
+                        (transaction.BaseCurrencyAmount * transaction.ExchangeRate)
+                        + transaction.CounterCurrencyAmount, 2) == 0);
 
                 // Trade Fee Currency belongs to Trading Pair
                 Assert.That((transaction.Pair.BaseCurrency == transaction.TradeFeeCurrency)

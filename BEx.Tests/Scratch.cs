@@ -8,7 +8,9 @@ namespace BEx.Tests
         [Test]
         public void Socket()
         {
-            var bfx = new Bitfinex();
+            var stamp = ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp);
+
+            var response = stamp.GetAccountBalance();
 
             /*
              * var run = true;

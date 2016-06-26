@@ -90,11 +90,8 @@ namespace BEx.Tests
                 TestCandidate.DefaultPair);
         }
 
-        public void RetrieveAnVerifyDayRange(TradingPair pair)
-        {
-            var toVerify = TestCandidate.Get24HrStats(pair);
+       
 
-            ResponseVerification.VerifyDayRange(toVerify, TestCandidate.ExchangeSourceType);
-        }
+        
     }
 }

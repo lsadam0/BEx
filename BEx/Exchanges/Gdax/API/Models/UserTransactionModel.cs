@@ -23,7 +23,9 @@ namespace BEx.Exchanges.Gdax.API.Models
                 Conversion.ToDecimalInvariant(size),
                 Conversion.ToDecimalInvariant(price),
                 (long)created_at.ToUnixTime(),
-                Conversion.ToDecimalInvariant(size) * Conversion.ToDecimalInvariant(price),
+                //Conversion.ToDecimalInvariant(size) * Conversion.ToDecimalInvariant(price),
+                (1/Conversion.ToDecimalInvariant(size)) * Conversion.ToDecimalInvariant(price),
+                
                 order_id,
                 Conversion.ToDecimalInvariant(fee),
                 pair.BaseCurrency,

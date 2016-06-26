@@ -9,11 +9,13 @@ namespace BEx.ExchangeEngine.API
 {
     internal class ResultTranslation
     {
-        private readonly ExchangeType _sourceExchange;
 
-        internal ResultTranslation(ExchangeType sourceExchange)
+        private readonly IExchangeConfiguration _configuration;
+
+        internal ResultTranslation(IExchangeConfiguration configuration)
         {
-            _sourceExchange = sourceExchange;
+
+            _configuration = configuration;
         }
 
         internal T Translate<T>(string source, IExchangeCommand executedCommand, TradingPair pair)
@@ -33,11 +35,11 @@ namespace BEx.ExchangeEngine.API
             {
                 var responseCollection = JsonConvert.DeserializeObject(content, commandReference.IntermediateType);
 
-                return (T) Activator.CreateInstance(
+                return (T)Activator.CreateInstance(
                     commandReference.ApiResultSubType,
                     BindingFlags.NonPublic | BindingFlags.Instance,
                     null,
-                    new[] {responseCollection, pair, _sourceExchange},
+                    new[] { responseCollection, pair, _configuration },
                     null);
             }
             var deserialized =
@@ -57,11 +59,11 @@ namespace BEx.ExchangeEngine.API
 
             if (deserialized.GetType() != command.ApiResultSubType)
             {
-                res = (T) Activator.CreateInstance(
+                res = (T)Activator.CreateInstance(
                     command.ApiResultSubType,
                     BindingFlags.NonPublic | BindingFlags.Instance,
                     null,
-                    new[] {deserialized, pair, _sourceExchange},
+                    new[] { deserialized, pair, _configuration.ExchangeSourceType },
                     null);
             }
 

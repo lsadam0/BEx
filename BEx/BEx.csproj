@@ -76,9 +76,9 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExchangeEngine\API\Commands\OrderStatusCommand.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\AccountBalanceModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\CancelOrderResponseModel.cs" />
-    <Compile Include="Exchanges\Bitfinex\API\Models\DayRangeModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\ErrorModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\OrderBookModel.cs" />
     <Compile Include="Exchanges\Bitfinex\API\Models\OrderResponseModel.cs" />
@@ -105,18 +105,15 @@
     <Compile Include="Gdax.cs" />
     <Compile Include="Exceptions\InvalidAddressException.cs" />
     <Compile Include="Exceptions\RemoteExchangeException.cs" />
-    <Compile Include="Exchanges\BitStamp\API\Models\DayRangeModel.cs" />
     <Compile Include="Exchanges\Gdax\API\Authenticator.cs" />
     <Compile Include="Exchanges\Gdax\API\CommandFactory.cs" />
     <Compile Include="Exchanges\Gdax\Configuration.cs" />
     <Compile Include="Exchanges\Gdax\API\Models\AccountBalanceModel.cs" />
-    <Compile Include="Exchanges\Gdax\API\Models\DayRangeModel.cs" />
     <Compile Include="Exchanges\Gdax\API\Models\OpenOrderModel.cs" />
     <Compile Include="Exchanges\Gdax\API\Models\OrderBookModel.cs" />
     <Compile Include="Exchanges\Gdax\API\Models\TickModel.cs" />
     <Compile Include="Exchanges\Gdax\API\Models\TransactionsIntermediate.cs" />
     <Compile Include="Exchanges\Gdax\WebSocket\Models\SubscribeToTradingPair.cs" />
-    <Compile Include="ExchangeEngine\API\Commands\DayRangeCommand.cs" />
     <Compile Include="ExchangeEngine\SocketObservable.cs" />
     <Compile Include="ExchangeEngine\IMessageParser.cs" />
     <Compile Include="ExchangeEngine\SocketObserver.cs" />
@@ -162,7 +159,6 @@
     <Compile Include="ExchangeEngine\Utilities\UnixTime.cs" />
     <Compile Include="Confirmation.cs" />
     <Compile Include="CurrencyTradingPair.cs" />
-    <Compile Include="DayRange.cs" />
     <Compile Include="Exceptions\ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

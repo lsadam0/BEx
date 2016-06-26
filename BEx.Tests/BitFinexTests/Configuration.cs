@@ -1,10 +1,11 @@
-﻿using NUnit.Framework;
+﻿using BEx.Exchanges.Bitfinex.API;
+using NUnit.Framework;
 
 namespace BEx.Tests.BitfinexTests
 {
     [TestFixture]
     [Category("BitFinex.Setup")]
-    public class BitfinexSetup : ExchangeVerificationBase
+    internal class BitfinexSetup : ConfigurationVerificationBase
     {
         public BitfinexSetup() : base(ExchangeFactory.GetAuthenticatedExchange(ExchangeType.Bitfinex))
         {
@@ -28,6 +29,19 @@ namespace BEx.Tests.BitfinexTests
             Assert.That(TestCandidate.IsTradingPairSupported(new TradingPair(Currency.LTC, Currency.USD)));
             Assert.That(TestCandidate.IsTradingPairSupported(new TradingPair(Currency.LTC, Currency.BTC)));
             Assert.That(TestCandidate.DefaultPair == new TradingPair(Currency.BTC, Currency.USD));
+        }
+
+
+        [Test]
+        public void Bitfinex_AllCommandsPresent()
+        {
+            base.AllCommandsPresent(CommandFactory.Singleton);
+        }
+
+        [Test]
+        public void Bitfinex_ConfigurationValid()
+        {
+            base.VerifyConfiguration(BEx.Exchanges.Bitfinex.Configuration.Singleton);
         }
     }
 }

@@ -14,17 +14,22 @@ namespace BEx.ExchangeEngine.API
 
         private readonly ResultTranslation _translator;
 
-        internal ExecutionEngine(Uri baseUri, ExchangeType sourceExchange)
+        private readonly IExchangeConfiguration _configuration;
+
+
+        internal ExecutionEngine(IExchangeConfiguration configuration)
         {
-            _dispatcher = new RequestDispatcher(baseUri);
-            _translator = new ResultTranslation(sourceExchange);
+            _configuration = configuration;
+            _dispatcher = new RequestDispatcher(_configuration.BaseUri);
+            _translator = new ResultTranslation(_configuration);
+
         }
 
-        internal ExecutionEngine(Uri baseUri, IExchangeAuthenticator authenticator, ExchangeType sourceExchange)
+        internal ExecutionEngine(IExchangeAuthenticator authenticator, IExchangeConfiguration configuration)
         {
-            _dispatcher = new RequestDispatcher(baseUri, authenticator);
-
-            _translator = new ResultTranslation(sourceExchange);
+            _dispatcher = new RequestDispatcher(configuration.BaseUri, authenticator);
+            _translator = new ResultTranslation(configuration);
+            _configuration = configuration;
         }
 
         public T Execute<T>(IExchangeCommand toExecute) where T : IExchangeResult

@@ -6,9 +6,9 @@ namespace BEx.Tests.BitStampTests
 {
     [TestFixture]
     [Category("BitStamp.Exceptions")]
-    public class BitStampExceptions : ExchangeVerificationBase
+    public class Exceptions : ExchangeVerificationBase
     {
-        public BitStampExceptions() : base(ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp))
+        public Exceptions() : base(ExchangeFactory.GetAuthenticatedExchange(ExchangeType.BitStamp))
         {
         }
 

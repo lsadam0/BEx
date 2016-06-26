@@ -39,7 +39,7 @@ namespace BEx.Exchanges.BitStamp.API
         /// <returns></returns>
         public CancelOrderCommand CancelOrder { get; private set; }
 
-        public DayRangeCommand DayRange { get; private set; }
+        public OrderStatusCommand OrderStatus { get; private set; }
 
         /// <summary>
         ///     ExchangeCommand associated with IAuthenticatedCommands.GetOpenOrders()
@@ -128,7 +128,7 @@ namespace BEx.Exchanges.BitStamp.API
             Tick = BuildTickCommand();
             Transactions = BuildTransactionsCommand();
             UserTransactions = BuildUserTransactionsCommand();
-            DayRange = BuildDayRangeCOmmand();
+            
         }
 
         public OpenOrdersCommand BuildOpenOrdersCommand()
@@ -164,15 +164,7 @@ namespace BEx.Exchanges.BitStamp.API
                 typeof(OrderConfirmationModel),
                 param);
         }
-
-        public DayRangeCommand BuildDayRangeCOmmand()
-        {
-            return new DayRangeCommand(
-                Method.GET,
-                new Uri("ticker/", UriKind.Relative),
-                false,
-                typeof(DayRangeModel));
-        }
+        
 
         public TickCommand BuildTickCommand()
         {
